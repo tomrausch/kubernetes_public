@@ -3,14 +3,14 @@ kind: Deployment
 metadata:
   annotations:
     deployment.kubernetes.io/revision: "1"
-  creationTimestamp: "2025-04-10T19:03:38Z"
+  creationTimestamp: "2025-04-11T21:25:25Z"
   generation: 1
   labels:
     app: it-tools
   name: it-tools
   namespace: default
-  resourceVersion: "340468"
-  uid: 9407ea15-63a9-4cba-bf29-da355bf12644
+  resourceVersion: "10366"
+  uid: d6216467-a995-4c30-882b-29d9f64154e9
 spec:
   progressDeadlineSeconds: 600
   replicas: 1
@@ -44,18 +44,18 @@ spec:
 status:
   availableReplicas: 1
   conditions:
-  - lastTransitionTime: "2025-04-10T19:03:38Z"
-    lastUpdateTime: "2025-04-10T19:03:43Z"
-    message: ReplicaSet "it-tools-6f9bd54c48" has successfully progressed.
-    reason: NewReplicaSetAvailable
-    status: "True"
-    type: Progressing
-  - lastTransitionTime: "2025-04-11T19:01:12Z"
-    lastUpdateTime: "2025-04-11T19:01:12Z"
+  - lastTransitionTime: "2025-04-11T21:25:27Z"
+    lastUpdateTime: "2025-04-11T21:25:27Z"
     message: Deployment has minimum availability.
     reason: MinimumReplicasAvailable
     status: "True"
     type: Available
+  - lastTransitionTime: "2025-04-11T21:25:25Z"
+    lastUpdateTime: "2025-04-11T21:25:27Z"
+    message: ReplicaSet "it-tools-6f9bd54c48" has successfully progressed.
+    reason: NewReplicaSetAvailable
+    status: "True"
+    type: Progressing
   observedGeneration: 1
   readyReplicas: 1
   replicas: 1
