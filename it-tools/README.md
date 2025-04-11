@@ -3,7 +3,7 @@
 # Create Files
 ## Create File "it-tools_01_deployment.yaml"
 Create a deployment
-- ```kubectl create deployment it-tools --image=gcr.io/google-samples/kubernetes-bootcamp:v1```
+- ```kubectl create deployment it-tools --image=corentinth/it-tools:latest```
 
 Use kubectl to "get" the deployment in YAML format
 - ```kubectl get deployment it-tools -o yaml```
@@ -11,7 +11,7 @@ Use kubectl to "get" the deployment in YAML format
 Save the output as "it-tools_01_deployment.yaml"
 
 ## Create File "it-tools_02_Service-NodePort.yaml"
-Edit manually from previous working "Service-NodePort" YAML file
+Edit a Service YAML manually from previous working Service YAML file
 ```yaml
 apiVersion: v1
 kind: Service
@@ -27,6 +27,14 @@ spec:
       nodePort: 30001   
   type: NodePort
 ```
+
+Use kubectl to "apply" the Service in YAML format
+- ```kubectl apply service it-tools -o yaml```
+
+Use kubectl to "get" the Service in YAML format
+- ```kubectl get service it-tools -o yaml```
+
+Save the output as "it-tools_02_Service-NodePort.yaml"
 
 # Apply Files In Kubernetes Cluster
 - 
