@@ -42,15 +42,17 @@ spec:
   type: NodePort
 ```
 
+Save the file "it-tools_02_Service-NodePort.yaml" in this GitHub respository
+
 Use kubectl to "apply" the Service in YAML format
 - ```kubectl apply service it-tools -o yaml```
 
 Use kubectl to "get" the Service in YAML format
 - ```kubectl get service it-tools -o yaml```
 
-Save the output as "it-tools_02_Service-NodePort.yaml"
+Save the output as "it-tools_02_Service-NodePort_Retrieved.yaml"
 
-Save the file "it-tools_02_Service-NodePort.yaml" in this GitHub respository
+Save the file "it-tools_02_Service-NodePort_Retrieved.yaml" in this GitHub respository
 
 # Reference
 - [Corentin Thomasset](https://corentin.tech/)
@@ -58,3 +60,4 @@ Save the file "it-tools_02_Service-NodePort.yaml" in this GitHub respository
 # Files
 - [it-tools_01_Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/1193b10ebb36365b71dd9fe516c9faf217505f06/it-tools/it-tools_01_Deployment.yaml)
 - [it-tools_02_Service-NodePort.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/it-tools/it-tools_02_Service-NodePort.yaml)
+- [it-tools_02_Service-NodePort_Retrived.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_02_Service-NodePort_Retrieved.yaml)
