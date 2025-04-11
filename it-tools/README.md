@@ -1,14 +1,16 @@
 # Deploy Application "it-tools" In Kubernetes
 
 # Create Files
-## Create File "it-tools_01_deployment.yaml"
-Create a deployment
+## Create File "it-tools_01_Deployment.yaml"
+Create a Deployment
 - ```kubectl create deployment it-tools --image=corentinth/it-tools:latest```
 
-Use kubectl to "get" the deployment in YAML format
+Use kubectl to "get" the Deployment in YAML format
 - ```kubectl get deployment it-tools -o yaml```
 
-Save the output as "it-tools_01_deployment.yaml"
+Save the output as "it-tools_01_Deployment.yaml"
+
+Save the file "it-tools_01_Deployment.yaml" in this GitHub respository
 
 ## Create File "it-tools_02_Service-NodePort.yaml"
 Edit a Service YAML manually from previous working Service YAML file
@@ -36,8 +38,18 @@ Use kubectl to "get" the Service in YAML format
 
 Save the output as "it-tools_02_Service-NodePort.yaml"
 
+Save the file "it-tools_02_Service-NodePort.yaml" in this GitHub respository
+
 # Apply Files In Kubernetes Cluster
-- 
+Run this command
+- ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_01_Deployment.yaml```
+
+Observe this result
+```deployment.apps/it-tools created```
+
+Run this command
+
+Observe this result
 
 # References
 - [Corentin Thomasset](https://corentin.tech/)
