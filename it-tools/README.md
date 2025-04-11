@@ -1,68 +1,125 @@
 # Deploy Application "it-tools" In Kubernetes
 
-# Apply the Application Files In Kubernetes Cluster
-Run this command
+## Start The minikube Tunnel
+Run the command ```minikube tunnel``` and observe this result to start the minikube Tunnel
+```bash
+~$ minikube tunnel
+[sudo] password for tomrausch:
+Status:
+        machine: minikube
+        pid: 525170
+        route: 10.96.0.0/12 -> 192.168.49.2
+        minikube: Running
+        services: [it-tools]
+    errors:
+                minikube: no errors
+                router: no errors
+                loadbalancer emulator: no errors
+```
+The minikube tunnel runs continuously
 
-```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_01_Deployment.yaml```
+## Confirm The minikube Tunnel Is Running
+Open a new terminal
 
-Observe this result
-
-```deployment.apps/it-tools created```
-
-Run this command
-
-```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_02_Service-NodePort.yaml```
-
-Observe this result
-
-```service/it-tools created```
-
-# Create the Application Files
-## Create File "it-tools_01_Deployment.yaml"
-Create a Deployment
-- ```kubectl create deployment it-tools --image=corentinth/it-tools:latest```
-
-Use kubectl to "get" the Deployment in YAML format
-- ```kubectl get deployment it-tools -o yaml```
-
-Save the output as "it-tools_01_Deployment.yaml"
-
-Save the file "it-tools_01_Deployment.yaml" in this GitHub respository
-
-## Create File "it-tools_02_Service-NodePort.yaml"
-Edit a Service YAML manually from previous working Service YAML file
-```yaml
-apiVersion: v1
-kind: Service
-metadata:
-  name: it-tools
-spec:
-  selector:
-    app: it-tools
-  ports:
-    - protocol: TCP
-      port: 80
-      targetPort: 80
-      nodePort: 30001   
-  type: NodePort
+Run the command ```ps -ef | grep "minikube tunnel"``` to confirm the minikube tunnel is running
+```bash
+~$ ps -ef | grep "minikube tunnel"
+tomraus+  526334  485261  0 16:18 pts/1    00:00:00 minikube tunnel
 ```
 
-Save the file "it-tools_02_Service-NodePort.yaml" in this GitHub respository
+## Create A Deployment
+Run this ```kubectl``` command and observe this result to create a Deployment
+```bash
+~$ kubectl create deployment it-tools --image=corentinth/it-tools:latest
+deployment.apps/it-tools created
+```
 
-Use kubectl to "apply" the Service in YAML format
-- ```kubectl apply service it-tools -o yaml```
+## Expose The Deployment
+Run this ```kubectl``` command and observe this result to expose the Deployment
+```bash
+~$ kubectl expose deployment it-tools --type=LoadBalancer --port=80
+service/it-tools exposed
+```
 
-Use kubectl to "get" the Service in YAML format
-- ```kubectl get service it-tools -o yaml```
+## Confirm The Service Is Running In A Pod
+Run this ```kubectl``` command and observe this result to confirm the Service is running in a pod
+```bash
+~$ kubectl get pods -A -o wide | grep it-tools
+default       it-tools-6f9bd54c48-7cwlq          1/1     Running   0              3m24s   10.244.0.7     minikube   <none>           <none>
+```
 
-Save the output as "it-tools_02_Service-NodePort_Retrieved.yaml"
+> [!NOTE]
+> Note the pod IP address is "10.224.0.7"
 
-Save the file "it-tools_02_Service-NodePort_Retrieved.yaml" in this GitHub respository
+## Confirm An Endpoint Is Assigned To The Service
+Run this ```kubectl``` command and observe this result to confirm that an Endpoint is assigned to the Service
+```bash
+~$ kubectl get endpoints it-tools
+NAME       ENDPOINTS       AGE
+it-tools   10.244.0.7:80   16m
+```
 
-# Reference
-- [Corentin Thomasset](https://corentin.tech/)
+> [!NOTE]
+> The IP address of the endpoint -- "10.224.0.7" -- should match the IP address of the pod -- "10.244.0.7".
+
+
+## Confirm The URL Of The Service
+Run this command and observe this result to confirm the URL of the Deployment
+```bash
+~$ minikube service it-tools --url
+http://192.168.49.2:30513
+```
+The URL of the service is ```http://192.168.49.2:30513``` 
+
+## Confirm The Deployment Is Exposed
+Run this command and observe this result to confirm the Deployment is exposed
+```bash
+~$ kubectl get svc it-tools
+NAME       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
+it-tools   LoadBalancer   10.106.20.245   10.106.20.245   80:30513/TCP   4m52s
+```
+
+> [!NOTE]
+> Note that the "EXTERNAL-IP" is "10.106.20.245"
+> 
+> If the ```minikube tunnel``` is not runnint, the "EXTERNAL-IP" is "\<pending\>"
+> ```
+> NAME       TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+> it-tools   LoadBalancer   10.98.194.159   <pending>     80:32640/TCP   4s
+> ```
+
+
+# Create YAML Files
+
+Run this ```kubectl``` command to "get" the Deployment in YAML format
+```bash
+~$ kubectl get deployment it-tools -o yaml
+```
+Save the output in this GitHub respository as "it-tools_01_Deployment.yaml" 
+
+Run this ```kubectl``` command to "get" the Service in YAML format
+```bash
+~$ kubectl get service it-tools -o yaml
+```
+Save the file "it-tools_02_Service-LoadBalancer.yaml" in this GitHub respository
+
+One can then apply the Deployment and Service with this command
+```bash
+~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_01_Deployment.yaml
+deployment.apps/it-tools created
+~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_02-Service-LoadBalancer.yaml
+service/it-tools created
+```
+
+## References
+- [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) | minikube
+- [kubernetes service not accessible through browser](https://stackoverflow.com/questions/66289053/kubernetes-service-not-accessible-through-browser) | StackOverflow
 
 # Files
 - [it-tools_01_Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/1193b10ebb36365b71dd9fe516c9faf217505f06/it-tools/it-tools_01_Deployment.yaml)
+- [it-tools_02_Service-LoadBalancer.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/it-tools/it-tools_02_Service-NodePort.yaml)
 - [it-tools_02_Service-NodePort.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/it-tools/it-tools_02_Service-NodePort.yaml)
-- [it-tools_02_Service-NodePort_Retrived.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_02_Service-NodePort_Retrieved.yaml)
+- [it-tools_02_Service-NodePort_Retrieved.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_02_Service-NodePort_Retrieved.yaml)
+
+# References
+- [Corentin Thomasset](https://corentin.tech/) | Home Page
