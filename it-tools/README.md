@@ -1,6 +1,18 @@
 # Deploy Application "it-tools" In Kubernetes
 
-# Create Files
+# Apply the Application Files In Kubernetes Cluster
+Run this command
+- ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_01_Deployment.yaml```
+
+Observe this result
+```deployment.apps/it-tools created```
+
+Run this command
+
+Observe this result
+
+
+# Create the Application Files
 ## Create File "it-tools_01_Deployment.yaml"
 Create a Deployment
 - ```kubectl create deployment it-tools --image=corentinth/it-tools:latest```
@@ -40,20 +52,9 @@ Save the output as "it-tools_02_Service-NodePort.yaml"
 
 Save the file "it-tools_02_Service-NodePort.yaml" in this GitHub respository
 
-# Apply Files In Kubernetes Cluster
-Run this command
-- ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_01_Deployment.yaml```
-
-Observe this result
-```deployment.apps/it-tools created```
-
-Run this command
-
-Observe this result
-
-# References
+# Reference
 - [Corentin Thomasset](https://corentin.tech/)
 
 # Files
-- [it-tools_01_deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/1193b10ebb36365b71dd9fe516c9faf217505f06/it-tools/it-tools_01_Deployment.yaml)
+- [it-tools_01_Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/1193b10ebb36365b71dd9fe516c9faf217505f06/it-tools/it-tools_01_Deployment.yaml)
 - [it-tools_02_Service-NodePort.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/it-tools/it-tools_02_Service-NodePort.yaml)
