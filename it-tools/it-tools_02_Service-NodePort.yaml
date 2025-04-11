@@ -1,5 +1,3 @@
-# References
-# - https://corentin.tech/
 apiVersion: v1
 kind: Service
 metadata:
