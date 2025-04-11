@@ -8,7 +8,7 @@
 - ```kubectl create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1```
 - ```kubectl describe deployment kubernetes-bootcamp```
 
-## Create "it-tools_02_Service-NodePort.yaml"
+## Create [it-tools_02_Service-NodePort.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/it-tools/it-tools_02_Service-NodePort.yaml)
 - Edit manually from previous working "Service-NodePort" YAML file
 
 # Apply Files In Kubernetes Cluster
