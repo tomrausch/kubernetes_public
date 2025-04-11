@@ -2,15 +2,20 @@
 
 # Apply the Application Files In Kubernetes Cluster
 Run this command
-- ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_01_Deployment.yaml```
+
+```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_01_Deployment.yaml```
 
 Observe this result
+
 ```deployment.apps/it-tools created```
 
 Run this command
 
+```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_02_Service-NodePort.yaml```
+
 Observe this result
 
+```service/it-tools created```
 
 # Create the Application Files
 ## Create File "it-tools_01_Deployment.yaml"
