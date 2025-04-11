@@ -1,3 +1,5 @@
+apiVersion:             apps/v1
+kind:                   Deployment
 Name:                   it-tools
 Namespace:              default
 CreationTimestamp:      Thu, 10 Apr 2025 14:03:38 -0500
