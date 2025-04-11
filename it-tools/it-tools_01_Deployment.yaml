@@ -1,6 +1,3 @@
-# Commands
-# kubectl create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1
-# kubectl describe deployment kubernetes-bootcamp
 Name:                   it-tools
 Namespace:              default
 CreationTimestamp:      Thu, 10 Apr 2025 14:03:38 -0500
