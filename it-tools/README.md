@@ -4,7 +4,7 @@
 - [Corentin Thomasset](https://corentin.tech/)
 
 # Create Files
-## Create [it-tools_01_deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/e90622c854e1ab7dc56e5d1fc7f727e33ecec3a0/it-tools/it-tools_01_Deployment.yaml)
+## Create [it-tools_01_deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/1193b10ebb36365b71dd9fe516c9faf217505f06/it-tools/it-tools_01_Deployment.yaml)
 - ```kubectl create deployment kubernetes-bootcamp --image=gcr.io/google-samples/kubernetes-bootcamp:v1```
 - ```kubectl describe deployment kubernetes-bootcamp```
 
