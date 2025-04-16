@@ -5,7 +5,7 @@ Install Docker Desktop
 
 Confirm the current context of the ```kubectl``` application is "docker-desktop"
 ```bash
-~$ kubectl config current-context
+$ kubectl config current-context
 docker-desktop
 ```
 
@@ -15,21 +15,21 @@ docker-desktop
 ### Create A Deployment
 Run this ```kubectl``` command and observe this result to create a Deployment
 ```bash
-~$ kubectl create deployment hello-world --image=bhargavshah86/kube-test:v0.1
+$ kubectl create deployment hello-world --image=bhargavshah86/kube-test:v0.1
 deployment.apps/hello-world created
 ```
 
 ### Expose The Deployment
 Run this ```kubectl``` command and observe this result to expose the Deployment
 ```bash
-~$ kubectl expose deployment hello-world --type=NodePort --port=80
+$ kubectl expose deployment hello-world --type=NodePort --port=80
 service/hello-minikube exposed
 ```
 
 ### Confirm The Service Is Exposed
 Run this command and observe this result to confirm the Deployment is exposed
 ```bash
-~$ kubectl get svc hello-minikube
+$ kubectl get svc hello-minikube
 NAME          TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)         AGE
 hello-world   NodePort       10.106.147.11   <none>          80:31792/TCP    4m52s
 ```
@@ -44,7 +44,6 @@ hello-world   NodePort       10.106.147.11   <none>          80:31792/TCP    4m5
 > NAME          TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
 > hello-world   LoadBalancer   10.111.252.184  localhost       80:30198/TCP   4m52s
 > ```
-
 
 ## Access The Service Locally And Remotely Via A Browser
 
