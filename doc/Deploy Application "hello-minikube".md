@@ -50,7 +50,7 @@ Run these ```kubectl``` commands to "get" the Kubernetes API Resources in YAML f
 
 Save the output files in this GitHub respository
 - [hello-minikube.Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/94d634569f242ab4c8478f91c257dee34e4c0dd2/src/hello-minikube/hello-minikube.Deployment.yaml)
-- [hello-minikube.Service.yaml]()
+- [hello-minikube.Service.yaml](https://github.com/tomrausch/kubernetes_public/blob/f79db57e3ee43e4faa0fc78af771663412d51404/src/hello-minikube/hello-minikube.Service.yaml)
 
 A technician can then apply the Kubernetes API Resources with these command
 ```bash
