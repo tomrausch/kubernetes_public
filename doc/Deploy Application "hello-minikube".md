@@ -49,14 +49,14 @@ Run these ```kubectl``` commands to "get" the Kubernetes API Resources in YAML f
 ```
 
 Save the output files in this GitHub respository
-- [hello-minikube.Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/fbec4bd56d54401ee2de8bd39a89496bcd568efe/src/it-tools/it-tools.Deployment.yaml)
-- [hello-minikube.Service.yaml](https://github.com/tomrausch/kubernetes_public/blob/59efb59adac2185a7f8cf3b1cd07f93e0f86832b/src/it-tools/it-tools.Service.yaml)
+- [hello-minikube.Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/94d634569f242ab4c8478f91c257dee34e4c0dd2/src/hello-minikube/hello-minikube.Deployment.yaml)
+- [hello-minikube.Service.yaml]()
 
 A technician can then apply the Kubernetes API Resources with these command
 ```bash
-~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools.Deployment.yaml
+~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/hello-minikube/hello-minikube.Deployment.yaml
 deployment.apps/hello-minikube created
-~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools.Service.yaml
+~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/hello-minikube/hello-minikube.Service.yaml
 service/hello-minikube created
 ```
 
