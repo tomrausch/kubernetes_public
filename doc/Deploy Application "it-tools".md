@@ -1,8 +1,13 @@
 # Deploy Application "it-tools" In Kubernetes
 
-## 
-- Install Docker Desktop
-- 
+## Prerequisites
+Install Docker Desktop
+
+Confirm the current context of the ```kubectl``` application is "docer-desktop"
+```bash
+~$ kubectl config current-context
+docker-desktop
+```
 
 
 ## Deploy The Service
@@ -35,17 +40,17 @@ URLs
 - http://localhost:30198
 - http://192.168.0.136:30198
 
-# Create YAML Files
+# Create And Preserve YAML Files
 
 Run this ```kubectl``` command to "get" the Deployment in YAML format
 ```bash
-~$ kubectl get deployment it-tools -o yaml
+~$ kubectl get Deployment it-tools -o yaml > it-tools.Deployment.yaml
 ```
 Save the output in this GitHub respository as "it-tools_01_Deployment.yaml" 
 
 Run this ```kubectl``` command to "get" the Service in YAML format
 ```bash
-~$ kubectl get service it-tools -o yaml
+~$ kubectl get Service it-tools -o yaml > it-tools.Service.yaml
 ```
 Save the file "it-tools_02_Service-LoadBalancer.yaml" in this GitHub respository
 
