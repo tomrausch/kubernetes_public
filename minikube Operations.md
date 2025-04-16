@@ -25,3 +25,23 @@ Run the command ```ps -ef | grep "minikube tunnel"``` to confirm the minikube tu
 ~$ ps -ef | grep "minikube tunnel"
 tomraus+  526334  485261  0 16:18 pts/1    00:00:00 minikube tunnel
 ```
+
+## Confirm The URL Of The Service
+Run this command and observe this result to confirm the URL of the Deployment
+```bash
+~$ minikube service it-tools --url
+http://192.168.49.2:30513
+```
+The URL of the service is ```http://192.168.49.2:30513``` 
+
+> [!NOTE]
+> Note that the "EXTERNAL-IP" is "10.106.20.245"
+> 
+> If the ```minikube tunnel``` is not runnint, the "EXTERNAL-IP" is "\<pending\>"
+> ```
+> NAME       TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+> it-tools   LoadBalancer   10.98.194.159   <pending>     80:32640/TCP   4s
+> ```
+
+## References
+- [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) | minikube
