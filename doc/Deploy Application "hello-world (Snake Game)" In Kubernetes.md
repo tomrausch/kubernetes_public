@@ -44,6 +44,5 @@ URLs
 The YAML files are available at the "hello-world-k8s" reference below
 
 # Reference
-- [hello-world-k8s](https://github.com/skynet86/hello-world-k8s) | skynet86
-
-
+- [hello-world-k8s](https://github.com/skynet86/hello-world-k8s) | skynet86, GitHub
+- [“Hello World” on Kubernetes Cluster](https://shahbhargav.medium.com/hello-world-on-kubernetes-cluster-6bec6f4b1bfd) | [Bhargav Shah](https://shahbhargav.medium.com/), Medium
