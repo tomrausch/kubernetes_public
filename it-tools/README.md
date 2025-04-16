@@ -57,14 +57,5 @@ deployment.apps/it-tools created
 service/it-tools created
 ```
 
-## References
-- [kubernetes service not accessible through browser](https://stackoverflow.com/questions/66289053/kubernetes-service-not-accessible-through-browser) | StackOverflow
-
-# Files
-- [it-tools_01_Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/1193b10ebb36365b71dd9fe516c9faf217505f06/it-tools/it-tools_01_Deployment.yaml)
-- [it-tools_02_Service-LoadBalancer.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/it-tools/it-tools_02_Service-NodePort.yaml)
-- [it-tools_02_Service-NodePort.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/it-tools/it-tools_02_Service-NodePort.yaml)
-- [it-tools_02_Service-NodePort_Retrieved.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_02_Service-NodePort_Retrieved.yaml)
-
 # References
 - [Corentin Thomasset](https://corentin.tech/) | Home Page
