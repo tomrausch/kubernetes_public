@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: "2025-04-16T15:34:32Z"
+  labels:
+    app: it-tools
+  name: it-tools
+  namespace: default
+  resourceVersion: "3925"
+  uid: 97956ab4-ee80-496a-8a3c-8e5b7450fba5
+spec:
+  clusterIP: 10.111.252.184
+  clusterIPs:
+  - 10.111.252.184
+  externalTrafficPolicy: Cluster
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - nodePort: 30198
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: it-tools
+  sessionAffinity: None
+  type: NodePort
+status:
+  loadBalancer: {}
