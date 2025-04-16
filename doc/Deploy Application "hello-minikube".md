@@ -34,6 +34,18 @@ NAME             TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)         
 hello-minikube   NodePort       10.97.143.108   <none>          8080:31532/TCP  4m52s
 ```
 
+> [!IMPORTANT]  
+> Expose the Deployment as a "NodePort", not as a "LoadBalancer"
+>
+> If you expose the Deployment as a "LoadBalancer", the "EXTERNAL-IP" becomes "localhost", and you will not be able to access the service from another device on this network
+>
+> ```bash
+> $ kubectl get svc it-tools
+> NAME             TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
+> hello-minikube   LoadBalancer   10.111.252.184  localhost       8080:30198/TCP   4m52s
+> ```
+
+
 ## Access The Service Locally And Remotely Via A Browser
 
 URLs
