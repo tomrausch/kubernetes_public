@@ -20,3 +20,6 @@ it-tools   10.244.0.7:80   16m
 
 > [!NOTE]
 > The IP address of the endpoint -- "10.224.0.7" -- should match the IP address of the pod -- "10.244.0.7".
+
+# References
+- [kubernetes service not accessible through browser](https://stackoverflow.com/questions/66289053/kubernetes-service-not-accessible-through-browser) | StackOverflow
