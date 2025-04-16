@@ -26,6 +26,17 @@ $ kubectl expose deployment kuard --type=NodePort --port=8080
 service/kuard exposed
 ```
 
+> [!IMPORTANT]  
+> Expose the Deployment as a "NodePort", not as a "LoadBalancer"
+>
+> If you expose the Deployment as a "LoadBalancer", the "EXTERNAL-IP" becomes "localhost", and you will not be able to access the service from another device on this network
+>
+> ```bash
+> $ kubectl get svc it-tools
+> NAME    TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)          AGE
+> kuard   LoadBalancer   10.111.252.184  localhost       8080:30198/TCP   4m52s
+> ```
+
 ### Confirm The Service Is Exposed
 Run this command and observe this result to confirm the Deployment is exposed
 ```bash
