@@ -1,40 +1,39 @@
 # Deploy Application "it-tools" In Kubernetes
 
-## Create A Deployment
+## 
+- Install Docker Desktop
+- 
+
+
+## Deploy The Service
+
+### Create A Deployment
 Run this ```kubectl``` command and observe this result to create a Deployment
 ```bash
 ~$ kubectl create deployment it-tools --image=corentinth/it-tools:latest
 deployment.apps/it-tools created
 ```
 
-## Expose The Deployment
+### Expose The Deployment
 Run this ```kubectl``` command and observe this result to expose the Deployment
 ```bash
 ~$ kubectl expose deployment it-tools --type=LoadBalancer --port=80
 service/it-tools exposed
 ```
 
-## Confirm The Service Is Running In A Pod
-Run this ```kubectl``` command and observe this result to confirm the Service is running in a pod
+### Confirm The Service Is Exposed
+Run this command and observe this result to confirm the Deployment is exposed
 ```bash
-~$ kubectl get pods -A -o wide | grep it-tools
-default       it-tools-6f9bd54c48-7cwlq          1/1     Running   0              3m24s   10.244.0.7     minikube   <none>           <none>
+~$ kubectl get svc it-tools
+NAME       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
+it-tools   NodePart       10.111.252.184  <none>          80:30198/TCP   4m52s
 ```
 
-> [!NOTE]
-> Note the pod IP address is "10.224.0.7"
+### Access The Service Locally And Remotely Via The Assigned TCP Port
 
-## Confirm An Endpoint Is Assigned To The Service
-Run this ```kubectl``` command and observe this result to confirm that an Endpoint is assigned to the Service
-```bash
-~$ kubectl get endpoints it-tools
-NAME       ENDPOINTS       AGE
-it-tools   10.244.0.7:80   16m
-```
-
-> [!NOTE]
-> The IP address of the endpoint -- "10.224.0.7" -- should match the IP address of the pod -- "10.244.0.7".
-
+URLs
+- http://localhost:30198
+- http://192.168.0.136:30198
 
 ## Confirm The URL Of The Service
 Run this command and observe this result to confirm the URL of the Deployment
@@ -43,14 +42,6 @@ Run this command and observe this result to confirm the URL of the Deployment
 http://192.168.49.2:30513
 ```
 The URL of the service is ```http://192.168.49.2:30513``` 
-
-## Confirm The Deployment Is Exposed
-Run this command and observe this result to confirm the Deployment is exposed
-```bash
-~$ kubectl get svc it-tools
-NAME       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
-it-tools   LoadBalancer   10.106.20.245   10.106.20.245   80:30513/TCP   4m52s
-```
 
 > [!NOTE]
 > Note that the "EXTERNAL-IP" is "10.106.20.245"
