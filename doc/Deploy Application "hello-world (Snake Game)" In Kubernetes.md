@@ -30,36 +30,20 @@ service/hello-minikube exposed
 Run this command and observe this result to confirm the Deployment is exposed
 ```bash
 ~$ kubectl get svc hello-minikube
-NAME       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)         AGE
-it-tools   NodePort       10.97.143.108   <none>          8080:31532/TCP  4m52s
+NAME          TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)         AGE
+hello-world   NodePort       10.106.147.11   <none>          80:31792/TCP    4m52s
 ```
 
 ## Access The Service Locally And Remotely Via A Browser
 
 URLs
-- http://localhost:31532
-- http://192.168.0.136:31532
+- http://localhost:31792
+- http://192.168.0.136:31792
 
-## Create And Preserve YAML Files
-
-Run these ```kubectl``` commands to "get" the Kubernetes API Resources in YAML format
-```bash
-~$ kubectl get Deployment hello-minikube -o yaml > hello-minikube.Deployment.yaml
-~$ kubectl get Service hello-minikube -o yaml > hello-minikube.Service.yaml
-```
-
-Save the output files in this GitHub respository
-- [hello-minikube.Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/94d634569f242ab4c8478f91c257dee34e4c0dd2/src/hello-minikube/hello-minikube.Deployment.yaml)
-- [hello-minikube.Service.yaml](https://github.com/tomrausch/kubernetes_public/blob/f79db57e3ee43e4faa0fc78af771663412d51404/src/hello-minikube/hello-minikube.Service.yaml)
-
-A technician can then apply the Kubernetes API Resources with these command
-```bash
-~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/hello-minikube/hello-minikube.Deployment.yaml
-deployment.apps/hello-minikube created
-~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/hello-minikube/hello-minikube.Service.yaml
-service/hello-minikube created
-```
+## YAML Files
+The YAML files are available at the "hello-world-k8s" reference below
 
 # Reference
-- [minikube start - Deploy Applications - Service](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service) | minikube
+- [hello-world-k8s](https://github.com/skynet86/hello-world-k8s) | skynet86
+
 
