@@ -29,3 +29,4 @@ it-tools   10.244.0.7:80   16m
 
 # References
 - [kubernetes service not accessible through browser](https://stackoverflow.com/questions/66289053/kubernetes-service-not-accessible-through-browser) | StackOverflow
+- [Exposing an External IP Address to Access an Application in a Cluster](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/) | kubernetes.io
