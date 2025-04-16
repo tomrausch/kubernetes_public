@@ -34,6 +34,18 @@ NAME          TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)         AGE
 hello-world   NodePort       10.106.147.11   <none>          80:31792/TCP    4m52s
 ```
 
+> [!IMPORTANT]  
+> Expose the Deployment as a "NodePort", not as a "LoadBalancer"
+>
+> If you expose the Deployment as a "LoadBalancer", the "EXTERNAL-IP" becomes "localhost", and you will not be able to access the service from another device on this network
+>
+> ```bash
+> $ kubectl get svc it-tools
+> NAME          TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
+> hello-world   LoadBalancer   10.111.252.184  localhost       80:30198/TCP   4m52s
+> ```
+
+
 ## Access The Service Locally And Remotely Via A Browser
 
 URLs
