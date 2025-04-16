@@ -42,25 +42,21 @@ URLs
 
 ## Create And Preserve YAML Files
 
-Run this ```kubectl``` command to "get" the Deployment in YAML format
+Run these ```kubectl``` commands to "get" the Kubernetes API Resources in YAML format
 ```bash
 ~$ kubectl get Deployment it-tools -o yaml > it-tools.Deployment.yaml
-```
-Save the output in this GitHub respository as "it-tools_01_Deployment.yaml" 
-
-Run this ```kubectl``` command to "get" the Service in YAML format
-```bash
 ~$ kubectl get Service it-tools -o yaml > it-tools.Service.yaml
 ```
-Save the files in this GitHub respository
 
-One can then apply the Deployment and Service with this command
+Save the output files in this GitHub respository
+
+A technician can then apply the Kubernetes API Resources with these command
 ```bash
-~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_01_Deployment.yaml
+~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools.Deployment.yaml
 deployment.apps/it-tools created
 ~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/it-tools/it-tools_02-Service-LoadBalancer.yaml
 service/it-tools created
 ```
 
-# References
+# Reference
 - [Corentin Thomasset](https://corentin.tech/) | Home Page
