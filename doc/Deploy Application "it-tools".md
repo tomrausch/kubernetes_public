@@ -5,7 +5,7 @@ Install Docker Desktop
 
 Confirm the current context of the ```kubectl``` application is "docker-desktop"
 ```bash
-~$ kubectl config current-context
+$ kubectl config current-context
 docker-desktop
 ```
 
@@ -15,24 +15,35 @@ docker-desktop
 ### Create A Deployment
 Run this ```kubectl``` command and observe this result to create a Deployment
 ```bash
-~$ kubectl create deployment it-tools --image=corentinth/it-tools:latest
+$ kubectl create deployment it-tools --image=corentinth/it-tools:latest
 deployment.apps/it-tools created
 ```
 
 ### Expose The Deployment
 Run this ```kubectl``` command and observe this result to expose the Deployment
 ```bash
-~$ kubectl expose deployment it-tools --type=LoadBalancer --port=80
+$ kubectl expose deployment it-tools --type=NodePort --port=80
 service/it-tools exposed
 ```
 
 ### Confirm The Service Is Exposed
 Run this command and observe this result to confirm the Deployment is exposed
 ```bash
-~$ kubectl get svc it-tools
+$ kubectl get svc it-tools
 NAME       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
 it-tools   NodePart       10.111.252.184  <none>          80:30198/TCP   4m52s
 ```
+
+> [!IMPORTANT]  
+> Expose the Deployment as a "NodePort", not as a "LoadBalancer"
+>
+> If you expose the Deployment as a "LoadBalancer", the "EXTERNAL-IP" becomes "localhost", and you will not be able to access the service from another device on this network
+>
+> ```bash
+> $ kubectl get svc it-tools
+> NAME       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
+> it-tools   LoadBalancer   10.111.252.184  localhost       80:30198/TCP   4m52s
+> ```
 
 ## Access The Service Locally And Remotely Via A Browser
 
@@ -44,8 +55,8 @@ URLs
 
 Run these ```kubectl``` commands to "get" the Kubernetes API Resources in YAML format
 ```bash
-~$ kubectl get Deployment it-tools -o yaml > it-tools.Deployment.yaml
-~$ kubectl get Service it-tools -o yaml > it-tools.Service.yaml
+$ kubectl get Deployment it-tools -o yaml > it-tools.Deployment.yaml
+$ kubectl get Service it-tools -o yaml > it-tools.Service.yaml
 ```
 
 Save the output files in this GitHub respository
@@ -54,9 +65,9 @@ Save the output files in this GitHub respository
 
 A technician can then apply the Kubernetes API Resources with these command
 ```bash
-~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools.Deployment.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools.Deployment.yaml
 deployment.apps/it-tools created
-~$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools.Service.yaml
+$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools.Service.yaml
 service/it-tools created
 ```
 
