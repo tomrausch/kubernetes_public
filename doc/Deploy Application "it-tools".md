@@ -34,13 +34,13 @@ NAME       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
 it-tools   NodePart       10.111.252.184  <none>          80:30198/TCP   4m52s
 ```
 
-### Access The Service Locally And Remotely Via The Assigned TCP Port
+## Access The Service Locally And Remotely Via A Browser
 
 URLs
 - http://localhost:30198
 - http://192.168.0.136:30198
 
-# Create And Preserve YAML Files
+## Create And Preserve YAML Files
 
 Run this ```kubectl``` command to "get" the Deployment in YAML format
 ```bash
@@ -52,7 +52,7 @@ Run this ```kubectl``` command to "get" the Service in YAML format
 ```bash
 ~$ kubectl get Service it-tools -o yaml > it-tools.Service.yaml
 ```
-Save the file "it-tools_02_Service-LoadBalancer.yaml" in this GitHub respository
+Save the files in this GitHub respository
 
 One can then apply the Deployment and Service with this command
 ```bash
