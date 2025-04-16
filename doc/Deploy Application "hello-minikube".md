@@ -30,8 +30,8 @@ service/hello-minikube exposed
 Run this command and observe this result to confirm the Deployment is exposed
 ```bash
 ~$ kubectl get svc hello-minikube
-NAME       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)         AGE
-it-tools   NodePart       10.97.143.108   <none>          8080:31532/TCP  4m52s
+NAME             TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)         AGE
+hello-minikube   NodePort       10.97.143.108   <none>          8080:31532/TCP  4m52s
 ```
 
 ## Access The Service Locally And Remotely Via A Browser
@@ -62,7 +62,3 @@ service/hello-minikube created
 
 # Reference
 - [minikube start - Deploy Applications - Service](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service) | minikube
-
-
-
-
