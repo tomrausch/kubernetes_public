@@ -35,24 +35,6 @@ URLs
 - http://localhost:30198
 - http://192.168.0.136:30198
 
-## Confirm The URL Of The Service
-Run this command and observe this result to confirm the URL of the Deployment
-```bash
-~$ minikube service it-tools --url
-http://192.168.49.2:30513
-```
-The URL of the service is ```http://192.168.49.2:30513``` 
-
-> [!NOTE]
-> Note that the "EXTERNAL-IP" is "10.106.20.245"
-> 
-> If the ```minikube tunnel``` is not runnint, the "EXTERNAL-IP" is "\<pending\>"
-> ```
-> NAME       TYPE           CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
-> it-tools   LoadBalancer   10.98.194.159   <pending>     80:32640/TCP   4s
-> ```
-
-
 # Create YAML Files
 
 Run this ```kubectl``` command to "get" the Deployment in YAML format
@@ -76,7 +58,6 @@ service/it-tools created
 ```
 
 ## References
-- [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) | minikube
 - [kubernetes service not accessible through browser](https://stackoverflow.com/questions/66289053/kubernetes-service-not-accessible-through-browser) | StackOverflow
 
 # Files
