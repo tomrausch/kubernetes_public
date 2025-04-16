@@ -5,7 +5,7 @@ Install Docker Desktop
 
 Confirm the current context of the ```kubectl``` application is "docker-desktop"
 ```bash
-~$ kubectl config current-context
+$ kubectl config current-context
 docker-desktop
 ```
 
