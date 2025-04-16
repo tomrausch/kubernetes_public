@@ -49,7 +49,7 @@ Run these ```kubectl``` commands to "get" the Kubernetes API Resources in YAML f
 ```
 
 Save the output files in this GitHub respository
-- it-tools.Deployment.yaml
+- [it-tools.Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/fbec4bd56d54401ee2de8bd39a89496bcd568efe/src/it-tools/it-tools.Deployment.yaml)
 - it-tools.Service.yaml
 
 A technician can then apply the Kubernetes API Resources with these command
