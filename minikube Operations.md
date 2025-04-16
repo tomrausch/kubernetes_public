@@ -43,5 +43,17 @@ The URL of the service is ```http://192.168.49.2:30513```
 > it-tools   LoadBalancer   10.98.194.159   <pending>     80:32640/TCP   4s
 > ```
 
+## Access Service
+The easiest way to access this service is to let minikube launch a web browser for you:
+```
+minikube service hello-minikube
+```
+
+Alternatively, use kubectl to forward the port:
+```
+kubectl port-forward service/hello-minikube 7080:8080
+```
+
+
 ## References
 - [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) | minikube
