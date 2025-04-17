@@ -112,8 +112,10 @@ Source: [Kubernetes Overview Diagrams](https://shipit.dev/posts/kubernetes-overv
 - [I Ask This Question At Every Kubernetes Interview](https://medium.com/gitconnected/i-asked-this-kubernetes-question-in-every-interview-and-heres-the-catch-6d37cc7cb7a5) | [Rahul Sharma](https://devopstory.com/), [Level Up Coding](https://levelup.gitconnected.com/), [Medium](https://medium.com/)
 - [Interviewing a Senior Kubernetes Developer - Here’s What You Should Really Ask](https://medium.com/@PlanB./interviewing-a-senior-kubernetes-developer-heres-what-you-should-really-ask-29dd1da21cff) | [Mr.PlanB](https://medium.com/@PlanB.), [Medium](https://medium.com/)
 - [Just Set Up A Kubernetes Cluster? Here’s What You Actually Need Next](https://medium.com/@PlanB./just-set-up-a-kubernetes-cluster-heres-what-you-actually-need-next-b3bef7dfc2f8) | [Mr.PlanB](https://medium.com/@PlanB.), [Medium](https://medium.com/)
+- [Kubernetes NodePort vs LoadBalancer vs Ingress? When should I use what?](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0) | [Sandeep Dinesh](https://medium.com/@SandeepDinesh), [Google Cloud - Community](https://medium.com/google-cloud)
 - [Kubernetes Core Resource Components](https://medium.com/dev-genius/kubernetes-core-resource-components-87f7384a9517) | [Geethika Sandamali](https://medium.com/@gsandamali30), [Dev Genius](https://blog.devgenius.io/), [Medium](https://medium.com/)
 - [Kubernetes Troubleshooting Handbook](https://medium.com/itnext/the-kubernetes-troubleshooting-handbook-7596a1fdf2ff) | [Piotr](https://piotrzan.medium.com/), [Medium](https://medium.com/)
+- [Load balancer Vs Ingress — Why do we need both for same work?](https://medium.com/@thekubeguy/load-balancer-vs-ingress-why-do-we-need-both-for-same-work-3ae2b9afdd5a) | [The kube guy](https://medium.com/@thekubeguy), [Medium](https://medium.com/)
 - [Mastering Kubernetes In The Cloud - A Guide to Cloud Controller Manager](https://www.itprotoday.com/cloud-computing/mastering-kubernetes-in-the-cloud-a-guide-to-cloud-controller-manager) | [ITPro Today](https://www.itprotoday.com/)
 - [Mastering Kubernetes Networking: A Guide to Services, Ingress, and Network Policies](https://medium.com/@michaelarauza/mastering-kubernetes-networking-a-guide-to-services-ingress-and-network-policies-ddf9abdb433b) | [Michael Arauza](https://medium.com/@michaelarauza), [Medium](https://medium.com/)
 - [Mastering Kubernetes Networking: Types, Setup, and Best Practices](https://medium.com/faun/mastering-kubernetes-networking-types-setup-and-best-practices-4274ed2cba94) | [Ali Hamza](https://medium.com/@ali_hamza), [FAUN Developer Community](https://faun.pub/), [Medium](https://medium.com/)
@@ -370,7 +372,7 @@ Source: [Kubernetes Overview Diagrams](https://shipit.dev/posts/kubernetes-overv
 ### 🪛 Istio
 ### 🪛 k3d | Run Kubernetes In Docker
 ### 🪛 k3s
-### 🪛 k9s
+### 🪛 [k9s](https://k9scli.io/)
 - <img src="https://cdn-icons-png.flaticon.com/512/5968/5968906.png" width=20 height=20></img> [What is K9s?](https://mesutoezdil.medium.com/what-is-k9s-197e6db8ad6a) | Mesut Oezdil, Medium
 ### 🪛 kind
 - [kind](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container “nodes”
