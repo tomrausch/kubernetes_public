@@ -2,7 +2,6 @@ server {
   listen 30975;
   server_name my-web-site.com;
   location / {
-    include '/etc/nginx/proxy_params';
     proxy_pass http://192.168.49.2:30975/;
   }
 }
