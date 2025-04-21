@@ -26,6 +26,7 @@ $ kubectl expose deployment it-tools --type=NodePort --port=80
 service/it-tools exposed
 ```
 
+## Confirm The Service
 ### Confirm The Service Is Exposed
 Run this command and observe this result to confirm the Deployment is exposed
 ```bash
@@ -33,6 +34,26 @@ $ kubectl get svc it-tools
 NAME       TYPE           CLUSTER-IP      EXTERNAL-IP     PORT(S)        AGE
 it-tools   NodePart       10.111.252.184  <none>          80:30198/TCP   4m52s
 ```
+
+### Confirm The Service Is Running In A Pod
+Run this ```kubectl``` command and observe this result to confirm the Service is running in a pod
+```bash
+$ kubectl get pods -A -o wide | grep it-tools
+default       it-tools-6f9bd54c48-7cwlq          1/1     Running   0              3m24s   10.244.0.7     minikube   <none>           <none>
+```
+
+> [!NOTE]
+> Note the pod IP address is "10.224.0.7"
+
+### Confirm An Endpoint Is Assigned To The Service
+Run this ```kubectl``` command and observe this result to confirm that an Endpoint is assigned to the Service
+```bash
+$ kubectl get endpoints it-tools
+NAME       ENDPOINTS       AGE
+it-tools   10.244.0.7:80   16m
+```
+
+
 
 > [!IMPORTANT]  
 > Expose the Deployment as a "NodePort", not as a "LoadBalancer"
