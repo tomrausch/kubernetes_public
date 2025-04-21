@@ -1,3 +1,10 @@
+# References
+- https://minikube.sigs.k8s.io/docs/handbook/accessing/
+- https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux
+- https://github.com/kubernetes/minikube/issues/14346
+- https://medium.com/itnext/goodbye-docker-desktop-hello-minikube-3649f2a1c469
+- https://medium.com/@nfrankel/goodbye-minikube-340070edc5af
+
 # Deploy Application "hello-minikube" In Kubernetes
 
 ## Prerequisites
