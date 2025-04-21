@@ -1,19 +1,8 @@
 server {
-  listen 80;
+  listen 30975;
   server_name my-web-site.com;
   location / {
     include '/etc/nginx/proxy_params';
     proxy_pass http://192.168.49.2:30975/;
   }
-}
-
-server {
-        listen 30975;
-        server_name my-web-site.com;
-        location / {
-               proxy_set_header   X-Forwarded-For $remote_addr;
-               proxy_set_header   Host $http_host;
-               proxy_pass         https://192.168.49.2:30975;
-       }
-
 }
