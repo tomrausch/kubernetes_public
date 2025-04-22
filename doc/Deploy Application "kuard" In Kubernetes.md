@@ -1,26 +1,30 @@
-# Deploy Application "kuard" In Kubernetes
+# Deploy Applications In Kubernetes
 
 ## Prerequisites
-Install Docker Desktop
-
-Confirm the current context of the ```kubectl``` application is "docker-desktop"
+- Setup a Kubernetes cluster [Google Kubernetes Engine (GKE)](https://cloud.google.com/kubernetes-engine?hl=en)
+- Access the GKE Cloud Shell
+- Run the command  ```kubectl config get-contexts``` to determine the current Context of the kubectl application
 ```bash
-$ kubectl config current-context
-docker-desktop
+$ kubectl config get-contexts
+CURRENT   NAME                                                      CLUSTER                                                   AUTHINFO                                                  NAMESPACE
+*         gke_fresh-sequence-268900_us-central1_thomas-rausch-dev   gke_fresh-sequence-268900_us-central1_thomas-rausch-dev   gke_fresh-sequence-268900_us-central1_thomas-rausch-dev   
 ```
 
+> [!IMPORTANT]  
+> *CLUSTER* is the Kubernetes cluster running in GKE
 
-## Deploy The Service
+
+## Deploy The Application "kuard"
 
 ### Create A Deployment
-Run this ```kubectl``` command and observe this result to create a Deployment
+Run the command ```kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue``` and observe this result to create the Deployment
 ```bash
-$ kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue 
+$ kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue
 deployment.apps/kuard created
 ```
 
 ### Expose The Deployment
-Run this ```kubectl``` command and observe this result to expose the Deployment
+Run the command ```kubectl expose deployment kuard --type=NodePort --port=8080``` and observe the result to expose the Deployment
 ```bash
 $ kubectl expose deployment kuard --type=NodePort --port=8080
 service/kuard exposed
