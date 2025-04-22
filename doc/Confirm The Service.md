@@ -27,7 +27,7 @@ it-tools   LoadBalancer   34.118.234.2   34.9.147.141   80:31554/TCP   20h
 > - *PORT(S)* is of the form "\<service-internal-tcp-port\>:\<external-tcp-port\>"
 
 
-### Confirm The Service Is Associated With A Pod And The Pod Is Running
+## Confirm The Service Is Associated With A Pod And The Pod Is Running
 Run the commmand ```kubectl get pods -A -o wide``` and observe the result to confirm the Service is assoicated with a Pod and the Pod is running
 ```bash
 $ kubectl get pods -A -o wide
@@ -43,7 +43,7 @@ default     it-tools-84d87f44c8-ptz5c   1/1     Running   0          20h   10.10
 > - *NODE* is the name of the Node
 
 
-### Confirm The Pod Is Listening On The Expected TCP Port
+## Confirm The Pod Is Listening On The Expected TCP Port
 Run the commmand ```kubectl exec <pod-name> -- netstat -an``` and observe the result to confirm the Pod is listening on the expected TCP Port
 ```
 $ kubectl exec it-tools-84d87f44c8-ptz5c -- netstat -an
@@ -62,7 +62,71 @@ unix  3      [ ]         STREAM     CONNECTED      34187
 > - *Local Address* is of the format <pod-ip-address>:<pod-tcp-port>
 > - The <pod-tcp-port> matches <service-internal-tcp-port> in the results of the command ```kubectl get svc <service-name>```
 
-### Confirm An Endpoint Is Assigned To The Service
+## Confirm The Pod Returns HTML Output
+
+Run the commmand ```kubectl exec <pod-name> -- curl http://<pod-ip-address>:<pod-listening-port>``` and observe the result to confirm the Pod returns HTML output
+```
+$ kubectl exec it-tools-84d87f44c8-ptz5c -- curl http://10.102.128.3:80
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" href="favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>IT Tools - Handy online tools for developers</title>
+    <meta itemprop="name" content="IT Tools - Handy online tools for developers" />
+    <meta
+      name="description"
+      content="Collection of handy online tools for developers, with great UX. IT Tools is a free and open-source collection of handy online tools for developers & people working in IT."
+    />
+    <meta
+      itemprop="description"
+      content="Collection of handy online tools for developers, with great UX. IT Tools is a free and open-source collection of handy online tools for developers & people working in IT."
+    />
+    <link rel="author" href="humans.txt" />
+    <link rel="canonical" href="https://it-tools.tech" />
+
+    <link rel="apple-touch-icon" sizes="180x180" href="apple-touch-icon.png" />
+    <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png" />
+    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png" />
+    <link rel="mask-icon" href="safari-pinned-tab.svg" color="#18a058" />
+    <meta name="msapplication-TileColor" content="#da532c" />
+    <meta name="theme-color" content="#ffffff" />
+
+    <meta property="og:url" content="https://it-tools.tech/" />
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="IT Tools - Handy online tools for developers" />
+    <meta
+      property="og:description"
+      content="Collection of handy online tools for developers, with great UX. IT Tools is a free and open-source collection of handy online tools for developers & people working in IT."
+    />
+    <meta property="og:image" content="https://it-tools.tech/banner.png?v=2" />
+
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@ittoolsdottech" />
+    <meta name="twitter:creator" content="@cthmsst" />
+
+    <meta name="twitter:title" content="IT Tools - Handy online tools for developers" />
+    <meta
+      name="twitter:description"
+      content="Collection of handy online tools for developers, with great UX. IT Tools is a free and open-source collection of handy online tools for developers & people working in IT."
+    />
+    <meta name="twitter:image" content="https://it-tools.tech/banner.png?v=2" />
+    <meta name="twitter:image:alt" content="IT Tools - Handy online tools for developers" />
+    <script type="module" crossorigin src="/assets/index-f8ba620c.js"></script>
+    <link rel="stylesheet" href="/assets/index-f0f4dd3b.css">
+  <link rel="manifest" href="/manifest.webmanifest"></head>
+  <body>
+    <div id="app"></div>
+    
+  </body>
+</html>
+100  2787  100  2787    0     0  1556k      0 --:--:-- --:--:-- --:--:-- 2721k
+```
+
+## Confirm An Endpoint Is Assigned To The Service
 Run the command ```kubectl get endpoints <service-name>``` and observe the result to confirm an Endpoint is assigned to the Service
 ```bash
 $ kubectl get endpoints it-tools
