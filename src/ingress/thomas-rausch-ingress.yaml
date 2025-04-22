@@ -4,19 +4,18 @@ metadata:
   name: thomas-rausch-ingress
 spec:
   rules:
-    - http:
-        paths:
-          - pathType: Prefix
-            path: /it-tools
-            backend:
-              service:
-                name: it-tools
-                port:
-                  number: 80
-          - pathType: Prefix
-            path: /kuard
-            backend:
-              service:
-                name: kuard
-                port:
-                  number: 8080
+  - host: http://34.8.144.4/
+    http:
+      paths:
+      - path: /it-tools
+        backend:
+          service:
+            name: it-tools
+            port:
+              number: 80
+      - path: /kuard
+        backend:
+          service:
+            name: kuard
+            port:
+              number: 8080
