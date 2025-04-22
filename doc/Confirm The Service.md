@@ -24,7 +24,7 @@ it-tools   LoadBalancer   34.118.234.2   34.9.147.141   80:31554/TCP   20h
 > - *EXTERNAL-IP*
 >   - *EXTERNAL-IP* is "\<none\>" if the Service is not shared externally
 >   - *EXTERNAL-IP* is the external IP address if the Service is shared externally
-> - *PORT(S)* is of the form "\<internal-tcp-port\>:\<external-tcp-port\>"
+> - *PORT(S)* is of the form "\<service-internal-tcp-port\>:\<external-tcp-port\>"
 
 
 ### Confirm The Service Is Associated With A Pod And The Pod Is Running
@@ -35,13 +35,32 @@ NAMESPACE   NAME                        READY   STATUS    RESTARTS   AGE   IP   
 default     it-tools-84d87f44c8-ptz5c   1/1     Running   0          20h   10.102.128.3   gk3-thomas-rausch-dev-pool-2-b112addd-26zf   <none>           <none>
 ```
 
-> [!IMPORTANT]  
+> [!IMPORTANT]
 > - *NAME* is the name of the Pod
 > - *READY* is "x" of "x"
 > - *STATUS* is "Running"
 > - *IP* is the internal IP Address of the Pod
 > - *NODE* is the name of the Node
 
+
+### Confirm The Pod Is Listening On The Expected TCP Port
+Run the commmand ```kubectl exec <pod-name> -- netstat -an``` and observe the result to confirm the Pod is listening on the expected TCP Port
+```
+$ kubectl exec it-tools-84d87f44c8-ptz5c -- netstat -an
+Active Internet connections (servers and established)
+Proto Recv-Q Send-Q Local Address           Foreign Address         State       
+tcp        0      0 0.0.0.0:80              0.0.0.0:*               LISTEN      
+Active UNIX domain sockets (servers and established)
+Proto RefCnt Flags       Type       State         I-Node Path
+unix  3      [ ]         STREAM     CONNECTED      34188 
+unix  3      [ ]         STREAM     CONNECTED      34186 
+unix  3      [ ]         STREAM     CONNECTED      34185 
+unix  3      [ ]         STREAM     CONNECTED      34187 
+```
+
+> [!IMPORTANT]
+> - *Local Address* is of the format <pod-ip-address>:<pod-tcp-port>
+> - The <pod-tcp-port> matches <service-internal-tcp-port> in the results of the command ```kubectl get svc <service-name>```
 
 ### Confirm An Endpoint Is Assigned To The Service
 Run the command ```kubectl get endpoints <service-name>``` and observe the result to confirm an Endpoint is assigned to the Service
@@ -55,11 +74,10 @@ it-tools   10.102.128.3:80   20h
 > - *NAME* is the name of the Service
 > - *ENDPOINT* is of the form "\<internal-ip-address\>:\<internal-tcp-port\>"
 >   - "\<internal-ip-address\>" matches the internal IP Address of the Pod in the results of the command ```kubectl get pods -A -o wide```
->   - "\<internal-tcp-port\>" matches the "\<internal-tcp-port\>" in the results of the command ```kubectl get svc <service-name>``
+>   - "\<internal-tcp-port\>" matches the "\<internal-tcp-port\>" in the results of the command ```kubectl get svc <service-name>```
 
 
 # Create And Preserve YAML Files (Optional)
-
 Run these ```kubectl``` commands to "get" the Kubernetes API Resources in YAML format
 ```bash
 $ kubectl get Deployment it-tools -o yaml > it-tools.Deployment.yaml
