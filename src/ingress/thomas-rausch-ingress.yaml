@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: thomas-rausch-ingress
+spec:
+  rules:
+    - http:
+        paths:
+          - pathType: Prefix
+            path: /it-tools
+            backend:
+              service:
+                name: it-tools
+                port:
+                  number: 80
+          - pathType: Prefix
+            path: /kuard
+            backend:
+              service:
+                name: kuard
+                port:
+                  number: 8080
