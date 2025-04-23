@@ -58,7 +58,7 @@ CURRENT   NAME                                                      CLUSTER     
 
  
 ## ☁️ Deploy The Application "it-tools"
-Run the command ```kubectl create deployment kuard --image=corentinth/it-tools:latest``` and observe this result to create the Deployment
+Run the command ```kubectl create deployment it-tools --image=corentinth/it-tools:latest``` and observe this result to create the Deployment
 ```bash
 $ kubectl create deployment it-tools --image=corentinth/it-tools:latest
 deployment.apps/it-tools created
@@ -67,19 +67,21 @@ deployment.apps/it-tools created
 Run the command ```kubectl expose deployment it-tools --type=LoadBalancer --port=80``` and observe the result to expose the Deployment
 ```bash
 $ kubectl expose deployment it-tools --type=LoadBalancer --port=8080
-service/kuard exposed
+service/it-tools exposed
 ```
 
 > [!IMPORTANT]  
 > - *type* is "LoadBalancer"
 > - *port* is "80"
 
-Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md)
+Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md) for Service "service/it-tools"
 
-Deploy the current Ingress
+Confirm the Service "service/it-tools" is defined in the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
+
+Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) for Service "service/it-tools"
 
 Access the application in a browser at this URL
-- http://<ingress-ip-address>:<ingress-path-to-service>
+- http://<gke-cluster-external-address>/it-tools
 
 
 
@@ -100,23 +102,32 @@ service/kuard exposed
 > - *type* is "LoadBalancer"
 > - *port* is "8080"
 
-Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md)
-
-Deploy the current Ingress
 
 Access the application in a browser at this URL
 - http://<ingress-ip-address>:<ingress-path-to-service>
+
+Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md) for Service "service/kuard"
+
+Confirm the Service "service/kuard" is defined in the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
+
+Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) for Service "service/kuard"
+
+Access the application in a browser at this URL
+- http://<gke-cluster-external-address>/kuard
 
 Reference
 - [kuard](https://github.com/kubernetes-up-and-running/kuard) | Kubernetes Up And Running, GitHub
 
 
 
-## Deploy The Minikube Test Application
+## ☁️ Deploy The Minikube Test Application
 Form the YAML file [minikube-test-application.Pod-Service.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml)
+- This YAML file contains the Pods and Services for the application
 - Reference: [minikube start - Ingress](https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download#Ingress)
 
-Run the command ```kubectl apply -f --image=https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml``` and observe the result to create the Pods and the Services
+Run the command ```kubectl apply -f --image=https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml``` to create and expose the Pods and Services
+
+Observe the results
 
 ```
 kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml
@@ -130,3 +141,17 @@ service/bar-service created
 
 Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md)
 
+Confirm the Services and Paths for the application are defined in the [Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
+
+Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) to deploy or update the current Ingress
+
+
+Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md) for Service "service/foo-service" and "service/bar-service"
+
+Confirm the Services "service/foo-service" and "service/bar-service" are defined in the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
+
+Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) for Services "service/foo-service" and "service/bar-service"
+
+Access the applications in a browser at these URLs
+- http://<gke-cluster-external-address>/foo
+- http://<gke-cluster-external-address>/bar
