@@ -39,4 +39,3 @@ spec:
     app: bar
   ports:
     - port: 8080
----
