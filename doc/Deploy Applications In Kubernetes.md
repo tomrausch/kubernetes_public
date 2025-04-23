@@ -55,6 +55,34 @@ CURRENT   NAME                                                      CLUSTER     
 > [!IMPORTANT]  
 > *CLUSTER* is the Kubernetes cluster running in GKE
 
+
+ 
+## ☁️ Deploy The Application "it-tools"
+Run the command ```kubectl create deployment kuard --image=corentinth/it-tools:latest``` and observe this result to create the Deployment
+```bash
+$ kubectl create deployment it-tools --image=corentinth/it-tools:latest
+deployment.apps/it-tools created
+```
+
+Run the command ```kubectl expose deployment it-tools --type=LoadBalancer --port=80``` and observe the result to expose the Deployment
+```bash
+$ kubectl expose deployment it-tools --type=LoadBalancer --port=8080
+service/kuard exposed
+```
+
+> [!IMPORTANT]  
+> - *type* is "LoadBalancer"
+> - *port* is "80"
+
+Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md)
+
+Deploy the current Ingress
+
+Access the application in a browser at this URL
+- http://<ingress-ip-address>:<ingress-path-to-service>
+
+
+
 ## ☁️ Deploy The Application "kuard"
 Run the command ```kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue``` and observe the result to create the Deployment
 ```bash
@@ -83,29 +111,10 @@ Reference
 - [kuard](https://github.com/kubernetes-up-and-running/kuard) | Kubernetes Up And Running, GitHub
 
 
-## ☁️ Deploy The Application "it-tools"
-Run the command ```kubectl create deployment kuard --image=corentinth/it-tools:latest``` and observe this result to create the Deployment
-```bash
-$ kubectl create deployment it-tools --image=corentinth/it-tools:latest
-deployment.apps/it-tools created
-```
 
-Run the command ```kubectl expose deployment it-tools --type=LoadBalancer --port=80``` and observe the result to expose the Deployment
-```bash
-$ kubectl expose deployment it-tools --type=LoadBalancer --port=8080
-service/kuard exposed
-```
 
-> [!IMPORTANT]  
-> - *type* is "LoadBalancer"
-> - *port* is "80"
 
-Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md)
-
-Deploy the current Ingress
-
-Access the application in a browser at this URL
-- http://<ingress-ip-address>:<ingress-path-to-service>
+## Deploy The Minikube Test Application
 
 
 
