@@ -116,9 +116,17 @@ Reference
 Form the YAML file [minikube-test-application.Pod-Service.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml)
 - Reference: [minikube start - Ingress](https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download#Ingress)
 
-Run the command ```kubectl apply -f --image=https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml``` and observe the result to create the Pods and Services
+Run the command ```kubectl apply -f --image=https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml``` and observe the result to create the Pods and the Services
 
-https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml
+```
+kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml
+Warning: autopilot-default-resources-mutator:Autopilot updated Pod default/foo-app: defaulted unspecified 'cpu' resource for containers [foo-app] (see http://g.co/gke/autopilot-defaults).
+pod/foo-app created
+service/foo-service created
+Warning: autopilot-default-resources-mutator:Autopilot updated Pod default/bar-app: defaulted unspecified 'cpu' resource for containers [bar-app] (see http://g.co/gke/autopilot-defaults).
+pod/bar-app created
+service/bar-service created
+```
 
-
+Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md)
 
