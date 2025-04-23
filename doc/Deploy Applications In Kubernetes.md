@@ -81,7 +81,7 @@ Confirm the Service "service/it-tools" is defined in the current Ingress [thomas
 Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) for Service "service/it-tools"
 
 Access the application in a browser at this URL
-- http://<gke-cluster-external-address>/it-tools
+- http://\<gke-cluster-external-address\>/it-tools
 
 
 
@@ -103,9 +103,6 @@ service/kuard exposed
 > - *port* is "8080"
 
 
-Access the application in a browser at this URL
-- http://<ingress-ip-address>:<ingress-path-to-service>
-
 Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md) for Service "service/kuard"
 
 Confirm the Service "service/kuard" is defined in the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
@@ -113,7 +110,7 @@ Confirm the Service "service/kuard" is defined in the current Ingress [thomas-ra
 Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) for Service "service/kuard"
 
 Access the application in a browser at this URL
-- http://<gke-cluster-external-address>/kuard
+- http://\<gke-cluster-external-address\>/kuard
 
 Reference
 - [kuard](https://github.com/kubernetes-up-and-running/kuard) | Kubernetes Up And Running, GitHub
@@ -139,13 +136,6 @@ pod/bar-app created
 service/bar-service created
 ```
 
-Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md)
-
-Confirm the Services and Paths for the application are defined in the [Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
-
-Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) to deploy or update the current Ingress
-
-
 Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md) for Service "service/foo-service" and "service/bar-service"
 
 Confirm the Services "service/foo-service" and "service/bar-service" are defined in the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
@@ -153,5 +143,43 @@ Confirm the Services "service/foo-service" and "service/bar-service" are defined
 Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) for Services "service/foo-service" and "service/bar-service"
 
 Access the applications in a browser at these URLs
-- http://<gke-cluster-external-address>/foo
-- http://<gke-cluster-external-address>/bar
+- http://\<gke-cluster-external-address\>/foo
+
+```
+Request served by foo-app
+
+HTTP/1.1 GET /foo
+
+Host: 34.8.144.4
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: Keep-Alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+Via: 1.1 google
+X-Cloud-Trace-Context: c3f9dcbc270c5fcc4b8fd6fc57ec3449/8716341095219747881
+X-Forwarded-For: 98.253.161.202, 34.8.144.4
+X-Forwarded-Proto: http
+```
+
+
+- http://\<gke-cluster-external-address\>/bar
+
+```
+Request served by bar-app
+
+HTTP/1.1 GET /bar
+
+Host: 34.8.144.4
+Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/avif,image/webp,image/apng,*/*;q=0.8,application/signed-exchange;v=b3;q=0.7
+Accept-Encoding: gzip, deflate
+Accept-Language: en-US,en;q=0.9
+Connection: Keep-Alive
+Upgrade-Insecure-Requests: 1
+User-Agent: Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/135.0.0.0 Safari/537.36
+Via: 1.1 google
+X-Cloud-Trace-Context: 4533c4d181e326dc16d6d77b7028eec4/12160296242366395395
+X-Forwarded-For: 98.253.161.202, 34.8.144.4
+X-Forwarded-Proto: http
+```
