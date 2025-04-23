@@ -115,6 +115,11 @@ Reference
 
 
 ## Deploy The Minikube Test Application
+Form the YAML file [minikube-test-application.Pod-Service.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml)
+
+Run the command ```kubectl apply -f --image=https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml``` and observe the result to create the Pods and Services
+
+https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml
 
 
 
