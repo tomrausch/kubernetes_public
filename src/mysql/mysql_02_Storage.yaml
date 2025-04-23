@@ -10,8 +10,9 @@ spec:
     storage: 20Gi
   accessModes:
     - ReadWriteOnce
-  hostPath:
-    path: "/mnt/data"
+  gcePersistentDisk: 
+    fsType: ext4
+    pdName: mysql-pv-volume
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
