@@ -56,6 +56,39 @@ CURRENT   NAME                                                      CLUSTER     
 > *CLUSTER* is the Kubernetes cluster running in GKE
 
 
+## 💿 Deploy A MySQL Database
+
+Form and configure these YAML files
+- mysql_01_Secret.yaml
+- mysql_02_Storage.yaml
+
+Run the command ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_01_Secret.yaml``` and observe this result to create the Secret
+```bash
+$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_01_Secret.yaml
+secret/mysql-secret configured
+```
+
+Run the command ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_01_Secret.yaml``` and observe this result to create the Storage
+```bash
+$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_02_Storage.yaml
+persistentvolume/mysql-pv-volume created
+persistentvolumeclaim/mysql-pv-claim created
+```
+
+Run the command ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_03_Deployment.yaml``` and observe this result to create the Deploymnet and the Service
+```bash
+$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_03_Deployment.yaml
+Warning: autopilot-default-resources-mutator:Autopilot updated Deployment default/mysql: defaulted unspecified 'cpu' resource for containers [mysql] (see http://g.co/gke/autopilot-defaults).
+deployment.apps/mysql created
+service/mysql created
+```
+
+
+
+Reference
+- [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd)
+
+
  
 ## ☁️ Deploy The Application "it-tools"
 Run the command ```kubectl create deployment it-tools --image=corentinth/it-tools:latest``` and observe this result to create the Deployment
