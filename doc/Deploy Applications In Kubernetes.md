@@ -55,9 +55,9 @@ CURRENT   NAME                                                      CLUSTER     
 > [!IMPORTANT]  
 > *CLUSTER* is the Kubernetes cluster running in GKE
 
+<hr/>
 
 ## 💿 Deploy A MySQL Database
-
 
 Ready these YAML files
 - [mysql_01_Secret.yaml](https://github.com/tomrausch/kubernetes_public/blob/cb4288547a853fdc88f80f15945ddf9904f54e8c/src/mysql/mysql_01_Secret.yaml)
@@ -65,8 +65,6 @@ Ready these YAML files
 - [mysql_03_Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/cb4288547a853fdc88f80f15945ddf9904f54e8c/src/mysql/mysql_03_Deployment.yaml)
 - [mysql_04_ConfigMap.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_04_ConfigMap.yaml)
 
-
-### Apply The YAML Files
 Run these ```kubectl``` commands and observe these results
 ```bash
 $ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_01_Secret.yaml
@@ -85,14 +83,16 @@ $ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public
 configmap/tcp-services created
 ```
 
+References
+
+- [Deploying MySQL on Kubernetes](https://medium.com/@midejoseph24/deploying-mysql-on-kubernetes-16758a42a746) | [Joseph Ariyo](https://medium.com/@midejoseph24/), Medium
+- [Exposing an External IP Address to Access an Application in a Cluster](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/) | kubernetes.io
+- [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd) | Google
 
 
 
-Reference
-- [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd)
+<hr/>
 
-
- 
 ## ☁️ Deploy The Application "it-tools"
 Run the command ```kubectl create deployment it-tools --image=corentinth/it-tools:latest``` and observe this result to create the Deployment
 ```bash
@@ -140,6 +140,8 @@ http://34.9.147.141:80
 > - The Service not reachable from a browser at the URL "http://localhost:<local-port\>, in this example, "http://localhost:31554"
 
 
+
+<hr/>
 
 ## ☁️ Deploy The Application "kuard"
 Run the command ```kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue``` and observe the result to create the Deployment
@@ -191,6 +193,8 @@ Reference
 - [kuard](https://github.com/kubernetes-up-and-running/kuard) | Kubernetes Up And Running, GitHub
 
 
+
+<hr/>
 
 ## ☁️ Deploy The Minikube Test Application
 Form the YAML file [minikube-test-application.Pod-Service.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml)
