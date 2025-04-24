@@ -3,5 +3,7 @@ kind: ConfigMap
 metadata:
   name: tcp-services
   namespace: default
+  labels:
+    app: mysql
 data:
   3306: "default/mysql:3306"
