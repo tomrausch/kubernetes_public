@@ -2,6 +2,8 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mysql-pv-volume
+  labels:
+    app: mysql
 spec:
   storageClassName: standard
   capacity:
@@ -21,6 +23,8 @@ kind: PersistentVolumeClaim
 metadata:
   namespace: default
   name: mysql-pv-claim
+  labels:
+    app: mysql
 spec:
   storageClassName: standard
   accessModes:
