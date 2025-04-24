@@ -1,16 +1,8 @@
 # Confirm The Service
 
-## Confirm The Service Is Exposed
+## Confirm The Service Is Exposed Via A LoadBalancer IP Address Or Ingress
 
-Run the command ```kubectl get svc <service-name>``` and observe the result to confirm the Service is exposed
-### The Service Is Not Made Available Externally
-```bash
-$ kubectl get svc it-tools
-NAME       TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)        AGE
-it-tools   LoadBalancer   34.118.234.2   <none>         80:31554/TCP   20h
-```
-
-### The Service Is Made Available Externally
+Run the command ```kubectl get svc <service-name>``` and observe the result to confirm if the Service is exposed externally via an EXTERNAL-IP
 ```bash
 $ kubectl get svc it-tools
 NAME       TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)        AGE
@@ -19,16 +11,17 @@ it-tools   LoadBalancer   34.118.234.2   34.9.147.141   80:31554/TCP   20h
 
 > [!IMPORTANT]  
 > - *NAME* is the name of the Service
-> - *TYPE* is the type of the Service, usually LoadBalancer
+> - *TYPE* is LoadBalancer
 > - *CLUSTER-IP* is the Cluster IP of the Service
-> - *EXTERNAL-IP*
->   - *EXTERNAL-IP* is "\<none\>" if the Service is not shared externally
->   - *EXTERNAL-IP* is the external IP address if the Service is shared externally
-> - *PORT(S)* is of the form "\<service-internal-tcp-port\>:\<external-tcp-port\>"
+> - *EXTERNAL-IP* is the external IP address of the Service
+> - *PORT(S)* is of the form "\<service-internal-tcp-port\>:\<localhost-tcp-port\>"
+
+If the Service is not exposed externally via an EXTERNAL-IP, run the command ```kubectl get ingress```. Examine each Ingress to confirm the Service is exposed externally via an Ingress
+
 
 
 ## Confirm The Service Is Associated With A Pod And The Pod Is Running
-Run the commmand ```kubectl get pods -A -o wide``` and observe the result to confirm the Service is assoicated with a Pod and the Pod is running
+Run the commmand ```kubectl get pods -A -o wide``` and observe the "STATUS" of the pod is "RUNNING". This confirm the Service is assoicated with a Pod and the Pod is running
 ```bash
 $ kubectl get pods -A -o wide
 NAMESPACE   NAME                        READY   STATUS    RESTARTS   AGE   IP             NODE                                         NOMINATED NODE   READINESS GATES
@@ -41,6 +34,16 @@ default     it-tools-84d87f44c8-ptz5c   1/1     Running   0          20h   10.10
 > - *STATUS* is "Running"
 > - *IP* is the internal IP Address of the Pod
 > - *NODE* is the name of the Node
+
+> [!WARNING]
+> In this example, the pod mysql-65699885b7-546f6 is not Running. This pod needs to be reconfigured and recreated.
+> ```
+> $ kubectl get pods -A -o wide
+> NAMESPACE    NAME                     READY   STATUS              RESTARTS   AGE     IP       NODE                                         NOMINATED NODE   READINESS GATES
+> default      mysql-65699885b7-546f6   0/1     ContainerCreating   0          3h20m   <none>   gk3-thomas-rausch-dev-pool-2-5bf48f1e-vtfv   <none>           <none>
+> ```
+
+
 
 
 ## Confirm The Pod Is Listening On The Expected TCP Port
@@ -59,8 +62,8 @@ unix  3      [ ]         STREAM     CONNECTED      34187
 ```
 
 > [!IMPORTANT]
-> - *Local Address* is of the format <pod-ip-address>:<pod-tcp-port>
-> - The <pod-tcp-port> matches <service-internal-tcp-port> in the results of the command ```kubectl get svc <service-name>```
+> - *Local Address* is of the format \<pod-ip-address\>:\<pod-tcp-port\>
+> - The \<pod-tcp-port\> matches \<service-internal-tcp-port\> in the results of the command ```kubectl get svc <service-name>```
 
 ## Confirm The Pod Returns HTML Output
 
