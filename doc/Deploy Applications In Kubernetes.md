@@ -110,14 +110,34 @@ service/it-tools exposed
 > - *type* is "LoadBalancer"
 > - *port* is "80"
 
+Run the command ```kubectl get service``` and observe the Service with "NAME" = "it-tools" and "TYPE" = "LoadBalancer" has "EXTERNAL-IP" = "\<pending\>"
+```bash
+$ kubectl get service
+NAME          TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)          AGE
+it-tools      LoadBalancer   34.118.234.2     <pending>      80:31554/TCP     2d18h
+```
+
+After a few minutes, run the command ```kubectl get service``` a second time and observe the Service with "NAME" = "it-tools" and "TYPE" = "LoadBalancer" has "EXTERNAL-IP" = "\<ip-address\>"; in this case,  "34.9.147.141"
+```bash
+$ kubectl get service
+NAME          TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)          AGE
+it-tools      LoadBalancer   34.118.234.2     34.9.147.141   80:31554/TCP     2d18h
+```
+
 Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md) for Service "service/it-tools"
 
-Confirm the Service "service/it-tools" is defined in the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
-
-Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) for Service "service/it-tools"
-
 Access the application in a browser at this URL
-- http://\<gke-cluster-external-address\>/it-tools
+```
+http://EXTERNAL-IP:80
+http://34.9.147.141:80
+```
+
+> [!WARNING]  
+> The Service "it-tools" does not run properly from an offset file path in an Ingress
+> - Do not add the Service "service/it-tools" to the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
+>
+> The Service "it-tools" is not available from a localhost IP address
+> - The Service not reachable from a browser at the URL "http://localhost:<local-port\>, in this example, "http://localhost:31554"
 
 
 
@@ -138,15 +158,34 @@ service/kuard exposed
 > - *type* is "LoadBalancer"
 > - *port* is "8080"
 
+Run the command ```kubectl get service``` and observe the Service with "NAME" = "kuard" and "TYPE" = "LoadBalancer" has "EXTERNAL-IP" = "\<pending\>"
+```bash
+$ kubectl get service
+NAME          TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)          AGE
+kuard         LoadBalancer   34.118.227.96    <pending>      8080:31353/TCP   5s
+```
+
+After a few minutes, run the command ```kubectl get service``` a second time and observe the Service with "NAME" = "kuard" and "TYPE" = "LoadBalancer" has "EXTERNAL-IP" = "\<ip-address\>"; in this case, "34.41.210.15"
+```bash
+$ kubectl get service
+NAME          TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)          AGE
+kuard         LoadBalancer   34.118.227.96    34.41.210.15   8080:31353/TCP   9m1s
+```
 
 Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md) for Service "service/kuard"
 
-Confirm the Service "service/kuard" is defined in the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
-
-Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) for Service "service/kuard"
-
 Access the application in a browser at this URL
-- http://\<gke-cluster-external-address\>/kuard
+```
+http://EXTERNAL-IP:80
+http://34.41.210.15:8080
+```
+
+> [!WARNING]  
+> The Service "it-tools" does not run properly from an offset file path in an Ingress
+> - Do not add the Service "service/it-tools" to the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
+>
+> The Service "kuard" is not available from a localhost IP address
+> - The Service not reachable from a browser at the URL "http://localhost:<local-port\>, in this example, "http://localhost:31353"
 
 Reference
 - [kuard](https://github.com/kubernetes-up-and-running/kuard) | Kubernetes Up And Running, GitHub
@@ -172,14 +211,26 @@ pod/bar-app created
 service/bar-service created
 ```
 
+Run the command ```kubectl get service``` and observe the Services with "NAME" = "bar-service" and "bar-service" and "TYPE" = "ClusterIP" has "EXTERNAL-IP" = "\<none\>"
+```bash
+$ kubectl get service
+NAME          TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)          AGE
+bar-service   ClusterIP      34.118.226.148   <none>         8080/TCP         24h
+foo-service   ClusterIP      34.118.225.105   <none>         8080/TCP         24h
+```
+
 Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md) for Service "service/foo-service" and "service/bar-service"
 
 Confirm the Services "service/foo-service" and "service/bar-service" are defined in the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
 
 Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) for Services "service/foo-service" and "service/bar-service"
 
-Access the applications in a browser at these URLs
-- http://\<gke-cluster-external-address\>/foo
+Access the applications "foo" in a browser at this URLs
+
+```
+http://<gke-cluster-external-address>/foo
+http://34.8.144.4/foo
+```
 
 ```
 Request served by foo-app
@@ -199,8 +250,12 @@ X-Forwarded-For: 98.253.161.202, 34.8.144.4
 X-Forwarded-Proto: http
 ```
 
+Access the applications "bar" in a browser at this URLs
 
-- http://\<gke-cluster-external-address\>/bar
+```
+http://<gke-cluster-external-address>/bar
+http://34.8.144.4/bar
+```
 
 ```
 Request served by bar-app
