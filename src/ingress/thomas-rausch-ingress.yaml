@@ -7,14 +7,14 @@ spec:
     - http:
         paths:
           - pathType: Prefix
-            path: /
+            path: /it-tools
             backend:
               service:
                 name: it-tools
                 port:
                   number: 80
           - pathType: Prefix
-            path: /
+            path: /kuard
             backend:
               service:
                 name: kuard
@@ -35,7 +35,7 @@ spec:
                 port:
                   number: 8080
           - pathType: Prefix
-            path: /
+            path: /mysql
             backend:
               service:
                 name: mysql
