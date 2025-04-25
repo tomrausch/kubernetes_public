@@ -727,6 +727,20 @@ mysql> SHOW DATABASES;
 mysql>
 ```
 
+```
+bash-5.1# df
+Filesystem     1K-blocks    Used Available Use% Mounted on
+overlay         98831908 6418032  92397492   7% /
+tmpfs              65536       0     65536   0% /dev
+/dev/sdb        20466256      24  20449848   1% /mnt/data
+/dev/sda1       98831908 6418032  92397492   7% /etc/hosts
+shm                65536       0     65536   0% /dev/shm
+tmpfs            6099332      12   6099320   1% /run/secrets/kubernetes.io/serviceaccount
+tmpfs            4069056       0   4069056   0% /proc/acpi
+tmpfs            4069056       0   4069056   0% /proc/scsi
+tmpfs            4069056       0   4069056   0% /sys/firmware
+```
+
 
 References
 - [Deploying MySQL on Kubernetes](https://medium.com/@midejoseph24/deploying-mysql-on-kubernetes-16758a42a746) | [Joseph Ariyo](https://medium.com/@midejoseph24/), Medium
