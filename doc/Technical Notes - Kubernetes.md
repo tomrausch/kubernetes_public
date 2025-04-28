@@ -353,7 +353,10 @@ Source: [Kubernetes Overview Diagrams](https://shipit.dev/posts/kubernetes-overv
 - [Example: Deploying WordPress and MySQL with Persistent Volumes](https://kubernetes.io/docs/tutorials/stateful-application/mysql-wordpress-persistent-volume/) | [kubernetes.io](https://kubernetes.io/)
 
 ### Deploy A Production-Ready Three-Tier Application on Kubernetes: React Frontend + Flask Backend + Postgres Database 
-- [Advanced Kubernetes Tutorial Every DevOps Engineer Has Been Searching For — Part 1](https://medium.com/towards-aws/stop-following-useless-tutorials-learn-kubernetes-on-aws-like-a-pro-1186aa8a33ac) /  | [Akhilesh Mishra](https://medium.com/@akhilesh-mishra), [Medium](https://medium.com/)
+- [Advanced Kubernetes Tutorial Every DevOps Engineer Has Been Searching For — Part 1](https://medium.com/towards-aws/stop-following-useless-tutorials-learn-kubernetes-on-aws-like-a-pro-1186aa8a33ac) | [Akhilesh Mishra](https://medium.com/@akhilesh-mishra), [Medium](https://medium.com/)
+
+### Building a Secure Cloud IDE: Setting Up VS Code on Kubernetes with Keycloak Authentication
+- [Building a Secure Cloud IDE: Setting Up VS Code on Kubernetes with Keycloak Authentication](https://medium.com/@subhraj07/building-a-secure-cloud-ide-setting-up-vs-code-on-kubernetes-with-keycloak-authentication-f2769f828585), [Subhrajit Mohanty](https://medium.com/@subhraj07), [Medium](https://medium.com/)
 
 <sub><sup>⬆ <a href=#table-of-contents>Table Of Contents</a></sup></sub>
 
