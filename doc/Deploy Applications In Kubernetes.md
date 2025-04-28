@@ -754,9 +754,9 @@ References
 
 
 
-Reference
-- [Building a Secure Cloud IDE: Setting Up VS Code on Kubernetes with Keycloak Authentication](https://medium.com/@subhraj07/building-a-secure-cloud-ide-setting-up-vs-code-on-kubernetes-with-keycloak-authentication-f2769f828585)
-
+References
+- [Building a Secure Cloud IDE: Setting Up VS Code on Kubernetes with Keycloak Authentication](https://medium.com/@subhraj07/building-a-secure-cloud-ide-setting-up-vs-code-on-kubernetes-with-keycloak-authentication-f2769f828585) | Medium
+- [DNS on GKE: Everything you need to know](https://medium.com/google-cloud/dns-on-gke-everything-you-need-to-know-b961303f9153) | Medium
 
 
 <hr/>
