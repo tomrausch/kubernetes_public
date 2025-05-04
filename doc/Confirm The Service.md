@@ -1,5 +1,13 @@
 # Confirm The Service
 
+## Confirm The Deployment Is Ready
+```
+kubectl get deployment web 
+tomrausch@tomrausch-HP-Elite-7100-Microtower-PC:~$ kubectl get deployment web
+NAME   READY   UP-TO-DATE   AVAILABLE   AGE
+web    1/1     1            1           11s
+```
+
 ## Confirm The Service Is Exposed Via A LoadBalancer IP Address Or Ingress
 
 Run the command ```kubectl get svc <service-name>``` and observe the result to confirm if the Service is exposed externally via an EXTERNAL-IP
