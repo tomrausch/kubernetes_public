@@ -72,6 +72,29 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ```
 
+###
+
+
+```
+$ minikube stop
+* Stopping node "minikube"  ...
+* Powering off "minikube" via SSH ...
+* 1 node stopped.
+$ curl -LO https://github.com/kubernetes/minikube/releases/latest/download/minikube-linux-amd64
+  % Total    % Received % Xferd  Average Speed   Time    Time     Time  Current
+                                 Dload  Upload   Total   Spent    Left  Speed
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+  0     0    0     0    0     0      0      0 --:--:-- --:--:-- --:--:--     0
+100  119M  100  119M    0     0  66.2M      0  0:00:01  0:00:01 --:--:--  104M
+```
+
+```
+$ sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
+```
+
+
+
+
 
 ### Start minikube
 ```
