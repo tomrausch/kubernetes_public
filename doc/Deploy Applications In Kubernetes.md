@@ -849,7 +849,7 @@ Perform the checks in [Confirm The Deployment And Service](https://github.com/to
 | Name | Command - Create Deployment | Command - Expose Service | Reference |
 | :---: | :---: | :---: | :---: |
 | hello-blue-whale | ```kubectl create deployment hello-blue-whale --image=vamsijakkula/hello-blue-whale:v1``` | ```kubectl expose deployment hello-blue-whale --type=NodePort --port=80``` | [vamsijakkula](https://gist.github.com/vamsijakkula)|
-| it-tools | ```kubectl create deployment it-tools --image=corentinth/it-tools:latest``` | ```kubectl expose deployment it-tools --type=NodePort --port=80``` | 
+| it-tools | ```kubectl create deployment it-tools --image=corentinth/it-tools:latest``` | ```kubectl expose deployment it-tools --type=NodePort --port=80``` | [CorentinTh/it-tools](https://github.com/CorentinTh/it-tools)
 | kuard | ```kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue``` | ```kubectl expose deployment kuard --type=NodePort --port=8080``` | [kuard](https://github.com/kubernetes-up-and-running/kuard) |
 
 
