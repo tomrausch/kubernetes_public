@@ -50,14 +50,20 @@ default     it-tools-6f9bd54c48-lxhgh   1/1     Running   0          14m   10.24
 > - *IP* is the internal IP Address of the Pod
 > - *NODE* is the name of the Node
 
+### Case: Pod Is Not Running
 > [!WARNING]
-> In this example, the pod mysql-65699885b7-546f6 is not Running. This pod needs to be reconfigured and recreated.
+> In this example here, the pod ```mysql-65699885b7-546f6``` is not Running. This pod needs to be reconfigured and recreated.
+>
+> **Issues**
+> - *READY* is "0" of "1"
+> - *STATUS* is "ContainerCreating"
+> - *IP* is not assigned
+> 
 > ```
 > $ kubectl get pods -A -o wide
 > NAMESPACE    NAME                     READY   STATUS              RESTARTS   AGE     IP       NODE                                         NOMINATED NODE   READINESS GATES
 > default      mysql-65699885b7-546f6   0/1     ContainerCreating   0          3h20m   <none>   gk3-thomas-rausch-dev-pool-2-5bf48f1e-vtfv   <none>           <none>
 > ```
-
 
 --------
 ## Confirm The Pod Is Listening On The Expected TCP Port
@@ -165,7 +171,25 @@ it-tools   10.102.128.3:80   20h
 ---------
 ## Access The Application In A Browser
 
-TBD
+Run the command ```minikube service <service-name>``` and observe the result 
+
+```bash
+$ minikube service it-tools
+|-----------|----------|-------------|---------------------------|
+| NAMESPACE |   NAME   | TARGET PORT |            URL            |
+|-----------|----------|-------------|---------------------------|
+| default   | it-tools |          80 | http://192.168.49.2:31026 |
+|-----------|----------|-------------|---------------------------|
+```
+
+Access the device running Kubernetes
+
+Open a browser
+
+Access the URL from the command ```minikube service <service-name>```
+- In this example, the URL is ```http://192.168.49.2:31026```
+
+Observe the application in the local browser
 
 --------
 ## Create And Preserve YAML Files (Optional)
