@@ -825,106 +825,34 @@ keycloak.gke-7982bd164e1c4e0b86a390c66a0dfa818ad8-481851337886.us-central1.gke.g
 - [DNS on GKE: Everything you need to know](https://medium.com/google-cloud/dns-on-gke-everything-you-need-to-know-b961303f9153) | Medium
 
 
-<hr/>
+--------
 
-## ☁️ Deploy The Application "it-tools"
-Run the command ```kubectl create deployment it-tools --image=corentinth/it-tools:latest``` and observe this result to create the Deployment
+## ☁️ Deploy A Standard Application
+
+Run the command "Command - Create Deployment" in Table 1 below and observe the result to deploy an image and create the Deployment
 ```bash
 $ kubectl create deployment it-tools --image=corentinth/it-tools:latest
 deployment.apps/it-tools created
 ```
 
-Run the command ```kubectl expose deployment it-tools --type=LoadBalancer --port=80``` and observe the result to expose the Deployment
+Run the command "Command - Expose Service" in the table below and observe the result to expose the Deployment
 ```bash
 $ kubectl expose deployment it-tools --type=LoadBalancer --port=8080
 service/it-tools exposed
 ```
 
-> [!IMPORTANT]  
-> - *type* is "LoadBalancer"
-> - *port* is "80"
-
-Run the command ```kubectl get service``` and observe the Service with "NAME" = "it-tools" and "TYPE" = "LoadBalancer" has "EXTERNAL-IP" = "\<pending\>"
-```bash
-$ kubectl get service
-NAME          TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)          AGE
-it-tools      LoadBalancer   34.118.234.2     <pending>      80:31554/TCP     2d18h
-```
-
-After a few minutes, run the command ```kubectl get service``` a second time and observe the Service with "NAME" = "it-tools" and "TYPE" = "LoadBalancer" has "EXTERNAL-IP" = "\<ip-address\>"; in this case,  "34.9.147.141"
-```bash
-$ kubectl get service
-NAME          TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)          AGE
-it-tools      LoadBalancer   34.118.234.2     34.9.147.141   80:31554/TCP     2d18h
-```
-
-Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md) for Service "service/it-tools"
-
-Access the application in a browser at this URL
-```
-http://EXTERNAL-IP:80
-http://34.9.147.141:80
-```
-
-> [!WARNING]  
-> The Service "it-tools" does not run properly from an offset file path in an Ingress
-> - Do not add the Service "service/it-tools" to the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
->
-> The Service "it-tools" is not available from a localhost IP address
-> - The Service not reachable from a browser at the URL "http://localhost:<local-port\>, in this example, "http://localhost:31554"
+Perform the checks in [Confirm The Deployment And Service](https://github.com/tomrausch/kubernetes_public/blob/9569089708b8f66adc3a30add0f74f5c53544dd3/doc/Confirm%20The%20Deployment%20And%20Service.md) for Service "service/kuard"
 
 
+#### Table 1
 
-<hr/>
+| Name | Command - Create Deployment | Command - Expose Service | Reference |
+| :---: | :---: | :---: | :---: |
+| hello-blue-whale | ```kubectl create deployment hello-blue-whale --image=vamsijakkula/hello-blue-whale:v1``` | ```kubectl expose deployment hello-blue-whale --type=NodePort --port=80``` | [vamsijakkula](https://gist.github.com/vamsijakkula)|
+| it-tools | ```kubectl create deployment it-tools --image=corentinth/it-tools:latest``` | ```kubectl expose deployment it-tools --type=NodePort --port=80``` | 
+| kuard | ```kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue``` | ```kubectl expose deployment kuard --type=NodePort --port=8080``` | [kuard](https://github.com/kubernetes-up-and-running/kuard) |
 
-## ☁️ Deploy The Application "kuard"
-Run the command ```kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue``` and observe the result to create the Deployment
-```bash
-$ kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue
-deployment.apps/kuard created
-```
 
-Run the command ```kubectl expose deployment kuard --type=NodePort --port=8080``` and observe the result to expose the Service
-```bash
-$ kubectl expose deployment kuard --type=LoadBalancer --port=8080
-service/kuard exposed
-```
-
-> [!IMPORTANT]  
-> - *type* is "LoadBalancer"
-> - *port* is "8080"
-
-Run the command ```kubectl get service``` and observe the Service with "NAME" = "kuard" and "TYPE" = "LoadBalancer" has "EXTERNAL-IP" = "\<pending\>"
-```bash
-$ kubectl get service
-NAME          TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)          AGE
-kuard         LoadBalancer   34.118.227.96    <pending>      8080:31353/TCP   5s
-```
-
-After a few minutes, run the command ```kubectl get service``` a second time and observe the Service with "NAME" = "kuard" and "TYPE" = "LoadBalancer" has "EXTERNAL-IP" = "\<ip-address\>"; in this case, "34.41.210.15"
-```bash
-$ kubectl get service
-NAME          TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)          AGE
-kuard         LoadBalancer   34.118.227.96    34.41.210.15   8080:31353/TCP   9m1s
-```
-
-Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md) for Service "service/kuard"
-
-Access the application in a browser at this URL
-```
-http://EXTERNAL-IP:80
-http://34.41.210.15:8080
-```
-
-> [!WARNING]  
-> The Service "it-tools" does not run properly from an offset file path in an Ingress
-> - Do not add the Service "service/it-tools" to the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
->
-> The Service "kuard" is not available from a localhost IP address
-> - The Service not reachable from a browser at the URL "http://localhost:<local-port\>, in this example, "http://localhost:31353"
-
-### Reference
-- [kuard](https://github.com/kubernetes-up-and-running/kuard) | Kubernetes Up And Running, GitHub
 
 
 
