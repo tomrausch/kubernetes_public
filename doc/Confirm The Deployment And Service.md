@@ -1,39 +1,46 @@
-# Confirm The Service
+# Confirm The Deployment And Service
 
 ## Confirm The Deployment Is Ready
+
+Run the command ```kubectl get deployment <service-name>``` and observe the result to confirm the Deployment is ready
 ```
-kubectl get deployment web 
-tomrausch@tomrausch-HP-Elite-7100-Microtower-PC:~$ kubectl get deployment web
-NAME   READY   UP-TO-DATE   AVAILABLE   AGE
-web    1/1     1            1           11s
+$ kubectl get deployment it-tools
+NAME       READY   UP-TO-DATE   AVAILABLE   AGE
+it-tools   1/1     1            1           7m13s
 ```
 
-## Confirm The Service Is Exposed Via A LoadBalancer IP Address Or Ingress
+> [!IMPORTANT]  
+> - *NAME* is the name of the Deployment
+> - *READY* is 'X' of 'X' and 'X' is the identical integer before and after the forward slash
+> - *UP-TO-DATE* is 'X', the same integer as 'X' in *READY*
+> - *AVAILABLE* is 'X', the same integer as 'X' in *READY*
 
-Run the command ```kubectl get svc <service-name>``` and observe the result to confirm if the Service is exposed externally via an EXTERNAL-IP
+
+--------
+## Confirm The Service Is Exposed
+
+Run the command ```kubectl get service <service-name>``` and observe the result to confirm the Service is exposed with type [NodePort](https://kubernetes.io/docs/concepts/services-networking/service/#type-nodeport)
 ```bash
-$ kubectl get svc it-tools
-NAME       TYPE           CLUSTER-IP     EXTERNAL-IP    PORT(S)        AGE
-it-tools   LoadBalancer   34.118.234.2   34.9.147.141   80:31554/TCP   20h
+$ kubectl get service it-tools
+NAME                   TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)          AGE
+it-tools               NodePort       10.109.173.208   <none>         80:30550/TCP     3m37s
 ```
 
 > [!IMPORTANT]  
 > - *NAME* is the name of the Service
-> - *TYPE* is LoadBalancer
+> - *TYPE* is 'NodePort'
 > - *CLUSTER-IP* is the Cluster IP of the Service
-> - *EXTERNAL-IP* is the external IP address of the Service
-> - *PORT(S)* is of the form "\<service-internal-tcp-port\>:\<localhost-tcp-port\>"
-
-If the Service is not exposed externally via an EXTERNAL-IP, run the command ```kubectl get ingress```. Examine each Ingress to confirm the Service is exposed externally via an Ingress
+> - *EXTERNAL-IP* is the external IP address of the Service which is ```<none>```
+> - *PORT(S)* is of the form ```<service-internal-tcp-port>:<localhost-tcp-port>```
 
 
-
+--------
 ## Confirm The Service Is Associated With A Pod And The Pod Is Running
-Run the commmand ```kubectl get pods -A -o wide``` and observe the "STATUS" of the pod is "RUNNING". This confirm the Service is assoicated with a Pod and the Pod is running
+Run the commmand ```kubectl get pods -A -o wide | grep <service-name>``` and observe the "STATUS" of the pod is "Running". This confirm the Service is assoicated with a Pod and the Pod is running
 ```bash
-$ kubectl get pods -A -o wide
-NAMESPACE   NAME                        READY   STATUS    RESTARTS   AGE   IP             NODE                                         NOMINATED NODE   READINESS GATES
-default     it-tools-84d87f44c8-ptz5c   1/1     Running   0          20h   10.102.128.3   gk3-thomas-rausch-dev-pool-2-b112addd-26zf   <none>           <none>
+$ kubectl get pods -A -o wide | grep it-tools
+NAMESPACE   NAME                        READY   STATUS    RESTARTS   AGE   IP             NODE       NOMINATED NODE   READINESS GATES
+default     it-tools-6f9bd54c48-lxhgh   1/1     Running   0          14m   10.244.0.11    minikube   <none>           <none>
 ```
 
 > [!IMPORTANT]
@@ -52,8 +59,7 @@ default     it-tools-84d87f44c8-ptz5c   1/1     Running   0          20h   10.10
 > ```
 
 
-
-
+--------
 ## Confirm The Pod Is Listening On The Expected TCP Port
 Run the commmand ```kubectl exec <pod-name> -- netstat -an``` and observe the result to confirm the Pod is listening on the expected TCP Port
 ```
@@ -73,6 +79,8 @@ unix  3      [ ]         STREAM     CONNECTED      34187
 > - *Local Address* is of the format \<pod-ip-address\>:\<pod-tcp-port\>
 > - The \<pod-tcp-port\> matches \<service-internal-tcp-port\> in the results of the command ```kubectl get svc <service-name>```
 
+
+--------
 ## Confirm The Pod Returns HTML Output
 
 Run the commmand ```kubectl exec <pod-name> -- curl http://<pod-ip-address>:<pod-listening-port>``` and observe the result to confirm the Pod returns HTML output
@@ -137,6 +145,8 @@ $ kubectl exec it-tools-84d87f44c8-ptz5c -- curl http://10.102.128.3:80
 100  2787  100  2787    0     0  1556k      0 --:--:-- --:--:-- --:--:-- 2721k
 ```
 
+
+--------
 ## Confirm An Endpoint Is Assigned To The Service
 Run the command ```kubectl get endpoints <service-name>``` and observe the result to confirm an Endpoint is assigned to the Service
 ```bash
@@ -152,7 +162,13 @@ it-tools   10.102.128.3:80   20h
 >   - "\<internal-tcp-port\>" matches the "\<internal-tcp-port\>" in the results of the command ```kubectl get svc <service-name>```
 
 
-# Create And Preserve YAML Files (Optional)
+---------
+## Access The Application In A Browser
+
+TBD
+
+--------
+## Create And Preserve YAML Files (Optional)
 Run these ```kubectl``` commands to "get" the Kubernetes API Resources in YAML format
 ```bash
 $ kubectl get Deployment it-tools -o yaml > it-tools.Deployment.yaml
@@ -168,3 +184,5 @@ deployment.apps/it-tools created
 $ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools.Service.yaml
 service/it-tools created
 ```
+
+
