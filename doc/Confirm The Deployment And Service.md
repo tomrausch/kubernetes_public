@@ -169,7 +169,7 @@ it-tools   10.102.128.3:80   20h
 
 
 ---------
-## Access The Application In A Browser
+## Access The Application In A Browser (Local)
 
 Run the command ```minikube service <service-name>``` and observe the result 
 
@@ -190,6 +190,16 @@ Access the URL from the command ```minikube service <service-name>```
 - In this example, the URL is ```http://192.168.49.2:31026```
 
 Observe the application in the local browser
+
+
+----------
+## Access The Application In A Browser (Worldwide)
+
+https://ngrok.com/docs/agent/
+
+https://ngrok.com/docs/agent/
+
+ngrok http http://192.168.49.2:31026 --traffic-policy-file traffic-policy.yaml
 
 --------
 ## Create And Preserve YAML Files (Optional)
