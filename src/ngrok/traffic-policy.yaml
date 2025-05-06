@@ -1,0 +1,8 @@
+on_http_request:
+  - actions:
+    - type: basic-auth
+      config:
+        credentials:
+          - tomrausch:$london08$
+          - kertgilpin:California
+          - admin:$wonderland2025$
