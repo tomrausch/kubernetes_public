@@ -292,6 +292,7 @@ Server Version: v1.32.2-gke.1182003
 Run the command  ```kubectl config get-contexts``` to determine the current Context of the kubectl application
 ```bash
 $ kubectl config get-contexts
-CURRENT   NAME                                                      CLUSTER                                                   AUTHINFO                                                  NAMESPACE
-*         gke_fresh-sequence-268900_us-central1_thomas-rausch-dev   gke_fresh-sequence-268900_us-central1_thomas-rausch-dev   gke_fresh-sequence-268900_us-central1_thomas-rausch-dev   
+CURRENT   NAME             CLUSTER          AUTHINFO         NAMESPACE
+          docker-desktop   docker-desktop   docker-desktop
+*         minikube         minikube         minikube         default
 ```
