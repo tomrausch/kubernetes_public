@@ -1,12 +1,13 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ngrok-ingress
+  name: example-ingress
   namespace: default
 spec:
   ingressClassName: ngrok
   rules:
-    - http:
+    - host: example-ingress.ngrok.io
+      http:
         paths:
           - path: /foo
             pathType: Prefix
@@ -14,11 +15,46 @@ spec:
               service:
                 name: foo-service
                 port:
-                  number: 8080
+                  number: 80
           - path: /bar
             pathType: Prefix
             backend:
               service:
                 name: bar-service
                 port:
-                  number: 8080
+                  number: 80
+          - path: /kuard
+            pathType: Prefix
+            backend:
+              service:
+                name: kuard
+                port:
+                  number: 80        
+          - path: /hello-blue-whale 
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-blue-whale
+                port:
+                  number: 80
+          - path: /hello-minikube
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-minikube
+                port:
+                  number: 80
+          - path: /it-tools 
+            pathType: Prefix
+            backend:
+              service:
+                name: it-tools 
+                port:
+                  number: 80   
+          - path: /web
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 80                  
