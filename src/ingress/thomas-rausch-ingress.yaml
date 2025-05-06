@@ -34,3 +34,24 @@ spec:
                 name: bar-service
                 port:
                   number: 8080
+          - path: /hello-blue-whale 
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-blue-whale
+                port:
+                  number: 80
+          - path: /hello-minikube
+            pathType: Prefix
+            backend:
+              service:
+                name: hello-minikube
+                port:
+                  number: 8080
+          - path: /web
+            pathType: Prefix
+            backend:
+              service:
+                name: web
+                port:
+                  number: 8080
