@@ -1,12 +1,12 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ngrok-ingress
+  name: example-ingress
   namespace: default
 spec:
   ingressClassName: ngrok
   rules:
-    - host: ngrok-ingress.ngrok.io
+    - host: example-ingress.ngrok.io
       http:
         paths:
           - path: /foo
