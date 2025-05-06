@@ -7,7 +7,7 @@ spec:
   ingressClassName: ngrok
   rules:
     - host: ngrok-ingress.ngrok.io
-      http:
+    - http:
         paths:
           - path: /foo
             pathType: Prefix
