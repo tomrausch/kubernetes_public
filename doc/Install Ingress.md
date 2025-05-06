@@ -4,6 +4,7 @@
 - https://github.com/kubernetes/minikube/issues/14346
 - https://medium.com/itnext/goodbye-docker-desktop-hello-minikube-3649f2a1c469
 - https://medium.com/@nfrankel/goodbye-minikube-340070edc5af
+- https://ngrok.com/docs/k8s/guides/using-ingresses/
 
 # Deploy Application "hello-minikube" In Kubernetes
 
