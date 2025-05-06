@@ -6,7 +6,7 @@ metadata:
 spec:
   ingressClassName: ngrok
   rules:
-    - host: example-ingress.ngrok.io
+    - host: ngrok-ingress.ngrok.io
       http:
         paths:
           - path: /foo
