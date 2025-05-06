@@ -21,58 +21,30 @@ Perform the checks in [Confirm The Deployment And Service](https://github.com/to
 
 #### Table 1
 
-| Name | Command - Create Deployment | Command - Expose Service | Reference |
-| :---: | :---: | :---: | :---: |
-| hello-blue-whale | ```kubectl create deployment hello-blue-whale --image=vamsijakkula/hello-blue-whale:v1``` | ```kubectl expose deployment hello-blue-whale --type=NodePort --port=80``` | [vamsijakkula](https://gist.github.com/vamsijakkula)|
-| hello-minikube | ```kubectl create deployment hello-minikube --image=kicbase/echo-server:1.0``` | ```kubectl expose deployment hello-minikube --type=NodePort --port=8080``` | [minikube start - Deploy Applications - Service](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service) |
-| it-tools | ```kubectl create deployment it-tools --image=corentinth/it-tools:latest``` | ```kubectl expose deployment it-tools --type=NodePort --port=80``` | [CorentinTh/it-tools](https://github.com/CorentinTh/it-tools)
-| kuard | ```kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue``` | ```kubectl expose deployment kuard --type=NodePort --port=8080``` | [kuard](https://github.com/kubernetes-up-and-running/kuard) |
+| Name | Command - Create Deployment | Command - Expose Service | Additional Steps | Reference |
+| :---: | :--- | :--- | :---  | :---: |
+| hello-blue-whale | ```kubectl create deployment hello-blue-whale --image=vamsijakkula/hello-blue-whale:v1``` | ```kubectl expose deployment hello-blue-whale --type=NodePort --port=80``` | None | [vamsijakkula](https://gist.github.com/vamsijakkula)|
+| hello-minikube | ```kubectl create deployment hello-minikube --image=kicbase/echo-server:1.0``` | ```kubectl expose deployment hello-minikube --type=NodePort --port=8080``` | Yes - Below | [minikube start - Deploy Applications - Service](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service) |
+| it-tools | ```kubectl create deployment it-tools --image=corentinth/it-tools:latest``` | ```kubectl expose deployment it-tools --type=NodePort --port=80``` | None | [CorentinTh/it-tools](https://github.com/CorentinTh/it-tools)
+| kuard | ```kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue``` | ```kubectl expose deployment kuard --type=NodePort --port=8080``` | None | [kuard](https://github.com/kubernetes-up-and-running/kuard) |
 
 
-
-
-
---------
-
-## ☁️ Deploy The Minikube Test Application
+#### Additional Steps "hello-minikube"
 Form the YAML file [minikube-test-application.Pod-Service.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml)
 - This YAML file contains the Pods and Services for the application
 - Reference: [minikube start - Ingress](https://minikube.sigs.k8s.io/docs/start/?arch=%2Fwindows%2Fx86-64%2Fstable%2F.exe+download#Ingress)
 
-Run the command ```kubectl apply -f --image=https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml``` to create and expose the Pods and Services
-
-Observe the results
+Run the command ```kubectl apply -f --image=https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml``` and observe the results. This creates Pods and Services.
 
 ```
-kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml
-Warning: autopilot-default-resources-mutator:Autopilot updated Pod default/foo-app: defaulted unspecified 'cpu' resource for containers [foo-app] (see http://g.co/gke/autopilot-defaults).
+$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/minikube-test-application/minikube-test-application.Pod-Service.yaml
 pod/foo-app created
 service/foo-service created
-Warning: autopilot-default-resources-mutator:Autopilot updated Pod default/bar-app: defaulted unspecified 'cpu' resource for containers [bar-app] (see http://g.co/gke/autopilot-defaults).
 pod/bar-app created
 service/bar-service created
 ```
 
-Run the command ```kubectl get service``` and observe the Services with "NAME" = "bar-service" and "bar-service" and "TYPE" = "ClusterIP" has "EXTERNAL-IP" = "\<none\>"
-```bash
-$ kubectl get service
-NAME          TYPE           CLUSTER-IP       EXTERNAL-IP    PORT(S)          AGE
-bar-service   ClusterIP      34.118.226.148   <none>         8080/TCP         24h
-foo-service   ClusterIP      34.118.225.105   <none>         8080/TCP         24h
-```
-
-Perform the checks in [Confirm The Service](https://github.com/tomrausch/kubernetes_public/blob/a112cb64662de0179dc2a1095bb642aff3e1bbcf/doc/Confirm%20The%20Service.md) for Service "service/foo-service" and "service/bar-service"
-
-Confirm the Services "service/foo-service" and "service/bar-service" are defined in the current Ingress [thomas-rausch-ingress](https://github.com/tomrausch/kubernetes_public/blob/main/src/ingress/thomas-rausch-ingress.yaml)
-
-Perform the procedures in [Deploy The Current Ingress](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Deploy%20The%20Current%20Ingress.md) for Services "service/foo-service" and "service/bar-service"
-
-Access the applications "foo" in a browser at this URLs
-
-```
-http://<gke-cluster-external-address>/foo
-http://34.8.144.4/foo
-```
+Access the application "foo" in a browser at the offset URL ".../foo"
 
 ```
 Request served by foo-app
@@ -92,12 +64,7 @@ X-Forwarded-For: 98.253.161.202, 34.8.144.4
 X-Forwarded-Proto: http
 ```
 
-Access the applications "bar" in a browser at this URLs
-
-```
-http://<gke-cluster-external-address>/bar
-http://34.8.144.4/bar
-```
+Access the application "bar" in a browser at the offset URL ".../bar"
 
 ```
 Request served by bar-app
@@ -116,9 +83,6 @@ X-Cloud-Trace-Context: 4533c4d181e326dc16d6d77b7028eec4/12160296242366395395
 X-Forwarded-For: 98.253.161.202, 34.8.144.4
 X-Forwarded-Proto: http
 ```
-
-
-
 
 
 ## 💿 Deploy A MySQL Database
