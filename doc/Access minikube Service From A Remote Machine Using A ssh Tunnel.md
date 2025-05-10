@@ -1,11 +1,17 @@
-# Access A minikube Resource From A Remote Machine Using A ssh Tunnel
+# Access A Kubernetes Resource From A Remote Windows Machine Using A ssh Tunnel
 
+----
+## Prerequisite
+- [Install Kubernetes (Minikube) On Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/fd1faacc417ef3181736e628fa6ca61db1e79131/doc/Install%20Kubernetes%20On%20Linux.md)
+
+----
+## Access A Kubernetes Service
 - Logon a local Windows device
-- Open a SSH connection to the Linux device that hosts minikube/Kubernetes 
+- Open a SSH connection to the Linux device that hosts Kubernetes (minikube) host
   - The IP address of the Linux device is the variable ```ip_address_kubernetes_host```
 
 > [!NOTE]
-> In this example, ```ip_address_kubernetes_service``` = "192.168.49.2"
+> In this example, ```ip_address_kubernetes_host``` = "192.168.0.136"
 
 - Logon the Linux device that hosts minikube/Kubernetes
   - The User ID used to logon the Linux device is the variable ```user_id_kubernetes_host```
@@ -38,7 +44,7 @@ kubernetes         ClusterIP   10.96.0.1       <none>        443/TCP          5d
 web                NodePort    10.104.242.53   <none>        8080:30983/TCP   5d20h
 ```
 
-- Identify the Kubernetes service one wants to access remotely
+- Identify the Kubernetes service to access remotely
 - Identify the internal Kubernetes PORT of this service
   - This PORT is the variable ```tcp_port_kubernetes_service```
 
@@ -48,7 +54,7 @@ web                NodePort    10.104.242.53   <none>        8080:30983/TCP   5d
 > In this example, ```tcp_port_kubernetes_service``` = "31239"
 
 - Open a PowerShell prompt
-- Run the command ```ssh <user_id_kubernetes_host>@<ip_address_kubernetes_host> -L <tcp_port_kubernetes_service>:<ip_address_kubernetes_service>:<tcp_port_local_windows>```
+- Run the command ```ssh <user_id_kubernetes_host>@<ip_address_kubernetes_host> -L <tcp_port_local_windows>:<ip_address_kubernetes_service>:<tcp_port_kubernetes_service>```
 
 > [!NOTE]
 > In this example, we will use "31239" as the variable ```tcp_port_local_windows```
@@ -97,7 +103,56 @@ Last login: Fri May  9 16:38:37 2025 from 192.168.0.212
 - [Which command is used to establish ssh tunnel in windows?](https://serverfault.com/questions/888693/which-command-is-used-to-establish-ssh-tunnel-in-windows) | [serverfault](https://serverfault.com/)
 
 
-## Questions
-- Also works for Ingress?
-- Create multiple SSH tunnels to ALL Kubernetes services?
-  - [Tunneler]|(https://bitvise.com/tunnelier) | Bitvise
+## Access A Kubernetes Ingress
+Accessing a Kubernetes ingress is much like accessing a Kubernetes service
+
+- Obtain these variables in the same way as when accessing a Kubernetes service
+
+  - ```user_id_kubernetes_host```
+  - ```ip_address_kubernetes_host```
+  - ```tcp_port_local_windows```
+
+- Run the command ```kubectl get ingress``` on the Linux device
+```
+$ kubectl get ingress
+NAME                    CLASS   HOSTS                      ADDRESS        PORTS   AGE
+thomas-rausch-ingress   nginx   *                          192.168.49.2   80      4d6h
+```
+
+- Identify the Kubernetes ingress to access remotely
+- Identify the Kubernetes ADDRESS and PORT of this ingress
+  - This NAME is the variable ```name_kubernetes_ingress```
+  - This ADDRESS is the variable ```ip_address_kubernetes_ingress```
+  - This PORT is the variable ```tcp_port_kubernetes_ingress```
+
+- Run the command ```ssh <user_id_kubernetes_host>@<ip_address_kubernetes_host> -L <tcp_port_local_windows>:<ip_address_kubernetes_ingress>:<tcp_port_kubernetes_ingress>```
+- Observe the ssh tunnel open
+
+- Run the command ```kubectl describe ingress <name_kubernetes_ingress>```
+
+```
+$ kubectl describe ingress thomas-rausch-ingress
+Name:             thomas-rausch-ingress
+Labels:           <none>
+Namespace:        default
+Address:          192.168.49.2
+Ingress Class:    nginx
+Default backend:  <default>
+Rules:
+  Host        Path  Backends
+  ----        ----  --------
+  *
+              /it-tools           it-tools:80 (10.244.0.38:80)
+              /kuard              kuard:8080 (10.244.0.31:8080)
+              /foo                foo-service:8080 (10.244.0.30:8080)
+              /bar                bar-service:8080 (10.244.0.32:8080)
+              /hello-blue-whale   hello-blue-whale:80 (10.244.0.33:80)
+              /hello-minikube     hello-minikube:8080 (10.244.0.29:8080)
+              /web                web:8080 (10.244.0.37:8080)
+Annotations:  <none>
+Events:       <none>
+```
+
+- Any of the Path strings serves as the variable ```<path_kubernetes_ingress>```
+- Open a Web browser
+- Access the URL ```http://localhost:<tcp_port_local_windows>/<path_kubernetes_ingress>```
