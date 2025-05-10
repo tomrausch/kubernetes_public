@@ -1,4 +1,4 @@
-# Access A Kubernetes Resource From A Remote Windows Machine Using A ssh Tunnel
+# Access A Kubernetes Resource From A Remote Device Using A ssh Tunnel
 
 ----
 ## Prerequisite
