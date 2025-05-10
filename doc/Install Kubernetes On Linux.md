@@ -253,6 +253,7 @@ $ minikube start
 * Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
 
+-----
 ## Configure minikube
 
 ### Install The minikube Dashboard
@@ -278,9 +279,117 @@ You can view the list of minikube maintainers at: https://github.com/kubernetes/
 * The 'metrics-server' addon is enabled
 ```
 
-
 ----------
 ## Verify The Kubernetes (minikube) Installation Is Successful 
+
+Run the command  ```docker ps -a``` to observe the minikube container running under docker
+```
+$ docker ps -a
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED        STATUS                    PORTS                                                                                                                                  NAMES
+1507fec77cd5   gcr.io/k8s-minikube/kicbase:v0.0.46   "/usr/local/bin/entr…"   6 days ago     Up 43 hours               127.0.0.1:32788->22/tcp, 127.0.0.1:32789->2376/tcp, 127.0.0.1:32790->5000/tcp, 127.0.0.1:32791->8443/tcp, 127.0.0.1:32792->32443/tcp   minikube
+```
+
+Run the command  ```minikube ssh``` to enter the shell of the minikube container
+
+Run the command  ```ping host.minikube.internal -c 3``` and observe three responses
+```
+docker@minikube:~$ ping host.minikube.internal -c 3
+PING host.minikube.internal (192.168.49.1) 56(84) bytes of data.
+64 bytes from host.minikube.internal (192.168.49.1): icmp_seq=1 ttl=64 time=0.078 ms
+64 bytes from host.minikube.internal (192.168.49.1): icmp_seq=2 ttl=64 time=0.061 ms
+64 bytes from host.minikube.internal (192.168.49.1): icmp_seq=3 ttl=64 time=0.071 ms
+
+--- host.minikube.internal ping statistics ---
+3 packets transmitted, 3 received, 0% packet loss, time 2074ms
+rtt min/avg/max/mdev = 0.061/0.070/0.078/0.007 ms
+```
+
+Run the command  ```docker ps -a``` to observe the kubernetes containers running in the minikube container
+```
+docker@minikube:~$ docker ps -a
+CONTAINER ID   IMAGE                                                COMMAND                  CREATED        STATUS                      PORTS     NAMES
+e084501d97e6   6e38f40d628d                                         "/storage-provisioner"   43 hours ago   Up 43 hours                           k8s_storage-provisioner_storage-provisioner_kube-system_a995879a-3cc2-465a-8d2f-31392ae83c34_5
+d4f0069314be   07655ddf2eeb                                         "/dashboard --insecu…"   43 hours ago   Up 43 hours                           k8s_kubernetes-dashboard_kubernetes-dashboard-7779f9b69b-fprgj_kubernetes-dashboard_b3bb52d6-c980-459e-8216-2d4772f3a0ff_4
+f4538e53210f   corentinth/it-tools                                  "/docker-entrypoint.…"   43 hours ago   Up 43 hours                           k8s_it-tools_it-tools-6f9bd54c48-lxhgh_default_2c367fdd-025a-4676-810c-b3e497606069_2
+6de3c300a73e   ee44bc236803                                         "/usr/bin/dumb-init …"   43 hours ago   Up 43 hours                           k8s_controller_ingress-nginx-controller-56d7c84fd4-th555_ingress-nginx_0d7639bb-a963-46fc-ba5e-eb4a5b8028a9_2
+b53dab05fc54   115053965e86                                         "/metrics-sidecar"       43 hours ago   Up 43 hours                           k8s_dashboard-metrics-scraper_dashboard-metrics-scraper-5d59dccf9b-tx6nx_kubernetes-dashboard_441b0ac1-647a-4b2b-8db3-59f8ecf86f3e_2
+0c01a9b65e52   c69fa2e9cbf5                                         "/coredns -conf /etc…"   43 hours ago   Up 43 hours                           k8s_coredns_coredns-668d6bf9bc-fm6bj_kube-system_bbf6b422-5cf4-422c-a12b-77c94c3de619_2
+4e92e4e264c3   154603634d2c                                         "/controller --port=…"   43 hours ago   Up 43 hours                           k8s_controller_controller-6dd74b674f-l9mct_metallb-system_d2cf3ec6-6703-4ef9-b717-1f0762dbdc45_2
+1c20d6ca3dcb   98013f4df4dd                                         "/hello-app"             43 hours ago   Up 43 hours                           k8s_hello-app_web-75995f7dbf-88qxr_default_47a3a6df-16f8-49be-8e90-9fddd13f72a7_2
+7edc8c5edc9c   07655ddf2eeb                                         "/dashboard --insecu…"   43 hours ago   Exited (2) 43 hours ago               k8s_kubernetes-dashboard_kubernetes-dashboard-7779f9b69b-fprgj_kubernetes-dashboard_b3bb52d6-c980-459e-8216-2d4772f3a0ff_3
+45fb83a40ffe   a53c7068bb01                                         "./wrapper.sh"           43 hours ago   Up 43 hours                           k8s_hello-blue-whale_hello-blue-whale-dfc6c7c69-2wn8c_default_8a5c7502-af8a-409e-a4be-f1f4f6f8d312_2
+645ca88b3603   9056ab77afb8                                         "/bin/echo-server"       43 hours ago   Up 43 hours                           k8s_bar-app_bar-app_default_75288fff-e5f6-40df-be2c-4da3f00a13c5_2
+b2e83012de22   ed8aa6340f15                                         "/speaker --port=747…"   43 hours ago   Up 43 hours                           k8s_speaker_speaker-lr6rf_metallb-system_5faabe38-4d26-4bf8-bc2b-0bba4ae0d448_2
+8be905022ce8   040f9f8aac8c                                         "/usr/local/bin/kube…"   43 hours ago   Up 43 hours                           k8s_kube-proxy_kube-proxy-bzwq8_kube-system_2e36e3cc-bb78-4345-b600-03c568218124_2
+6fb1a5e407cc   1db936caa6ac                                         "/kuard"                 43 hours ago   Up 43 hours                           k8s_kuard-amd64_kuard-85648d5fdc-zz5sm_default_cd556930-155a-4eee-a330-bb5f739089d6_2
+2b211dc89add   6e38f40d628d                                         "/storage-provisioner"   43 hours ago   Exited (1) 43 hours ago               k8s_storage-provisioner_storage-provisioner_kube-system_a995879a-3cc2-465a-8d2f-31392ae83c34_4
+47f6cd7dadfa   9056ab77afb8                                         "/bin/echo-server"       43 hours ago   Up 43 hours                           k8s_foo-app_foo-app_default_6655d5ad-9b3f-48a3-947d-4ee056489ed0_2
+3b22ce5d57e0   9056ab77afb8                                         "/bin/echo-server"       43 hours ago   Up 43 hours                           k8s_echo-server_hello-minikube-ffcbb5874-mmwnk_default_efc1bcd3-fa8f-4078-92fb-ef150aba19b3_2
+ce359419aac1   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_web-75995f7dbf-88qxr_default_47a3a6df-16f8-49be-8e90-9fddd13f72a7_2
+46380109c6b6   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_it-tools-6f9bd54c48-lxhgh_default_2c367fdd-025a-4676-810c-b3e497606069_2
+b88d14f22b65   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_hello-blue-whale-dfc6c7c69-2wn8c_default_8a5c7502-af8a-409e-a4be-f1f4f6f8d312_2
+f7c8801e4859   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_ingress-nginx-controller-56d7c84fd4-th555_ingress-nginx_0d7639bb-a963-46fc-ba5e-eb4a5b8028a9_2
+a48d020d865e   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_dashboard-metrics-scraper-5d59dccf9b-tx6nx_kubernetes-dashboard_441b0ac1-647a-4b2b-8db3-59f8ecf86f3e_2
+fc7d0ba09f43   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_kubernetes-dashboard-7779f9b69b-fprgj_kubernetes-dashboard_b3bb52d6-c980-459e-8216-2d4772f3a0ff_2
+c5f6ef6652e1   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_controller-6dd74b674f-l9mct_metallb-system_d2cf3ec6-6703-4ef9-b717-1f0762dbdc45_2
+0457b4671463   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_coredns-668d6bf9bc-fm6bj_kube-system_bbf6b422-5cf4-422c-a12b-77c94c3de619_2
+0bf1102fe9cf   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_speaker-lr6rf_metallb-system_5faabe38-4d26-4bf8-bc2b-0bba4ae0d448_2
+5906bcb02934   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_kube-proxy-bzwq8_kube-system_2e36e3cc-bb78-4345-b600-03c568218124_2
+59205021a105   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_storage-provisioner_kube-system_a995879a-3cc2-465a-8d2f-31392ae83c34_2
+814bb1d3b251   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_bar-app_default_75288fff-e5f6-40df-be2c-4da3f00a13c5_2
+5766395bf904   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_foo-app_default_6655d5ad-9b3f-48a3-947d-4ee056489ed0_2
+4f03edc093a3   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_hello-minikube-ffcbb5874-mmwnk_default_efc1bcd3-fa8f-4078-92fb-ef150aba19b3_2
+7b100d973d5c   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_kuard-85648d5fdc-zz5sm_default_cd556930-155a-4eee-a330-bb5f739089d6_2
+eec7539951ea   c2e17b8d0f4a                                         "kube-apiserver --ad…"   43 hours ago   Up 43 hours                           k8s_kube-apiserver_kube-apiserver-minikube_kube-system_d72d0a4cf4be077c9919d46b7358a5e8_2
+90ce8ee850cb   a389e107f4ff                                         "kube-scheduler --au…"   43 hours ago   Up 43 hours                           k8s_kube-scheduler_kube-scheduler-minikube_kube-system_d14ce008bee3a1f3bd7cf547688f9dfe_2
+789d8e397afa   a9e7e6b294ba                                         "etcd --advertise-cl…"   43 hours ago   Up 43 hours                           k8s_etcd_etcd-minikube_kube-system_2b4b75c2a289008e0b381891e9683040_2
+bedf34947024   8cab3d2a8bd0                                         "kube-controller-man…"   43 hours ago   Up 43 hours                           k8s_kube-controller-manager_kube-controller-manager-minikube_kube-system_843c74f7b3bc7d7040a05c31708a6a30_2
+3f3d7a45c209   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_kube-apiserver-minikube_kube-system_d72d0a4cf4be077c9919d46b7358a5e8_2
+f31867488a77   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_kube-scheduler-minikube_kube-system_d14ce008bee3a1f3bd7cf547688f9dfe_2
+c6d4b062841b   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_etcd-minikube_kube-system_2b4b75c2a289008e0b381891e9683040_2
+e7facaee53d1   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Up 43 hours                           k8s_POD_kube-controller-manager-minikube_kube-system_843c74f7b3bc7d7040a05c31708a6a30_2
+9d73974a213c   corentinth/it-tools                                  "/docker-entrypoint.…"   43 hours ago   Exited (0) 43 hours ago               k8s_it-tools_it-tools-6f9bd54c48-lxhgh_default_2c367fdd-025a-4676-810c-b3e497606069_1
+118eb9b91e64   154603634d2c                                         "/controller --port=…"   43 hours ago   Exited (2) 43 hours ago               k8s_controller_controller-6dd74b674f-l9mct_metallb-system_d2cf3ec6-6703-4ef9-b717-1f0762dbdc45_1
+6b3101f7fb08   ee44bc236803                                         "/usr/bin/dumb-init …"   43 hours ago   Exited (1) 43 hours ago               k8s_controller_ingress-nginx-controller-56d7c84fd4-th555_ingress-nginx_0d7639bb-a963-46fc-ba5e-eb4a5b8028a9_1
+71672a70131e   9056ab77afb8                                         "/bin/echo-server"       43 hours ago   Exited (2) 43 hours ago               k8s_bar-app_bar-app_default_75288fff-e5f6-40df-be2c-4da3f00a13c5_1
+acd4933161f5   98013f4df4dd                                         "/hello-app"             43 hours ago   Exited (2) 43 hours ago               k8s_hello-app_web-75995f7dbf-88qxr_default_47a3a6df-16f8-49be-8e90-9fddd13f72a7_1
+a1af7d13dc19   1db936caa6ac                                         "/kuard"                 43 hours ago   Exited (2) 43 hours ago               k8s_kuard-amd64_kuard-85648d5fdc-zz5sm_default_cd556930-155a-4eee-a330-bb5f739089d6_1
+fbf64be8a6a0   9056ab77afb8                                         "/bin/echo-server"       43 hours ago   Exited (2) 43 hours ago               k8s_foo-app_foo-app_default_6655d5ad-9b3f-48a3-947d-4ee056489ed0_1
+ca110b8f1d68   9056ab77afb8                                         "/bin/echo-server"       43 hours ago   Exited (2) 43 hours ago               k8s_echo-server_hello-minikube-ffcbb5874-mmwnk_default_efc1bcd3-fa8f-4078-92fb-ef150aba19b3_1
+2e8fc1c5aeb7   115053965e86                                         "/metrics-sidecar"       43 hours ago   Exited (2) 43 hours ago               k8s_dashboard-metrics-scraper_dashboard-metrics-scraper-5d59dccf9b-tx6nx_kubernetes-dashboard_441b0ac1-647a-4b2b-8db3-59f8ecf86f3e_1
+ffcd6906c8fe   a53c7068bb01                                         "./wrapper.sh"           43 hours ago   Exited (0) 43 hours ago               k8s_hello-blue-whale_hello-blue-whale-dfc6c7c69-2wn8c_default_8a5c7502-af8a-409e-a4be-f1f4f6f8d312_1
+dcba39bf0335   c69fa2e9cbf5                                         "/coredns -conf /etc…"   43 hours ago   Exited (0) 43 hours ago               k8s_coredns_coredns-668d6bf9bc-fm6bj_kube-system_bbf6b422-5cf4-422c-a12b-77c94c3de619_1
+61bb40cf4569   ed8aa6340f15                                         "/speaker --port=747…"   43 hours ago   Exited (0) 43 hours ago               k8s_speaker_speaker-lr6rf_metallb-system_5faabe38-4d26-4bf8-bc2b-0bba4ae0d448_1
+5b69e2c33fef   040f9f8aac8c                                         "/usr/local/bin/kube…"   43 hours ago   Exited (2) 43 hours ago               k8s_kube-proxy_kube-proxy-bzwq8_kube-system_2e36e3cc-bb78-4345-b600-03c568218124_1
+c33497b2f6e9   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_kuard-85648d5fdc-zz5sm_default_cd556930-155a-4eee-a330-bb5f739089d6_1
+ad9c2d3cd41c   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_foo-app_default_6655d5ad-9b3f-48a3-947d-4ee056489ed0_1
+35e2aec31f72   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_web-75995f7dbf-88qxr_default_47a3a6df-16f8-49be-8e90-9fddd13f72a7_1
+abde04c231ca   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_controller-6dd74b674f-l9mct_metallb-system_d2cf3ec6-6703-4ef9-b717-1f0762dbdc45_1
+fe16e48a0a3f   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_bar-app_default_75288fff-e5f6-40df-be2c-4da3f00a13c5_1
+917f35ca2e11   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_ingress-nginx-controller-56d7c84fd4-th555_ingress-nginx_0d7639bb-a963-46fc-ba5e-eb4a5b8028a9_1
+aac158004cf6   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_hello-minikube-ffcbb5874-mmwnk_default_efc1bcd3-fa8f-4078-92fb-ef150aba19b3_1
+65d9f1dabd38   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_it-tools-6f9bd54c48-lxhgh_default_2c367fdd-025a-4676-810c-b3e497606069_1
+fbd16294e99d   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_hello-blue-whale-dfc6c7c69-2wn8c_default_8a5c7502-af8a-409e-a4be-f1f4f6f8d312_1
+ea7682fbfefe   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_coredns-668d6bf9bc-fm6bj_kube-system_bbf6b422-5cf4-422c-a12b-77c94c3de619_1
+5ec91e463e7f   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_dashboard-metrics-scraper-5d59dccf9b-tx6nx_kubernetes-dashboard_441b0ac1-647a-4b2b-8db3-59f8ecf86f3e_1
+ee9a7fd7efee   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_kube-proxy-bzwq8_kube-system_2e36e3cc-bb78-4345-b600-03c568218124_1
+22b97ed72875   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_speaker-lr6rf_metallb-system_5faabe38-4d26-4bf8-bc2b-0bba4ae0d448_1
+30a4b90d6ba2   a389e107f4ff                                         "kube-scheduler --au…"   43 hours ago   Exited (1) 43 hours ago               k8s_kube-scheduler_kube-scheduler-minikube_kube-system_d14ce008bee3a1f3bd7cf547688f9dfe_1
+bd73ed3da6e7   c2e17b8d0f4a                                         "kube-apiserver --ad…"   43 hours ago   Exited (137) 43 hours ago             k8s_kube-apiserver_kube-apiserver-minikube_kube-system_d72d0a4cf4be077c9919d46b7358a5e8_1
+e7d9ffa8e353   a9e7e6b294ba                                         "etcd --advertise-cl…"   43 hours ago   Exited (0) 43 hours ago               k8s_etcd_etcd-minikube_kube-system_2b4b75c2a289008e0b381891e9683040_1
+1268c3ea7405   8cab3d2a8bd0                                         "kube-controller-man…"   43 hours ago   Exited (2) 43 hours ago               k8s_kube-controller-manager_kube-controller-manager-minikube_kube-system_843c74f7b3bc7d7040a05c31708a6a30_1
+c05aa6fbe75b   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_kube-scheduler-minikube_kube-system_d14ce008bee3a1f3bd7cf547688f9dfe_1
+d90b615045a3   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_kube-apiserver-minikube_kube-system_d72d0a4cf4be077c9919d46b7358a5e8_1
+e0dddb5a6b00   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_kube-controller-manager-minikube_kube-system_843c74f7b3bc7d7040a05c31708a6a30_1
+f74ebd463641   registry.k8s.io/pause:3.10                           "/pause"                 43 hours ago   Exited (0) 43 hours ago               k8s_POD_etcd-minikube_kube-system_2b4b75c2a289008e0b381891e9683040_1
+76c85b651e47   a62eeff05ba5                                         "/kube-webhook-certg…"   6 days ago     Exited (0) 6 days ago                 k8s_patch_ingress-nginx-admission-patch-pqmb6_ingress-nginx_aefdbe4d-9073-4568-85be-7dc5fa1ddee1_1
+76b169be8c4c   registry.k8s.io/ingress-nginx/kube-webhook-certgen   "/kube-webhook-certg…"   6 days ago     Exited (0) 6 days ago                 k8s_create_ingress-nginx-admission-create-gpgxf_ingress-nginx_217b5c30-c39e-4758-b703-9ea03638502c_0
+0f0371742d9e   registry.k8s.io/pause:3.10                           "/pause"                 6 days ago     Exited (0) 6 days ago                 k8s_POD_ingress-nginx-admission-create-gpgxf_ingress-nginx_217b5c30-c39e-4758-b703-9ea03638502c_0
+2da1ca65c200   registry.k8s.io/pause:3.10                           "/pause"                 6 days ago     Exited (0) 6 days ago                 k8s_POD_ingress-nginx-admission-patch-pqmb6_ingress-nginx_aefdbe4d-9073-4568-85be-7dc5fa1ddee1_0
+```
+
+Run the command  ```exit``` to exit the shell of the minikube container
+
 Run the command  ```kubectl version``` to determine the current version of the kubectl application
 ```
 $ kubectl version
