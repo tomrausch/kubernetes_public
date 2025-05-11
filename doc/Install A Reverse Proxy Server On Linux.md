@@ -1,5 +1,6 @@
 # Install A Reverse Proxy Server (nginx) On Linux (Ubuntu)
 
+## Procedure
 
 Install package "apache2-utils"
 ```
@@ -161,6 +162,8 @@ Access the reverse proxy at ```http://<YOUR_SERVER_IP>:8080```
 Must authenticate to nginx reverse proxy
 
 
-References
+## References
+- [Access Minikube Cluster from Another Device within the same network](https://medium.com/@bsatnam98/access-minikube-cluster-from-another-device-within-the-same-network-9bbd3f06451) | [@bsatman](https://medium.com/@bsatnam98/), [Medium](https://medium.com/)
 - [Accessing a remote minikube from a local computer](https://faun.pub/accessing-a-remote-minikube-from-a-local-computer-fd6180dd66dd) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
-- [How to setup an Nginx reverse proxy server example](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/How-to-setup-Nginx-reverse-proxy-servers-by-example)
+- [Exposing Minikube Kubernetes Cluster with Nginx as proxy](https://faun.pub/exposing-minikube-kubernetes-cluster-with-nginx-as-proxy-9038fcc9dd7e) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
+- [How to setup an Nginx reverse proxy server example](https://www.theserverside.com/blog/Coffee-Talk-Java-News-Stories-and-Opinions/How-to-setup-Nginx-reverse-proxy-servers-by-example) | [The Server Side](https://www.theserverside.com/)
