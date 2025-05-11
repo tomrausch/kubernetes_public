@@ -253,32 +253,6 @@ $ minikube start
 * Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
 
------
-## Configure minikube
-
-### Install The minikube Dashboard
-```
-$ minikube addons enable dashboard
-* dashboard is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
-You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
-  - Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
-  - Using image docker.io/kubernetesui/dashboard:v2.7.0
-* Some dashboard features require the metrics-server addon. To enable all features please run:
-
-        minikube addons enable metrics-server
-
-* The 'dashboard' addon is enabled
-```
-
-### Enable The minikube Metrics Server
-```
-$ minikube addons enable metrics-server
-* metrics-server is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
-You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
-  - Using image registry.k8s.io/metrics-server/metrics-server:v0.7.2
-* The 'metrics-server' addon is enabled
-```
-
 ----------
 ## Verify The Kubernetes (minikube) Installation Is Successful 
 
@@ -287,6 +261,73 @@ Run the command  ```docker ps -a``` to observe the minikube container running un
 $ docker ps -a
 CONTAINER ID   IMAGE                                 COMMAND                  CREATED        STATUS                    PORTS                                                                                                                                  NAMES
 1507fec77cd5   gcr.io/k8s-minikube/kicbase:v0.0.46   "/usr/local/bin/entr…"   6 days ago     Up 43 hours               127.0.0.1:32788->22/tcp, 127.0.0.1:32789->2376/tcp, 127.0.0.1:32790->5000/tcp, 127.0.0.1:32791->8443/tcp, 127.0.0.1:32792->32443/tcp   minikube
+```
+
+
+Run the command  ```kubectl version``` to determine the current version of the kubectl application
+```
+$ kubectl version
+Client Version: v1.32.2
+Kustomize Version: v5.5.0
+Server Version: v1.32.2-gke.1182003
+```
+
+Run the command  ```kubectl config get-contexts``` to determine the current Context of the kubectl application
+```bash
+$ kubectl config get-contexts
+CURRENT   NAME             CLUSTER          AUTHINFO         NAMESPACE
+          docker-desktop   docker-desktop   docker-desktop
+*         minikube         minikube         minikube         default
+```
+
+Run the command ```cat ~/.kube/config``` and inspect the contents of the minikube configuration file
+- An explanation of the fields is at [Accessing a remote minikube from a local computer](https://faun.pub/accessing-a-remote-minikube-from-a-local-computer-fd6180dd66dd) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
+```
+$ cat ~/.kube/config
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJY2hLRDhlRTlYdzR3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TlRBME1UWXhORFF3TWpCYUZ3MHpOVEEwTVRReE5EUXdNakJhTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUUROcTFHbzZ3QURMd0wvY1lWMUtFREtHbG1aOTFLNkNEa2orTjFWeEJicDNpR2kxQTcvMHRvakkxYU4KMXZmMTN1M0JYeStXMVVPeS8xYzl3anZLd0tLdzNPV2ljdm1aL1F5a1ZlWXF0azI3VEtkRldWU29GalFGemx3UQozRU03MjkyYWwxeHRqQ3I1UkZUdnQ5Wk5Ya0txdnJtS3B0QXd6Q2dIT1p2R2NsMkZWVnp6dmUrZUdQTS9tUThhCkZWVUtPeWovOXBvdmROb21zSkNWSUZzNnM0WVM4aWVyR3FOSm5PZ0doWTNtR1NZclRIdzlXK1kxNWNIb1hzdnYKN1QrL1V3SGxNMzMvSmNPc1BlTTRIUUNhcEhpTHJDcmpNNTJlMHc5UHJuQ1M5b0E5TDZWL2pkT3E3VUt3NXMrMgprZkJVRDd2WnEwZytxc3g4d3NuOWJrUTVBc0hkQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJSTU9yZE1QQzJPYklqams1OFN4NmtScEhDNXJEQVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQ3NUTzF4dWYxTQp4WmE4cVJoMUV3SjFiMUgxV05ObkNMSmYxbXA2c3VmZkJsemIzcWk1bmdJMDF4dWM3R240dnA4dEVFSTJCV0NCCndVWnUyWmhBNjk2TjVKZ01qa01lNnpBdmpyWTVraDVaanZVRXFFWFlNTURuWnE3VkxJMEJnZlVocFdURkYzNFQKL21VQmkzK2tOQTZrcGJhclRtUWUycW5ieElWbTZ1amZIU2lwLzA2RDl1Z2hTZUlqNm85ZGdDNVk0WFUwTnBGWQpKWVZzdEdPSm5hUEQ1MWwzeGRzL25MMTZROXFETXFHMUdldlN3R0JBZkY1cXFPNFBuYXFzNU9oVjJSTGwzdXdvCnc3YzNjS3o4YUUwdklSbG5CQkg0OE83ZU1xZmdjNVNSMXI5VDRobWE1OFZnZXFsY0NEc1lHdzhmSjFxY1RhRWoKRENJR2xZSy9uam9BCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://kubernetes.docker.internal:6443
+  name: docker-desktop
+- cluster:
+    certificate-authority: /home/tomrausch/.minikube/ca.crt
+    extensions:
+    - extension:
+        last-update: Thu, 08 May 2025 22:02:42 CDT
+        provider: minikube.sigs.k8s.io
+        version: v1.35.0
+      name: cluster_info
+    server: https://192.168.49.2:8443
+  name: minikube
+contexts:
+- context:
+    cluster: docker-desktop
+    user: docker-desktop
+  name: docker-desktop
+- context:
+    cluster: minikube
+    extensions:
+    - extension:
+        last-update: Thu, 08 May 2025 22:02:42 CDT
+        provider: minikube.sigs.k8s.io
+        version: v1.35.0
+      name: context_info
+    namespace: default
+    user: minikube
+  name: minikube]
+current-context: minikube
+kind: Config
+preferences: {}
+users:
+- name: docker-desktop
+  user:
+    client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURRakNDQWlxZ0F3SUJBZ0lJVVpqMEhLVytET0V3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TlRBME1UWXhORFF3TWpCYUZ3MHlOakEwTVRZeE5EUXdNakJhTURZeApGekFWQmdOVkJBb1REbk41YzNSbGJUcHRZWE4wWlhKek1Sc3dHUVlEVlFRREV4SmtiMk5yWlhJdFptOXlMV1JsCmMydDBiM0F3Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLQW9JQkFRRE56TlNHbGZmN2kzK0wKWnVmUkI2aXdFL1V0cENRd2tvTjNkQnN4VUVFbk13ZzJoY1NockxFeDNQbG95aVYzRnViYXZ3eTAwbnVPcndYMwprT0JJdXBhSDBPbmlFNE90Qk5walBERy90SExwa3pkK1UvanV0TThrTzdTM2x1em5yRG1nYXIxdkllWWFtNnhYClRkWVRaNUdLWjN2ODlzeWhkK2xYMDhTTDdZdk83dGtnSU12V3ZWQm5IMmlnKzVvQk9rVmNtNkxVcG9DUFlvY3oKR0lYY2pmcE45RVdZU0hlVFQ3MGQ2NEduKzdtbmQxRndsVldFMkhuckdMdEVpWlRSL1hZT2RJeXA3T3paUmk0SwpMNU9hbjZ1Zi9KWTcvYWU2OWU2RngxdnU3ZkJMZkJvekFCbmI3U20zZGQ2bDlVNHkyK1d6dWR5dS9PeXJkT3ZkCldTUmt6RUNwQWdNQkFBR2pkVEJ6TUE0R0ExVWREd0VCL3dRRUF3SUZvREFUQmdOVkhTVUVEREFLQmdnckJnRUYKQlFjREFqQU1CZ05WSFJNQkFmOEVBakFBTUI4R0ExVWRJd1FZTUJhQUZFdzZ0MHc4TFk1c2lPT1RueExIcVJHawpjTG1zTUIwR0ExVWRFUVFXTUJTQ0VtUnZZMnRsY2kxbWIzSXRaR1Z6YTNSdmNEQU5CZ2txaGtpRzl3MEJBUXNGCkFBT0NBUUVBTDRiRW56QXhTM0ozV2locEtDam5LTnFYZ1UvUktyWnpiWVdJYW8vMjVQUHVURGd1UU1NQzhFd1UKb2VZUmI1bmQ4NUg5ZmJhOTFQdTEvUUdzVWMzMkdDdzBhWCsyY1hxQTRJZW10WFl3blFodkgvZml1Yks4QzRSWgowTUk5RGo2eFBkYUxnQysyVUFzemFCa1o4a0FnZUNTNzRqWXJFcndHendMMXc1dnpTck9maVJ6VmV0VkRoMys3ClExbUVrTFJqSkErZEJkZFlpQjRsMkJWOEkvWlEwSURFSWxNWThMelBJOHVxbXNmUTFNdVk1cUtoUURCV096MTcKejlqcE9EazU1ZE43SXA3OUFzWlJiZ1M0c01XdWhwRGI5amlVRHJIaFgxY0Y5SnZTUDRDS2hLejd6aVZlL0NzSgpRTldzaG1yVFpSOUFYWVhGUnJqbVR4eGdXZHM4elE9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    client-key-data: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcEFJQkFBS0NBUUVBemN6VWhwWDMrNHQvaTJibjBRZW9zQlAxTGFRa01KS0RkM1FiTVZCQkp6TUlOb1hFCm9heXhNZHo1YU1vbGR4Ym0ycjhNdE5KN2pxOEY5NURnU0xxV2g5RHA0aE9EclFUYVl6d3h2N1J5NlpNM2ZsUDQKN3JUUEpEdTB0NWJzNTZ3NW9HcTlieUhtR3B1c1YwM1dFMmVSaW1kNy9QYk1vWGZwVjlQRWkrMkx6dTdaSUNETAoxcjFRWng5b29QdWFBVHBGWEp1aTFLYUFqMktITXhpRjNJMzZUZlJGbUVoM2swKzlIZXVCcC91NXAzZFJjSlZWCmhOaDU2eGk3UkltVTBmMTJEblNNcWV6czJVWXVDaStUbXArcm4veVdPLzJudXZYdWhjZGI3dTN3UzN3YU13QVoKMiswcHQzWGVwZlZPTXR2bHM3bmNydnpzcTNUcjNWa2taTXhBcVFJREFRQUJBb0lCQUIrUmpRUThHdmNPRmZtSApSb1lNKzdaT3lXdy80b0ZFNkQrNW9yWTB6bG01L1VlSHkzclZaN1R6WlpyS2IyYk9MNGxjaHhGeHZCeE9Bc2RRCkJPZURIN1lqdU16Q0c0Kzl6OVlyRktLSWhwd0h4aHB0dlNDNHdaR1lTd2RpY21LelMzK3MvL1A5S2pQb3IwNFIKRllhU2U0UFVqZk5tMUVyc2Z2SEcvVDVOcVFXTDNYMDRadFVIeDR4YjFEY09xVmM0WVVsZ2hJWFBYYU1STjZNbQpua1Y3MHFNcDk2eHN0YW1LcEpwbk5ab0VYV3BZZmNRMk9GMU1UUFI5QXlVOFV1V1pueStNcEFzWXd0eWkwREh2CmczclpmSkZhbU4wc3FJRllIUndnTkxubmhrUTFQcXJSaThkanlSeUdJZnQ1L0ZFRzBPS1RDeDZycCtya1RzTEoKa0dOTWN5VUNnWUVBNW1Cam4vQmJ5N29nQ1IxR1Vqa0FOMVVuZGo0d2dPNzdaT1lkeWtMeEErSFRlQS9WSWdBVApCV0c3dThXUEJYOXE2Q2lXdHhCcjBuYmUzNFJOYklvTWVCV3RDMjN1YlVDekp6NDNhWVdsbzRxaDhsUGlZTWRlCm1odUxDYi81bzdJc2FiMFRENmJrRG94LzhRMjNmVkcwQjArTEw0VUk2cUJzNDJickUwTTVKNGNDZ1lFQTVMQ3EKbXl2TytrdVZqU0FSQzljb0NjSFdYckhRTHk4cDMyVUprWFBzSitBMU5GblFkU3U5VC8xSHJ6MkRqM0YzY0IwSgpFZ2NDZStPQ1VOVTB5MmwzTXNHbTVQelNBeFphdWtmZFBMMFNmaXM1YmFXQWowd3hsZHFoV0RjLzRBWFVpeWNiCk1WazdnNTRVOVFQVkFkS3dMMi9GVDFVZlFoTGVicG0zV2MvV0FrOENnWUVBdmJFQ2R6Q0h0V0dGZlZ2QWluVnEKNnlUUHdIb0dvRE9uaG5aQWMwblpnSFBURjFvYUNjdjczWU9TL0ZMNHAvTTV5UDJhMUJQT1pGY0N2eE1HV1dmMgpTbTYydE9HSTRDYlZIV3dLWG5Yd1pKQUROekRCQnlWQ2pTdyt1UUY5QWIvMDkvLzZrUG0vY1FkWlZkZ1FqVHpZCk91alJWNGg0UmhGZ2Q0Skg3KzE3UTBNQ2dZQXVENmROT2JXbWxESzdDZ3BrNkNFWVZnSm5jRWtPTitHbkxTS1EKT1ZrSGJ4RklTZzdDaXR6R2o2MHdqcU5BOFFtdGV5dW9oZURxTXhpOFR6VWpBMHNPM2hKUGJOeWY0cEREbEZYcgpOZW5UbjhFaFpJUlFXSGhrUm5UWTM4ZnR4ejdZQ0RoaDZDY2tpMktOTndoZ0paOTI3bncvVGxYTmFSK0VCMUgyCnRQWFY0UUtCZ1FDZzlaTWhySXY3d2pNZzVGYmVqNWQ0azQ4Q09xNmN4NFVuQ0NrR3hnbzMzeitMaTIvVk5wb0cKWGZQa3k4OFJJL3QzcUcrNDlBd2tKRDVwWVR5My80SC9uSStpdStOQUpoVTNmN3BvRUwyK3J5eDBEZURPdUZ1NgphTkpkdytHY0hEUkVDRE9BbUliMzdkWWFnY2RqMFVRL0VPaDNUVnNyVVhzL1RlN01HUVZRalE9PQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+- name: minikube
+  user:
+    client-certificate: /home/tomrausch/.minikube/profiles/minikube/client.crt
+    client-key: /home/tomrausch/.minikube/profiles/minikube/client.key
 ```
 
 Run the command  ```minikube ssh``` to enter the shell of the minikube container
@@ -390,18 +431,30 @@ f74ebd463641   registry.k8s.io/pause:3.10                           "/pause"    
 
 Run the command  ```exit``` to exit the shell of the minikube container
 
-Run the command  ```kubectl version``` to determine the current version of the kubectl application
+
+
+-----
+## Configure minikube
+
+### Install The minikube Dashboard
 ```
-$ kubectl version
-Client Version: v1.32.2
-Kustomize Version: v5.5.0
-Server Version: v1.32.2-gke.1182003
+$ minikube addons enable dashboard
+* dashboard is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
+You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
+  - Using image docker.io/kubernetesui/metrics-scraper:v1.0.8
+  - Using image docker.io/kubernetesui/dashboard:v2.7.0
+* Some dashboard features require the metrics-server addon. To enable all features please run:
+
+        minikube addons enable metrics-server
+
+* The 'dashboard' addon is enabled
 ```
 
-Run the command  ```kubectl config get-contexts``` to determine the current Context of the kubectl application
-```bash
-$ kubectl config get-contexts
-CURRENT   NAME             CLUSTER          AUTHINFO         NAMESPACE
-          docker-desktop   docker-desktop   docker-desktop
-*         minikube         minikube         minikube         default
+### Enable The minikube Metrics Server
+```
+$ minikube addons enable metrics-server
+* metrics-server is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
+You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
+  - Using image registry.k8s.io/metrics-server/metrics-server:v0.7.2
+* The 'metrics-server' addon is enabled
 ```
