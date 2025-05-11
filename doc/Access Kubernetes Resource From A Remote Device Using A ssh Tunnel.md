@@ -156,3 +156,7 @@ Events:       <none>
 - Any of the Path strings serves as the variable ```<path_kubernetes_ingress>```
 - Open a Web browser
 - Access the URL ```http://localhost:<tcp_port_local_windows>/<path_kubernetes_ingress>```
+
+----
+## Reference
+- [Can someone explain SSH tunnel in a simple way?](https://stackoverflow.com/questions/5280827/can-someone-explain-ssh-tunnel-in-a-simple-way) | StackOverflow
