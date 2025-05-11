@@ -158,6 +158,8 @@ Access the reverse proxy at ```http://<YOUR_SERVER_IP>:8080```
 - ```http://<YOUR_SERVER_IP>:8080\it-tools```
 - ...
 
+Must authenticate to nginx reverse proxy
+
 
 References
 - [Accessing a remote minikube from a local computer](https://faun.pub/accessing-a-remote-minikube-from-a-local-computer-fd6180dd66dd) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
