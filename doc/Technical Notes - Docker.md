@@ -1,10 +1,11 @@
 # <img src="https://cdn.iconscout.com/icon/free/png-512/free-docker-logo-icon-download-in-svg-png-gif-file-formats--technology-social-media-vol-2-pack-logos-icons-2944835.png?f=webp&w=256" width="35" height="35"></img> Docker References
 
 ## 🟤 Articles
-
-- [Docker Swarm vs. Kubernetes: Battle Of The Container Orchestration Platforms](https://www.xda-developers.com/docker-swarm-vs-kubernetes/) | XDA
-- [Four Ways To Host Docker Containers Online](https://www.xda-developers.com/ways-host-docker-containers-online/) | XDA
-
+- [Docker Swarm vs. Kubernetes: Battle Of The Container Orchestration Platforms](https://www.xda-developers.com/docker-swarm-vs-kubernetes/) | [XDA](https://www.xda-developers.com/)
+- [Docker Workshop](https://docs.docker.com/get-started/workshop/) | Docker
+- [Four Ways To Host Docker Containers Online](https://www.xda-developers.com/ways-host-docker-containers-online/) | [XDA](https://www.xda-developers.com/)
+- [How I Set Up a Home Server That I Can Access from Anywhere](https://hiruthicsha.medium.com/how-i-set-up-a-home-server-that-i-can-access-from-anywhere-722b7339f54a) | [hiruthicsha](https://hiruthicsha.medium.com/), [Medium](https://medium.com/)
+- [How to Host Your Own Website with Docker and Nginx Proxy Manager](https://www.howtogeek.com/how-to-host-your-own-website-with-docker-and-nginx-proxy-manager/) | How-To Geek
 
 ## ⚪ Library
 ### [Docker: Up and Running, 3rd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/docker-up/9781098131814/) | O'Reilly via S.T.D.L.
