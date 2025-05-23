@@ -3,18 +3,19 @@
 ## 🔴 Overview
 
 ### Articles
-- 📃[Argo CD and Crossplane for Managing the Whole Application Stack](https://blog.upbound.io/argo-crossplane-managing-application-stack) | Upbound Blog
-- 📃[Case Study: Grupo Boticário + Crossplane](https://blog.upbound.io/argo-crossplane-managing-application-stack) | Upbound Case Study
-- 📃[Composing a Platform by Patching Crossplane Resources](https://thenewstack.io/composing-a-platform-by-patching-crossplane-resources/) | The New Stack
-- 📃[Crossplane: What Most People Get Wrong (and How to Get It Right)](https://thenewstack.io/crossplane-what-most-people-get-wrong-and-how-to-get-it-right/) | The New Stack
-- 📃[The Future Of Infrastructure as Code](https://resources.upbound.io/infrastructure-as-code-iac/the-future-of-infrastructure-as-code) | Upbound Tech Brief
-- 📃[Introducing Spaces: Bring Upbound Managed Control Planes into your own environment](https://blog.upbound.io/announcing-spaces) | Upbound Blog
-- 📃[Learning to Troubleshoot Crossplane](https://blog.upbound.io/learning-to-troubleshoot-crossplane) | Upbound Blog
-- 📃[Unlocking the Golden Age of Cloud Computing](https://blog.upbound.io/upbound-general-availability) | Upbound Blog
-- 📃[Upbound General Availability](https://blog.upbound.io/upbound-general-availability) | Upbound Blog
-- 📃[What is a Control Plane?](https://www.vectra.ai/learning/control-plane) | Vectra AI
-- 📃[What is Crossplane?](https://blog.upbound.io/what-is-crossplane) | Upbound Blog
-- 📃[Where Are My Claim’s Connection Details?](https://blog.crossplane.io/faq-2-claim-connection-details/) | Crossplane Blog
+- 📃[Argo CD and Crossplane for Managing the Whole Application Stack](https://blog.upbound.io/argo-crossplane-managing-application-stack) | [Upbound Blog](https://blog.upbound.io/)
+- 📃[Case Study: Grupo Boticário + Crossplane](https://blog.upbound.io/argo-crossplane-managing-application-stack) | [Upbound Blog](https://blog.upbound.io/)
+- 📃[Composing a Platform by Patching Crossplane Resources](https://thenewstack.io/composing-a-platform-by-patching-crossplane-resources/) | [The New Stack](https://thenewstack.io/)
+- 📃[Crossplane: What Most People Get Wrong (and How to Get It Right)](https://thenewstack.io/crossplane-what-most-people-get-wrong-and-how-to-get-it-right/) | [The New Stack](https://thenewstack.io/)
+- 📃[The Future Of Infrastructure as Code](https://resources.upbound.io/infrastructure-as-code-iac/the-future-of-infrastructure-as-code) | [Upbound Resource Center](https://resources.upbound.io/)
+- 📃[Getting my feet wet with Crossplane](https://medium.com/itnext/getting-my-feet-wet-with-crossplane-3fc5da5717b8) | [Nicolas Fränkel](https://medium.com/@nfrankel). [ITNEXT](https://itnext.io/), [Medium](https://medium.com/)
+- 📃[Introducing Spaces: Bring Upbound Managed Control Planes into your own environment](https://blog.upbound.io/announcing-spaces) | [Upbound Blog](https://blog.upbound.io/)
+- 📃[Learning to Troubleshoot Crossplane](https://blog.upbound.io/learning-to-troubleshoot-crossplane) | [Upbound Blog](https://blog.upbound.io/)
+- 📃[Unlocking the Golden Age of Cloud Computing](https://blog.upbound.io/upbound-general-availability) | [Upbound Blog](https://blog.upbound.io/)
+- 📃[Upbound General Availability](https://blog.upbound.io/upbound-general-availability) | [Upbound Blog](https://blog.upbound.io/)
+- 📃[What is a Control Plane?](https://www.vectra.ai/learning/control-plane) | [Vectra AI](https://www.vectra.ai/)
+- 📃[What is Crossplane?](https://blog.upbound.io/what-is-crossplane) | [Upbound Blog](https://blog.upbound.io/)
+- 📃[Where Are My Claim’s Connection Details?](https://blog.crossplane.io/faq-2-claim-connection-details/) | [Crossplane Blog](https://blog.crossplane.io/)
 
 ### Recordings
 - 🎦 [Crossplane](https://www.youtube.com/@Crossplane/featured) | YouTube
