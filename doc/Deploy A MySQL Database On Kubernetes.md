@@ -19,7 +19,8 @@ $ kubectl expose deployment mysql --type=NodePort --port=3306
 service/mysql exposed
 ```
 
-*Confirm The Deployment And Service*
+### Confirm The Deployment And Service
+- [Confirm The Deployment And Service](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Confirm%20The%20Deployment%20And%20Service.md)
 
 ### Reference
 - [Run a Single-Instance Stateful Application](https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/)
