@@ -1,4 +1,4 @@
-# Access A Kubernetes Resource From A Remote Device
+# Access A Kubernetes Resources From A Remote Device
 
 ## Prerequisite
 - [Install Kubernetes (Minikube) On Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/fd1faacc417ef3181736e628fa6ca61db1e79131/doc/Install%20Kubernetes%20On%20Linux.md)
