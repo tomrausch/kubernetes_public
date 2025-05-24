@@ -1,4 +1,4 @@
-# Confirm The Deployment And Service
+# Confirm A Kubernetes Deployment And Service
 
 ## Confirm The Deployment Is Ready
 
