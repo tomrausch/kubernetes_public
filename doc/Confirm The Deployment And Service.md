@@ -191,16 +191,6 @@ Access the URL from the command ```minikube service <service-name>```
 
 Observe the application in the local browser
 
-
-----------
-## Access The Application In A Browser (Worldwide)
-
-https://ngrok.com/docs/agent/
-
-https://ngrok.com/docs/agent/
-
-ngrok http http://192.168.49.2:31026 --traffic-policy-file traffic-policy.yaml
-
 --------
 ## Create And Preserve YAML Files (Optional)
 Run these ```kubectl``` commands to "get" the Kubernetes API Resources in YAML format
