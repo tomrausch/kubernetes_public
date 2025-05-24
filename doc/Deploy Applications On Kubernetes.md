@@ -1,4 +1,4 @@
-# Deploy Applications In Kubernetes
+# Deploy Applications On Kubernetes
 
 --------
 
