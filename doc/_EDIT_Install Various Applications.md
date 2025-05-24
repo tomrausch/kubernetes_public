@@ -156,3 +156,12 @@ Installed plugin: tree
 WARNING: You installed plugin "tree" from the krew-index plugin repository.
    These plugins are not audited for security by the Krew m
 ```
+
+----
+k9s
+
+```
+https://github.com/derailed/k9s
+```
+
+
