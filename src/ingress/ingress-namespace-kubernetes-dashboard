@@ -1,0 +1,23 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: ingress-namespace-kubernetes-dashboard 
+  namespace: default
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+
+      - backend:
+          service:
+            name: kubernetes-dashboard
+            port:
+              number: 80
+        path: /kubernetes-dashboard 
+        pathType: Prefix   
+
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.168.49.2
