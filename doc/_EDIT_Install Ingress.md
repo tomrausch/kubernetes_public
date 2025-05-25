@@ -245,3 +245,4 @@ service/hello-minikube created
 
 # Reference
 - [minikube start - Deploy Applications - Service](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service) | minikube
+- [Accessing a remote minikube from a local computer](https://faun.pub/accessing-a-remote-minikube-from-a-local-computer-fd6180dd66dd) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
