@@ -3,7 +3,7 @@
 ## Technology Stack
 - Linux (Ubuntu)
 - Docker
-- Kubernetes (Minikube)
+- Kubernetes (minikube)
 
 -----
 ## Uninstall Conflicting Packages
@@ -12,7 +12,7 @@ Uninstall conflicting packages.
 $ for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
 ```
 
-#### Reference
+### Reference
 - [Uninstall old versions](https://docs.docker.com/engine/install/ubuntu/#uninstall-old-versions) | Docker
 
 -----
@@ -36,7 +36,7 @@ $ sudo rm /etc/apt/keyrings/docker.asc
 
 Delete any edited configuration files manually.
 
-#### Reference
+### Reference
 - [Uninstall the existing Docker Engine](https://docs.docker.com/engine/install/ubuntu/#uninstall-docker-engine)
 
 -----
@@ -91,17 +91,15 @@ Verify that the user can run the command 'docker' without sudo permissions
 $ sudo docker run hello-world
 ```
 
-#### Reference
-- [Manage Docker as a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
-
 ### Configure Docker to start on boot with systemd
 ```
 sudo systemctl enable docker.service
 sudo systemctl enable containerd.service
 ```
 
-#### Reference
+### References
 - [Configure Docker to start on boot with systemd](https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot-with-systemd)
+- [Manage Docker as a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
 
 
 -----
@@ -164,7 +162,7 @@ For more examples and ideas, visit:
  https://docs.docker.com/get-started/
 ```
 
-#### Reference
+### Reference
 - [Install the Docker Engine using the apt repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
 
 ----------
@@ -257,12 +255,12 @@ $ minikube start
 ## Verify The Kubernetes (minikube) Installation Is Successful 
 
 Run the command  ```docker ps -a``` to observe the minikube container running under docker
+- Confirm the current context of the ```kubectl``` application is "minikube"
 ```
 $ docker ps -a
 CONTAINER ID   IMAGE                                 COMMAND                  CREATED        STATUS                    PORTS                                                                                                                                  NAMES
 1507fec77cd5   gcr.io/k8s-minikube/kicbase:v0.0.46   "/usr/local/bin/entr…"   6 days ago     Up 43 hours               127.0.0.1:32788->22/tcp, 127.0.0.1:32789->2376/tcp, 127.0.0.1:32790->5000/tcp, 127.0.0.1:32791->8443/tcp, 127.0.0.1:32792->32443/tcp   minikube
 ```
-
 
 Run the command  ```kubectl version``` to determine the current version of the kubectl application
 ```
@@ -431,13 +429,12 @@ f74ebd463641   registry.k8s.io/pause:3.10                           "/pause"    
 
 Run the command  ```exit``` to exit the shell of the minikube container
 
-
-
 -----
 ## Configure minikube
 
-### Install The minikube Dashboard
-```
+### Enable The minikube Addon 'Dashboard'
+Run the command  ```minikube addons enable dashboard``` to enable the minikube addon 'Dashboard' 
+```bash
 $ minikube addons enable dashboard
 * dashboard is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
 You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
@@ -450,11 +447,169 @@ You can view the list of minikube maintainers at: https://github.com/kubernetes/
 * The 'dashboard' addon is enabled
 ```
 
-### Enable The minikube Metrics Server
+Run the command ```kubectl get services --namespace kubernetes-dashboard``` and observe the two Services in namespace "kubernetes-dashboard"
+```bash
+$ kubectl get services --namespace kubernetes-dashboard
+NAME                        TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+dashboard-metrics-scraper   ClusterIP   10.105.143.242   <none>        8000/TCP   21d
+kubernetes-dashboard        ClusterIP   10.106.62.124    <none>        80/TCP     21d
 ```
+
+### Enable The minikube Addon 'Metrics Server'
+Run the command  ```minikube addons enable metrics-server``` to enable the minikube addon 'Metrics Server' 
+```bash
 $ minikube addons enable metrics-server
 * metrics-server is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
 You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
   - Using image registry.k8s.io/metrics-server/metrics-server:v0.7.2
 * The 'metrics-server' addon is enabled
 ```
+
+### Enable The minikube Addon 'Ingress'
+Run the command  ```minikube addons enable ingress``` to enable the minikube addon 'Ingress' 
+```bash
+$ minikube addons enable ingress
+💡  ingress is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
+You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
+    ▪ Using image registry.k8s.io/ingress-nginx/controller:v1.11.3
+    ▪ Using image registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
+    ▪ Using image registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
+🔎  Verifying ingress addon...
+🌟  The 'ingress' addon is enabled
+```
+### Enable The minikube Addon 'ingress-dns'
+Run the command ```minikube addons enable ingress-dns``` to enable the minikube addon 'ingress-dns' 
+```bash
+$ minikube addons enable ingress-dns
+* ingress-dns is an addon maintained by minikube. For any concerns contact minikube on GitHub.
+You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
+  - Using image gcr.io/k8s-minikube/minikube-ingress-dns:0.0.3
+* The 'ingress-dns' addon is enabled
+```
+
+### Enable The minikube Addon 'metallb'
+Run the command ```minikube addons enable metallb``` to enable the minikube addon 'metallb'
+```bash
+$ minikube addons enable metallb
+! metallb is a 3rd party addon and is not maintained or verified by minikube maintainers, enable at your own risk.
+! metallb does not currently have an associated maintainer.
+  - Using image quay.io/metallb/controller:v0.9.6
+  - Using image quay.io/metallb/speaker:v0.9.6
+* The 'metallb' addon is enabled
+```
+
+Run the command ```kubectl get services --namespace ingress-nginx``` and observe the two Services in namespace "ingress-nginx"
+```bash
+$ kubectl get services --namespace ingress-nginx
+NAME                                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+ingress-nginx-controller             NodePort    10.106.88.221   <none>        80:30872/TCP,443:32709/TCP   21d
+ingress-nginx-controller-admission   ClusterIP   10.102.153.72   <none>        443/TCP                      21d
+```
+
+Run the command ```kubectl get ingress --namespace --all-namespaces``` and observe the Ingress
+```bash
+$ kubectl get services --namespace ingress-nginx
+NAMESPACE   NAME                        CLASS   HOSTS   ADDRESS        PORTS   AGE
+default     ingress-namespace-default   nginx   *       192.168.49.2   80      9m
+```
+
+Run the command ```kubectl get ingress ingress-namespace-default -o yaml``` and observe the Ingress
+```bash
+$ kubectl get ingress ingress-namespace-default -o yaml
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: |
+      {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"name":"ingress-namespace-default","namespace":"default"},"spec":{"ingressClassName":"nginx","rules":[{"http":{"paths":[{"backend":{"service":{"name":"hello-minikube","port":{"number":8080}}},"path":"/hello-minikube","pathType":"Prefix"},{"backend":{"service":{"name":"hello-blue-whale","port":{"number":80}}},"path":"/hello-blue-whale","pathType":"Prefix"},{"backend":{"service":{"name":"hello-minikube","port":{"number":8080}}},"path":"/hello-minikube","pathType":"Prefix"},{"backend":{"service":{"name":"hello-world","port":{"number":80}}},"path":"/hello-world","pathType":"Prefix"},{"backend":{"service":{"name":"it-tools","port":{"number":80}}},"path":"/it-tools","pathType":"Prefix"},{"backend":{"service":{"name":"kuard","port":{"number":8080}}},"path":"/kuard","pathType":"Prefix"},{"backend":{"service":{"name":"foo-service","port":{"number":8080}}},"path":"/foo","pathType":"Prefix"},{"backend":{"service":{"name":"bar-service","port":{"number":8080}}},"path":"/bar","pathType":"Prefix"},{"backend":{"service":{"name":"web","port":{"number":8080}}},"path":"/web","pathType":"Prefix"}]}}]},"status":{"loadBalancer":{"ingress":[{"ip":"192.168.49.2"}]}}}
+  creationTimestamp: "2025-05-25T19:50:25Z"
+  generation: 1
+  name: ingress-namespace-default
+  namespace: default
+  resourceVersion: "1629085"
+  uid: 8464f1d1-4213-4e2e-b52a-d48953ada7eb
+spec:
+  ingressClassName: nginx
+  rules:
+  - http:
+      paths:
+      - backend:
+          service:
+            name: hello-minikube
+            port:
+              number: 8080
+        path: /hello-minikube
+        pathType: Prefix
+      - backend:
+          service:
+            name: hello-blue-whale
+            port:
+              number: 80
+        path: /hello-blue-whale
+        pathType: Prefix
+      - backend:
+          service:
+            name: hello-minikube
+            port:
+              number: 8080
+        path: /hello-minikube
+        pathType: Prefix
+      - backend:
+          service:
+            name: hello-world
+            port:
+              number: 80
+        path: /hello-world
+        pathType: Prefix
+      - backend:
+          service:
+            name: it-tools
+            port:
+              number: 80
+        path: /it-tools
+        pathType: Prefix
+      - backend:
+          service:
+            name: kuard
+            port:
+              number: 8080
+        path: /kuard
+        pathType: Prefix
+      - backend:
+          service:
+            name: foo-service
+            port:
+              number: 8080
+        path: /foo
+        pathType: Prefix
+      - backend:
+          service:
+            name: bar-service
+            port:
+              number: 8080
+        path: /bar
+        pathType: Prefix
+      - backend:
+          service:
+            name: web
+            port:
+              number: 8080
+        path: /web
+        pathType: Prefix
+status:
+  loadBalancer:
+    ingress:
+    - ip: 192.168.49.2
+```
+
+## References
+- [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
+- [Ingress DNS](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
+- [minikube start - Deploy Applications - Service](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
+
+- [Accessing a remote minikube from a local computer](https://faun.pub/accessing-a-remote-minikube-from-a-local-computer-fd6180dd66dd) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
+- [Goodbye Docker Desktop, Hello Minikube!](https://medium.com/itnext/goodbye-docker-desktop-hello-minikube-3649f2a1c469) | [ITNEXT](https://itnext.io/), [Medium](https://medium.com/)
+- https://github.com/kubernetes/minikube/issues/14346
+
+
+
