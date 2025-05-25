@@ -1,4 +1,4 @@
-# Install A Reverse Proxy Server (nginx) On Linux (Ubuntu)
+# Install A Reverse Proxy Server (nginx) On Docker
 
 ## Procedure
 
