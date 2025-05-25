@@ -75,8 +75,8 @@ Source: [Kubernetes Overview Diagrams](https://shipit.dev/posts/kubernetes-overv
 
 ## 🟤 Articles
 - [A Guide to Kubernetes](https://medium.com/@serokell/a-guide-to-kubernetes-9df8f1c50ef7) | [Serokell](https://medium.com/@serokell), [Medium](https://medium.com/)
-- [Advanced Kubernetes Pod Concepts Every DevOps Engineer Should Know](https://medium.com/@haroldfinch01/advanced-kubernetes-pod-concepts-every-devops-engineer-should-know-501112890f01) | [Harold Finch](https://medium.com/@haroldfinch01),  [Medium](https://medium.com/)
-- [Top Kubernetes Features Every DevOps Engineer Should Know In 2025](https://medium.com/@osomudeyazudonu/top-kubernetes-features-every-devops-engineer-should-know-in-2025-d1ba3ca77cab) | [Zudonu Osomudeya](https://medium.com/@osomudeyazudonu),  [Medium](https://medium.com/)
+- [Advanced Kubernetes Pod Concepts Every DevOps Engineer Should Know](https://medium.com/@haroldfinch01/advanced-kubernetes-pod-concepts-every-devops-engineer-should-know-501112890f01) | [Harold Finch](https://medium.com/@haroldfinch01), [Medium](https://medium.com/)
+- [Top Kubernetes Features Every DevOps Engineer Should Know In 2025](https://medium.com/@osomudeyazudonu/top-kubernetes-features-every-devops-engineer-should-know-in-2025-d1ba3ca77cab) | [Zudonu Osomudeya](https://medium.com/@osomudeyazudonu), [Medium](https://medium.com/)
 - [Top Kubernetes Tools for 2024](https://medium.com/spacelift/26-top-kubernetes-tools-for-2024-6809b2f0d5d4) | James Walker, [Spacelift](https://medium.com/spacelift), [Medium](https://medium.com/)
 - [Five Advanced Kubernetes Operators Every DevOps Engineer Should Know](https://medium.com/itnext/5-advanced-kubernetes-operators-every-devops-engineer-should-know-about-ab46bdc1c7d5) | [Piotr](https://piotrzan.medium.com/), [ITNEXT](https://itnext.io/), [Medium](https://medium.com/)
 - [Five Best GitOps Tools for Developers in 2024](https://medium.com/atmosly/the-5-best-gitops-tools-for-developers-in-2024-8be774f309a8) | [Ankush Madaan](https://medium.com/@contact_81356), [Medium](https://medium.com/)
@@ -89,7 +89,7 @@ Source: [Kubernetes Overview Diagrams](https://shipit.dev/posts/kubernetes-overv
 - [Ten Best Kubernetes Tools to Use in 2024](https://medium.com/@lognoroy2000/10-best-kubernetes-tools-to-use-in-2024-8bed0cc3068c) | [Mouri Roy](https://medium.com/@lognoroy2000), [Medium](https://medium.com/)
 - [Ten Container Concepts That Often Confuse Beginners](https://medium.com/@howtouselinux/top-10-containerization-concepts-that-often-confuse-beginners-54309b123df4) | [howtouselinux](https://howtouselinux.medium.com/), [Medium](https://medium.com/)
 - [Ten Kubernetes Pod Concepts That Confuse Beginners](https://medium.com/frontend-canteen/top-10-kubernetes-pod-concepts-that-confuse-beginners-8c0954021f3f) | [howtouselinux](https://howtouselinux.medium.com/), [Medium](https://medium.com/)
-- [Ten Essential Kubernetes Tools You Didn’t Know You Needed](https://medium.com/itnext/10-essential-kubernetes-tools-you-didnt-know-you-needed-06954251d845) | [Piotr](https://piotrzan.medium.com/), [Medium](https://medium.com/)
+- [Ten Essential Kubernetes Tools You Didn’t Know You Needed](https://medium.com/itnext/10-essential-kubernetes-tools-you-didnt-know-you-needed-06954251d845) | [Piotr](https://piotrzan.medium.com/), [ITNEXT](https://itnext.io/), [Medium](https://medium.com/)
 - [Ten Questions to Test Your Understanding of Kubernetes](https://medium.com/@emafzal/10-kubernetes-questions-to-test-your-understanding-of-k8s-416360dd5c8e) | [Muhammad Afzal](https://medium.com/@emafzal), [Medium](https://medium.com/)
 - [Ten Questions to Test Your Understanding of Kubernetes](https://medium.com/@naveen-metta/10-questions-to-test-your-understanding-of-kubernetes-a-beginner-friendly-guide-fd5e1bd70735) | [Naveen Metta](https://medium.com/@naveen-metta/), [Medium](https://medium.com/)
 - [Ten Questions to Test Your Understanding of Kubernetes](https://medium.com/@rifewang/kubernetes-10-questions-to-test-your-understanding-of-k8s-c2860c9f3cbf) | [Rifewang](https://medium.com/@rifewang/), [Medium](https://medium.com/)
@@ -382,6 +382,7 @@ Source: [Kubernetes Overview Diagrams](https://shipit.dev/posts/kubernetes-overv
 ### 🪛 [k9s](https://k9scli.io/)
 - <img src="https://cdn-icons-png.flaticon.com/512/5968/5968906.png" width=20 height=20></img> [What is K9s?](https://mesutoezdil.medium.com/what-is-k9s-197e6db8ad6a) | Mesut Oezdil, Medium
 ### 🪛 kind
+- [Goodbye, minikube](https://medium.com/@nfrankel/goodbye-minikube-340070edc5af)
 - [kind](https://kind.sigs.k8s.io/) is a tool for running local Kubernetes clusters using Docker container “nodes”
 - kind was primarily designed for testing Kubernetes itself, but may be used for local development or CI
 ### 🪛 kube ns & kube ctx
