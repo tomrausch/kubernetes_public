@@ -1,37 +1,12 @@
 # References
-- https://minikube.sigs.k8s.io/docs/handbook/accessing/
-- https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux
-- https://github.com/kubernetes/minikube/issues/14346
-- https://medium.com/itnext/goodbye-docker-desktop-hello-minikube-3649f2a1c469
-- https://medium.com/@nfrankel/goodbye-minikube-340070edc5af
+
 - https://ngrok.com/docs/k8s/guides/using-ingresses/
 
 # Deploy Application "hello-minikube" In Kubernetes
 
 ## Prerequisites
-- [Install Docker Engine On Ubuntu](https://docs.docker.com/engine/install/ubuntu/)
-- [Install minikube on Ubuntu](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Ingress)
-- Confirm the current context of the ```kubectl``` application is "minikube"
-```bash
-$ kubectl config get-contexts
-CURRENT   NAME             CLUSTER          AUTHINFO         NAMESPACE
-          docker-desktop   docker-desktop   docker-desktop   
-*         minikube         minikube         minikube         default
-          ns-default       docker-desktop                    default
-          ns-kube-system   docker-desktop                    kube-system
-```
 
-## Enable The ingress Addon
-```bash
-minikube addons enable ingress
-💡  ingress is an addon maintained by Kubernetes. For any concerns contact minikube on GitHub.
-You can view the list of minikube maintainers at: https://github.com/kubernetes/minikube/blob/master/OWNERS
-    ▪ Using image registry.k8s.io/ingress-nginx/controller:v1.11.3
-    ▪ Using image registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
-    ▪ Using image registry.k8s.io/ingress-nginx/kube-webhook-certgen:v1.4.4
-🔎  Verifying ingress addon...
-🌟  The 'ingress' addon is enabled
-```
+
 
 ## Apply The Ingress Example
 ```yaml
@@ -243,6 +218,3 @@ deployment.apps/hello-minikube created
 service/hello-minikube created
 ```
 
-# Reference
-- [minikube start - Deploy Applications - Service](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service) | minikube
-- [Accessing a remote minikube from a local computer](https://faun.pub/accessing-a-remote-minikube-from-a-local-computer-fd6180dd66dd) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
