@@ -605,6 +605,7 @@ status:
 ## References
 - [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
 - [Ingress DNS](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
+- [Set up Ingress on Minikube with the NGINX Ingress Controller](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/) | Kubernetes
 - [minikube start - Deploy Applications - Service](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
 
 - [Accessing a remote minikube from a local computer](https://faun.pub/accessing-a-remote-minikube-from-a-local-computer-fd6180dd66dd) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
