@@ -1,14 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: {"apiVersion":"networking.k8s.io/v1","kind":"Ingress","metadata":{"annotations":{},"name":"thomas-rausch-ingress","namespace":"default"},"spec":{"rules":[{"http":{"paths":[{"backend":{"service":{"name":"it-tools","port":{"number":80}}},"path":"/it-tools","pathType":"Prefix"},{"backend":{"service":{"name":"kuard","port":{"number":8080}}},"path":"/kuard","pathType":"Prefix"},{"backend":{"service":{"name":"foo-service","port":{"number":8080}}},"path":"/foo","pathType":"Prefix"},{"backend":{"service":{"name":"bar-service","port":{"number":8080}}},"path":"/bar","pathType":"Prefix"},{"backend":{"service":{"name":"hello-blue-whale","port":{"number":80}}},"path":"/hello-blue-whale","pathType":"Prefix"},{"backend":{"service":{"name":"hello-minikube","port":{"number":8080}}},"path":"/hello-minikube","pathType":"Prefix"},{"backend":{"service":{"name":"web","port":{"number":8080}}},"path":"/web","pathType":"Prefix"}]}}]}}
-  creationTimestamp: "2025-05-14T00:43:08Z"
-  generation: 1
   name: ingress-namespace-default
   namespace: default
-  resourceVersion: "1627510"
-  uid: bde81df3-fa30-47a7-a438-44c409314f91
 spec:
   ingressClassName: nginx
   rules:
