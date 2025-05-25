@@ -131,3 +131,4 @@ Events:                     <none>
 
 Reference
 - [Set up an external Application Load Balancer with Ingress](https://cloud.google.com/kubernetes-engine/docs/tutorials/http-balancer) | Google Cloud
+- https://ngrok.com/docs/k8s/guides/using-ingresses/
