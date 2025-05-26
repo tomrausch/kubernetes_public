@@ -59,6 +59,14 @@ spec:
 
       - backend:
           service:
+            name: kubernetes-dashboard
+            port:
+              number: 80
+        path: /kubernetes-dashboard 
+        pathType: Prefix          
+
+      - backend:
+          service:
             name: foo-service
             port:
               number: 8080
@@ -83,4 +91,4 @@ spec:
 status:
   loadBalancer:
     ingress:
-    - ip: 192.168.49.2
+    - ip: 192.168.49.3
