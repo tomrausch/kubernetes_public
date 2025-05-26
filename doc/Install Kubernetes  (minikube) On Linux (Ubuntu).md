@@ -466,6 +466,8 @@ You can view the list of minikube maintainers at: https://github.com/kubernetes/
 ```
 
 ### Enable The minikube Addon 'Ingress'
+The addon 'ingress' enables the Ingress controller
+
 Run the command  ```minikube addons enable ingress``` to enable the minikube addon 'Ingress' 
 ```bash
 $ minikube addons enable ingress
@@ -477,6 +479,24 @@ You can view the list of minikube maintainers at: https://github.com/kubernetes/
 🔎  Verifying ingress addon...
 🌟  The 'ingress' addon is enabled
 ```
+
+Run the command ```kubectl get pods -n ingress-nginx``` and observe the two Services in namespace "ingress-nginx"
+```
+$ kubectl get pods -n ingress-nginx
+NAME                                        READY   STATUS      RESTARTS   AGE
+ingress-nginx-admission-create-gpgxf        0/1     Completed   0          22d
+ingress-nginx-admission-patch-pqmb6         0/1     Completed   1          22d
+ingress-nginx-controller-56d7c84fd4-2bkg7   1/1     Running     0          8h
+```
+
+Run the command ```kubectl get services --namespace ingress-nginx``` and observe the two Services in namespace "ingress-nginx"
+```bash
+$ kubectl get services --namespace ingress-nginx
+NAME                                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
+ingress-nginx-controller             NodePort    10.106.88.221   <none>        80:30872/TCP,443:32709/TCP   21d
+ingress-nginx-controller-admission   ClusterIP   10.102.153.72   <none>        443/TCP                      21d
+```
+
 ### Enable The minikube Addon 'ingress-dns'
 Run the command ```minikube addons enable ingress-dns``` to enable the minikube addon 'ingress-dns' 
 ```bash
@@ -498,13 +518,9 @@ $ minikube addons enable metallb
 * The 'metallb' addon is enabled
 ```
 
-Run the command ```kubectl get services --namespace ingress-nginx``` and observe the two Services in namespace "ingress-nginx"
-```bash
-$ kubectl get services --namespace ingress-nginx
-NAME                                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)                      AGE
-ingress-nginx-controller             NodePort    10.106.88.221   <none>        80:30872/TCP,443:32709/TCP   21d
-ingress-nginx-controller-admission   ClusterIP   10.102.153.72   <none>        443/TCP                      21d
-```
+### Create The Ingress
+
+Run the command ```kubectl app;y -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/ingress/ingress-namespace-default.yaml``` to create the Ingress
 
 Run the command ```kubectl get ingress --namespace --all-namespaces``` and observe the Ingress
 ```bash
@@ -602,12 +618,15 @@ status:
     - ip: 192.168.49.2
 ```
 
+
+
+
+
 ## References
 - [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
 - [Ingress DNS](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
 - [Set up Ingress on Minikube with the NGINX Ingress Controller](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/) | Kubernetes
 - [minikube start - Deploy Applications - Service](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
-
 - [Accessing a remote minikube from a local computer](https://faun.pub/accessing-a-remote-minikube-from-a-local-computer-fd6180dd66dd) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
 - [Goodbye Docker Desktop, Hello Minikube!](https://medium.com/itnext/goodbye-docker-desktop-hello-minikube-3649f2a1c469) | [ITNEXT](https://itnext.io/), [Medium](https://medium.com/)
 - https://github.com/kubernetes/minikube/issues/14346
