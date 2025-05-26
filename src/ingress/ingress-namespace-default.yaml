@@ -9,6 +9,7 @@ spec:
   - http:
       paths:
 
+      # Web Page Text Only, Opens In Load Balancer
       - backend:
           service:
             name: hello-minikube
@@ -16,7 +17,33 @@ spec:
               number: 8080
         path: /hello-minikube
         pathType: Prefix   
+  
+      - backend:
+          service:
+            name: foo-service
+            port:
+              number: 8080
+        path: /foo
+        pathType: Prefix
 
+      - backend:
+          service:
+            name: bar-service
+            port:
+              number: 8080
+        path: /bar
+        pathType: Prefix
+    
+      - backend:
+          service:
+            name: web
+            port:
+              number: 8080
+        path: /web
+        pathType: Prefix
+
+
+      # Web Page Images, Does Not Open In Load Balancer
       - backend:
           service:
             name: hello-blue-whale
@@ -24,14 +51,6 @@ spec:
               number: 80
         path: /hello-blue-whale
         pathType: Prefix
-      
-      - backend:
-          service:
-            name: hello-minikube
-            port:
-              number: 8080
-        path: /hello-minikube
-        pathType: Prefix   
 
       - backend:
           service:
@@ -40,7 +59,7 @@ spec:
               number: 80
         path: /hello-world
         pathType: Prefix   
-      
+     
       - backend:
           service:
             name: it-tools
@@ -65,30 +84,7 @@ spec:
         path: /kubernetes-dashboard 
         pathType: Prefix          
 
-      - backend:
-          service:
-            name: foo-service
-            port:
-              number: 8080
-        path: /foo
-        pathType: Prefix
-
-      - backend:
-          service:
-            name: bar-service
-            port:
-              number: 8080
-        path: /bar
-        pathType: Prefix
-
-      - backend:
-          service:
-            name: web
-            port:
-              number: 8080
-        path: /web
-        pathType: Prefix
 status:
   loadBalancer:
     ingress:
-    - ip: 192.168.49.3
+    - ip: 192.168.49.2
