@@ -471,6 +471,30 @@ Source: [Kubernetes Overview Diagrams](https://shipit.dev/posts/kubernetes-overv
 - [Day 29: Kubernetes A/B Testing](https://medium.com/@vinoji2005/day-29-kubernetes-a-b-testing-126f260f7006)
 - [Day 30: Kubernetes Performance Tuning and Optimization](https://medium.com/@vinoji2005/day-30-kubernetes-performance-tuning-and-optimization-bcc2a285d060)
 
+### 20 Blogs to Learn 20 Kubernetes Concepts | LearnXops
+
+- [Kubernetes Basics](https://www.learnxops.com/kubernetes-basics-architecture-easy-local-setup-minikube-kind/)
+- [Kubernetes Namespace](https://www.learnxops.com/kubernetes-namespace/)
+- [Kubernetes Pods](https://www.learnxops.com/kubernetes-pods/)
+- [Kubernetes Deployments](https://www.learnxops.com/kubernetes-deployments-scale-roll-and-recover-like-a-pro/)
+- [Kubernetes Services](https://www.learnxops.com/kubernetes-services-deep-dive-exposing-and-connecting-workloads/)
+- [Kubernetes StatefulSets](https://www.learnxops.com/kubernetes-statefulsets-stable-identity-persistent-pods/)
+- [Kubernetes DaemonSets](https://www.learnxops.com/kubernetes-daemonsets-run-on-every-nodes/)
+- [Kubernetes Jobs & CronJobs](https://www.learnxops.com/kubernetes-jobs-cronjobs-automate-one-time-scheduled-tasks/)
+- [Kubernetes Operators & CRDs Made Simple](https://www.learnxops.com/kubernetes-operators-crds-made-simple-automate-like-a-pro/)
+- [Kubernetes Storage (PV & PVC)](https://www.learnxops.com/kubernetes-storage-pv-pvc/)
+- [Kubernetes ConfigMaps](https://www.learnxops.com/kubernetes-configmaps-managing-configuration-for-your-apps/)
+- [Kubernetes Secrets Management](https://www.learnxops.com/kubernetes-secrets-management-native-external-integrations/)
+- [Kubernetes RBAC](https://www.learnxops.com/kubernetes-rbac-secure-access-control/)
+- [Kubernetes Logs](https://www.learnxops.com/kubernetes-logs-debug-everything/)
+- [Kubernetes Resource Requests and Limits](https://www.learnxops.com/kubernetes-resource-requests-and-limits-control-resource-usage/)
+- [Kubernetes Troubleshooting](https://www.learnxops.com/kubernetes-troubleshooting-diagnose-fix-like-a-pro/)
+- [Kubernetes Scaling](https://www.learnxops.com/kubernetes-scaling-scale-smarter-not-harder/)
+- [Helm Charts](https://www.learnxops.com/helm-charts-kubernetes-package-manager/)
+- [Kubernetes Ingress & Gateway API](https://www.learnxops.com/kubernetes-ingress-gateway-api-smart-traffic-control/)
+- [Kubernetes Monitoring with Prometheus & Grafana](https://www.learnxops.com/kubernetes-monitoring-with-prometheus-grafana/)
+
+
 <sub><sup>⬆ <a href=#table-of-contents>Table Of Contents</a></sup></sub>
 
 
