@@ -48,28 +48,6 @@
 ### Kubernetes Cluster
 ![image](https://github.com/user-attachments/assets/f1aae335-302e-4f86-b898-15c761ad6901)
 
-### Kubernetes Overview Diagrams
-
-#### Kubernetes Architecture
-<img src=https://shipit.dev/static/images/k8s-architecture.svg width="588" height="400">
-
-#### Kubernetes Networking Objects
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img src="https://shipit.dev/static/images/k8s-network.svg" width="588" height="400">
-
-#### Kubernetes Resource-Based Access Control (RBAC) Objects
-<img src="https://shipit.dev/static/images/k8s-rbac.svg" width="588" height="400">
-
-#### Kubernetes Storage Objects
-<img src="https://shipit.dev/static/images/k8s-storage.svg" width="588" height="400">
-
-#### Kubernetes Workload Objects
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img src=https://shipit.dev/static/images/k8s-workloads.svg width="588" height="400">
-
-#### Kubernetes Resource Requests And Limits
-&nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; &nbsp; <img src=https://shipit.dev/static/images/k8s-resources.svg width="588" height="400">
-
-Source: [Kubernetes Overview Diagrams](https://shipit.dev/posts/kubernetes-overview-diagrams.html) | Max Brenner
-
 <sub><sup>⬆ <a href=#table-of-contents>Table Of Contents</a></sup></sub>
 
 
@@ -118,6 +96,7 @@ Source: [Kubernetes Overview Diagrams](https://shipit.dev/posts/kubernetes-overv
 - [Just Set Up A Kubernetes Cluster? Here’s What You Actually Need Next](https://medium.com/@PlanB./just-set-up-a-kubernetes-cluster-heres-what-you-actually-need-next-b3bef7dfc2f8) | [Mr.PlanB](https://medium.com/@PlanB.), [Medium](https://medium.com/)
 - [Kubernetes NodePort vs LoadBalancer vs Ingress? When should I use what?](https://medium.com/google-cloud/kubernetes-nodeport-vs-loadbalancer-vs-ingress-when-should-i-use-what-922f010849e0) | [Sandeep Dinesh](https://medium.com/@SandeepDinesh), [Google Cloud - Community](https://medium.com/google-cloud) ⭐
 - [Kubernetes Core Resource Components](https://medium.com/dev-genius/kubernetes-core-resource-components-87f7384a9517) | [Geethika Sandamali](https://medium.com/@gsandamali30), [Dev Genius](https://blog.devgenius.io/), [Medium](https://medium.com/)
+- [Kubernetes Overview Diagrams](https://shipit.dev/posts/kubernetes-overview-diagrams.html) | Max Brenner
 - [Kubernetes Troubleshooting Handbook](https://medium.com/itnext/the-kubernetes-troubleshooting-handbook-7596a1fdf2ff) | [Piotr](https://piotrzan.medium.com/), [Medium](https://medium.com/)
 - [Load Balancer Vs Ingress — Why do we need both for same work?](https://medium.com/@thekubeguy/load-balancer-vs-ingress-why-do-we-need-both-for-same-work-3ae2b9afdd5a) | [The kube guy](https://medium.com/@thekubeguy), [Medium](https://medium.com/)
 - [Mastering Kubernetes In The Cloud - A Guide to Cloud Controller Manager](https://www.itprotoday.com/cloud-computing/mastering-kubernetes-in-the-cloud-a-guide-to-cloud-controller-manager) | [ITPro Today](https://www.itprotoday.com/)
@@ -165,132 +144,39 @@ Source: [Kubernetes Overview Diagrams](https://shipit.dev/posts/kubernetes-overv
 ## ⚪ Library
 
 ### Kubernetes
-<hr/>
 
-### [Certified Kubernetes Administrator (CKA) Study Guide](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098107215/)
-<img src="https://m.media-amazon.com/images/I/81KR53rtqCL._SL1500_.jpg" width=70 height=100></img>
-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Github-desktop-logo-symbol.svg/2048px-Github-desktop-logo-symbol.svg.png" width=20 height=20></img> [Examples And Exercises](https://github.com/bmuschko/cka-study-guide) | Benjamin Muschko, GitHub
-
-<hr/>
-
-### [Certified Kubernetes Application Developer (CKAD) Exam Prep Labs](https://learning-oreilly-com.prxy.stdl.org/playlists/2e9fe6dc-2a05-47fe-ae0a-34d6485287cc/)
-<img src="https://vmdk.wordpress.com/wp-content/uploads/2018/09/256x256.png" width=70 height=100></img>
-
-<hr/>
-
-### [Certified Kubernetes Application Developer (CKAD) Study Guide, 2nd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098152857/)
-<img src="https://m.media-amazon.com/images/I/81x2M17sU-L._SL1500_.jpg" width=70 height=100></img>
-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Github-desktop-logo-symbol.svg/2048px-Github-desktop-logo-symbol.svg.png" width=20 height=20></img> [Examples And Exercises](https://github.com/bmuschko/ckad-study-guide) | Benjamin Muschko, GitHub
-
-<hr/>
-
-### [Certified Kubernetes Security Specialist (CKS) Study Guide](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098132965/)
-<img src="https://m.media-amazon.com/images/I/81Ljc9-Kb1L._SL1500_.jpg" width=70 height=100></img>
-- <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/a/ae/Github-desktop-logo-symbol.svg/2048px-Github-desktop-logo-symbol.svg.png" width=20 height=20></img> [Examples And Exercises](https://github.com/bmuschko/cks-study-guide) | Benjamin Muschko, GitHub
-
-<hr/>
-
-### [Cloud Native DevOps with Kubernetes, 2nd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098116811/)
-<img src="https://m.media-amazon.com/images/I/81b66iRUWZL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Hacking Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492081722/)
-<img src="https://m.media-amazon.com/images/I/81jY5hpGFWL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Kubernetes and Cloud Native Associate (KCNA) Study Guide](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098138936/)
-<img src="https://m.media-amazon.com/images/I/81Cx7Zg62mL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Kubernetes Best Practices, 2nd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098142155/)
-<img src="https://m.media-amazon.com/images/I/81cU+3wtSWL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Kubernetes Cookbook, 2nd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/kubernetes-cookbook-2nd/9781098142230/)
-<img src="https://m.media-amazon.com/images/I/41JPPYcDmFL._SY445_SX342_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Kubernetes Operators](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492048039/)
-<img src="https://m.media-amazon.com/images/I/81gbd-IwPeL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Kubernetes Patterns, 2nd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098131678/)
-<img src="https://m.media-amazon.com/images/I/81yrGVraEkL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Kubernetes Security and Observability](https://learning-oreilly-com.prxy.stdl.org/library/view/kubernetes-security-and/9781098107093/)
-<img src="https://m.media-amazon.com/images/I/81wCkci1rvL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Kubernetes Up And Running, 3rd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/kubernetes-up-and/9781098110192/)
-<img src="https://m.media-amazon.com/images/I/81fH7yJ8rsL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Managing Cloud Native Data on Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098111380/)
-<img src="https://m.media-amazon.com/images/I/81ko3wfMBFL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Managing Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492033905/)
-<img src="https://m.media-amazon.com/images/I/61zOwXvdCzL._SL1000_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Networking and Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492081647/)
-<img src="https://m.media-amazon.com/images/I/81tL3fZFC-L._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Production Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492092292/)
-<img src="https://m.media-amazon.com/images/I/81CyHDZhpZL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Programming Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492047094/)
-<img src="https://m.media-amazon.com/images/I/81KTjOa3M5L._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-<sub><sup>⬆ <a href=#table-of-contents>Table Of Contents</a></sup></sub>
-
+| Title | Link |
+| --- | --- |
+| <img src="https://m.media-amazon.com/images/I/81KR53rtqCL._SL1500_.jpg" width=70 height=100></img> | [Certified Kubernetes Administrator (CKA) Study Guide](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098107215/) <br> [Certified Kubernetes Administrator (CKA) Study Guide Examples And Exercises](https://github.com/bmuschko/cka-study-guide) [^1] |
+|  <img src="https://vmdk.wordpress.com/wp-content/uploads/2018/09/256x256.png" width=70 height=100></img> | [Certified Kubernetes Application Developer (CKAD) Exam Prep Labs](https://learning-oreilly-com.prxy.stdl.org/playlists/2e9fe6dc-2a05-47fe-ae0a-34d6485287cc/) |
+| <img src="https://m.media-amazon.com/images/I/81x2M17sU-L._SL1500_.jpg" width=70 height=100></img> | [Certified Kubernetes Application Developer (CKAD) Study Guide, 2nd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098152857/) <br> [Certified Kubernetes Application Developer (CKAD) Study Guide, 2nd Edition Examples And Exercises](https://github.com/bmuschko/ckad-study-guide) [^1] | 
+| <img src="https://m.media-amazon.com/images/I/81Ljc9-Kb1L._SL1500_.jpg" width=70 height=100></img> | [Certified Kubernetes Security Specialist (CKS) Study Guide](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098132965/) <br> [Certified Kubernetes Security Specialist (CKS) Study Guide Examples And Exercises](https://github.com/bmuschko/cks-study-guide) [^1] | 
+| <img src="https://m.media-amazon.com/images/I/81b66iRUWZL._SL1500_.jpg" width=70 height=100></img> | [Cloud Native DevOps with Kubernetes, 2nd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098116811/) |
+| <img src="https://m.media-amazon.com/images/I/81jY5hpGFWL._SL1500_.jpg" width=70 height=100></img> | [Hacking Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492081722/) |
+| <img src="https://m.media-amazon.com/images/I/81Cx7Zg62mL._SL1500_.jpg" width=70 height=100></img> | [Kubernetes and Cloud Native Associate (KCNA) Study Guide](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098138936/) |
+| <img src="https://m.media-amazon.com/images/I/81cU+3wtSWL._SL1500_.jpg" width=70 height=100></img> | [Kubernetes Best Practices, 2nd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098142155/) |
+| <img src="https://m.media-amazon.com/images/I/41JPPYcDmFL._SY445_SX342_.jpg" width=70 height=100></img> | [Kubernetes Cookbook, 2nd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/kubernetes-cookbook-2nd/9781098142230/) |
+| <img src="https://m.media-amazon.com/images/I/81gbd-IwPeL._SL1500_.jpg" width=70 height=100></img> | [Kubernetes Operators](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492048039/) |
+| <img src="https://m.media-amazon.com/images/I/81yrGVraEkL._SL1500_.jpg" width=70 height=100></img> | [Kubernetes Patterns, 2nd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098131678/) |
+| <img src="https://m.media-amazon.com/images/I/81wCkci1rvL._SL1500_.jpg" width=70 height=100></img> | [Kubernetes Security and Observability](https://learning-oreilly-com.prxy.stdl.org/library/view/kubernetes-security-and/9781098107093/) |
+| <img src="https://m.media-amazon.com/images/I/81fH7yJ8rsL._SL1500_.jpg" width=70 height=100></img> | [Kubernetes Up And Running, 3rd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/kubernetes-up-and/9781098110192/) |
+| <img src="https://m.media-amazon.com/images/I/81ko3wfMBFL._SL1500_.jpg" width=70 height=100></img> | [Managing Cloud Native Data on Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781098111380/) |
+| <img src="https://m.media-amazon.com/images/I/61zOwXvdCzL._SL1000_.jpg" width=70 height=100></img> | [Managing Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492033905/) |
+| <img src="https://m.media-amazon.com/images/I/81tL3fZFC-L._SL1500_.jpg" width=70 height=100></img> | [Networking and Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492081647/) |
+| <img src="https://m.media-amazon.com/images/I/81CyHDZhpZL._SL1500_.jpg" width=70 height=100></img> | [Production Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492092292/) |
+| <img src="https://m.media-amazon.com/images/I/81KTjOa3M5L._SL1500_.jpg" width=70 height=100></img> | [Programming Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/-/9781492047094/) |
 
 ### Tools
 
-<hr/>
+| Title | Link |
+| --- | --- |
+| <img src="https://m.media-amazon.com/images/I/81Ae94L22dL._SL1500_.jpg" width=70 height=100></img> | [Argo CD: Up and Running](https://learning-oreilly-com.prxy.stdl.org/library/view/argo-cd-up/9781098141998/) |
+| <img src="https://c.media-amazon.com/images/I/61J80JgEZDL._AC_UY327_FMwebp_QL65_.jpg" width=70 height=100></img> | [End-to-End Automation with Kubernetes and Crossplane](https://learning-oreilly-com.prxy.stdl.org/library/view/end-to-end-automation-with/9781801811545/) |
+| <img src="https://m.media-amazon.com/images/I/81r5nqs-0HL._SL1500_.jpg" width=70 height=100></img> | [Learning Helm: Managing Apps on Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/learning-helm/9781492083641/) |
+| <img src="https://m.media-amazon.com/images/I/812eFKXCZpL._SL1500_.jpg" width=70 height=100></img> | [Terraform Cookbook, 3rd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/terraform-cookbook/9781098108458/) |
+| <img src="https://m.media-amazon.com/images/I/81TuTt5Sz3L._SL1500_.jpg" width=70 height=100></img> | [Terraform Up And Running, 3rd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/terraform-up-and/9781098116736/)| 
 
-### [Argo CD: Up and Running](https://learning-oreilly-com.prxy.stdl.org/library/view/argo-cd-up/9781098141998/)
-<img src="https://m.media-amazon.com/images/I/81Ae94L22dL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [End-to-End Automation with Kubernetes and Crossplane](https://learning-oreilly-com.prxy.stdl.org/library/view/end-to-end-automation-with/9781801811545/)
-<img src="https://c.media-amazon.com/images/I/61J80JgEZDL._AC_UY327_FMwebp_QL65_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Learning Helm: Managing Apps on Kubernetes](https://learning-oreilly-com.prxy.stdl.org/library/view/learning-helm/9781492083641/)
-<img src="https://m.media-amazon.com/images/I/81r5nqs-0HL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Terraform Cookbook, 3rd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/terraform-cookbook/9781098108458/)
-<img src="https://m.media-amazon.com/images/I/812eFKXCZpL._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
-
-### [Terraform Up And Running, 3rd Edition](https://learning-oreilly-com.prxy.stdl.org/library/view/terraform-up-and/9781098116736/)
-<img src="https://m.media-amazon.com/images/I/81TuTt5Sz3L._SL1500_.jpg" width=70 height=100></img>
-
-<hr/>
+[^1]: Benjamin Muschko, GitHub
 
 <sub><sup>⬆ <a href=#table-of-contents>Table Of Contents</a></sup></sub>
 
