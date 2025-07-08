@@ -70,7 +70,7 @@ For more robust deployments, consider adding health checks (liveness and readine
 #### Alternative Commands
 You can replace the sleep command with any other command that keeps the container running, such as running a simple web server using httpd or a simple ping command to test network connectivity. [^9], [^10], [^11]
 
-
+## Conclusion
 By following these steps, you can successfully run busybox within your Minikube cluster and use it for various testing and troubleshooting scenarios. [^12]  
 
 [^1]: https://serverfault.com/questions/1098192/cant-start-busybox-pod
