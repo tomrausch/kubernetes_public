@@ -27,6 +27,16 @@ it-tools   10.244.0.7:80   16m
 > [!NOTE]
 > The IP address of the endpoint -- "10.224.0.7" -- should match the IP address of the pod -- "10.244.0.7".
 
-# References
+
+## kubectl auth whoami
+```
+$ kubectl auth whoami
+ATTRIBUTE                                           VALUE
+Username                                            minikube-user
+Groups                                              [system:masters system:authenticated]
+Extra: authentication.kubernetes.io/credential-id   [X509SHA256=98a8f863a872d97ce1d14ffcbfb9d3558e26aca71affbc5a352d231e3b7b07e7]
+```
+
+## References
 - [kubernetes service not accessible through browser](https://stackoverflow.com/questions/66289053/kubernetes-service-not-accessible-through-browser) | StackOverflow
 - [Exposing an External IP Address to Access an Application in a Cluster](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/) | kubernetes.io
