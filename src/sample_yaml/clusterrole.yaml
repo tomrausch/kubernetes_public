@@ -1,0 +1,13 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRole
+metadata:
+  creationTimestamp: "2025-07-22T14:13:02Z"
+  name: pvviewer-role
+  uid: b09fe3ed-cd14-4fff-aec4-1c67d940a4b5
+rules:
+- apiGroups:
+  - ""
+  resources:
+  - persistentvolumes
+  verbs:
+  - list
