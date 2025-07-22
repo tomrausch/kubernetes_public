@@ -1,36 +1,6 @@
 # Create A Resource In Kubernetes
 
 
-## Service Account
-
-| Documenation | YAML
-| :---: |  :---: | 
-| [kubectl create serviceaccount](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_serviceaccount/) | [serviceaccount.yaml](https://github.com/tomrausch/kubernetes_public/blob/ef867c74b1bcadb4d33203866624b832351f9e64/src/sample_yaml/serviceaccount.yaml) |
-
-```
-$ kubectl create serviceaccount pvviewer -o yaml --dry-run=server
-apiVersion: v1
-kind: ServiceAccount
-metadata:
-  creationTimestamp: "2025-07-22T01:49:14Z"
-  name: pvviewer
-  namespace: default
-  uid: 9bc4422e-b740-420c-b07c-85bb6eeea4f1
-
-$ kubectl create serviceaccount pvviewer -o yaml
-
-$ kubectl describe serviceaccount pvviewer        
-Name:                pvviewer
-Namespace:           default
-Labels:              <none>
-Annotations:         <none>
-Image pull secrets:  <none>
-Mountable secrets:   <none>
-Tokens:              <none>
-Events:              <none>
-
-```
-
 ## Cluster Role
 
 | Documenation | YAML
@@ -67,11 +37,38 @@ Image pull secrets:  <none>
 Mountable secrets:   <none>
 Tokens:              <none>
 Events:              <none>
-
-
-
 ```
 
+
+## Service Account
+
+| Documenation | YAML
+| :---: |  :---: | 
+| [kubectl create serviceaccount](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_create/kubectl_create_serviceaccount/) | [serviceaccount.yaml](https://github.com/tomrausch/kubernetes_public/blob/ef867c74b1bcadb4d33203866624b832351f9e64/src/sample_yaml/serviceaccount.yaml) |
+
+```
+$ kubectl create serviceaccount pvviewer -o yaml --dry-run=server
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  creationTimestamp: "2025-07-22T01:49:14Z"
+  name: pvviewer
+  namespace: default
+  uid: 9bc4422e-b740-420c-b07c-85bb6eeea4f1
+
+$ kubectl create serviceaccount pvviewer -o yaml
+
+$ kubectl describe serviceaccount pvviewer        
+Name:                pvviewer
+Namespace:           default
+Labels:              <none>
+Annotations:         <none>
+Image pull secrets:  <none>
+Mountable secrets:   <none>
+Tokens:              <none>
+Events:              <none>
+
+```
 
 
 ## Create cluster role binding
