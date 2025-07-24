@@ -10,6 +10,7 @@ Created symlink /etc/systemd/system/hybrid-sleep.target → /dev/null.
 ```
 - [How do I disable my system from going to sleep?](https://askubuntu.com/questions/47311/how-do-i-disable-my-system-from-going-to-sleep)
 
+
 ## Stop The Existing Kubernetes (minikube) Cluster
 ```
 $ minikube stop
