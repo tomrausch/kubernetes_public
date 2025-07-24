@@ -231,7 +231,7 @@ $ minikube stop
 * 1 node stopped.
 ```
 
-Restart minikube
+Restart minikube with one node
 ```
 $ minikube start
 * minikube v1.35.0 on Ubuntu 24.04
@@ -251,15 +251,32 @@ $ minikube start
 * Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
 
+Restart minikube with two nodes
+```
+minikube start --nodes 2 -p multinode-demo
+```
+
+
+### Reference
+- [Using Multi-Node Clusters](https://minikube.sigs.k8s.io/docs/tutorials/multi_node/)
+
 ----------
 ## Verify The Kubernetes (minikube) Installation Is Successful 
 
 Run the command  ```docker ps -a``` to observe the minikube container running under docker
-- Confirm the current context of the ```kubectl``` application is "minikube"
 ```
 $ docker ps -a
 CONTAINER ID   IMAGE                                 COMMAND                  CREATED        STATUS                    PORTS                                                                                                                                  NAMES
 1507fec77cd5   gcr.io/k8s-minikube/kicbase:v0.0.46   "/usr/local/bin/entr…"   6 days ago     Up 43 hours               127.0.0.1:32788->22/tcp, 127.0.0.1:32789->2376/tcp, 127.0.0.1:32790->5000/tcp, 127.0.0.1:32791->8443/tcp, 127.0.0.1:32792->32443/tcp   minikube
+```
+
+
+In the case of two ndoes, observe the two minikube containers running under docker
+```
+$ docker ps -a
+CONTAINER ID   IMAGE                                 COMMAND                  CREATED             STATUS                           PORTS                                                                                                                                  NAMES
+5bcd0618f30c   gcr.io/k8s-minikube/kicbase:v0.0.46   "/usr/local/bin/entr…"   About an hour ago   Up About an hour                 127.0.0.1:32778->22/tcp, 127.0.0.1:32779->2376/tcp, 127.0.0.1:32780->5000/tcp, 127.0.0.1:32781->8443/tcp, 127.0.0.1:32782->32443/tcp   multinode-demo-m02
+69977e2f1e63   gcr.io/k8s-minikube/kicbase:v0.0.46   "/usr/local/bin/entr…"   About an hour ago   Up About an hour                 127.0.0.1:32773->22/tcp, 127.0.0.1:32774->2376/tcp, 127.0.0.1:32775->5000/tcp, 127.0.0.1:32776->8443/tcp, 127.0.0.1:32777->32443/tcp   multinode-demo
 ```
 
 Run the command  ```kubectl version``` to determine the current version of the kubectl application
@@ -271,6 +288,7 @@ Server Version: v1.32.2-gke.1182003
 ```
 
 Run the command  ```kubectl config get-contexts``` to determine the current Context of the kubectl application
+- Confirm the current context of the ```kubectl``` application is "minikube"
 ```bash
 $ kubectl config get-contexts
 CURRENT   NAME             CLUSTER          AUTHINFO         NAMESPACE
