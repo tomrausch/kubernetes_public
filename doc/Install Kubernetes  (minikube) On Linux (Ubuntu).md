@@ -10,41 +10,6 @@
 - [Uninstall Kubernetes (minikube) From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/8396ae2f0a5f8cb3a735f6e381b08b46678c6728/doc/Uninstall%20Kubernetes%20(minikube)%20From%20Linux%20(Ubuntu).md)
 
 
------
-## Uninstall Conflicting Packages
-Uninstall conflicting packages.
-```
-$ for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
-```
-
-### Reference
-- [Uninstall old versions](https://docs.docker.com/engine/install/ubuntu/#uninstall-old-versions) | Docker
-
------
-## Uninstall The Currently Installed Docker Engine
-Uninstall the Docker Engine, CLI, containerd, and Docker Compose packages
-```
-$ sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
-```
-
-Uninstall images, containers, volumes, or custom configuration files on your host aren't automatically removed. To delete all images, containers, and volumes:
-```
-$ sudo rm -rf /var/lib/docker
-$ sudo rm -rf /var/lib/containerd
-```
-
-Remove source list and keyrings
-```
-$ sudo rm /etc/apt/sources.list.d/docker.list
-$ sudo rm /etc/apt/keyrings/docker.asc
-```
-
-Delete any edited configuration files manually.
-
-### Reference
-- [Uninstall the existing Docker Engine](https://docs.docker.com/engine/install/ubuntu/#uninstall-docker-engine)
-
------
 ## Install The Docker Engine With An apt Repository
 Set up Docker's apt repository
 
@@ -67,7 +32,6 @@ Install the Docker packages
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 ```
 
------
 ## Configure Docker
 
 ### Configure Docker To Run Without sudo Permissions
@@ -107,7 +71,6 @@ sudo systemctl enable containerd.service
 - [Manage Docker as a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user)
 
 
------
 ## Verify The Docker Installation Is Successful 
 Run the command  ```docker version``` to determine the current version of the Docker application
 ```
@@ -170,17 +133,6 @@ For more examples and ideas, visit:
 ### Reference
 - [Install the Docker Engine using the apt repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository)
 
-----------
-## Delete The Existing Kubernetes (minikube) Cluster
-```
-$ minikube delete
-* Deleting "minikube" in docker ...
-* Deleting container "minikube" ...
-* Removing /home/tomrausch/.minikube/machines/minikube ...
-* Removed all traces of the "minikube" cluster.
-```
-
-----------
 ## Install Kubernetes (minikube)
 
 Download the minikube installation file
@@ -265,7 +217,7 @@ minikube start --nodes 2 -p multinode-demo
 ### Reference
 - [Using Multi-Node Clusters](https://minikube.sigs.k8s.io/docs/tutorials/multi_node/)
 
-----------
+
 ## Verify The Kubernetes (minikube) Installation Is Successful 
 
 Run the command  ```docker ps -a``` to observe the minikube container running under docker
@@ -274,7 +226,6 @@ $ docker ps -a
 CONTAINER ID   IMAGE                                 COMMAND                  CREATED        STATUS                    PORTS                                                                                                                                  NAMES
 1507fec77cd5   gcr.io/k8s-minikube/kicbase:v0.0.46   "/usr/local/bin/entr…"   6 days ago     Up 43 hours               127.0.0.1:32788->22/tcp, 127.0.0.1:32789->2376/tcp, 127.0.0.1:32790->5000/tcp, 127.0.0.1:32791->8443/tcp, 127.0.0.1:32792->32443/tcp   minikube
 ```
-
 
 In the case of two ndoes, observe the two minikube containers running under docker
 ```
@@ -452,7 +403,7 @@ f74ebd463641   registry.k8s.io/pause:3.10                           "/pause"    
 
 Run the command  ```exit``` to exit the shell of the minikube container
 
------
+
 ## Configure minikube
 
 ### Enable The minikube Addon 'Dashboard'
@@ -640,10 +591,6 @@ status:
     ingress:
     - ip: 192.168.49.2
 ```
-
-
-
-
 
 ## References
 - [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
