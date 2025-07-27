@@ -1,4 +1,4 @@
-# Install Kubernetes (minikube) On Linux (Ubuntu)
+# Install Minikube On Linux (Ubuntu)
 
 ## Technology Stack
 - Linux (Ubuntu)
