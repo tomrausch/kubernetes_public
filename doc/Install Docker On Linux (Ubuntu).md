@@ -90,7 +90,8 @@ then
 $ sudo chmod 666 /var/run/docker.sock
 ```
 
-``` Update And Upgrade All Packages
+## Update And Upgrade All Packages
+```bash
 $ sudo apt update
 $ sudo apt upgrade
 ```
