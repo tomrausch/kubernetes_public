@@ -1,6 +1,6 @@
 # Install Kubernetes (kubeadm) On Linux (Ubuntu)
 
-## Uninstall The Existing Configuration [On Master & Worker Node]
+## Uninstall The Existing Configuration
 
 ### Perform On Nodes
 - ✅ Master Node
@@ -18,7 +18,7 @@
 ### Commands
 - [Prepare The Linux System To Install Software](https://github.com/tomrausch/kubernetes_public/blob/b187e08275c6668963f2fb659c9574209c02849d/doc/Prepare%20The%20Linux%20System%20To%20Install%20Software.md)
 
-## Install Docker [On Master & Worker Node]
+## Install Docker
 
 ### Perform On Nodes
 - ✅ Master Node
@@ -77,7 +77,7 @@ deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io
 ```
 
 ## Install Kubernetes Components
-### Install On Nodes
+### Perform On Nodes
 - ✅ Master Node
 - ✅ Worker Node
 
@@ -144,7 +144,8 @@ Processing triggers for man-db (2.12.0-4build2) ...
 $ sudo apt update
 $ sudo apt upgrade
 ```
-
+-----------------------
+-----------------------
 
 ## Initialize Kubernetes Master Node [On MasterNode]
 
