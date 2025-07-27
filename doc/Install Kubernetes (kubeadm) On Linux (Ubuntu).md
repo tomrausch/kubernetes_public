@@ -1,6 +1,26 @@
 # Install Kubernetes (kubeadm) On Linux (Ubuntu)
 
-## Update System Packages [On Master & Worker Node]
+## Uninstall The Existing Configuration [On Master & Worker Node]
+
+- [Uninstall Minikube And Docker From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/3de9646c8938fb8056fcc1bc6b844e8eb65abb0c/doc/Uninstall%20Minikube%20And%20Docker%20From%20Linux%20(Ubuntu).md) | Tom Rausch, GitHub
+
+## Prepare The Linux System [On Master & Worker Node]
+### Prevent The Linux System From Hibernating Or Going To Sleep [^1]
+```
+$ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+Created symlink /etc/systemd/system/sleep.target → /dev/null.
+Created symlink /etc/systemd/system/suspend.target → /dev/null.
+Created symlink /etc/systemd/system/hibernate.target → /dev/null.
+Created symlink /etc/systemd/system/hybrid-sleep.target → /dev/null.
+```
+
+### Disable The Disk Swap File [^2]
+```
+$ sudo swapoff -a
+$ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+```
+
+### Update All Existing System Packages
 
 ```
 sudo apt-get update
