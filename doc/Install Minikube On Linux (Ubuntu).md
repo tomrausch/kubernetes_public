@@ -367,7 +367,7 @@ ingress-nginx-controller             NodePort    10.106.88.221   <none>        8
 ingress-nginx-controller-admission   ClusterIP   10.102.153.72   <none>        443/TCP                      21d
 ```
 
-### Enable The minikube Addon 'ingress-dns'
+### Enable The minikube Addon 'ingress-dns' [^4]
 Run the command ```minikube addons enable ingress-dns``` to enable the minikube addon 'ingress-dns' 
 ```bash
 $ minikube addons enable ingress-dns
@@ -376,6 +376,9 @@ You can view the list of minikube maintainers at: https://github.com/kubernetes/
   - Using image gcr.io/k8s-minikube/minikube-ingress-dns:0.0.3
 * The 'ingress-dns' addon is enabled
 ```
+
+
+ [^4]: [Ingress DNS](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
 
 ### Enable The minikube Addon 'metallb'
 Run the command ```minikube addons enable metallb``` to enable the minikube addon 'metallb'
@@ -388,7 +391,7 @@ $ minikube addons enable metallb
 * The 'metallb' addon is enabled
 ```
 
-### Create The Ingress
+## Create The Ingress [^5]
 
 Run the command ```kubectl app;y -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/ingress/ingress-namespace-default.yaml``` to create the Ingress
 
@@ -487,11 +490,9 @@ status:
     ingress:
     - ip: 192.168.49.2
 ```
+[^5]: [Set up Ingress on Minikube with the NGINX Ingress Controller](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/) | Kubernetes
 
 ## References
 - [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
-- [Ingress DNS](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
-- [Set up Ingress on Minikube with the NGINX Ingress Controller](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/) | Kubernetes
-- [Accessing a remote minikube from a local computer](https://faun.pub/accessing-a-remote-minikube-from-a-local-computer-fd6180dd66dd) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
 - [Goodbye Docker Desktop, Hello Minikube!](https://medium.com/itnext/goodbye-docker-desktop-hello-minikube-3649f2a1c469) | [ITNEXT](https://itnext.io/), [Medium](https://medium.com/)
 - https://github.com/kubernetes/minikube/issues/14346
