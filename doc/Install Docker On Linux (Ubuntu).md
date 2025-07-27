@@ -2,35 +2,35 @@
 
 ## Setup apt Repository For Docker [^1]
 
-### Install Necessary Packages
-```
+### Install Prerequisite Packages
+```bash
 $ sudo apt-get install ca-certificates curl
 ```
 
 ### Add Official GnuPG (GPG) Keyrings For Docker [^2]
-```
+```bash
 $ sudo install -m 0755 -d /etc/apt/keyrings
 $ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
 $ sudo chmod a+r /etc/apt/keyrings/docker.asc
 ```
 Confirm the Docker keyrings are present in the file system
-```
+```bash
 $ ls -l /etc/apt/keyrings | grep docker.asc
 -rw-r--r-- 1 root root 3817 Jul 27 15:19 docker.asc
 ```
 
 ### Add The Docker Repository To Package Sources
-```
+```bash
 $ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 Confirm the Docker repository is present in the sources list
-```
+```bash
 cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep docker
 deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable
 ```
 
-### Install the Docker packages
-```
+## Install the Docker Packages
+```bash
 $ sudo apt-get install docker.io
 Reading package lists... Done
 Building dependency tree... Done
@@ -86,17 +86,21 @@ Created symlink /etc/systemd/system/sockets.target.wants/docker.socket → /usr/
 Processing triggers for man-db (2.12.0-4build2) ...
 ```
 then
-```
+```bash
 $ sudo chmod 666 /var/run/docker.sock
+```
+
+``` Update And Upgrade All Packages
+$ sudo apt update
+$ sudo apt upgrade
 ```
 
 [^1]:[Install the Docker Engine using the apt repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) | Docker Docs
 [^2]:[Please explain like I'm 5 years old: what is a GPG key, a key server, and (especially) a keyring?](https://www.reddit.com/r/GnuPG/comments/uq8bq7/please_explain_like_im_5_years_old_what_is_a_gpg/) | GnuPG, Reddit
 
-
-## Verify The Docker Installation Is Successful 
+## Verify The Docker Installation Is Successful
 Determine the current version of the Docker application
-```
+```bash
 $ docker version
 Client: Docker Engine - Community
  Version:           28.0.4
@@ -127,8 +131,41 @@ Server: Docker Engine - Community
   GitCommit:        de40ad0
 ```
 
-Run the command ```sudo docker run hello-world``` and observe the results
+
+## Start Docker
+```bash
+sudo systemctl start docker
 ```
+
+Confirm Docker is running
+```bash
+$ sudo systemctl status docker
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; preset: enabled)
+     Active: active (running) since Sun 2025-07-27 15:42:06 CDT; 33min ago
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 2290405 (dockerd)
+      Tasks: 13
+     Memory: 23.8M (peak: 29.6M)
+        CPU: 1.136s
+     CGroup: /system.slice/docker.service
+             └─2290405 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+Jul 27 15:42:05 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="2025-07-27T15:42:05.381500435-05:00" level=info msg="OTEL tracing is not configured, using no-op tracer provider"
+Jul 27 15:42:05 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="2025-07-27T15:42:05.381827992-05:00" level=info msg="detected 127.0.0.53 nameserver, assuming systemd-resolved, so using resolv.conf: /run/systemd/resolve/resolv.conf"
+Jul 27 15:42:05 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="2025-07-27T15:42:05.483470369-05:00" level=info msg="Loading containers: start."
+Jul 27 15:42:05 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="2025-07-27T15:42:05.915606130-05:00" level=info msg="Default bridge (docker0) is assigned with an IP address 172.17.0.0/16. Daemon option --bip can be used to set a preferred IP address"
+Jul 27 15:42:06 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="2025-07-27T15:42:06.099822190-05:00" level=info msg="Loading containers: done."
+Jul 27 15:42:06 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="2025-07-27T15:42:06.131810948-05:00" level=info msg="Docker daemon" commit="27.5.1-0ubuntu3~24.04.2" containerd-snapshotter=false storage-driver=overlay2 version=27.5.1
+Jul 27 15:42:06 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="2025-07-27T15:42:06.131987973-05:00" level=info msg="Daemon has completed initialization"
+Jul 27 15:42:06 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="2025-07-27T15:42:06.203077837-05:00" level=info msg="API listen on /run/docker.sock"
+Jul 27 15:42:06 tomrausch-HP-Elite-7100-Microtower-PC systemd[1]: Started docker.service - Docker Application Container Engine.
+Jul 27 15:47:26 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="2025-07-27T15:47:26.679714072-05:00" level=info msg="ignoring event" container=0b6b0d215f50f2e713c9f300e50092fdcd9dd11ba68d1166c998812371868369 module=libcontainerd namespace=moby topic=/tasks/>
+```
+
+Run the command ```sudo docker run hello-world``` and observe the results
+```bash
 $ sudo docker run hello-world
 
 Hello from Docker!
@@ -158,12 +195,12 @@ For more examples and ideas, visit:
 ### Configure Docker To Run Without sudo Permissions [^3]
 
 Create the security group 'docker'
-```
+```bash
 $ sudo groupadd docker
 ```
 
 Add the current user to the security group 'docker'
-```
+```bash
 $ sudo usermod -aG docker $USER
 ```
 
@@ -172,12 +209,12 @@ Log out and log back in
 - If Linux (Ubuntu) is running in a virtual machine, it may be necessary to restart the virtual machine for changes to take effect
 
 Alternately, run this command to activate the changes to groups
-```
+```bash
 $ sudo newgrp docker
 ```
 
 Run the command ```docker run hello-world``` to verify that the user can run the command ```docker``` without sudo permissions
-```
+```bash
 $ docker run hello-world
 docker run hello-world
 Unable to find image 'hello-world:latest' locally
