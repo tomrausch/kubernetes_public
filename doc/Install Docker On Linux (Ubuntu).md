@@ -1,9 +1,5 @@
 # Install Docker On Linux (Ubuntu)
 
-## Update System Packages
-```
-$ sudo apt-get update
-```
 
 ## Setup Docker's apt Repository [^1]
 Add Docker's official GPG key
