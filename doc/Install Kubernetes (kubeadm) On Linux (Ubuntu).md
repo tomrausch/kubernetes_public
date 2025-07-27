@@ -2,69 +2,143 @@
 
 ## Uninstall The Existing Configuration [On Master & Worker Node]
 
+### Perform On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+
+### Commands
 - [Uninstall Minikube And Docker From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/3de9646c8938fb8056fcc1bc6b844e8eb65abb0c/doc/Uninstall%20Minikube%20And%20Docker%20From%20Linux%20(Ubuntu).md) | Tom Rausch, GitHub
 
 ## Prepare The Linux System
 
-### Install On Nodes
+### Perform On Nodes
 - ✅ Master Node
 - ✅ Worker Node
 
-### Prevent The Linux System From Hibernating Or Going To Sleep [^1]
-```
-$ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
-Created symlink /etc/systemd/system/sleep.target → /dev/null.
-Created symlink /etc/systemd/system/suspend.target → /dev/null.
-Created symlink /etc/systemd/system/hibernate.target → /dev/null.
-Created symlink /etc/systemd/system/hybrid-sleep.target → /dev/null.
-```
-
-### Disable The Disk Swap File [^2]
-```
-$ sudo swapoff -a
-$ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
-```
-
-### Update All Existing System Packages
-```
-$ sudo apt-get update
-```
-
-[^1]: [How do I disable my system from going to sleep?](https://askubuntu.com/questions/47311/how-do-i-disable-my-system-from-going-to-sleep) | Ask Ubuntu
-[^2]: [How to Install Kubernetes on Ubuntu 22.04](https://phoenixnap.com/kb/install-kubernetes-on-ubuntu#Deploy_Kubernetes) | phoenixNAP
+### Commands
+- [Prepare The Linux System To Install Software](https://github.com/tomrausch/kubernetes_public/blob/b187e08275c6668963f2fb659c9574209c02849d/doc/Prepare%20The%20Linux%20System%20To%20Install%20Software.md)
 
 ## Install Docker [On Master & Worker Node]
-```
-$ sudo apt install docker.io-y
-$ sudo chmod 666 /var/run/docker.sock
+
+### Perform On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+
+### Commands
+- [Install Docker On Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/84b99ec026c546257a5b2a2d19b940f16800a171/doc/Install%20Docker%20On%20Linux%20(Ubuntu).md)
+
+
+## Install Necessary Packages
+### Perform On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+
+### Commands
+```bash
+$ sudo apt-get install apt-transport-https ca-certificates curl gnupg
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+apt-transport-https is already the newest version (2.8.3).
+ca-certificates is already the newest version (20240203).
+curl is already the newest version (8.5.0-2ubuntu10.6).
+gnupg is already the newest version (2.4.4-2ubuntu17.3).
+gnupg set to manually installed.
 ```
 
-## Install Required Dependencies for Kubernetes [On Master & Worker Node]
+## Add Official GnuPG (GPG) Keyrings For Kubernetes
+### Perform On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+### Commands
+```bash
+$ sudo mkdir -p -m 755 /etc/apt/keyrings
+$ sudo curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 ```
-$ sudo apt-get install-y apt-transport-https ca-certificates curl gnupg
-$ sudo mkdir-p-m 755 /etc/apt/keyrings
+Confirm the Kubernetes keyrings are present in the file system
+```bash
+$ ls -l /etc/apt/keyrings | grep kubernetes-apt-keyring.gpg
+total 4
+-rw-r--r-- 1 root root 3817 Jul 27 15:19 docker.asc
 ```
 
-## Add Kubernetes Repository and GPG Key [On Master & Worker Node]
-```
-$ curl-fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg-- dearmor-o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+## Add The Kubernetes Repository To Package Sources
+### Perform On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+### Commands
+```bash
 $ echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 ```
-
+Confirm the Kubernetes repository is present in the sources list
+```bash 
+$ cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep kubernetes
+deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
+```
 
 ## Install Kubernetes Components [On Master & Worker Node]
 ### Install On Nodes
 - ✅ Master Node
 - ✅ Worker Node
 
-### Command
-```
-$ sudo apt install-y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1
+### Commands
+```bash
+$ sudo apt install kubeadm kubelet kubectl
+Reading package lists... Done
+Building dependency tree... Done
+Reading state information... Done
+The following additional packages will be installed:
+  conntrack cri-tools kubernetes-cni
+The following NEW packages will be installed:
+  conntrack cri-tools kubeadm kubectl kubelet kubernetes-cni
+0 upgraded, 6 newly installed, 0 to remove and 1 not upgraded.
+Need to get 87.4 MB of archives.
+After this operation, 335 MB of additional disk space will be used.
+Do you want to continue? [Y/n] y
+Get:6 http://us.archive.ubuntu.com/ubuntu noble/main amd64 conntrack amd64 1:1.4.8-1ubuntu1 [37.9 kB]
+Get:1 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  cri-tools 1.28.0-1.1 [19.6 MB]
+Get:2 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  kubernetes-cni 1.2.0-2.1 [27.6 MB]
+Get:3 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  kubelet 1.28.15-1.1 [19.6 MB]
+Get:4 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  kubectl 1.28.15-1.1 [10.4 MB]
+Get:5 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  kubeadm 1.28.15-1.1 [10.1 MB]
+Fetched 87.4 MB in 3s (27.5 MB/s)
+Selecting previously unselected package conntrack.
+(Reading database ... 228469 files and directories currently installed.)
+Preparing to unpack .../0-conntrack_1%3a1.4.8-1ubuntu1_amd64.deb ...
+Unpacking conntrack (1:1.4.8-1ubuntu1) ...
+Selecting previously unselected package cri-tools.
+Preparing to unpack .../1-cri-tools_1.28.0-1.1_amd64.deb ...
+Unpacking cri-tools (1.28.0-1.1) ...
+Selecting previously unselected package kubernetes-cni.
+Preparing to unpack .../2-kubernetes-cni_1.2.0-2.1_amd64.deb ...
+Unpacking kubernetes-cni (1.2.0-2.1) ...
+Selecting previously unselected package kubelet.
+Preparing to unpack .../3-kubelet_1.28.15-1.1_amd64.deb ...
+Unpacking kubelet (1.28.15-1.1) ...
+Selecting previously unselected package kubectl.
+Preparing to unpack .../4-kubectl_1.28.15-1.1_amd64.deb ...
+Unpacking kubectl (1.28.15-1.1) ...
+Selecting previously unselected package kubeadm.
+Preparing to unpack .../5-kubeadm_1.28.15-1.1_amd64.deb ...
+Unpacking kubeadm (1.28.15-1.1) ...
+Setting up conntrack (1:1.4.8-1ubuntu1) ...
+Setting up kubectl (1.28.15-1.1) ...
+Setting up cri-tools (1.28.0-1.1) ...
+Setting up kubernetes-cni (1.2.0-2.1) ...
+Setting up kubelet (1.28.15-1.1) ...
+Setting up kubeadm (1.28.15-1.1) ...
+Processing triggers for man-db (2.12.0-4build2) ...
 ```
 
 - ```kubeadm``` Going to setup a Kubernetes cluster
 - ```kubelet``` Responsible for creating pods which we are going to deploy applications
 - ```kubectl``` will work as cli to interact with the k8s cluster
+
+### Update And Upgrade All Packages
+```bash 
+$ sudo apt update
+$ sudo apt upgrade
+```
 
 
 ## Initialize Kubernetes Master Node [On MasterNode]
