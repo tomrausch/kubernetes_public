@@ -15,9 +15,18 @@ $ sudo swapoff -a
 $ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 
+## Remove Unneeded Pacakges
+```
+sudo apt autoremove
+```
+
 ## Update All Existing System Packages
 ```
 $ sudo apt-get update
+<Output Depends Upon Updated Packages>
+
+$ sudo apt-get upgrade
+<Output Depends Upon Upgraded Packages>
 ```
 
 [^1]: [How do I disable my system from going to sleep?](https://askubuntu.com/questions/47311/how-do-i-disable-my-system-from-going-to-sleep) | Ask Ubuntu
