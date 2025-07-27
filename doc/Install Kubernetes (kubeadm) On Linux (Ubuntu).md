@@ -76,7 +76,7 @@ $ cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep kubernetes
 deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
 ```
 
-## Install Kubernetes Components [On Master & Worker Node]
+## Install Kubernetes Components
 ### Install On Nodes
 - ✅ Master Node
 - ✅ Worker Node
@@ -134,7 +134,12 @@ Processing triggers for man-db (2.12.0-4build2) ...
 - ```kubelet``` Responsible for creating pods which we are going to deploy applications
 - ```kubectl``` will work as cli to interact with the k8s cluster
 
-### Update And Upgrade All Packages
+## Update And Upgrade All Packages
+### Perform On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+
+### Commands
 ```bash 
 $ sudo apt update
 $ sudo apt upgrade
