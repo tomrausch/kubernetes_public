@@ -16,15 +16,14 @@ $ sudo chmod a+r /etc/apt/keyrings/docker.asc
 Confirm the Docker keyrings are present in the file system
 ```
 $ ls -l /etc/apt/keyrings | grep docker.asc
-total 4
 -rw-r--r-- 1 root root 3817 Jul 27 15:19 docker.asc
 ```
 
-### Add The Docker Repository to apt sources
+### Add The Docker Repository To Package Sources
 ```
 $ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
-Confirm the Docker repository is present
+Confirm the Docker repository is present in the sources list
 ```
 cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep docker
 deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable
