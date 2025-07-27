@@ -15,7 +15,7 @@ $ sudo chmod a+r /etc/apt/keyrings/docker.asc
 ```
 Confirm the Docker keyrings are present in the file system
 ```
-$ ls -l /etc/apt/keyrings
+$ ls -l /etc/apt/keyrings | grep docker.asc
 total 4
 -rw-r--r-- 1 root root 3817 Jul 27 15:19 docker.asc
 ```
