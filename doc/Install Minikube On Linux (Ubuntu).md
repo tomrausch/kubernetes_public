@@ -26,6 +26,10 @@ $ sudo swapoff -a
 $ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 
+### Update All Existing System Packages
+```
+$ sudo apt-get update
+```
 
 [^1]: [How do I disable my system from going to sleep?](https://askubuntu.com/questions/47311/how-do-i-disable-my-system-from-going-to-sleep) | Ask Ubuntu
 [^2]: [How to Install Kubernetes on Ubuntu 22.04](https://phoenixnap.com/kb/install-kubernetes-on-ubuntu#Deploy_Kubernetes) | phoenixNAP
