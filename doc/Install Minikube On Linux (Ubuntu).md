@@ -49,7 +49,7 @@ Install the minikube installation file
 $ sudo install minikube-linux-amd64 /usr/local/bin/minikube && rm minikube-linux-amd64
 ```
 
-Start minikube for the first time
+Start minikube for the first time [^3]
 ```
 $ minikube start
 😄  minikube v1.35.0 on Ubuntu 24.04
@@ -78,6 +78,8 @@ $ minikube start
 🌟  Enabled addons: storage-provisioner, default-storageclass, dashboard, ingress
 🏄  Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
+[^3]: [minikube start - Deploy Applications - Service](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
+
 
 Stop minikube
 ```
@@ -490,7 +492,6 @@ status:
 - [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
 - [Ingress DNS](https://minikube.sigs.k8s.io/docs/handbook/addons/ingress-dns/#Linux) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
 - [Set up Ingress on Minikube with the NGINX Ingress Controller](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/) | Kubernetes
-- [minikube start - Deploy Applications - Service](https://minikube.sigs.k8s.io/docs/start/?arch=%2Flinux%2Fx86-64%2Fstable%2Fbinary+download#Service) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
 - [Accessing a remote minikube from a local computer](https://faun.pub/accessing-a-remote-minikube-from-a-local-computer-fd6180dd66dd) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
 - [Goodbye Docker Desktop, Hello Minikube!](https://medium.com/itnext/goodbye-docker-desktop-hello-minikube-3649f2a1c469) | [ITNEXT](https://itnext.io/), [Medium](https://medium.com/)
 - https://github.com/kubernetes/minikube/issues/14346
