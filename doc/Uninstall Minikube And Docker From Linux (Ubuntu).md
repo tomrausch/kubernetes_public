@@ -21,6 +21,10 @@ $ minikube delete
 ```
 $ for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker containerd runc; do sudo apt-get remove $pkg; done
 ```
+or
+```
+$ sudo apt-get remove docker.io-y
+```
 
 [^1]: [Uninstall old versions](https://docs.docker.com/engine/install/ubuntu/#uninstall-old-versions) | Docker Docs
 
@@ -29,6 +33,10 @@ $ for pkg in docker.io docker-doc docker-compose docker-compose-v2 podman-docker
 Uninstall the Docker Engine, CLI, containerd, and Docker Compose packages
 ```
 $ sudo apt-get purge docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin docker-ce-rootless-extras
+```
+or
+```
+$ sudo apt-get purge docker.io-y
 ```
 
 Uninstall images, containers, volumes, or custom configuration files on your host aren't automatically removed. To delete all images, containers, and volumes:
