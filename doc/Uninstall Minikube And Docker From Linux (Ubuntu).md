@@ -1,6 +1,6 @@
-# Uninstall Kubernetes (Minikube) And Docker From Linux (Ubuntu)
+# Uninstall Minikube And Docker From Linux (Ubuntu)
 
-## Stop The Existing Kubernetes (minikube) Cluster
+## Stop The Existing Minikube Cluster
 ```
 $ minikube stop
 * Stopping node "minikube"  ...
@@ -8,7 +8,7 @@ $ minikube stop
 * 1 node stopped.
 ```
 
-## Delete The Existing Kubernetes (minikube) Cluster
+## Delete The Existing Minikube Cluster
 ```
 $ minikube delete
 * Deleting "minikube" in docker ...
@@ -46,6 +46,3 @@ $ sudo rm /etc/apt/keyrings/docker.asc
 Delete any edited configuration files manually.
 
 [^2]: [Uninstall the existing Docker Engine](https://docs.docker.com/engine/install/ubuntu/#uninstall-docker-engine) | Docker Docs
-
-
-
