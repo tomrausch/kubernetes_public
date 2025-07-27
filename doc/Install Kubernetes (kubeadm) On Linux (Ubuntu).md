@@ -4,7 +4,12 @@
 
 - [Uninstall Minikube And Docker From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/3de9646c8938fb8056fcc1bc6b844e8eb65abb0c/doc/Uninstall%20Minikube%20And%20Docker%20From%20Linux%20(Ubuntu).md) | Tom Rausch, GitHub
 
-## Prepare The Linux System [On Master & Worker Node]
+## Prepare The Linux System
+
+### Install On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+
 ### Prevent The Linux System From Hibernating Or Going To Sleep [^1]
 ```
 $ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
@@ -21,10 +26,12 @@ $ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 ```
 
 ### Update All Existing System Packages
-
 ```
 $ sudo apt-get update
 ```
+
+[^1]: [How do I disable my system from going to sleep?](https://askubuntu.com/questions/47311/how-do-i-disable-my-system-from-going-to-sleep) | Ask Ubuntu
+[^2]: [How to Install Kubernetes on Ubuntu 22.04](https://phoenixnap.com/kb/install-kubernetes-on-ubuntu#Deploy_Kubernetes) | phoenixNAP
 
 ## Install Docker [On Master & Worker Node]
 ```
@@ -44,20 +51,29 @@ $ curl-fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg--
 $ echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 ```
 
-## Update Package List [On Master & Worker Node]
-``` 
-$ sudo apt update
-```
 
 ## Install Kubernetes Components [On Master & Worker Node]
-- ```kubeadm``` Going to setup a Kubernetes cluster
-- ```kubelet``` Responsible for creating pods which we are going to deploy applications
-- ```kubectl``` will work as cli to interact with the k8s cluster
+### Install On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+
+### Command
 ```
 $ sudo apt install-y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1
 ```
 
+- ```kubeadm``` Going to setup a Kubernetes cluster
+- ```kubelet``` Responsible for creating pods which we are going to deploy applications
+- ```kubectl``` will work as cli to interact with the k8s cluster
+
+
 ## Initialize Kubernetes Master Node [On MasterNode]
+
+### Install On Nodes
+- ✅ Master Node
+- ❌ Worker Node
+
+### Command
 ```
 $ sudo kubeadm init--pod-network-cidr=10.244.0.0/16
 ```
