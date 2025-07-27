@@ -7,7 +7,7 @@
 
 ## Uninstall The Existing Configuration
 
-- [Uninstall Minikube And Docker From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/8396ae2f0a5f8cb3a735f6e381b08b46678c6728/doc/Uninstall%20Kubernetes%20(minikube)%20From%20Linux%20(Ubuntu).md)
+- [Uninstall Minikube And Docker From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/3de9646c8938fb8056fcc1bc6b844e8eb65abb0c/doc/Uninstall%20Minikube%20And%20Docker%20From%20Linux%20(Ubuntu).md)
 
 
 ## Prepare Linux System
