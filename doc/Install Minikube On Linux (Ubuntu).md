@@ -7,7 +7,7 @@
 
 ## Uninstall The Existing Configuration
 
-- [Uninstall Kubernetes (minikube) From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/8396ae2f0a5f8cb3a735f6e381b08b46678c6728/doc/Uninstall%20Kubernetes%20(minikube)%20From%20Linux%20(Ubuntu).md)
+- [Uninstall minikube From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/8396ae2f0a5f8cb3a735f6e381b08b46678c6728/doc/Uninstall%20Kubernetes%20(minikube)%20From%20Linux%20(Ubuntu).md)
 
 
 ## Prepare Linux System
