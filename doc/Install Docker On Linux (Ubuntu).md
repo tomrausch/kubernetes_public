@@ -1,10 +1,13 @@
 # Install Docker On Linux (Ubuntu)
 
-## Setup Docker's apt Repository [^1]
-
-Add Docker's official GPG key
+## Update System Packages
 ```
 $ sudo apt-get update
+```
+
+## Setup Docker's apt Repository [^1]
+Add Docker's official GPG key
+```
 $ sudo apt-get install ca-certificates curl
 $ sudo install -m 0755 -d /etc/apt/keyrings
 $ sudo curl -fsSL https://download.docker.com/linux/ubuntu/gpg -o /etc/apt/keyrings/docker.asc
@@ -19,6 +22,14 @@ $ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docke
 Install the Docker packages
 ```
 $ sudo apt-get install docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
+```
+or
+```
+$ sudo apt install docker.io-y
+```
+then
+```
+$ sudo chmod 666 /var/run/docker.sock
 ```
 
 [^1]:[Install the Docker Engine using the apt repository](https://docs.docker.com/engine/install/ubuntu/#install-using-the-repository) | Docker Docs
@@ -50,13 +61,17 @@ Verify that the user can run the command 'docker' without sudo permissions
 ```
 $ sudo docker run hello-world
 ```
+more likely
+```
+$ docker run hello-world
+```
 
 [^2]:[Manage Docker as a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user) | Docker Docs
 
 ### Configure Docker to start on boot [^3]
 ```
-sudo systemctl enable docker.service
-sudo systemctl enable containerd.service
+$ sudo systemctl enable docker.service
+$ sudo systemctl enable containerd.service
 ```
 
 [^3]:[Configure Docker to start on boot with systemd](https://docs.docker.com/engine/install/linux-postinstall/#configure-docker-to-start-on-boot-with-systemd) | Docker Docs
