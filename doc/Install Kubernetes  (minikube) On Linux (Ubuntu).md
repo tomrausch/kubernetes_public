@@ -9,7 +9,17 @@
 
 - [Uninstall Kubernetes (minikube) From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/8396ae2f0a5f8cb3a735f6e381b08b46678c6728/doc/Uninstall%20Kubernetes%20(minikube)%20From%20Linux%20(Ubuntu).md)
 
+
 ## Prepare Linux System
+### Prevent System From Hibernating Or Going To Sleep [^1]
+```
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+Created symlink /etc/systemd/system/sleep.target → /dev/null.
+Created symlink /etc/systemd/system/suspend.target → /dev/null.
+Created symlink /etc/systemd/system/hibernate.target → /dev/null.
+Created symlink /etc/systemd/system/hybrid-sleep.target → /dev/null.
+```
+
 ### Disable Disk Swap File
 
 
@@ -609,4 +619,4 @@ status:
 - https://github.com/kubernetes/minikube/issues/14346
 
 
-
+[^1]: [How do I disable my system from going to sleep?](https://askubuntu.com/questions/47311/how-do-i-disable-my-system-from-going-to-sleep)
