@@ -23,33 +23,30 @@ $ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 ### Update All Existing System Packages
 
 ```
-sudo apt-get update
+$ sudo apt-get update
 ```
 
 ## Install Docker [On Master & Worker Node]
 ```
-sudo apt install docker.io-y
-
-sudo chmod 666 /var/run/docker.sock
+$ sudo apt install docker.io-y
+$ sudo chmod 666 /var/run/docker.sock
 ```
 
 ## Install Required Dependencies for Kubernetes [On Master & Worker Node]
 ```
-sudo apt-get install-y apt-transport-https ca-certificates curl gnupg
-
-sudo mkdir-p-m 755 /etc/apt/keyrings
+$ sudo apt-get install-y apt-transport-https ca-certificates curl gnupg
+$ sudo mkdir-p-m 755 /etc/apt/keyrings
 ```
 
 ## Add Kubernetes Repository and GPG Key [On Master & Worker Node]
 ```
-curl-fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg-- dearmor-o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
-
-echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+$ curl-fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg-- dearmor-o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+$ echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 ```
 
 ## Update Package List [On Master & Worker Node]
 ``` 
-sudo apt update
+$ sudo apt update
 ```
 
 ## Install Kubernetes Components [On Master & Worker Node]
@@ -57,32 +54,30 @@ sudo apt update
 - ```kubelet``` Responsible for creating pods which we are going to deploy applications
 - ```kubectl``` will work as cli to interact with the k8s cluster
 ```
-sudo apt install-y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1
+$ sudo apt install-y kubeadm=1.28.1-1.1 kubelet=1.28.1-1.1 kubectl=1.28.1-1.1
 ```
 
 ## Initialize Kubernetes Master Node [On MasterNode]
 ```
-sudo kubeadm init--pod-network-cidr=10.244.0.0/16
+$ sudo kubeadm init--pod-network-cidr=10.244.0.0/16
 ```
 - After run the above command then our vm will acts as master node and it will generate token to connect this with slave node-copy the token and run the command in slave machines 1 & 2
 
 ## Configure Kubernetes Cluster [On MasterNode]
 ```
-mkdir-p $HOME/.kube
-
-sudo cp-i /etc/kubernetes/admin.conf $HOME/.kube/config
-
-sudo chown $(id-u):$(id-g) $HOME/.kube/config
+$ mkdir-p $HOME/.kube
+$ sudo cp-i /etc/kubernetes/admin.conf $HOME/.kube/config
+$ sudo chown $(id-u):$(id-g) $HOME/.kube/config
 ```
 
 ## Deploy Networking Solution (Calico) [On MasterNode]
 ```
-kubectl apply-f https://docs.projectcalico.org/v3.20/manifests/calico.yaml
+$ kubectl apply-f https://docs.projectcalico.org/v3.20/manifests/calico.yaml
 ```
  
 ## Deploy Ingress Controller (NGINX) [On MasterNode]
 ```
-kubectl apply-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.49.0/deploy/static/provider/baremetal/deploy.yaml
+$ kubectl apply-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.49.0/deploy/static/provider/baremetal/deploy.yaml
 ```
 
 ## Scan Kubernetes Cluster For Any Kind Of Issues
