@@ -7,11 +7,11 @@
 
 ## Uninstall The Existing Configuration
 
-- [Uninstall Minikube And Docker From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/3de9646c8938fb8056fcc1bc6b844e8eb65abb0c/doc/Uninstall%20Minikube%20And%20Docker%20From%20Linux%20(Ubuntu).md)
+- [Uninstall Minikube And Docker From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/3de9646c8938fb8056fcc1bc6b844e8eb65abb0c/doc/Uninstall%20Minikube%20And%20Docker%20From%20Linux%20(Ubuntu).md) | Tom Rausch, GitHub
 
 
-## Prepare Linux System
-### Prevent System From Hibernating Or Going To Sleep [^1]
+## Prepare The Linux System
+### Prevent The Linux System From Hibernating Or Going To Sleep [^1]
 ```
 $ sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 Created symlink /etc/systemd/system/sleep.target → /dev/null.
@@ -20,7 +20,7 @@ Created symlink /etc/systemd/system/hibernate.target → /dev/null.
 Created symlink /etc/systemd/system/hybrid-sleep.target → /dev/null.
 ```
 
-### Disable Disk Swap File [^2]
+### Disable The Disk Swap File [^2]
 ```
 $ sudo swapoff -a
 $ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
@@ -32,7 +32,7 @@ $ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
 
 
 
-## Install Kubernetes (minikube)
+## Install Minikube
 
 Download the minikube installation file
 ```
@@ -107,17 +107,13 @@ $ minikube start
 * Done! kubectl is now configured to use "minikube" cluster and "default" namespace by default
 ```
 
-Restart minikube with two nodes
+Restart minikube with two nodes [^3]
 ```
-minikube start --nodes 2 -p multinode-demo
+$ minikube start --nodes 2 -p multinode-demo
 ```
+[^3]: [Using Multi-Node Clusters](https://minikube.sigs.k8s.io/docs/tutorials/multi_node/)
 
-
-### Reference
-- [Using Multi-Node Clusters](https://minikube.sigs.k8s.io/docs/tutorials/multi_node/)
-
-
-## Verify The Kubernetes (minikube) Installation Is Successful 
+## Verify The Minikube Installation Is Successful 
 
 Run the command  ```docker ps -a``` to observe the minikube container running under docker
 ```
@@ -302,8 +298,7 @@ f74ebd463641   registry.k8s.io/pause:3.10                           "/pause"    
 
 Run the command  ```exit``` to exit the shell of the minikube container
 
-
-## Configure minikube
+## Enable Minikube Addons
 
 ### Enable The minikube Addon 'Dashboard'
 Run the command  ```minikube addons enable dashboard``` to enable the minikube addon 'Dashboard' 
@@ -499,5 +494,3 @@ status:
 - [Accessing a remote minikube from a local computer](https://faun.pub/accessing-a-remote-minikube-from-a-local-computer-fd6180dd66dd) | [FAUN — Developer Community](https://faun.pub/), [Medium](https://medium.com/)
 - [Goodbye Docker Desktop, Hello Minikube!](https://medium.com/itnext/goodbye-docker-desktop-hello-minikube-3649f2a1c469) | [ITNEXT](https://itnext.io/), [Medium](https://medium.com/)
 - https://github.com/kubernetes/minikube/issues/14346
-
-
