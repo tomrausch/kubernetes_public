@@ -38,6 +38,7 @@ curl is already the newest version (8.5.0-2ubuntu10.6).
 gnupg is already the newest version (2.4.4-2ubuntu17.3).
 gnupg set to manually installed.
 ```
+
 ### Confirm The Packages Are Installated
 ```bash
 $ sudo apt list --installed | grep apt-transport-https
@@ -63,7 +64,7 @@ gnupg/noble-updates,noble-security,now 2.4.4-2ubuntu17.3 all [installed]
 $ sudo mkdir -p -m 755 /etc/apt/keyrings
 $ sudo curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 ```
-### Confirm The Kubernetes keyrings are present in the file system
+### Confirm The Kubernetes Keyrings Are Present In The File System
 ```bash
 $ ls -l /etc/apt/keyrings | grep kubernetes-apt-keyring.gpg
 total 4
@@ -139,7 +140,25 @@ Processing triggers for man-db (2.12.0-4build2) ...
 - ```kubeadm``` A tool that initializes a Kubernetes cluster by fast-tracking the setup using community-sourced best practices.
 - ```kubelet``` The work package that runs on every node and starts containers. The tool gives you command-line access to clusters.
 - ```kubectl``` The command-line interface for interacting with clusters.
-### Confirm The Commands Are Installed
+
+### Confirm The Packages Are Installated
+```bash
+$ sudo apt list --installed | grep conntrack
+conntrack/noble,now 1:1.4.8-1ubuntu1 amd64 [installed,automatic]
+libnetfilter-conntrack3/noble,now 1.0.9-6build1 amd64 [installed,automatic]
+$ sudo apt list --installed | grep kubectl
+kubectl/unknown,now 1.28.15-1.1 amd64 [installed]
+$ sudo apt list --installed | grep cri-tools
+cri-tools/unknown,now 1.28.0-1.1 amd64 [installed,automatic]
+$ sudo apt list --installed | grep kubernetes-cni
+kubernetes-cni/unknown,now 1.2.0-2.1 amd64 [installed,automatic]
+$ sudo apt list --installed | grep kubelet
+kubelet/unknown,now 1.28.15-1.1 amd64 [installed]
+$ sudo apt list --installed | grep kubeadm
+kubeadm/unknown,now 1.28.15-1.1 amd64 [installed]
+```
+
+### Confirm The Kubernetes Commands Are Functioning
 ```
 $ sudo kubeadm version
 kubeadm version: &version.Info{Major:"1", Minor:"28", GitVersion:"v1.28.15", GitCommit:"841856557ef0f6a399096c42635d114d6f2cf7f4", GitTreeState:"clean", BuildDate:"2024-10-22T20:33:16Z", GoVersion:"go1.22.8", Compiler:"gc", Platform:"linux/amd64"}
@@ -155,6 +174,15 @@ Client Version: v1.28.15
 Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
 ```
 
+### Prevent Automatic Installation, Upgrade, or Removal
+```
+$ sudo apt-mark hold kubeadm kubelet kubectl
+kubeadm set on hold.
+kubelet set on hold.
+kubectl set on hold.
+```
+
+
 ## Update And Upgrade All Packages
 ### Perform On Nodes
 - ✅ Master Node
@@ -165,8 +193,154 @@ Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
 $ sudo apt update
 $ sudo apt upgrade
 ```
+
+## Set The Kubernetes Configuration
+### Perform On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+
+### Commands
+Disable all swap spaces with the swapoff command:
+```bash
+sudo swapoff -a
+```
+
+Make the necessary adjustments to the /etc/fstab file:
+```bash
+sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+```
+
+Load the required containerd modules
+- Edit the containerd configuration file 'containerd.conf'
+```bash
+$ sudo nano /etc/modules-load.d/containerd.conf
+```
+- Add the following two lines to the file 'containerd.conf'
+```bash
+overlay
+br_netfilter
+```
+- Save the file to the file system and exit the editor
+- Confirm the file 'containerd.conf'
+```bash
+$ cat /etc/modules-load.d/containerd.conf
+overlay
+br_netfilter
+```
+
+Add the modules
+```bash
+$ sudo modprobe overlay
+$ sudo modprobe br_netfilter
+```
+
+Edit the kubernetes configuration file 'kubernetes.conf'
+```bash
+$ sudo nano /etc/sysctl.d/kubernetes.conf
+```
+
+Add the following three lines to the file 'containerd.conf'
+```
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+```
+
+Save the file to the file system and exit the editor
+
+Confirm the file 'kubernetes.conf'
+```bash
+$ cat /etc/sysctl.d/kubernetes.conf
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+```
+
+Reload the configuration
+```bash
+$  sudo sysctl --system
+* Applying /usr/lib/sysctl.d/10-apparmor.conf ...
+* Applying /etc/sysctl.d/10-bufferbloat.conf ...
+* Applying /etc/sysctl.d/10-console-messages.conf ...
+* Applying /etc/sysctl.d/10-ipv6-privacy.conf ...
+* Applying /etc/sysctl.d/10-kernel-hardening.conf ...
+* Applying /etc/sysctl.d/10-magic-sysrq.conf ...
+* Applying /etc/sysctl.d/10-map-count.conf ...
+* Applying /etc/sysctl.d/10-network-security.conf ...
+* Applying /etc/sysctl.d/10-ptrace.conf ...
+* Applying /etc/sysctl.d/10-zeropage.conf ...
+* Applying /usr/lib/sysctl.d/30-tracker.conf ...
+* Applying /usr/lib/sysctl.d/50-bubblewrap.conf ...
+* Applying /usr/lib/sysctl.d/50-pid-max.conf ...
+* Applying /usr/lib/sysctl.d/99-protect-links.conf ...
+* Applying /etc/sysctl.d/99-sysctl.conf ...
+* Applying /etc/sysctl.d/kubernetes.conf ...
+* Applying /etc/sysctl.conf ...
+kernel.apparmor_restrict_unprivileged_userns = 1
+net.core.default_qdisc = fq_codel
+kernel.printk = 4 4 1 7
+net.ipv6.conf.all.use_tempaddr = 2
+net.ipv6.conf.default.use_tempaddr = 2
+kernel.kptr_restrict = 1
+kernel.sysrq = 176
+vm.max_map_count = 1048576
+net.ipv4.conf.default.rp_filter = 2
+net.ipv4.conf.all.rp_filter = 2
+kernel.yama.ptrace_scope = 1
+vm.mmap_min_addr = 65536
+fs.inotify.max_user_watches = 65536
+kernel.unprivileged_userns_clone = 1
+kernel.pid_max = 4194304
+fs.protected_fifos = 1
+fs.protected_hardlinks = 1
+fs.protected_regular = 2
+fs.protected_symlinks = 1
+net.bridge.bridge-nf-call-ip6tables = 1
+net.bridge.bridge-nf-call-iptables = 1
+net.ipv4.ip_forward = 1
+```
+
+## Set The 
+### Perform On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+
+### Commands
+Logon the future Master Kubernetes node
+
+Determine the hostname and IP address
+```bash
+$ hostname
+tomrausch-HP-Elite-7100-Microtower-PC
+$ hostname -I
+192.168.0.136 172.17.0.1 192.168.58.1
+```
+- The current hostname of the future Master Kubernetes node is "tomrausch-HP-Elite-7100-Microtower-PC"
+- The IP address of the future master Kubernetes node is "192.168.0.136"
+
+Reset the hostname of the Master
+```bash
+$ hostname
+tomrausch-HP-Elite-7100-Microtower-PC
+
+
+
+
+
+- - The current hostname of the future master Kuber
+
+
+thomas-rausch@thomas-rausch-ThinkPad-L560:~$ hostname
+thomas-rausch-ThinkPad-L560
+thomas-rausch@thomas-rausch-ThinkPad-L560:~$ hostname -I
+192.168.0.241 2601:248:100:eb90::27b5
+
+
+
+
 -----------------------
 -----------------------
+
 
 ## Initialize Kubernetes Master Node [On MasterNode]
 
@@ -176,7 +350,7 @@ $ sudo apt upgrade
 
 ### Command
 ```
-$ sudo kubeadm init --pod-network-cidr=10.244.0.0/16
+$ sudo kubeadm init 
 ```
 - After run the above command then our vm will acts as master node and it will generate token to connect this with slave node-copy the token and run the command in slave machines 1 & 2
 
