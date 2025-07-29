@@ -524,12 +524,46 @@ Reload the configuration and restart Docker
 sudo systemctl daemon-reload && sudo systemctl restart docker
 ```
 
-Edit the kubeadm configuration file '/etc/systemd/system/kubelet.service.d/10-kubeadm.conf'
+```
+Find location of kubeadm configuration file
+
+$ sudo systemctl status kubelet.service
+● kubelet.service - kubelet: The Kubernetes Node Agent
+     Loaded: loaded (/usr/lib/systemd/system/kubelet.service; enabled; preset: enabled)
+    Drop-In: /usr/lib/systemd/system/kubelet.service.d
+             └─10-kubeadm.conf
+     Active: active (running) since Tue 2025-07-29 16:01:31 CDT; 53min ago
+       Docs: https://kubernetes.io/docs/
+   Main PID: 13781 (kubelet)
+      Tasks: 18 (limit: 9378)
+     Memory: 49.9M (peak: 51.7M)
+        CPU: 1min 48.987s
+     CGroup: /system.slice/kubelet.service
+             └─13781 /usr/bin/kubelet --bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.con>
+
+Jul 29 16:54:46 master-node kubelet[13781]: E0729 16:54:46.899717   13781 kuberuntime_manager.go:1>
+Jul 29 16:54:46 master-node kubelet[13781]: E0729 16:54:46.899805   13781 pod_workers.go:1300] "Er>
+Jul 29 16:54:50 master-node kubelet[13781]: E0729 16:54:50.901022   13781 remote_runtime.go:193] ">
+Jul 29 16:54:50 master-node kubelet[13781]: E0729 16:54:50.901079   13781 kuberuntime_sandbox.go:7>
+Jul 29 16:54:50 master-node kubelet[13781]: E0729 16:54:50.901114   13781 kuberuntime_manager.go:1>
+Jul 29 16:54:50 master-node kubelet[13781]: E0729 16:54:50.901194   13781 pod_workers.go:1300] "Er>
+e5091d3b437c1d4bb76a8c0b1\\\": plugin type=\\\"flannel\\\" failed (add): loadFlannelSubnetEnv fail>
+Jul 29 16:54:50 master-node kubelet[13781]: E0729 16:54:50.915465   13781 remote_runtime.go:193] ">
+Jul 29 16:54:50 master-node kubelet[13781]: E0729 16:54:50.915542   13781 kuberuntime_sandbox.go:7>
+Jul 29 16:54:50 master-node kubelet[13781]: E0729 16:54:50.915583   13781 kuberuntime_manager.go:1>
+Jul 29 16:54:50 master-node kubelet[13781]: E0729 16:54:50.915669   13781 pod_workers.go:1300] "Er>
+lines 1-24/24 (END)
+```
+
+
+
+Edit the kubeadm configuration file '/usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf'
+
 
 ```
 Open the kubeadm configuration file:
 
-sudo nano /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+sudo nano /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 
 FILE DOES NOT EXIST
 
@@ -544,6 +578,22 @@ Confirm the file '/etc/systemd/system/kubelet.service.d/10-kubeadm.conf'
 Reload the configuration and restart kubelet
 
 sudo systemctl daemon-reload && sudo systemctl restart kubelet
+
+tomrausch@master-node:/usr/lib/systemd/system/kubelet.service.d$ sudo nano /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+tomrausch@master-node:/usr/lib/systemd/system/kubelet.service.d$ cat /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+# Note: This dropin only works with kubeadm and kubelet v1.11+
+[Service]
+Environment="KUBELET_KUBECONFIG_ARGS=--bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf"
+Environment="KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml"
+Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false"
+# This is a file that "kubeadm init" and "kubeadm join" generates at runtime, populating the KUBELET_KUBEADM_ARGS variable dynamically
+EnvironmentFile=-/var/lib/kubelet/kubeadm-flags.env
+# This is a file that the user can use for overrides of the kubelet args as a last resort. Preferably, the user should use
+# the .NodeRegistration.KubeletExtraArgs object in the configuration files instead. KUBELET_EXTRA_ARGS should be sourced from this file.
+EnvironmentFile=-/etc/default/kubelet
+ExecStart=
+ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS
+tomrausch@master-node:/usr/lib/systemd/system/kubelet.service.d$
 ```
 
 Reset the existing configuration, if any
