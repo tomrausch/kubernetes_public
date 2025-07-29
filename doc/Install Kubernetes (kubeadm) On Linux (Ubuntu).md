@@ -843,6 +843,52 @@ https://github.com/shopify/kubeaudit/releases
 -> sudo mv kubeaudit /usr
 ```
 
+## Fix Containers Including coredns Stuck In ContainerCreating
+Install Calico
+https://discuss.kubernetes.io/t/coredns-stuck-in-containercreating/19100
+
+tomrausch@master-node:~$ kubectl get pods --all-namespaces
+NAMESPACE      NAME                                       READY   STATUS             RESTARTS         AGE
+default        hello-blue-whale-7f856d65b7-cdmv6          1/1     Running            0                2m44s
+default        kuard-5c6b59fbd5-8r9f8                     1/1     Running            0                89m
+kube-flannel   kube-flannel-ds-g4v7s                      0/1     CrashLoopBackOff   21 (3m10s ago)   91m
+kube-system    calico-kube-controllers-658d97c59c-8hx55   1/1     Running            0                85s
+kube-system    calico-node-82298                          1/1     Running            0                85s
+kube-system    coredns-5dd5756b68-jjlh5                   1/1     Running            0                88m
+kube-system    coredns-5dd5756b68-sq9st                   1/1     Running            0                144m
+kube-system    etcd-master-node                           1/1     Running            1 (82m ago)      144m
+kube-system    kube-apiserver-master-node                 1/1     Running            14 (82m ago)     144m
+kube-system    kube-controller-manager-master-node        1/1     Running            14 (82m ago)     144m
+kube-system    kube-proxy-p4lgt                           1/1     Running            1 (82m ago)      144m
+kube-system    kube-scheduler-master-node                 1/1     Running            14 (82m ago)     144m
+
+After Calico no more errors in crictl except for one node that is nor running anyway
+
+tomrausch@master-node:~$ sudo crictl pods
+WARN[0000] runtime connect using default endpoints: [unix:///var/run/dockershim.sock unix:///run/containerd/containerd.sock unix:///run/crio/crio.sock unix:///var/run/cri-dockerd.sock]. As the default settings are now deprecated, you should set the endpoint instead.
+ERRO[0000] validate service connection: validate CRI v1 runtime API for endpoint "unix:///var/run/dockershim.sock": rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial unix /var/run/dockershim.sock: connect: no such file or directory"
+POD ID              CREATED             STATE               NAME                                       NAMESPACE           ATTEMPT             RUNTIME
+29d93c938a68d       4 minutes ago       Ready               kuard-5c6b59fbd5-8r9f8                     default             11                  (default)
+f36687cadaaa3       4 minutes ago       Ready               coredns-5dd5756b68-jjlh5                   kube-system         6                   (default)
+ecb44c47ba47c       4 minutes ago       Ready               hello-blue-whale-7f856d65b7-cdmv6          default             1                   (default)
+185cdf2867618       4 minutes ago       Ready               calico-kube-controllers-658d97c59c-8hx55   kube-system         10                  (default)
+774c959eb0fcd       4 minutes ago       Ready               coredns-5dd5756b68-sq9st                   kube-system         5                   (default)
+098f1aaa718fd       5 minutes ago       Ready               calico-node-82298                          kube-system         0                   (default)
+48256d07c036b       About an hour ago   Ready               kube-flannel-ds-g4v7s                      kube-flannel        1                   (default)
+07b4dd6b5a9d5       About an hour ago   Ready               kube-proxy-p4lgt                           kube-system         1                   (default)
+2db005b431d89       About an hour ago   Ready               kube-controller-manager-master-node        kube-system         1                   (default)
+d521c059b525b       About an hour ago   Ready               etcd-master-node                           kube-system         1                   (default)
+034547c5e62f9       About an hour ago   Ready               kube-apiserver-master-node                 kube-system         1                   (default)
+dbdabaec3b382       About an hour ago   Ready               kube-scheduler-master-node                 kube-system         1                   (default)
+f169d1e3758a3       2 hours ago         NotReady            kube-proxy-p4lgt                           kube-system         0                   (default)
+1b6093aa773e0       2 hours ago         NotReady            etcd-master-node                           kube-system         0                   (default)
+d3efc989e2461       2 hours ago         NotReady            kube-scheduler-master-node                 kube-system         0                   (default)
+cc5b77a5fdae2       2 hours ago         NotReady            kube-controller-manager-master-node        kube-system         0                   (default)
+80f0b89870894       2 hours ago         NotReady            kube-apiserver-master-node                 kube-system         0                   (default)
+tomrausch@master-node:~$
+
+
+
 ## Reference
 - [Getting started](https://kubernetes.io/docs/setup/) | Kubernetes Documentation
 - [Day 39: Setting Up a Kubernetes Cluster — Minikube & Kubeadm](https://medium.com/@karthidkk123/day-39-setting-up-a-kubernetes-cluster-minikube-kubeadm-d95a74bf3254) | [Karthick Dkk](https://medium.com/@karthidkk123), Medium
