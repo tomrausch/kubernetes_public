@@ -683,6 +683,12 @@ kube-system    kube-proxy-p4lgt                      1/1     Running            
 kube-system    kube-scheduler-master-node            1/1     Running             13            29m
 ```
 
+Untaint the nodes
+```
+$ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+node/master-node untainted
+```
+
 
 ----
 ----
