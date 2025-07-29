@@ -7,12 +7,14 @@
 ### Commands
 - [Uninstall Minikube And Docker From Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/3de9646c8938fb8056fcc1bc6b844e8eb65abb0c/doc/Uninstall%20Minikube%20And%20Docker%20From%20Linux%20(Ubuntu).md) | Tom Rausch, GitHub
 
+
 ## Prepare The Linux System
 ### Perform On Nodes
 - ✅ Master Node
 - ✅ Worker Node
 ### Commands
 - [Prepare The Linux System To Install Software](https://github.com/tomrausch/kubernetes_public/blob/b187e08275c6668963f2fb659c9574209c02849d/doc/Prepare%20The%20Linux%20System%20To%20Install%20Software.md)
+
 
 ## Install Docker
 ### Perform On Nodes
@@ -55,6 +57,7 @@ gnupg-utils/noble-updates,noble-security,now 2.4.4-2ubuntu17.3 amd64 [installed,
 gnupg/noble-updates,noble-security,now 2.4.4-2ubuntu17.3 all [installed]
 ```
 
+
 ## Add Official GnuPG (GPG) Keyrings For Kubernetes
 ### Perform On Nodes
 - ✅ Master Node
@@ -71,6 +74,7 @@ total 4
 -rw-r--r-- 1 root root 3817 Jul 27 15:19 docker.asc
 ```
 
+
 ## Add The Kubernetes Repository To Package Sources
 ### Perform On Nodes
 - ✅ Master Node
@@ -84,6 +88,7 @@ $ echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkg
 $ cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep kubernetes
 deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
 ```
+
 
 ## Install Kubernetes Components
 ### Perform On Nodes
@@ -194,34 +199,59 @@ $ sudo apt update
 $ sudo apt upgrade
 ```
 
+
+## Prepare The Linux Device
+### Perform On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+
+### Commands
+Disable all swap spaces with the command [swapoff](https://linux.die.net/man/8/swapoff)
+```bash
+$ sudo swapoff -a
+```
+
+Make the necessary adjustments to the file '/etc/fstab'
+```bash
+$ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+```
+
+Confirm the file '/etc/fstab'
+```bash
+$ cat /etc/fstab
+# /etc/fstab: static file system information.
+#
+# Use 'blkid' to print the universally unique identifier for a
+# device; this may be used with UUID= as a more robust way to name devices
+# that works even if disks are added and removed. See fstab(5).
+#
+# <file system> <mount point>   <type>  <options>       <dump>  <pass>
+# / was on /dev/ubuntu-vg/ubuntu-lv during curtin installation
+/dev/disk/by-id/dm-uuid-LVM-krKZ6WsC0ZJypL7cPWMIE3MJFkdKhOZCZtG90SWuPz5NlUdgZbFdkcXwDecAKGZC / ext4 defaults 0 1
+# /boot was on /dev/sda2 during curtin installation
+/dev/disk/by-uuid/b712d386-8463-4fb4-b92f-0c0cb7720485 /boot ext4 defaults 0 1
+/swap.img       none    swap    sw      0       0
+```
+
+
 ## Set The Kubernetes Configuration
 ### Perform On Nodes
 - ✅ Master Node
 - ✅ Worker Node
 
 ### Commands
-Disable all swap spaces with the swapoff command:
-```bash
-sudo swapoff -a
-```
-
-Make the necessary adjustments to the /etc/fstab file:
-```bash
-sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
-```
-
 Load the required containerd modules
-- Edit the containerd configuration file 'containerd.conf'
+- Edit the containerd configuration file '/etc/modules-load.d/containerd.conf'
 ```bash
 $ sudo nano /etc/modules-load.d/containerd.conf
 ```
-- Add the following two lines to the file 'containerd.conf'
+- Add the following two lines to the file '/etc/modules-load.d/containerd.conf'
 ```bash
 overlay
 br_netfilter
 ```
 - Save the file to the file system and exit the editor
-- Confirm the file 'containerd.conf'
+- Confirm the file '/etc/modules-load.d/containerd.conf'
 ```bash
 $ cat /etc/modules-load.d/containerd.conf
 overlay
@@ -234,12 +264,12 @@ $ sudo modprobe overlay
 $ sudo modprobe br_netfilter
 ```
 
-Edit the kubernetes configuration file 'kubernetes.conf'
+Edit the kubernetes configuration file '/etc/sysctl.d/kubernetes.conf'
 ```bash
 $ sudo nano /etc/sysctl.d/kubernetes.conf
 ```
 
-Add the following three lines to the file 'containerd.conf'
+Add the following three lines to the file '/etc/sysctl.d/kubernetes.conf'
 ```
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
@@ -248,7 +278,7 @@ net.ipv4.ip_forward = 1
 
 Save the file to the file system and exit the editor
 
-Confirm the file 'kubernetes.conf'
+Confirm the file '/etc/sysctl.d/kubernetes.conf'
 ```bash
 $ cat /etc/sysctl.d/kubernetes.conf
 net.bridge.bridge-nf-call-ip6tables = 1
@@ -256,7 +286,7 @@ net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
 ```
 
-Reload the configuration
+Reload the configuration with the command [sysctl](https://linux.die.net/man/8/sysctl)
 ```bash
 $  sudo sysctl --system
 * Applying /usr/lib/sysctl.d/10-apparmor.conf ...
@@ -300,13 +330,14 @@ net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
 ```
 
-## Set The 
+
+## Reset The Hostname Of The Master Node
 ### Perform On Nodes
 - ✅ Master Node
-- ✅ Worker Node
+- ❌ Worker Node
 
 ### Commands
-Logon the future Master Kubernetes node
+Logon the future Kubernetes master node
 
 Determine the hostname and IP address
 ```bash
@@ -315,43 +346,328 @@ tomrausch-HP-Elite-7100-Microtower-PC
 $ hostname -I
 192.168.0.136 172.17.0.1 192.168.58.1
 ```
-- The current hostname of the future Master Kubernetes node is "tomrausch-HP-Elite-7100-Microtower-PC"
-- The IP address of the future master Kubernetes node is "192.168.0.136"
+- The current hostname of the future Kubernetes master node is "tomrausch-HP-Elite-7100-Microtower-PC"
+- The IP address of the future Kubernetes master node is "192.168.0.136"
 
-Reset the hostname of the Master
+Reset the hostname of the Kubernetes master node
+```bash
+$ sudo hostnamectl set-hostname master-node
+```
+
+Confirm the hostname and IP address of the Kubernetes master node
 ```bash
 $ hostname
-tomrausch-HP-Elite-7100-Microtower-PC
+master-node
+$ hostname -I
+192.168.0.136 172.17.0.1 192.168.58.1
+```
+- The current hostname of the future Kubernetes master node is "master-node"
+  - Changed
+- The IP address of the future Kubernetes master node is "192.168.0.136"
+  - There is no change
 
 
+## Reset The Hostname Of The Worker Node
+### Perform On Nodes
+- ❌ Master Node
+- ✅ Worker Node
 
+### Commands
+Logon the future Kubernetes worker node
 
-
-- - The current hostname of the future master Kuber
-
-
-thomas-rausch@thomas-rausch-ThinkPad-L560:~$ hostname
+Determine the hostname and IP address
+```bash
+$ hostname
 thomas-rausch-ThinkPad-L560
-thomas-rausch@thomas-rausch-ThinkPad-L560:~$ hostname -I
+$ hostname -I
 192.168.0.241 2601:248:100:eb90::27b5
+```
+- The current hostname of the future Kubernetes worker node is "thomas-rausch-ThinkPad-L560"
+- The IP address of the future Kubernetes worker node is "192.168.0.241"
+
+Reset the hostname of the Kubernetes worker node
+```bash
+$ sudo hostnamectl set-hostname worker-node-01
+```
+
+Confirm the hostname and IP address of the Kubernetes worker node
+```bash
+$ hostname
+worker-node-01
+$ hostname -I
+192.168.0.241 2601:248:100:eb90::27b5
+```
+- The current hostname of the future Kubernetes worker node is "master-node"
+  - Changed
+- The IP address of the future master Kubernetes worker node is "192.168.0.241"
+  - There is no change
 
 
+## Modify The Hosts File
+### Perform On Nodes
+- ✅ Master Node
+- ✅ Worker Node
+
+### Commands
+Logon the Linux device
+
+Edit the hosts file '/etc/hosts'
+```bash
+$ sudo nano /etc/hostsw
+```
+Add the following two lines to the file '/etc/hosts'
+```bash
+192.168.0.136 master-node
+192.168.0.241 worker-node-01
+```
+- The IP addresses are obtained in a previous step
+
+Save the file to the file system and exit the editor
+
+Confirm the file '/etc/hosts'
+- Master node
+```bash
+$ cat /etc/hosts
+127.0.0.1 localhost
+127.0.1.1 tomrausch-HP-Elite-7100-Microtower-PC
+127.0.1.1 master-node
+192.168.0.136 master-node
+192.168.0.241 worker-node-01
+192.168.0.241 thomas-rausch-ThinkPad-L560
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+# Added by Docker Desktop
+# To allow the same kube context to work on the host and the container:
+127.0.0.1       kubernetes.docker.internal
+# End of section
+```
+
+- Worker node
+```bash
+$ cat /etc/hosts
+127.0.0.1 localhost
+127.0.1.1 thomas-rausch-ThinkPad-L560
+127.0.1.1 worker-node-01
+192.168.0.136 master-node
+192.168.0.241 worker-node-01
+192.168.0.136 tomrausch-HP-Elite-7100-Microtower-PC
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+``` 
 
 
------------------------
------------------------
-
-
-## Initialize Kubernetes Master Node [On MasterNode]
-
-### Install On Nodes
+## Initialize The Kubernetes Master Node
+### Perform On Nodes
 - ✅ Master Node
 - ❌ Worker Node
 
-### Command
+### Commands [^K1]
+Edit the kubetlet configuration file '/etc/default/kubelet'
+```bash
+$ sudo nano /etc/default/kubelet
 ```
-$ sudo kubeadm init 
+Add the following line to the file '/etc/default/kubelet'
+```bash
+KUBELET_EXTRA_ARGS="--cgroup-driver=cgroupfs"
 ```
+Save the file to the file system and exit the editor
+
+Confirm the file '/etc/default/kubelet'
+```bash
+$ cat /etc/default/kubelet
+KUBELET_EXTRA_ARGS="--cgroup-driver=cgroupfs"
+```
+
+Reload the configuration and restart kubelet
+```bash
+sudo systemctl daemon-reload && sudo systemctl restart kubelet
+```
+
+[^K1]:[Configuring each kubelet in your cluster using kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/kubelet-integration/) | kubernetes.io
+
+Edit the Docker daemon configuration file '/etc/docker/daemon.json'
+```bash
+$ sudo nano /etc/docker/daemon.json
+```
+Append the following configuration block to the file '/etc/docker/daemon.json'
+```bash
+ {
+      "exec-opts": ["native.cgroupdriver=systemd"],
+      "log-driver": "json-file",
+      "log-opts": {
+      "max-size": "100m"
+   },
+
+       "storage-driver": "overlay2"
+       }
+```
+Save the file to the file system and exit the editor
+
+Confirm the file '/etc/docker/daemon.json'
+```bash
+$ cat /etc/docker/daemon.json
+KUBELET_EXTRA_ARGS="--cgroup-driver=cgroupfs"
+```
+
+Reload the configuration and restart Docker
+```bash
+sudo systemctl daemon-reload && sudo systemctl restart docker
+```
+
+Edit the kubeadm configuration file '/etc/systemd/system/kubelet.service.d/10-kubeadm.conf'
+
+```
+Open the kubeadm configuration file:
+
+sudo nano /etc/systemd/system/kubelet.service.d/10-kubeadm.conf
+
+FILE DOES NOT EXIST
+
+Add the following line to the file:
+
+Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false"
+
+Save the file to the file system and exit the editor
+
+Confirm the file '/etc/systemd/system/kubelet.service.d/10-kubeadm.conf'
+
+Reload the configuration and restart kubelet
+
+sudo systemctl daemon-reload && sudo systemctl restart kubelet
+```
+
+Reset the existing configuration, if any
+```
+$  sudo kubeadm reset
+[reset] Reading configuration from the cluster...
+[reset] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
+W0729 14:36:33.870260 2402426 configset.go:78] Warning: No kubeproxy.config.k8s.io/v1alpha1 config is loaded. Continuing without it: configmaps "kube-proxy" not found
+W0729 14:36:33.882387 2402426 reset.go:120] [reset] Unable to fetch the kubeadm-config ConfigMap from cluster: failed to get node registration: failed to get corresponding node: nodes "tomrausch-hp-elite-7100-microtower-pc" not found
+W0729 14:36:33.882488 2402426 preflight.go:56] [reset] WARNING: Changes made to this host by 'kubeadm init' or 'kubeadm join' will be reverted.
+[reset] Are you sure you want to proceed? [y/N]: y
+[preflight] Running pre-flight checks
+W0729 14:36:35.733502 2402426 removeetcdmember.go:106] [reset] No kubeadm config, using etcd pod spec to get data directory
+[reset] Deleted contents of the etcd data directory: /var/lib/etcd
+[reset] Stopping the kubelet service
+[reset] Unmounting mounted directories in "/var/lib/kubelet"
+[reset] Deleting contents of directories: [/etc/kubernetes/manifests /var/lib/kubelet /etc/kubernetes/pki]
+[reset] Deleting files: [/etc/kubernetes/admin.conf /etc/kubernetes/kubelet.conf /etc/kubernetes/bootstrap-kubelet.conf /etc/kubernetes/controller-manager.conf /etc/kubernetes/scheduler.conf]
+
+The reset process does not clean CNI configuration. To do so, you must remove /etc/cni/net.d
+
+The reset process does not reset or clean up iptables rules or IPVS tables.
+If you wish to reset iptables, you must do so manually by using the "iptables" command.
+
+If your cluster was setup to utilize IPVS, run ipvsadm --clear (or similar)
+to reset your system's IPVS tables.
+
+The reset process does not clean your kubeconfig files and you must remove them manually.
+Please, check the contents of the $HOME/.kube/config file.
+```
+
+Initialize the Kubernetes cluster
+```
+$ sudo kubeadm init --control-plane-endpoint=master-node --upload-certs
+I0729 14:36:52.098417 2403045 version.go:256] remote version is much newer: v1.33.3; falling back to: stable-1.28
+[init] Using Kubernetes version: v1.28.15
+[preflight] Running pre-flight checks
+[preflight] Pulling images required for setting up a Kubernetes cluster
+[preflight] This might take a minute or two, depending on the speed of your internet connection
+[preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
+W0729 14:36:52.628542 2403045 checks.go:835] detected that the sandbox image "registry.k8s.io/pause:3.8" of the container runtime is inconsistent with that used by kubeadm. It is recommended that using "registry.k8s.io/pause:3.9" as the CRI sandbox image.
+[certs] Using certificateDir folder "/etc/kubernetes/pki"
+[certs] Generating "ca" certificate and key
+[certs] Generating "apiserver" certificate and key
+[certs] apiserver serving cert is signed for DNS names [kubernetes kubernetes.default kubernetes.default.svc kubernetes.default.svc.cluster.local master-node] and IPs [10.96.0.1 192.168.0.136]
+[certs] Generating "apiserver-kubelet-client" certificate and key
+[certs] Generating "front-proxy-ca" certificate and key
+[certs] Generating "front-proxy-client" certificate and key
+[certs] Generating "etcd/ca" certificate and key
+[certs] Generating "etcd/server" certificate and key
+[certs] etcd/server serving cert is signed for DNS names [localhost master-node] and IPs [192.168.0.136 127.0.0.1 ::1]
+[certs] Generating "etcd/peer" certificate and key
+[certs] etcd/peer serving cert is signed for DNS names [localhost master-node] and IPs [192.168.0.136 127.0.0.1 ::1]
+[certs] Generating "etcd/healthcheck-client" certificate and key
+[certs] Generating "apiserver-etcd-client" certificate and key
+[certs] Generating "sa" key and public key
+[kubeconfig] Using kubeconfig folder "/etc/kubernetes"
+[kubeconfig] Writing "admin.conf" kubeconfig file
+[kubeconfig] Writing "kubelet.conf" kubeconfig file
+[kubeconfig] Writing "controller-manager.conf" kubeconfig file
+[kubeconfig] Writing "scheduler.conf" kubeconfig file
+[etcd] Creating static Pod manifest for local etcd in "/etc/kubernetes/manifests"
+[control-plane] Using manifest folder "/etc/kubernetes/manifests"
+[control-plane] Creating static Pod manifest for "kube-apiserver"
+[control-plane] Creating static Pod manifest for "kube-controller-manager"
+[control-plane] Creating static Pod manifest for "kube-scheduler"
+[kubelet-start] Writing kubelet environment file with flags to file "/var/lib/kubelet/kubeadm-flags.env"
+[kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
+[kubelet-start] Starting the kubelet
+[wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
+[apiclient] All control plane components are healthy after 6.003474 seconds
+[upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
+[kubelet] Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
+[upload-certs] Storing the certificates in Secret "kubeadm-certs" in the "kube-system" Namespace
+[upload-certs] Using certificate key:
+4061aa3851a6be7739a01ddfa3d1dcdd3b5f4c77e0952e4e8b29d079650d6c06
+[mark-control-plane] Marking the node master-node as control-plane by adding the labels: [node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
+[mark-control-plane] Marking the node master-node as control-plane by adding the taints [node-role.kubernetes.io/control-plane:NoSchedule]
+[bootstrap-token] Using token: itypil.dqyvp39gie9ogsxy
+[bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to get nodes
+[bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
+[bootstrap-token] Configured RBAC rules to allow the csrapprover controller automatically approve CSRs from a Node Bootstrap Token
+[bootstrap-token] Configured RBAC rules to allow certificate rotation for all node client certificates in the cluster
+[bootstrap-token] Creating the "cluster-info" ConfigMap in the "kube-public" namespace
+[kubelet-finalize] Updating "/etc/kubernetes/kubelet.conf" to point to a rotatable kubelet client certificate and key
+[addons] Applied essential addon: CoreDNS
+[addons] Applied essential addon: kube-proxy
+
+Your Kubernetes control-plane has initialized successfully!
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+Alternatively, if you are the root user, you can run:
+
+  export KUBECONFIG=/etc/kubernetes/admin.conf
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+You can now join any number of the control-plane node running the following command on each as root:
+
+  kubeadm join master-node:6443 --token itypil.dqyvp39gie9ogsxy \
+        --discovery-token-ca-cert-hash sha256:e1ce2ba30fe699ebd76846d834eb39002ba35e5d3ad6f316edcc7c9b3ddbb549 \
+        --control-plane --certificate-key 4061aa3851a6be7739a01ddfa3d1dcdd3b5f4c77e0952e4e8b29d079650d6c06
+
+Please note that the certificate-key gives access to cluster sensitive data, keep it secret!
+As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use
+"kubeadm init phase upload-certs --upload-certs" to reload certs afterward.
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join master-node:6443 --token itypil.dqyvp39gie9ogsxy \
+        --discovery-token-ca-cert-hash sha256:e1ce2ba30fe699ebd76846d834eb39002ba35e5d3ad6f316edcc7c9b3ddbb549
+```
+
+----
+----
+
 - After run the above command then our vm will acts as master node and it will generate token to connect this with slave node-copy the token and run the command in slave machines 1 & 2
 
 ## Configure Kubernetes Cluster [On MasterNode]
