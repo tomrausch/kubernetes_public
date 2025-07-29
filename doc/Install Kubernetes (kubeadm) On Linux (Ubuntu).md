@@ -548,7 +548,7 @@ sudo systemctl daemon-reload && sudo systemctl restart kubelet
 
 Reset the existing configuration, if any
 ```
-$  sudo kubeadm reset
+$ sudo kubeadm reset
 [reset] Reading configuration from the cluster...
 [reset] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
 W0729 14:36:33.870260 2402426 configset.go:78] Warning: No kubeproxy.config.k8s.io/v1alpha1 config is loaded. Continuing without it: configmaps "kube-proxy" not found
@@ -664,6 +664,66 @@ Then you can join any number of worker nodes by running the following on each as
 kubeadm join master-node:6443 --token itypil.dqyvp39gie9ogsxy \
         --discovery-token-ca-cert-hash sha256:e1ce2ba30fe699ebd76846d834eb39002ba35e5d3ad6f316edcc7c9b3ddbb549
 ```
+
+AFTER SOME TIME I GET
+```
+tomrausch@master-node:~$ kubectl get nodes
+NAME          STATUS   ROLES           AGE   VERSION
+master-node   Ready    control-plane   28m   v1.28.15
+
+tomrausch@master-node:~$ kubectl get pods --all-namespaces
+NAMESPACE      NAME                                  READY   STATUS              RESTARTS      AGE
+kube-flannel   kube-flannel-ds-clm57                 0/1     CrashLoopBackOff    4 (26s ago)   2m15s
+kube-system    coredns-5dd5756b68-9c5sq              0/1     ContainerCreating   0             29m
+kube-system    coredns-5dd5756b68-sq9st              0/1     ContainerCreating   0             29m
+kube-system    etcd-master-node                      1/1     Running             0             29m
+kube-system    kube-apiserver-master-node            1/1     Running             13            29m
+kube-system    kube-controller-manager-master-node   1/1     Running             13            29m
+kube-system    kube-proxy-p4lgt                      1/1     Running             0             29m
+kube-system    kube-scheduler-master-node            1/1     Running             13            29m
+```
+
+
+----
+----
+
+tomrausch@master-node:~$ mkdir -p $HOME/.kube
+tomrausch@master-node:~$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+cp: overwrite '/home/tomrausch/.kube/config'? y
+tomrausch@master-node:~$ cat $HOME/.kube/config
+cat: /home/tomrausch/.kube/config: Permission denied
+tomrausch@master-node:~$ sudo cat $HOME/.kube/config
+apiVersion: v1
+clusters:
+- cluster:
+    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJU2Z3YUVTTFRVcGN3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TlRBM01qa3hPVE14TlROYUZ3MHpOVEEzTWpjeE9UTTJOVE5hTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURqS3JKUm9qR2tRYURlR1VPZ1g5UGVXQUxRZGNWWTN5R2owZyttZnBZYkdpUnBYZm03SzZmR05xdVcKRFZVR1ZJekQ1bTErWmlEblRPbTVxc1ZNYi8wd1c0N3RxS21NNCtDblFQY1BKd0JaZkRPRk1KbGx1bmhnSlBFNQpLd3N6NW5OMXlJSE4wOUIvNTZMM1NIUU8wQ1p1bU04RW15ZU9HREp3TUMybm5wRzJCQTk3ZDcvNVNiTCtObVAxCk9PMktBeXloNEU5eHJSV3YxQzg0a25COFpOV3d4MVNvRU4vN09haXdnTVJJcTJPU3ZENVFEa1ZjQzExWWw4WE4KbDEwdjQrQTJGRDdwTlFpc1ZVdFBtWnpROWwxRmpEVE9tME40NEh3SnRIT0VLN3hZQ1hpM2REM2NKaFlrU3BWSwpYZEIweit6REFqRmxvR0h6aklxVWYxQ2FUc0VOQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJUajJwY1N5YkJTcG5sZGhML2s5eC9ObGhxUFF6QVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQUFkdlArcC9xVQpJQnVGRW93TFpUMURSc0pXM09LSVdrTVZlMGJRei9BUFp2RTJ5VWdZQzhxV3VWaDNjS1gwSW5VVkRFQ1FrTmpLCm5ROE44aExlaFd6ZjJUMEgvRk1Dd3F2Z3ZJSUlTMUUyQ2orTjVxbERFWVoyVGpxRDJSOGRyWW9EQ20zLzRoNHYKZUFPYmhta1RnbWYzNG9aYlQ5eUV3aXRHdU1TZnJyVm9tSERqZ0dMU2JlaXBacDI3R0ZmRmxQM3R3OHdIeUw4awpReXllUHFldlplNFd6NjJRQ3p1OStnUjQ1MFVwcURrNW9sSGl0dHNaZ1h3MWc3L01aeWdmeXN5dzR3K2k5SUVhCmJXUWo5RlloQ1RFTjduQmRCMHhqcEtkNS9hWWdVNm1zcWcvY2Q4aCsxeVRuc2lDY3lYdGErSUM4c2tYMCt6Y0QKTXluNHdiejZSN1pnCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
+    server: https://master-node:6443
+  name: kubernetes
+contexts:
+- context:
+    cluster: kubernetes
+    user: kubernetes-admin
+  name: kubernetes-admin@kubernetes
+current-context: kubernetes-admin@kubernetes
+kind: Config
+preferences: {}
+users:
+- name: kubernetes-admin
+  user:
+    client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURJVENDQWdtZ0F3SUJBZ0lJQ2lYZXNld3FhRXd3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TlRBM01qa3hPVE14TlROYUZ3MHlOakEzTWpreE9UTTNNREJhTURReApGekFWQmdOVkJBb1REbk41YzNSbGJUcHRZWE4wWlhKek1Sa3dGd1lEVlFRREV4QnJkV0psY201bGRHVnpMV0ZrCmJXbHVNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXNwWUI4VlFJZitQYzdFK3cKZ1ZpN1NwOWRyOFFTK01QRGtta1gvWlNsUlJVTkpHamhJcCttOC9iYXVZSzl3eU8zMFBOS2lRUDRpemxlNEZCYgpzQzBKRzBtRWZpQXVnSDlhUUYrNDJuS1h1MU5pWjNjdFIvQVNwZkpUb0NpekVpTmpKNnhsbVlFQ3N5VGJEb09OCk53NW5BSjdWWlhlcGlGeTkvdlZTcEVnbmNtei8zUmlwL2J3MXFtTFFnV0lUZG40bHFvSVAzR0hzK2ZEaTFnTXcKK1NGMG1jUm1abjgvNkpIVzNidFlDaGx5SXZyMHpuTWsxSGpzNmM5SExTOXJiWmVKKzZEeEVaVVk4UVF6TjZocwpUV01oTWpSVFlXdW5rczc2WVE0LzRRZVRoNDJNNUlqNFJHbTVEeDdNUUtOQTJMNnB5cG1MVm9QZEVCcXArVjhLCjAwY21Cd0lEQVFBQm8xWXdWREFPQmdOVkhROEJBZjhFQkFNQ0JhQXdFd1lEVlIwbEJBd3dDZ1lJS3dZQkJRVUgKQXdJd0RBWURWUjBUQVFIL0JBSXdBREFmQmdOVkhTTUVHREFXZ0JUajJwY1N5YkJTcG5sZGhML2s5eC9ObGhxUApRekFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBcjJFNDZtcGM4M1lsVlpkS2hMSitlZnVXQTVHb0RKS2FyZzRWCnNwSm82SU1WMmlldG5pVHV4SnRXc3J5bWhiQ2ZIZzR2MW94eE1jZnl1WnpDY2RDWUE3MGx5dEMrQmdmNThqN3IKZ1ZEUll1MDd6N1h0cW9udXlucVVnUmFUaGRTdGFIUHJ3eTc5cGtTZkQ0S3RXcGdaVTRHVUxLTnRDMXNjeUFregpkaXJzTFdRVEU4RW16VnZNMGE0YzZtMVJ4RWJlaXNpVmdSWU95cDVlQUp2Y1VRZTFHRFZKRjRKeGVVbnNpS0h5CmxoRDV4THMwNTRCS0tQeSs4OGFvblpsVW1vRHRPT3pzcm9xS25sNkZ5V3FMNzZwekdVR0NCbk5Sc1hJZWV6WXMKQzRyTU5ESW9XdlpzdUUyQ3loOThBakhBS2M3eXZmMnBTR20za01GSkVaSkh6OGt4UFE9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
+    client-key-data: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcFFJQkFBS0NBUUVBc3BZQjhWUUlmK1BjN0Urd2dWaTdTcDlkcjhRUytNUERrbWtYL1pTbFJSVU5KR2poCklwK204L2JhdVlLOXd5TzMwUE5LaVFQNGl6bGU0RkJic0MwSkcwbUVmaUF1Z0g5YVFGKzQybktYdTFOaVozY3QKUi9BU3BmSlRvQ2l6RWlOako2eGxtWUVDc3lUYkRvT05OdzVuQUo3VlpYZXBpRnk5L3ZWU3BFZ25jbXovM1JpcAovYncxcW1MUWdXSVRkbjRscW9JUDNHSHMrZkRpMWdNdytTRjBtY1JtWm44LzZKSFczYnRZQ2hseUl2cjB6bk1rCjFIanM2YzlITFM5cmJaZUorNkR4RVpVWThRUXpONmhzVFdNaE1qUlRZV3Vua3M3NllRNC80UWVUaDQyTTVJajQKUkdtNUR4N01RS05BMkw2cHlwbUxWb1BkRUJxcCtWOEswMGNtQndJREFRQUJBb0lCQVFDR2psWHFZaG1CV3N0agpWZXUwbVltTWdTVVN3TlpXanhHMUovQUdoVkE5Qzg1NkozZXlJYjZtUk5HcVF1TDl1OVRNMy9MQjU3Y0dGM1R2CjZEd2RNdUdRcU1UbVR4TWFpRm9VOU1xUDlSVno5RERKcWxiNHc5OFpIOHQ0ZWhIcVViVnMrQTBaS3NaQStqeisKNDRtcitQTU0yYUFKc3E2TzZ1blF4MEM4UFExVHZhQVg2YUZ5ZlkyQkEvRFFPdWhCUlJ1MVA4VXk5MkJzc2hQUQpJMWF2RzNZdTUyREhud0FMekI5UElTdFYyczFDS2wwSURycVhmcnZvNXZFV042SDRrSjFYaWZwbGdJMUJ1QThsCjZWbDQxTlZIQXNTZTVqK24rd1YxNS9KSURORnNKWWkxT0pJcGNBZUFCN3ZjS0I0TGhJWlZCWktseUJIZ2MxZ2sKcThaZHJxOWhBb0dCQU1vbGhnVkYvZzJnWGFRaEd5Si9ZZjZRc1d0TkVndkpNTjdpRlUxcnp6T01TVWVWakV3RgpMMFFnMzVGNUdUcTRLSU1WR0Zxbk42S3RnR05nc05uaG1rQzIxd21KakFJVVI3QnA1bnFKSnc3ditaTDZqU045CkRjQk1ydnhFUmQyS2pOWVo0SEZha0ZoVUEzS0Z1aDZiZEFLUXh4dUhCOHJqc1VjNjQzVFVlaUkzQW9HQkFPSXAKcENZMUp6ZlZRYUVncm9DTHlUa3RUUGVrR29lK1o5NG9VN3kxVVhCTHpnVTUzekpiSWhyUStMRVhzTXFBOTI4UAo4TDFjSENCTkNmbEszdHpJSEJlalF4Mmt3SXBLa2p1aDhSV0Z1RDM1YTNDcGxublpqTllaVjRNeGx2S1ZhSldECnFXMVd2YmJhaWVDSkF0T1lGOTkybXJON0FhaXdibGJEUzFiOHIzS3hBb0dCQUlPamgvRXJNVlJDV0hpbnJubjYKcGlBV3JkTUliM1lKWUsva1hxYjZUQVp2bHREdERGMzlDbGk5WjVuZVdKV3FrNGM1VjVEQlVETzU5Ti9DZWFpSgpoK0FZc1ZSZXBEUStiS2p2YmMzaVB2TTFSenQxdWkrZ0lqSldQYVc5K0JsYlBuZTJoamlMRjNETjFTamcrT0V4CnJveDFKNVEvak0yTkZVY2pqRGZxbmxabEFvR0FkQ2Fpc1NTM1FZdDZxei9YbnhrcmZQdncvWFlBVWhyTnlXQzQKc01BR1ZULzVUT0hONlZTNGpVRXBsL25zeC9PNElBZjF3YXFlbjFBeGdTQ2NtSk1GS25ha3I0Sy9oOGFJbDZ1eAozelhQeTdSZkkzdFZWcnNPQTU3OFBOcXBCV2tLVDA5UkltQmNDcDd1RkswSkVKYWFIQ0FUajMzcStqR3lXVWp2ClZudHJ0K0VDZ1lFQW81Q1N5bk9ON3NiSks5VkJzaTZBeUFUSzdpZi9VVWNNZU5DM1BzR0hzRjZjcnlPR2lMRHcKQmUwWlNnc2wrV1BCOHZKNXhObXRXbVk2MUo5Q1J5VmY0bXNJM1JrcW1zTCs1cjVPMmt5M2tCOVBIRGJ4M0tJTAp0MlMwSUlBblpJTVBXMDNTTDJseWdBbzM0dCsySWlMTThEMkVtNzNpRnB4bStqc2tRdDMxVHRjPQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
+tomrausch@master-node:~$ sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+
+tomrausch@master-node:~$ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+namespace/kube-flannel created
+serviceaccount/flannel created
+clusterrole.rbac.authorization.k8s.io/flannel created
+clusterrolebinding.rbac.authorization.k8s.io/flannel created
+configmap/kube-flannel-cfg created
+daemonset.apps/kube-flannel-ds created
+
+
 
 ----
 ----
