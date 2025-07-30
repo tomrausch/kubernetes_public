@@ -13,7 +13,7 @@
 - ✅ Master Node
 - ✅ Worker Node
 ### Commands
-- [Prepare The Linux System To Install Software](https://github.com/tomrausch/kubernetes_public/blob/b187e08275c6668963f2fb659c9574209c02849d/doc/Prepare%20The%20Linux%20System%20To%20Install%20Software.md)
+- [Prepare The Linux System To Install Software](https://github.com/tomrausch/kubernetes_public/blob/b187e08275c6668963f2fb659c9574209c02849d/doc/Prepare%20The%20Linux%20System%20To%20Install%20Software.md)  | Tom Rausch, GitHub
 
 
 ## Install Docker
@@ -21,7 +21,7 @@
 - ✅ Master Node
 - ✅ Worker Node
 ### Commands
-- [Install Docker On Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/84b99ec026c546257a5b2a2d19b940f16800a171/doc/Install%20Docker%20On%20Linux%20(Ubuntu).md)
+- [Install Docker On Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/84b99ec026c546257a5b2a2d19b940f16800a171/doc/Install%20Docker%20On%20Linux%20(Ubuntu).md) | Tom Rausch, GitHub
 
 
 ## Install Prerequisite Packages
