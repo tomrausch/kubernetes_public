@@ -211,10 +211,11 @@ Disable all swap spaces with the command [swapoff](https://linux.die.net/man/8/s
 $ sudo swapoff -a
 ```
 
-Make the necessary adjustments to the file '/etc/fstab'
+Comment out all lines in file '/etc/fstab'
 ```bash
-$ sudo sed -i '/ swap / s/^\(.*\)$/#\1/g' /etc/fstab
+$ sudo nano /etc/fstab
 ```
+Preface all lines with a hash character "#"
 
 Confirm the file '/etc/fstab'
 ```bash
@@ -227,10 +228,10 @@ $ cat /etc/fstab
 #
 # <file system> <mount point>   <type>  <options>       <dump>  <pass>
 # / was on /dev/ubuntu-vg/ubuntu-lv during curtin installation
-/dev/disk/by-id/dm-uuid-LVM-krKZ6WsC0ZJypL7cPWMIE3MJFkdKhOZCZtG90SWuPz5NlUdgZbFdkcXwDecAKGZC / ext4 defaults 0 1
+# /dev/disk/by-id/dm-uuid-LVM-krKZ6WsC0ZJypL7cPWMIE3MJFkdKhOZCZtG90SWuPz5NlUdgZbFdkcXwDecAKGZC / ext4 defaults 0 1
 # /boot was on /dev/sda2 during curtin installation
-/dev/disk/by-uuid/b712d386-8463-4fb4-b92f-0c0cb7720485 /boot ext4 defaults 0 1
-/swap.img       none    swap    sw      0       0
+# /dev/disk/by-uuid/b712d386-8463-4fb4-b92f-0c0cb7720485 /boot ext4 defaults 0 1
+# /swap.img     none    swap    sw      0       0
 ```
 
 
@@ -524,9 +525,8 @@ Reload the configuration and restart Docker
 sudo systemctl daemon-reload && sudo systemctl restart docker
 ```
 
+Find the location of kubeadm configuration file
 ```
-Find location of kubeadm configuration file
-
 $ sudo systemctl status kubelet.service
 ● kubelet.service - kubelet: The Kubernetes Node Agent
      Loaded: loaded (/usr/lib/systemd/system/kubelet.service; enabled; preset: enabled)
@@ -555,30 +555,43 @@ Jul 29 16:54:50 master-node kubelet[13781]: E0729 16:54:50.915669   13781 pod_wo
 lines 1-24/24 (END)
 ```
 
-
+The location of the kubeadm configuration file is '/usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf'
+```bash
+Drop-In: /usr/lib/systemd/system/kubelet.service.d
+             └─10-kubeadm.conf
+```
 
 Edit the kubeadm configuration file '/usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf'
-
-
+```bash
+$ sudo nano /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 ```
-Open the kubeadm configuration file:
-
-sudo nano /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
-
-FILE DOES NOT EXIST
 
 Add the following line to the file:
-
+```bash
 Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false"
-
+```
 Save the file to the file system and exit the editor
 
-Confirm the file '/etc/systemd/system/kubelet.service.d/10-kubeadm.conf'
+Confirm the file '/usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf'
+```bash
+$ cat /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
+# Note: This dropin only works with kubeadm and kubelet v1.11+
+[Service]
+Environment="KUBELET_KUBECONFIG_ARGS=--bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf"
+Environment="KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml"
+Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false"
+# This is a file that "kubeadm init" and "kubeadm join" generates at runtime, populating the KUBELET_KUBEADM_ARGS variable dynamically
+EnvironmentFile=-/var/lib/kubelet/kubeadm-flags.env
+# This is a file that the user can use for overrides of the kubelet args as a last resort. Preferably, the user should use
+# the .NodeRegistration.KubeletExtraArgs object in the configuration files instead. KUBELET_EXTRA_ARGS should be sourced from this file.
+EnvironmentFile=-/etc/default/kubelet
+ExecStart=
+ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS
+```
 
 Reload the configuration and restart kubelet
-
-sudo systemctl daemon-reload && sudo systemctl restart kubelet
-
+```
+$ sudo systemctl daemon-reload && sudo systemctl restart kubelet
 tomrausch@master-node:/usr/lib/systemd/system/kubelet.service.d$ sudo nano /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 tomrausch@master-node:/usr/lib/systemd/system/kubelet.service.d$ cat /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
 # Note: This dropin only works with kubeadm and kubelet v1.11+
@@ -715,15 +728,27 @@ kubeadm join master-node:6443 --token itypil.dqyvp39gie9ogsxy \
         --discovery-token-ca-cert-hash sha256:e1ce2ba30fe699ebd76846d834eb39002ba35e5d3ad6f316edcc7c9b3ddbb549
 ```
 
-AFTER SOME TIME I GET
+Retain the output from the text "Your Kubernetes control-plane has initialized successfully!" to the end of the output in a KeePass database
+
+After a few minutes, the node is ready for use
+
+Confirm the node is 'Ready'
 ```
 tomrausch@master-node:~$ kubectl get nodes
 NAME          STATUS   ROLES           AGE   VERSION
 master-node   Ready    control-plane   28m   v1.28.15
+```
 
-tomrausch@master-node:~$ kubectl get pods --all-namespaces
+Untaint the nodes
+```
+$ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+node/master-node untainted
+```
+
+Confirm the Pods are 'Running'
+```
+$ kubectl get pods --all-namespaces
 NAMESPACE      NAME                                  READY   STATUS              RESTARTS      AGE
-kube-flannel   kube-flannel-ds-clm57                 0/1     CrashLoopBackOff    4 (26s ago)   2m15s
 kube-system    coredns-5dd5756b68-9c5sq              0/1     ContainerCreating   0             29m
 kube-system    coredns-5dd5756b68-sq9st              0/1     ContainerCreating   0             29m
 kube-system    etcd-master-node                      1/1     Running             0             29m
@@ -733,125 +758,41 @@ kube-system    kube-proxy-p4lgt                      1/1     Running            
 kube-system    kube-scheduler-master-node            1/1     Running             13            29m
 ```
 
-Untaint the nodes
+## Install Pod Network
+### Perform On Nodes
+- ✅ Master Node
+- (TBD) Worker Node
+
+### Commands
+If the pods with names that start with coredns are not running, install a networking solution
+- Install Calico [^install_calico]
+```bash
+$ kubectl apply-f https://docs.projectcalico.org/v3.20/manifests/calico.yaml
 ```
-$ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
-node/master-node untainted
-```
+[^install_calico]: [Coredns stuck in “ContainerCreating”](https://discuss.kubernetes.io/t/coredns-stuck-in-containercreating/19100)
 
-
-----
-----
-
-tomrausch@master-node:~$ mkdir -p $HOME/.kube
-tomrausch@master-node:~$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-cp: overwrite '/home/tomrausch/.kube/config'? y
-tomrausch@master-node:~$ cat $HOME/.kube/config
-cat: /home/tomrausch/.kube/config: Permission denied
-tomrausch@master-node:~$ sudo cat $HOME/.kube/config
-apiVersion: v1
-clusters:
-- cluster:
-    certificate-authority-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJU2Z3YUVTTFRVcGN3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TlRBM01qa3hPVE14TlROYUZ3MHpOVEEzTWpjeE9UTTJOVE5hTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURqS3JKUm9qR2tRYURlR1VPZ1g5UGVXQUxRZGNWWTN5R2owZyttZnBZYkdpUnBYZm03SzZmR05xdVcKRFZVR1ZJekQ1bTErWmlEblRPbTVxc1ZNYi8wd1c0N3RxS21NNCtDblFQY1BKd0JaZkRPRk1KbGx1bmhnSlBFNQpLd3N6NW5OMXlJSE4wOUIvNTZMM1NIUU8wQ1p1bU04RW15ZU9HREp3TUMybm5wRzJCQTk3ZDcvNVNiTCtObVAxCk9PMktBeXloNEU5eHJSV3YxQzg0a25COFpOV3d4MVNvRU4vN09haXdnTVJJcTJPU3ZENVFEa1ZjQzExWWw4WE4KbDEwdjQrQTJGRDdwTlFpc1ZVdFBtWnpROWwxRmpEVE9tME40NEh3SnRIT0VLN3hZQ1hpM2REM2NKaFlrU3BWSwpYZEIweit6REFqRmxvR0h6aklxVWYxQ2FUc0VOQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJUajJwY1N5YkJTcG5sZGhML2s5eC9ObGhxUFF6QVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQUFkdlArcC9xVQpJQnVGRW93TFpUMURSc0pXM09LSVdrTVZlMGJRei9BUFp2RTJ5VWdZQzhxV3VWaDNjS1gwSW5VVkRFQ1FrTmpLCm5ROE44aExlaFd6ZjJUMEgvRk1Dd3F2Z3ZJSUlTMUUyQ2orTjVxbERFWVoyVGpxRDJSOGRyWW9EQ20zLzRoNHYKZUFPYmhta1RnbWYzNG9aYlQ5eUV3aXRHdU1TZnJyVm9tSERqZ0dMU2JlaXBacDI3R0ZmRmxQM3R3OHdIeUw4awpReXllUHFldlplNFd6NjJRQ3p1OStnUjQ1MFVwcURrNW9sSGl0dHNaZ1h3MWc3L01aeWdmeXN5dzR3K2k5SUVhCmJXUWo5RlloQ1RFTjduQmRCMHhqcEtkNS9hWWdVNm1zcWcvY2Q4aCsxeVRuc2lDY3lYdGErSUM4c2tYMCt6Y0QKTXluNHdiejZSN1pnCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K
-    server: https://master-node:6443
-  name: kubernetes
-contexts:
-- context:
-    cluster: kubernetes
-    user: kubernetes-admin
-  name: kubernetes-admin@kubernetes
-current-context: kubernetes-admin@kubernetes
-kind: Config
-preferences: {}
-users:
-- name: kubernetes-admin
-  user:
-    client-certificate-data: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURJVENDQWdtZ0F3SUJBZ0lJQ2lYZXNld3FhRXd3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TlRBM01qa3hPVE14TlROYUZ3MHlOakEzTWpreE9UTTNNREJhTURReApGekFWQmdOVkJBb1REbk41YzNSbGJUcHRZWE4wWlhKek1Sa3dGd1lEVlFRREV4QnJkV0psY201bGRHVnpMV0ZrCmJXbHVNSUlCSWpBTkJna3Foa2lHOXcwQkFRRUZBQU9DQVE4QU1JSUJDZ0tDQVFFQXNwWUI4VlFJZitQYzdFK3cKZ1ZpN1NwOWRyOFFTK01QRGtta1gvWlNsUlJVTkpHamhJcCttOC9iYXVZSzl3eU8zMFBOS2lRUDRpemxlNEZCYgpzQzBKRzBtRWZpQXVnSDlhUUYrNDJuS1h1MU5pWjNjdFIvQVNwZkpUb0NpekVpTmpKNnhsbVlFQ3N5VGJEb09OCk53NW5BSjdWWlhlcGlGeTkvdlZTcEVnbmNtei8zUmlwL2J3MXFtTFFnV0lUZG40bHFvSVAzR0hzK2ZEaTFnTXcKK1NGMG1jUm1abjgvNkpIVzNidFlDaGx5SXZyMHpuTWsxSGpzNmM5SExTOXJiWmVKKzZEeEVaVVk4UVF6TjZocwpUV01oTWpSVFlXdW5rczc2WVE0LzRRZVRoNDJNNUlqNFJHbTVEeDdNUUtOQTJMNnB5cG1MVm9QZEVCcXArVjhLCjAwY21Cd0lEQVFBQm8xWXdWREFPQmdOVkhROEJBZjhFQkFNQ0JhQXdFd1lEVlIwbEJBd3dDZ1lJS3dZQkJRVUgKQXdJd0RBWURWUjBUQVFIL0JBSXdBREFmQmdOVkhTTUVHREFXZ0JUajJwY1N5YkJTcG5sZGhML2s5eC9ObGhxUApRekFOQmdrcWhraUc5dzBCQVFzRkFBT0NBUUVBcjJFNDZtcGM4M1lsVlpkS2hMSitlZnVXQTVHb0RKS2FyZzRWCnNwSm82SU1WMmlldG5pVHV4SnRXc3J5bWhiQ2ZIZzR2MW94eE1jZnl1WnpDY2RDWUE3MGx5dEMrQmdmNThqN3IKZ1ZEUll1MDd6N1h0cW9udXlucVVnUmFUaGRTdGFIUHJ3eTc5cGtTZkQ0S3RXcGdaVTRHVUxLTnRDMXNjeUFregpkaXJzTFdRVEU4RW16VnZNMGE0YzZtMVJ4RWJlaXNpVmdSWU95cDVlQUp2Y1VRZTFHRFZKRjRKeGVVbnNpS0h5CmxoRDV4THMwNTRCS0tQeSs4OGFvblpsVW1vRHRPT3pzcm9xS25sNkZ5V3FMNzZwekdVR0NCbk5Sc1hJZWV6WXMKQzRyTU5ESW9XdlpzdUUyQ3loOThBakhBS2M3eXZmMnBTR20za01GSkVaSkh6OGt4UFE9PQotLS0tLUVORCBDRVJUSUZJQ0FURS0tLS0tCg==
-    client-key-data: LS0tLS1CRUdJTiBSU0EgUFJJVkFURSBLRVktLS0tLQpNSUlFcFFJQkFBS0NBUUVBc3BZQjhWUUlmK1BjN0Urd2dWaTdTcDlkcjhRUytNUERrbWtYL1pTbFJSVU5KR2poCklwK204L2JhdVlLOXd5TzMwUE5LaVFQNGl6bGU0RkJic0MwSkcwbUVmaUF1Z0g5YVFGKzQybktYdTFOaVozY3QKUi9BU3BmSlRvQ2l6RWlOako2eGxtWUVDc3lUYkRvT05OdzVuQUo3VlpYZXBpRnk5L3ZWU3BFZ25jbXovM1JpcAovYncxcW1MUWdXSVRkbjRscW9JUDNHSHMrZkRpMWdNdytTRjBtY1JtWm44LzZKSFczYnRZQ2hseUl2cjB6bk1rCjFIanM2YzlITFM5cmJaZUorNkR4RVpVWThRUXpONmhzVFdNaE1qUlRZV3Vua3M3NllRNC80UWVUaDQyTTVJajQKUkdtNUR4N01RS05BMkw2cHlwbUxWb1BkRUJxcCtWOEswMGNtQndJREFRQUJBb0lCQVFDR2psWHFZaG1CV3N0agpWZXUwbVltTWdTVVN3TlpXanhHMUovQUdoVkE5Qzg1NkozZXlJYjZtUk5HcVF1TDl1OVRNMy9MQjU3Y0dGM1R2CjZEd2RNdUdRcU1UbVR4TWFpRm9VOU1xUDlSVno5RERKcWxiNHc5OFpIOHQ0ZWhIcVViVnMrQTBaS3NaQStqeisKNDRtcitQTU0yYUFKc3E2TzZ1blF4MEM4UFExVHZhQVg2YUZ5ZlkyQkEvRFFPdWhCUlJ1MVA4VXk5MkJzc2hQUQpJMWF2RzNZdTUyREhud0FMekI5UElTdFYyczFDS2wwSURycVhmcnZvNXZFV042SDRrSjFYaWZwbGdJMUJ1QThsCjZWbDQxTlZIQXNTZTVqK24rd1YxNS9KSURORnNKWWkxT0pJcGNBZUFCN3ZjS0I0TGhJWlZCWktseUJIZ2MxZ2sKcThaZHJxOWhBb0dCQU1vbGhnVkYvZzJnWGFRaEd5Si9ZZjZRc1d0TkVndkpNTjdpRlUxcnp6T01TVWVWakV3RgpMMFFnMzVGNUdUcTRLSU1WR0Zxbk42S3RnR05nc05uaG1rQzIxd21KakFJVVI3QnA1bnFKSnc3ditaTDZqU045CkRjQk1ydnhFUmQyS2pOWVo0SEZha0ZoVUEzS0Z1aDZiZEFLUXh4dUhCOHJqc1VjNjQzVFVlaUkzQW9HQkFPSXAKcENZMUp6ZlZRYUVncm9DTHlUa3RUUGVrR29lK1o5NG9VN3kxVVhCTHpnVTUzekpiSWhyUStMRVhzTXFBOTI4UAo4TDFjSENCTkNmbEszdHpJSEJlalF4Mmt3SXBLa2p1aDhSV0Z1RDM1YTNDcGxublpqTllaVjRNeGx2S1ZhSldECnFXMVd2YmJhaWVDSkF0T1lGOTkybXJON0FhaXdibGJEUzFiOHIzS3hBb0dCQUlPamgvRXJNVlJDV0hpbnJubjYKcGlBV3JkTUliM1lKWUsva1hxYjZUQVp2bHREdERGMzlDbGk5WjVuZVdKV3FrNGM1VjVEQlVETzU5Ti9DZWFpSgpoK0FZc1ZSZXBEUStiS2p2YmMzaVB2TTFSenQxdWkrZ0lqSldQYVc5K0JsYlBuZTJoamlMRjNETjFTamcrT0V4CnJveDFKNVEvak0yTkZVY2pqRGZxbmxabEFvR0FkQ2Fpc1NTM1FZdDZxei9YbnhrcmZQdncvWFlBVWhyTnlXQzQKc01BR1ZULzVUT0hONlZTNGpVRXBsL25zeC9PNElBZjF3YXFlbjFBeGdTQ2NtSk1GS25ha3I0Sy9oOGFJbDZ1eAozelhQeTdSZkkzdFZWcnNPQTU3OFBOcXBCV2tLVDA5UkltQmNDcDd1RkswSkVKYWFIQ0FUajMzcStqR3lXVWp2ClZudHJ0K0VDZ1lFQW81Q1N5bk9ON3NiSks5VkJzaTZBeUFUSzdpZi9VVWNNZU5DM1BzR0hzRjZjcnlPR2lMRHcKQmUwWlNnc2wrV1BCOHZKNXhObXRXbVk2MUo5Q1J5VmY0bXNJM1JrcW1zTCs1cjVPMmt5M2tCOVBIRGJ4M0tJTAp0MlMwSUlBblpJTVBXMDNTTDJseWdBbzM0dCsySWlMTThEMkVtNzNpRnB4bStqc2tRdDMxVHRjPQotLS0tLUVORCBSU0EgUFJJVkFURSBLRVktLS0tLQo=
-tomrausch@master-node:~$ sudo chown $(id -u):$(id -g) $HOME/.kube/config
-
-
-tomrausch@master-node:~$ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
+OR
+- Install Flannel
+```bash
+$ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 namespace/kube-flannel created
 serviceaccount/flannel created
 clusterrole.rbac.authorization.k8s.io/flannel created
 clusterrolebinding.rbac.authorization.k8s.io/flannel created
 configmap/kube-flannel-cfg created
 daemonset.apps/kube-flannel-ds created
-
-
-
-----
-----
-
-- After run the above command then our vm will acts as master node and it will generate token to connect this with slave node-copy the token and run the command in slave machines 1 & 2
-
-## Restart Kubernetes
-Comment out all lines in file '/etc/fstab'
-```bash
-$ cat /etc/fstab
-# /etc/fstab: static file system information.
-#
-# Use 'blkid' to print the universally unique identifier for a
-# device; this may be used with UUID= as a more robust way to name devices
-# that works even if disks are added and removed. See fstab(5).
-#
-# <file system> <mount point>   <type>  <options>       <dump>  <pass>
-# / was on /dev/ubuntu-vg/ubuntu-lv during curtin installation
-# /dev/disk/by-id/dm-uuid-LVM-krKZ6WsC0ZJypL7cPWMIE3MJFkdKhOZCZtG90SWuPz5NlUdgZbFdkcXwDecAKGZC / ext4 defaults 0 1
-# /boot was on /dev/sda2 during curtin installation
-# /dev/disk/by-uuid/b712d386-8463-4fb4-b92f-0c0cb7720485 /boot ext4 defaults 0 1
-# /swap.img     none    swap    sw      0       0
 ```
-
-
 
 Reload the configuration and restart kubelet
 ```bash
-sudo swapoff -a
 sudo systemctl daemon-reload && sudo systemctl restart kubelet
 ```
 
-
-## Configure Kubernetes Cluster [On MasterNode]
-```
-$ mkdir-p $HOME/.kube
-$ sudo cp-i /etc/kubernetes/admin.conf $HOME/.kube/config
-$ sudo chown $(id-u):$(id-g) $HOME/.kube/config
-```
-
-## Deploy Networking Solution (Calico) [On MasterNode]
-```
-$ kubectl apply-f https://docs.projectcalico.org/v3.20/manifests/calico.yaml
-```
- 
-## Deploy Ingress Controller (NGINX) [On MasterNode]
-```
-$ kubectl apply-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.49.0/deploy/static/provider/baremetal/deploy.yaml
-```
-
-## Scan Kubernetes Cluster For Any Kind Of Issues
-- For That We Have Multiple Tools Like Trivy
-- But Trivy May Not Work Always So For That Reason We Are Just Going To Go With Cube Audit
-- Cube Audit  Also A Tool That Can Be Used For Scanning
-
-```
-https://github.com/shopify/kubeaudit/releases
--> Go To The Web Site Copy The Linux_amd_64 Link)
--> Paste It Using wget Command
--> Now Untar The File Using tar-xvf File Name
--> sudo mv kubeaudit /usr
-```
-
-## Fix Containers Including coredns Stuck In ContainerCreating
-Install Calico
-https://discuss.kubernetes.io/t/coredns-stuck-in-containercreating/19100
-
-tomrausch@master-node:~$ kubectl get pods --all-namespaces
+Example: After installing Calico, all the pods including the coredns pods are running
+- Investigate the pods with 'kubectl'
+```bash
+$ kubectl get pods --all-namespaces
 NAMESPACE      NAME                                       READY   STATUS             RESTARTS         AGE
-default        hello-blue-whale-7f856d65b7-cdmv6          1/1     Running            0                2m44s
-default        kuard-5c6b59fbd5-8r9f8                     1/1     Running            0                89m
-kube-flannel   kube-flannel-ds-g4v7s                      0/1     CrashLoopBackOff   21 (3m10s ago)   91m
 kube-system    calico-kube-controllers-658d97c59c-8hx55   1/1     Running            0                85s
 kube-system    calico-node-82298                          1/1     Running            0                85s
 kube-system    coredns-5dd5756b68-jjlh5                   1/1     Running            0                88m
@@ -861,35 +802,53 @@ kube-system    kube-apiserver-master-node                 1/1     Running       
 kube-system    kube-controller-manager-master-node        1/1     Running            14 (82m ago)     144m
 kube-system    kube-proxy-p4lgt                           1/1     Running            1 (82m ago)      144m
 kube-system    kube-scheduler-master-node                 1/1     Running            14 (82m ago)     144m
-
-After Calico no more errors in crictl except for one node that is nor running anyway
-
-tomrausch@master-node:~$ sudo crictl pods
+```
+- Investigate the pods with 'crictl'
+```
+$ sudo crictl pods
 WARN[0000] runtime connect using default endpoints: [unix:///var/run/dockershim.sock unix:///run/containerd/containerd.sock unix:///run/crio/crio.sock unix:///var/run/cri-dockerd.sock]. As the default settings are now deprecated, you should set the endpoint instead.
 ERRO[0000] validate service connection: validate CRI v1 runtime API for endpoint "unix:///var/run/dockershim.sock": rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial unix /var/run/dockershim.sock: connect: no such file or directory"
 POD ID              CREATED             STATE               NAME                                       NAMESPACE           ATTEMPT             RUNTIME
-29d93c938a68d       4 minutes ago       Ready               kuard-5c6b59fbd5-8r9f8                     default             11                  (default)
 f36687cadaaa3       4 minutes ago       Ready               coredns-5dd5756b68-jjlh5                   kube-system         6                   (default)
-ecb44c47ba47c       4 minutes ago       Ready               hello-blue-whale-7f856d65b7-cdmv6          default             1                   (default)
 185cdf2867618       4 minutes ago       Ready               calico-kube-controllers-658d97c59c-8hx55   kube-system         10                  (default)
 774c959eb0fcd       4 minutes ago       Ready               coredns-5dd5756b68-sq9st                   kube-system         5                   (default)
 098f1aaa718fd       5 minutes ago       Ready               calico-node-82298                          kube-system         0                   (default)
-48256d07c036b       About an hour ago   Ready               kube-flannel-ds-g4v7s                      kube-flannel        1                   (default)
 07b4dd6b5a9d5       About an hour ago   Ready               kube-proxy-p4lgt                           kube-system         1                   (default)
 2db005b431d89       About an hour ago   Ready               kube-controller-manager-master-node        kube-system         1                   (default)
 d521c059b525b       About an hour ago   Ready               etcd-master-node                           kube-system         1                   (default)
 034547c5e62f9       About an hour ago   Ready               kube-apiserver-master-node                 kube-system         1                   (default)
 dbdabaec3b382       About an hour ago   Ready               kube-scheduler-master-node                 kube-system         1                   (default)
-f169d1e3758a3       2 hours ago         NotReady            kube-proxy-p4lgt                           kube-system         0                   (default)
-1b6093aa773e0       2 hours ago         NotReady            etcd-master-node                           kube-system         0                   (default)
-d3efc989e2461       2 hours ago         NotReady            kube-scheduler-master-node                 kube-system         0                   (default)
-cc5b77a5fdae2       2 hours ago         NotReady            kube-controller-manager-master-node        kube-system         0                   (default)
-80f0b89870894       2 hours ago         NotReady            kube-apiserver-master-node                 kube-system         0                   (default)
-tomrausch@master-node:~$
+```
 
+## Create A Personal Kubernetes config File
+### Perform On Nodes
+- ✅ Master Node
+- ✅ Worker Node
 
+### Commands [^K1]
+```bash
+$ mkdir -p $HOME/.kube
+$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+$ sudo chown $(id-u):$(id-g) $HOME/.kube/config
+```
 
-## Reference
+Retain the personal Kubernetes config file '$HOME/.kube/config' in a KeePass database
+
+## Optional
+### Perform On Nodes
+- ❔ Master Node
+- ❔ Worker Node
+
+### Commands
+#### Deploy Ingress Controller (NGINX) [On MasterNode]
+```bash
+$ kubectl apply-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.49.0/deploy/static/provider/baremetal/deploy.yaml
+```
+
+#### Deploy kube-bench [^kube_bench]
+[^kube_bench]: [kube-bench](https://aquasecurity.github.io/kube-bench/v0.6.5/)
+
+## References
 - [Getting started](https://kubernetes.io/docs/setup/) | Kubernetes Documentation
 - [Day 39: Setting Up a Kubernetes Cluster — Minikube & Kubeadm](https://medium.com/@karthidkk123/day-39-setting-up-a-kubernetes-cluster-minikube-kubeadm-d95a74bf3254) | [Karthick Dkk](https://medium.com/@karthidkk123), Medium
 - [Install Kubernetes on Ubuntu 22.04](https://phoenixnap.com/kb/install-kubernetes-on-ubuntu) | PhoenixNAP
