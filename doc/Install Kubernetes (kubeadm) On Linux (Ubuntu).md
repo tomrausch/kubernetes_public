@@ -88,15 +88,24 @@ $ echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkg
 deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
 ```
 
-Confirm the Kubernetes repository is present in the package sources list
+Confirm the Kubernetes repository is present in the package sources list [^alternate_command_kubernetes_packages]
 ```bash
-$ cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep kubernetes
+$ cat /etc/apt/sources.list.d/kubernetes.list
 deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
 ```
+[^alternate_command_kubernetes_packages]: Alternate command ```$ cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep kubernetes```
 
-Update list of avaiable packages
+Confirm a Kubernetes package repository is in the results of the command ```sudo apt-get update```
+- Example: https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb
 ```bash 
 $ sudo apt-get update
+Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:3 http://us.archive.ubuntu.com/ubuntu noble InRelease
+Hit:4 https://download.docker.com/linux/ubuntu noble InRelease
+Hit:5 http://us.archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:6 http://us.archive.ubuntu.com/ubuntu noble-backports InRelease
+Get:2 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  InRelease [1,192 B]
+Get:7 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  Packages [21.3 kB]
 ```
 
 ## Install Kubernetes Components
