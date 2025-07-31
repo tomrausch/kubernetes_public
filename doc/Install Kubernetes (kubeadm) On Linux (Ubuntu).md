@@ -63,27 +63,32 @@ gnupg/noble-updates,noble-security,now 2.4.4-2ubuntu17.3 all [installed]
 - ✅ Master Node
 - ✅ Worker Node
 ### Commands
+Generate the Kubernetes keyrings
 ```bash
 $ sudo mkdir -p -m 755 /etc/apt/keyrings
 $ sudo curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.28/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
 ```
-### Confirm The Kubernetes Keyrings Are Present In The File System
+
+Confirm the Kubernetes keyrings are present in the file system
 ```bash
 $ ls -l /etc/apt/keyrings | grep kubernetes-apt-keyring.gpg
-total 4
--rw-r--r-- 1 root root 3817 Jul 27 15:19 docker.asc
+-rw-r--r-- 1 root root 1200 Jul 30 17:47 kubernetes-apt-keyring.gpg
+$ cat /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+...binary data...
 ```
-
 
 ## Add The Kubernetes Repository To Package Sources
 ### Perform On Nodes
 - ✅ Master Node
 - ✅ Worker Node
 ### Commands
+Add the Kubernetes repository to the package sources list
 ```bash
 $ echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
+deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
 ```
-### Confirm The Kubernetes Repository Is Present In The Package Sources List
+
+Confirm the Kubernetes repository is present in the package sources list
 ```bash 
 $ cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep kubernetes
 deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
@@ -95,7 +100,14 @@ deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io
 - ✅ Master Node
 - ✅ Worker Node
 ### Commands
+Install the Kubernetes components
 ```bash
+$ sudo snap install kubeadm --classic
+kubeadm 1.33.3 from Canonical✓ installed
+$ sudo snap install kubelet --classic
+kubelet 1.33.3 from Canonical✓ installed
+$ sudo snap install kubectl --classic
+kubectl 1.33.3 from Canonical✓ installed
 $ sudo apt install kubeadm kubelet kubectl
 Reading package lists... Done
 Building dependency tree... Done
