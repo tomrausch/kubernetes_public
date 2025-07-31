@@ -837,6 +837,45 @@ d521c059b525b       About an hour ago   Ready               etcd-master-node    
 dbdabaec3b382       About an hour ago   Ready               kube-scheduler-master-node                 kube-system         1                   (default)
 ```
 
+## Install A Kubernetes Worker Node
+### Perform On Nodes
+- ❌ Master Node
+- ✅ Worker Node
+
+Stop and disable AppArmor
+```
+$ sudo systemctl stop apparmor && sudo systemctl disable apparmor
+Synchronizing state of apparmor.service with SysV service script with /usr/lib/systemd/systemd-sysv-install.
+Executing: /usr/lib/systemd/systemd-sysv-install disable apparmor
+Removed "/etc/systemd/system/sysinit.target.wants/apparmor.service".
+```
+
+Restart the containerd service
+```
+$ sudo systemctl restart containerd.service
+```
+
+Formate the command to create the Worker Node and join the Worker Node to the Master Node
+
+Here is the command format
+```
+sudo kubeadm join [master-node-ip]:6443 --token [token] --discovery-token-ca-cert-hash sha256:[hash]
+```
+
+The parameters are obtained in previous steps
+
+| Parameter | Value |
+| :---: | :---: |
+| master-node-ip | master-node |
+| token | itypil.dqyvp39gie9ogsxy |
+| hash | e1ce2ba30fe699ebd76846d834eb39002ba35e5d3ad6f316edcc7c9b3ddbb54 |
+
+Run the command to create the Worker Node and join the Worker Node to the Master Node
+
+```
+sudo kubeadm join master-node:6443 --token itypil.dqyvp39gie9ogsxy --discovery-token-ca-cert-hash sha256:e1ce2ba30fe699ebd76846d834eb39002ba35e5d3ad6f316edcc7c9b3ddbb549
+```
+
 ## Create A Personal Kubernetes config File
 ### Perform On Nodes
 - ✅ Master Node
