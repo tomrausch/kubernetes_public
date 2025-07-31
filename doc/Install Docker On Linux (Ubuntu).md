@@ -32,6 +32,18 @@ deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.
 ```
 [^alternate_command_docker_repository]: Alternate command: ```cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep docker```
 
+Confirm a Docker package repository is in the results of the command ```sudo apt-get update```
+- Example: https://download.docker.com/linux/ubuntu
+```bash 
+$ sudo apt-get update
+Hit:1 http://security.ubuntu.com/ubuntu noble-security InRelease
+Hit:3 http://us.archive.ubuntu.com/ubuntu noble InRelease
+Hit:4 https://download.docker.com/linux/ubuntu noble InRelease
+Hit:5 http://us.archive.ubuntu.com/ubuntu noble-updates InRelease
+Hit:6 http://us.archive.ubuntu.com/ubuntu noble-backports InRelease
+Get:2 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  InRelease [1,192 B]
+Get:7 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  Packages [21.3 kB]
+```
 
 ## Install the Docker Packages
 ```bash
