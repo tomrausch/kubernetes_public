@@ -40,7 +40,7 @@ $ cat /etc/fstab
 ```
 
 
-## Remove Unneeded Pacakges
+## Remove Unneeded Packages
 ```bash
 sudo apt autoremove
 ```
@@ -53,6 +53,11 @@ $ sudo apt-get update
 
 $ sudo apt-get upgrade
 <Output Depends Upon Upgraded Packages>
+```
+
+## Install The OpenSSH Client
+```bash
+$ sudo apt-get install openssh-client
 ```
 
 [^1]: [How do I disable my system from going to sleep?](https://askubuntu.com/questions/47311/how-do-i-disable-my-system-from-going-to-sleep) | Ask Ubuntu
