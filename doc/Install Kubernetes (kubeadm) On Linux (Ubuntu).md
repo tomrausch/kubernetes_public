@@ -89,11 +89,15 @@ deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io
 ```
 
 Confirm the Kubernetes repository is present in the package sources list
-```bash 
+```bash
 $ cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep kubernetes
 deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.28/deb/ /
 ```
 
+Update list of avaiable packages
+```bash 
+$ sudo apt-get update
+```
 
 ## Install Kubernetes Components
 ### Perform On Nodes
