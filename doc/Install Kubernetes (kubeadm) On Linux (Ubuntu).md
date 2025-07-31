@@ -920,7 +920,7 @@ Create the containerd configuration file 'config.toml' [^create_config_toml]
 $ sudo mkdir -p -m 755 /etc/containerd
 $ containerd config default | sudo tee /etc/containerd/config.toml
 ```
-- This attempts to resolve the issues with pods on the Worker Node entering the state "CrashLoopBackOff"
+
 ```
 tomrausch@master-node:~$ kubectl get pods -o wide --all-namespaces
 NAMESPACE     NAME                                       READY   STATUS             RESTARTS        AGE    IP              NODE             NOMINATED NODE   READINESS GATES
@@ -940,7 +940,15 @@ kube-system   kube-apiserver-master-node                 1/1     Running        
 kube-system   kube-controller-manager-master-node        1/1     Running            16 (30h ago)    2d2h   192.168.0.136   master-node      <none>           <none>
 kube-system   kube-proxy-klbvl                           0/1     CrashLoopBackOff   8 (2m42s ago)   28m    192.168.0.241   worker-node-01   <none>           <none>
 ```
-RESEARCH
+
+Restart the containerd service
+```
+sudo systemctl restart containerd
+```
+
+- This **MAY** resolve the issues with pods on the Worker Node entering the state "CrashLoopBackOff"
+
+**RESEARCH**
 https://serverfault.com/questions/1094255/kube-proxy-not-working-for-service-cluster-ips
 
 
