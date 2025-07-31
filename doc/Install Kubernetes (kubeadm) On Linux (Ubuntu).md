@@ -383,6 +383,40 @@ $ hostname -I
 - The IP address of the future Kubernetes master node is "192.168.0.136"
   - There is no change
 
+Edit the hosts file '/etc/hosts'
+```bash
+$ sudo nano /etc/hosts
+```
+Add the following two lines to the file '/etc/hosts'
+```bash
+192.168.0.136 master-node
+192.168.0.241 worker-node-01
+```
+- The IP address of the worker node is obtained in a following step
+
+Save the file to the file system and exit the editor
+
+Confirm the file '/etc/hosts'
+```bash
+$ cat /etc/hosts
+127.0.0.1 localhost
+127.0.0.1 tomrausch-HP-Elite-7100-Microtower-PC
+192.168.0.241 tom-rausch-ThinkPad-L560
+192.168.0.241 thomas-rausch-ThinkPad-L560
+192.168.0.136 master-node
+192.168.0.241 worker-node-01
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+# Added by Docker Desktop
+# To allow the same kube context to work on the host and the container:
+127.0.0.1       kubernetes.docker.internal
+# End of section
+```
 
 ## Reset The Hostname Of The Worker Node
 ### Perform On Nodes
@@ -419,60 +453,28 @@ $ hostname -I
 - The IP address of the future master Kubernetes worker node is "192.168.0.241"
   - There is no change
 
-
-## Modify The Hosts File
-### Perform On Nodes
-- ✅ Master Node
-- ✅ Worker Node
-
-### Commands
-Logon the Linux device
-
 Edit the hosts file '/etc/hosts'
 ```bash
-$ sudo nano /etc/hostsw
+$ sudo nano /etc/hosts
 ```
 Add the following two lines to the file '/etc/hosts'
 ```bash
 192.168.0.136 master-node
 192.168.0.241 worker-node-01
 ```
-- The IP addresses are obtained in a previous step
+- The IP address of the worker node is obtained in a following step
 
 Save the file to the file system and exit the editor
 
 Confirm the file '/etc/hosts'
-- Master node
 ```bash
 $ cat /etc/hosts
 127.0.0.1 localhost
-127.0.1.1 tomrausch-HP-Elite-7100-Microtower-PC
-127.0.1.1 master-node
-192.168.0.136 master-node
-192.168.0.241 worker-node-01
-192.168.0.241 thomas-rausch-ThinkPad-L560
-
-# The following lines are desirable for IPv6 capable hosts
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-# Added by Docker Desktop
-# To allow the same kube context to work on the host and the container:
-127.0.0.1       kubernetes.docker.internal
-# End of section
-```
-
-- Worker node
-```bash
-$ cat /etc/hosts
-127.0.0.1 localhost
+127.0.1.1 tom-rausch-ThinkPad-L560
 127.0.1.1 thomas-rausch-ThinkPad-L560
-127.0.1.1 worker-node-01
+192.168.0.136 tomrausch-HP-Elite-7100-Microtower-PC
 192.168.0.136 master-node
 192.168.0.241 worker-node-01
-192.168.0.136 tomrausch-HP-Elite-7100-Microtower-PC
 
 # The following lines are desirable for IPv6 capable hosts
 ::1     ip6-localhost ip6-loopback
@@ -481,7 +483,6 @@ ff00::0 ip6-mcastprefix
 ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 ``` 
-
 
 ## Initialize The Kubernetes Master Node
 ### Perform On Nodes
