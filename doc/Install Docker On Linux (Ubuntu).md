@@ -25,11 +25,13 @@ $ ls -l /etc/apt/keyrings | grep docker.asc
 $ echo "deb [arch=$(dpkg --print-architecture) signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu $(. /etc/os-release && echo "${UBUNTU_CODENAME:-$VERSION_CODENAME}") stable" | sudo tee /etc/apt/sources.list.d/docker.list > /dev/null
 ```
 
-Confirm the Docker repository is present in the sources list
+Confirm the Docker repository is present in the sources list [^alternate_command_docker_repository]
 ```bash
-cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep docker
+$ cat /etc/apt/sources.list.d/docker.list
 deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.com/linux/ubuntu noble stable
 ```
+[^alternate_command_docker_repository]: Alternate command: ```cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep docker```
+
 
 ## Install the Docker Packages
 ```bash
@@ -216,7 +218,7 @@ Alternately, run this command to activate the changes to groups
 $ sudo newgrp docker
 ```
 
-Run the command ```docker run hello-world``` to verify that the user can run the command ```docker``` without sudo permissions
+Run the command ```docker run hello-world``` -- that it, do not preface the command with ```sudo``` -- to verify that the user can run the command ```docker``` without sudo permissions
 ```bash
 $ docker run hello-world
 docker run hello-world
