@@ -115,12 +115,6 @@ Get:7 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stabl
 ### Commands
 Install the Kubernetes components
 ```bash
-$ sudo snap install kubeadm --classic
-kubeadm 1.33.3 from Canonical✓ installed
-$ sudo snap install kubelet --classic
-kubelet 1.33.3 from Canonical✓ installed
-$ sudo snap install kubectl --classic
-kubectl 1.33.3 from Canonical✓ installed
 $ sudo apt install kubeadm kubelet kubectl
 Reading package lists... Done
 Building dependency tree... Done
@@ -129,7 +123,7 @@ The following additional packages will be installed:
   conntrack cri-tools kubernetes-cni
 The following NEW packages will be installed:
   conntrack cri-tools kubeadm kubectl kubelet kubernetes-cni
-0 upgraded, 6 newly installed, 0 to remove and 1 not upgraded.
+0 upgraded, 6 newly installed, 0 to remove and 2 not upgraded.
 Need to get 87.4 MB of archives.
 After this operation, 335 MB of additional disk space will be used.
 Do you want to continue? [Y/n] y
@@ -139,9 +133,9 @@ Get:2 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stabl
 Get:3 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  kubelet 1.28.15-1.1 [19.6 MB]
 Get:4 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  kubectl 1.28.15-1.1 [10.4 MB]
 Get:5 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stable:/v1.28/deb  kubeadm 1.28.15-1.1 [10.1 MB]
-Fetched 87.4 MB in 3s (27.5 MB/s)
+Fetched 87.4 MB in 33s (2,626 kB/s)
 Selecting previously unselected package conntrack.
-(Reading database ... 228469 files and directories currently installed.)
+(Reading database ... 175833 files and directories currently installed.)
 Preparing to unpack .../0-conntrack_1%3a1.4.8-1ubuntu1_amd64.deb ...
 Unpacking conntrack (1:1.4.8-1ubuntu1) ...
 Selecting previously unselected package cri-tools.
@@ -167,31 +161,63 @@ Setting up kubelet (1.28.15-1.1) ...
 Setting up kubeadm (1.28.15-1.1) ...
 Processing triggers for man-db (2.12.0-4build2) ...
 ```
-- ```kubeadm``` A tool that initializes a Kubernetes cluster by fast-tracking the setup using community-sourced best practices.
-- ```kubelet``` The work package that runs on every node and starts containers. The tool gives you command-line access to clusters.
-- ```kubectl``` The command-line interface for interacting with clusters.
 
-### Confirm The Packages Are Installated
+### Confirm The Packages Are Installed And The Commands Are Functioning
+
+#### Package conntrack, Command conntrack
 ```bash
 $ sudo apt list --installed | grep conntrack
 conntrack/noble,now 1:1.4.8-1ubuntu1 amd64 [installed,automatic]
 libnetfilter-conntrack3/noble,now 1.0.9-6build1 amd64 [installed,automatic]
-$ sudo apt list --installed | grep kubectl
-kubectl/unknown,now 1.28.15-1.1 amd64 [installed]
+$ sudo conntrack -S
+cpu=0           found=0 invalid=4 insert=0 insert_failed=0 drop=0 early_drop=0 error=0 search_restart=0 clash_resolve=13 chaintoolong=0
+cpu=1           found=0 invalid=0 insert=0 insert_failed=0 drop=0 early_drop=0 error=0 search_restart=0 clash_resolve=0 chaintoolong=0
+cpu=2           found=0 invalid=0 insert=0 insert_failed=0 drop=0 early_drop=0 error=0 search_restart=0 clash_resolve=0 chaintoolong=0
+cpu=3           found=0 invalid=0 insert=0 insert_failed=0 drop=0 early_drop=0 error=0 search_restart=0 clash_resolve=0 chaintoolong=0
+```
+- Description: Command-line interface for netfilter connection tracking
+- Documenation: [conntrack](https://manpages.debian.org/jessie/conntrack/conntrack.8.en.html)
+
+#### Package cri-tools, Command crictl
+```bash
 $ sudo apt list --installed | grep cri-tools
 cri-tools/unknown,now 1.28.0-1.1 amd64 [installed,automatic]
-$ sudo apt list --installed | grep kubernetes-cni
-kubernetes-cni/unknown,now 1.2.0-2.1 amd64 [installed,automatic]
-$ sudo apt list --installed | grep kubelet
-kubelet/unknown,now 1.28.15-1.1 amd64 [installed]
+$ sudo crictl version
+WARN[0000] runtime connect using default endpoints: [unix:///var/run/dockershim.sock unix:///run/containerd/containerd.sock unix:///run/crio/crio.sock unix:///var/run/cri-dockerd.sock]. As the default settings are now deprecated, you should set the endpoint instead.
+ERRO[0000] validate service connection: validate CRI v1 runtime API for endpoint "unix:///var/run/dockershim.sock": rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial unix /var/run/dockershim.sock: connect: no such file or directory"
+Version:  0.1.0
+RuntimeName:  containerd
+RuntimeVersion:  1.7.27
+RuntimeApiVersion:  v1
+```
+- Description: Interact with container runtimes that implement the Kubernetes Container Runtime Interface (CRI); can be used for debugging
+- Documenation: [crictl](https://kubernetes.io/docs/tasks/debug/debug-cluster/crictl/)
+
+#### Package kubeadm, Command kubeadm
+```bash
 $ sudo apt list --installed | grep kubeadm
 kubeadm/unknown,now 1.28.15-1.1 amd64 [installed]
-```
-
-### Confirm The Kubernetes Commands Are Functioning
-```
 $ sudo kubeadm version
 kubeadm version: &version.Info{Major:"1", Minor:"28", GitVersion:"v1.28.15", GitCommit:"841856557ef0f6a399096c42635d114d6f2cf7f4", GitTreeState:"clean", BuildDate:"2024-10-22T20:33:16Z", GoVersion:"go1.22.8", Compiler:"gc", Platform:"linux/amd64"}
+```
+- Description: Provides ```kubeadm init``` and ```kubeadm join``` as best-practice "fast paths" for creating Kubernetes clusters
+- Documenation: [kubeadm](https://kubernetes.io/docs/reference/setup-tools/kubeadm/) 
+
+#### Package kubectl, Command kubectl
+```bash
+$ sudo apt list --installed | grep kubectl
+kubectl/unknown,now 1.28.15-1.1 amd64 [installed]
+$ sudo kubectl version
+Client Version: v1.28.15
+Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
+```
+- Description: Communicates with a Kubernetes cluster's control plane using the Kubernetes API
+- Documenation: [kubectl](https://kubernetes.io/docs/reference/kubectl/)
+
+#### Package kubelet, Command kubelet
+```bash
+$ sudo apt list --installed | grep kubelet
+kubelet/unknown,now 1.28.15-1.1 amd64 [installed]
 $ sudo kubelet
 I0728 15:07:06.106730 2299031 server.go:467] "Kubelet version" kubeletVersion="v1.28.15"
 I0728 15:07:06.106842 2299031 server.go:469] "Golang settings" GOGC="" GOMAXPROCS="" GOTRACEBACK=""
@@ -199,10 +225,16 @@ I0728 15:07:06.107492 2299031 server.go:630] "Standalone mode, no API client"
 I0728 15:07:06.127903 2299031 server.go:518] "No api server defined - no events will be sent to API server"
 I0728 15:07:06.127955 2299031 server.go:725] "--cgroups-per-qos enabled, but --cgroup-root was not specified.  defaulting to /"
 E0728 15:07:06.128214 2299031 run.go:74] "command failed" err="failed to run Kubelet: running with swap on is not supported, please disable swap! or set --fail-swap-on flag to false. /proc/swaps contained: [Filename\t\t\t\tType\t\tSize\t\tUsed\t\tPriority /swap.img                               file\t\t4194300\t\t3336\t\t-2]"
-$ sudo kubectl version
-Client Version: v1.28.15
-Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
 ```
+- Description:  The primary "node agent" that runs on each node.
+- Documenation: [kubelet](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/)
+
+#### Package kubernetes-cni
+```bash
+$ sudo apt list --installed | grep kubernetes-cni
+kubernetes-cni/unknown,now 1.2.0-2.1 amd64 [installed,automatic]
+```
+- Documenation: [Network Plugins](https://kubernetes.io/docs/concepts/extend-kubernetes/compute-storage-net/network-plugins/)
 
 ### Prevent Automatic Installation, Upgrade, or Removal
 ```
@@ -212,17 +244,12 @@ kubelet set on hold.
 kubectl set on hold.
 ```
 
-
-## Update And Upgrade All Packages
-### Perform On Nodes
-- ✅ Master Node
-- ✅ Worker Node
-
-### Commands
+### Update And Upgrade All Packages
 ```bash 
 $ sudo apt update
 $ sudo apt upgrade
 ```
+
 
 ## Set The Kubernetes Configuration
 ### Perform On Nodes
@@ -260,7 +287,7 @@ $ sudo nano /etc/sysctl.d/kubernetes.conf
 ```
 
 Add the following three lines to the file '/etc/sysctl.d/kubernetes.conf'
-```
+```bash
 net.bridge.bridge-nf-call-ip6tables = 1
 net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
