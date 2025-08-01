@@ -484,6 +484,31 @@ ff02::1 ip6-allnodes
 ff02::2 ip6-allrouters
 ``` 
 
+## Determine The Parameters service-cidr And 
+### Perform On Nodes
+- ✅ Master Node
+- ❌ Worker Node
+
+### Commands
+Find the existing networks on the Linux device
+```
+$ ip route show
+default via 192.168.0.1 dev enp2s0 proto dhcp src 192.168.0.136 metric 100
+blackhole 172.16.77.128/26 proto bird
+172.16.126.192/26 via 192.168.0.241 dev tunl0 proto bird onlink
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
+192.168.0.0/24 dev enp2s0 proto kernel scope link src 192.168.0.136 metric 100
+```
+Select two network ranges that do not overlap these ranges
+- Example: 10.244.0.0/16
+- Example: 10.96.0.0/12
+
+
+
+Use these subnets in parameters when intiializing the cluster
+- Example: ```--pod-network-cidr "10.244.0.0/16"```
+- Example: ```--service-cidr "10.96.0.0/12"```
+
 ## Initialize The Kubernetes Master Node
 ### Perform On Nodes
 - ✅ Master Node
@@ -657,14 +682,14 @@ Please, check the contents of the $HOME/.kube/config file.
 
 Initialize the Kubernetes cluster
 ```
-$ sudo kubeadm init --control-plane-endpoint=master-node --upload-certs
-I0729 14:36:52.098417 2403045 version.go:256] remote version is much newer: v1.33.3; falling back to: stable-1.28
+$ sudo kubeadm init --control-plane-endpoint=master-node --upload-certs --pod-network-cidr "10.244.0.0/16" --service-cidr "10.96.0.0/12"
+I0731 22:40:48.403163 2141562 version.go:256] remote version is much newer: v1.33.3; falling back to: stable-1.28
 [init] Using Kubernetes version: v1.28.15
 [preflight] Running pre-flight checks
 [preflight] Pulling images required for setting up a Kubernetes cluster
 [preflight] This might take a minute or two, depending on the speed of your internet connection
 [preflight] You can also perform this action in beforehand using 'kubeadm config images pull'
-W0729 14:36:52.628542 2403045 checks.go:835] detected that the sandbox image "registry.k8s.io/pause:3.8" of the container runtime is inconsistent with that used by kubeadm. It is recommended that using "registry.k8s.io/pause:3.9" as the CRI sandbox image.
+W0731 22:40:48.905897 2141562 checks.go:835] detected that the sandbox image "registry.k8s.io/pause:3.8" of the container runtime is inconsistent with that used by kubeadm. It is recommended that using "registry.k8s.io/pause:3.9" as the CRI sandbox image.
 [certs] Using certificateDir folder "/etc/kubernetes/pki"
 [certs] Generating "ca" certificate and key
 [certs] Generating "apiserver" certificate and key
@@ -694,15 +719,15 @@ W0729 14:36:52.628542 2403045 checks.go:835] detected that the sandbox image "re
 [kubelet-start] Writing kubelet configuration to file "/var/lib/kubelet/config.yaml"
 [kubelet-start] Starting the kubelet
 [wait-control-plane] Waiting for the kubelet to boot up the control plane as static Pods from directory "/etc/kubernetes/manifests". This can take up to 4m0s
-[apiclient] All control plane components are healthy after 6.003474 seconds
+[apiclient] All control plane components are healthy after 6.004050 seconds
 [upload-config] Storing the configuration used in ConfigMap "kubeadm-config" in the "kube-system" Namespace
 [kubelet] Creating a ConfigMap "kubelet-config" in namespace kube-system with the configuration for the kubelets in the cluster
 [upload-certs] Storing the certificates in Secret "kubeadm-certs" in the "kube-system" Namespace
 [upload-certs] Using certificate key:
-4061aa3851a6be7739a01ddfa3d1dcdd3b5f4c77e0952e4e8b29d079650d6c06
+d49984453bfcf85cd84ee4300e487807677cc65a8f88759b4da18e37d6547b11
 [mark-control-plane] Marking the node master-node as control-plane by adding the labels: [node-role.kubernetes.io/control-plane node.kubernetes.io/exclude-from-external-load-balancers]
 [mark-control-plane] Marking the node master-node as control-plane by adding the taints [node-role.kubernetes.io/control-plane:NoSchedule]
-[bootstrap-token] Using token: itypil.dqyvp39gie9ogsxy
+[bootstrap-token] Using token: kbpecc.git20g0izpaj9u94
 [bootstrap-token] Configuring bootstrap tokens, cluster-info ConfigMap, RBAC Roles
 [bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to get nodes
 [bootstrap-token] Configured RBAC rules to allow Node Bootstrap tokens to post CSRs in order for nodes to get long term certificate credentials
@@ -731,9 +756,9 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 
 You can now join any number of the control-plane node running the following command on each as root:
 
-  kubeadm join master-node:6443 --token itypil.dqyvp39gie9ogsxy \
-        --discovery-token-ca-cert-hash sha256:e1ce2ba30fe699ebd76846d834eb39002ba35e5d3ad6f316edcc7c9b3ddbb549 \
-        --control-plane --certificate-key 4061aa3851a6be7739a01ddfa3d1dcdd3b5f4c77e0952e4e8b29d079650d6c06
+  kubeadm join master-node:6443 --token kbpecc.git20g0izpaj9u94 \
+        --discovery-token-ca-cert-hash sha256:aac1db8349f58018e1bc3fdb416e59c2003d67fb0937959a17a48d28a70db704 \
+        --control-plane --certificate-key d49984453bfcf85cd84ee4300e487807677cc65a8f88759b4da18e37d6547b11
 
 Please note that the certificate-key gives access to cluster sensitive data, keep it secret!
 As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you can use
@@ -741,8 +766,8 @@ As a safeguard, uploaded-certs will be deleted in two hours; If necessary, you c
 
 Then you can join any number of worker nodes by running the following on each as root:
 
-kubeadm join master-node:6443 --token itypil.dqyvp39gie9ogsxy \
-        --discovery-token-ca-cert-hash sha256:e1ce2ba30fe699ebd76846d834eb39002ba35e5d3ad6f316edcc7c9b3ddbb549
+kubeadm join master-node:6443 --token kbpecc.git20g0izpaj9u94 \
+        --discovery-token-ca-cert-hash sha256:aac1db8349f58018e1bc3fdb416e59c2003d67fb0937959a17a48d28a70db704
 ```
 
 Retain the output from the text "Your Kubernetes control-plane has initialized successfully!" to the end of the output in a KeePass database
@@ -751,7 +776,7 @@ After a few minutes, the node is ready for use
 
 Confirm the node is 'Ready'
 ```
-tomrausch@master-node:~$ kubectl get nodes
+$ kubectl get nodes
 NAME          STATUS   ROLES           AGE   VERSION
 master-node   Ready    control-plane   28m   v1.28.15
 ```
@@ -775,21 +800,18 @@ kube-system    kube-proxy-p4lgt                      1/1     Running            
 kube-system    kube-scheduler-master-node            1/1     Running             13            29m
 ```
 
-## Install Pod Networking Solution
+### References
+- https://stackoverflow.com/questions/44190607/how-do-you-find-the-cluster-service-cidr-of-a-kubernetes-cluster
+- https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/
+- 
+
+## Install A Pod Networking Solution
 ### Perform On Nodes
 - ✅ Master Node
-- (TBD) Worker Node
+- ❌ Worker Node
 
 ### Commands
-If the pods with names that start with coredns are not running, install a networking solution
-- Install Calico [^install_calico]
-```bash
-$ kubectl apply-f https://docs.projectcalico.org/v3.20/manifests/calico.yaml
-```
-[^install_calico]: [Coredns stuck in “ContainerCreating”](https://discuss.kubernetes.io/t/coredns-stuck-in-containercreating/19100)
-
-OR
-- Install Flannel
+Install Flannel
 ```bash
 $ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
 namespace/kube-flannel created
@@ -799,6 +821,15 @@ clusterrolebinding.rbac.authorization.k8s.io/flannel created
 configmap/kube-flannel-cfg created
 daemonset.apps/kube-flannel-ds created
 ```
+
+OR
+
+Install Calico [^install_calico]
+```bash
+$ kubectl apply-f https://docs.projectcalico.org/v3.20/manifests/calico.yaml
+```
+[^install_calico]: [Coredns stuck in “ContainerCreating”](https://discuss.kubernetes.io/t/coredns-stuck-in-containercreating/19100)
+
 
 Reload the configuration and restart kubelet
 ```bash
