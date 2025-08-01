@@ -503,8 +503,6 @@ Select two network ranges that do not overlap these ranges
 - Example: 10.244.0.0/16
 - Example: 10.96.0.0/12
 
-
-
 Use these subnets in parameters when intiializing the cluster
 - Example: ```--pod-network-cidr "10.244.0.0/16"```
 - Example: ```--service-cidr "10.96.0.0/12"```
@@ -787,30 +785,47 @@ $ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 node/master-node untainted
 ```
 
-Confirm the Pods are 'Running'
+Confirm The Pods Advance To STATUS Of 'Running'
+
+> [!IMPORTANT]
+> The coredns pods and pods added later will not advance to a STATUS of "Running" until the technician installs a pod networking solution
+> Refer to a later step to install a pod networking solution
+
 ```
-$ kubectl get pods --all-namespaces
-NAMESPACE      NAME                                  READY   STATUS              RESTARTS      AGE
-kube-system    coredns-5dd5756b68-9c5sq              0/1     ContainerCreating   0             29m
-kube-system    coredns-5dd5756b68-sq9st              0/1     ContainerCreating   0             29m
-kube-system    etcd-master-node                      1/1     Running             0             29m
-kube-system    kube-apiserver-master-node            1/1     Running             13            29m
-kube-system    kube-controller-manager-master-node   1/1     Running             13            29m
-kube-system    kube-proxy-p4lgt                      1/1     Running             0             29m
-kube-system    kube-scheduler-master-node            1/1     Running             13            29m
+NAMESPACE     NAME                                  READY   STATUS              RESTARTS   AGE   IP              NODE          NOMINATED NODE   READINESS GATES
+default       busybox                               0/1     Pending             0          27s   <none>          <none>        <none>           <none>
+kube-system   coredns-5dd5756b68-kkcmj              0/1     ContainerCreating   0          12h   <none>          master-node   <none>           <none>
+kube-system   coredns-5dd5756b68-mmrrn              0/1     ContainerCreating   0          12h   <none>          master-node   <none>           <none>
+kube-system   etcd-master-node                      1/1     Running             3          12h   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-apiserver-master-node            1/1     Running             0          12h   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-controller-manager-master-node   1/1     Running             0          12h   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-proxy-r8s25                      1/1     Running             0          12h   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-scheduler-master-node            1/1     Running             18         12h   192.168.0.136   master-node   <none>           <none>
 ```
 
 ### References
 - https://stackoverflow.com/questions/44190607/how-do-you-find-the-cluster-service-cidr-of-a-kubernetes-cluster
 - https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/
-- 
 
-## Install A Pod Networking Solution
+## Install A Pod Networking Solution (Calico)
 ### Perform On Nodes
 - ✅ Master Node
 - ❌ Worker Node
 
 ### Commands
+Install Tigera Operators
+```
+$ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/tigera-operator.yaml
+namespace/tigera-operator created
+serviceaccount/tigera-operator created
+clusterrole.rbac.authorization.k8s.io/tigera-operator-secrets created
+clusterrole.rbac.authorization.k8s.io/tigera-operator created
+clusterrolebinding.rbac.authorization.k8s.io/tigera-operator created
+rolebinding.rbac.authorization.k8s.io/tigera-operator-secrets created
+deployment.apps/tigera-operator created
+```
+
+
 Install Flannel
 ```bash
 $ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
