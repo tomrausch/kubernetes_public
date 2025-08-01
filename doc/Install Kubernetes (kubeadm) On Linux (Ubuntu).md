@@ -826,16 +826,8 @@ deployment.apps/tigera-operator created
 ```
 
 
-Install Flannel
-```bash
-$ kubectl apply -f https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml
-namespace/kube-flannel created
-serviceaccount/flannel created
-clusterrole.rbac.authorization.k8s.io/flannel created
-clusterrolebinding.rbac.authorization.k8s.io/flannel created
-configmap/kube-flannel-cfg created
-daemonset.apps/kube-flannel-ds created
-```
+$ kubectl create -f https://github.com/tomrausch/kubernetes_public/blob/1f35ccef3b5805726fee891944119299b144dd38/src/kubeadm/calico-installation.yaml
+
 
 OR
 
