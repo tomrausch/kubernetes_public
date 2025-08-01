@@ -3,7 +3,7 @@
 apiVersion: operator.tigera.io/v1
 kind: Installation
 metadata:
-  name: installation.operator.tigera.io
+  name: default
 spec:
   # Configures Calico networking.
   calicoNetwork:
@@ -22,7 +22,7 @@ spec:
 apiVersion: operator.tigera.io/v1
 kind: APIServer
 metadata:
-  name: apiserver.operator.tigera.io
+  name: default
 spec: {}
 
 ---
@@ -31,7 +31,7 @@ spec: {}
 apiVersion: operator.tigera.io/v1
 kind: Goldmane
 metadata:
-  name: goldmane.operator.tigera.io
+  name: default
 
 ---
 
@@ -39,4 +39,4 @@ metadata:
 apiVersion: operator.tigera.io/v1
 kind: Whisker
 metadata:
-  name: whisker.operator.tigera.io
+  name: default
