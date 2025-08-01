@@ -80,36 +80,36 @@ sudo systemctl daemon-reload && sudo systemctl restart kubelet
 After installing Calico, all the pods including the coredns pods are running
 - Investigate the pods with 'kubectl'
 ```bash
-$ kubectl get pods --all-namespaces
-NAMESPACE      NAME                                       READY   STATUS             RESTARTS         AGE
-kube-system    calico-kube-controllers-658d97c59c-8hx55   1/1     Running            0                85s
-kube-system    calico-node-82298                          1/1     Running            0                85s
-kube-system    coredns-5dd5756b68-jjlh5                   1/1     Running            0                88m
-kube-system    coredns-5dd5756b68-sq9st                   1/1     Running            0                144m
-kube-system    etcd-master-node                           1/1     Running            1 (82m ago)      144m
-kube-system    kube-apiserver-master-node                 1/1     Running            14 (82m ago)     144m
-kube-system    kube-controller-manager-master-node        1/1     Running            14 (82m ago)     144m
-kube-system    kube-proxy-p4lgt                           1/1     Running            1 (82m ago)      144m
-kube-system    kube-scheduler-master-node                 1/1     Running            14 (82m ago)     144m
+$ kubectl get pods --all-namespaces -o wide
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE   IP              NODE          NOMINATED NODE   READINESS GATES
+default       busybox-pod                                1/1     Running   0          11m   10.244.77.132   master-node   <none>           <none>
+kube-system   calico-kube-controllers-658d97c59c-zxslg   1/1     Running   0          44s   10.244.77.131   master-node   <none>           <none>
+kube-system   calico-node-5qwqx                          1/1     Running   0          44s   192.168.0.136   master-node   <none>           <none>
+kube-system   coredns-5dd5756b68-6n6lb                   1/1     Running   0          15m   10.244.77.130   master-node   <none>           <none>
+kube-system   coredns-5dd5756b68-h4tcm                   1/1     Running   0          15m   10.244.77.129   master-node   <none>           <none>
+kube-system   etcd-master-node                           1/1     Running   4          16m   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-apiserver-master-node                 1/1     Running   1          16m   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-controller-manager-master-node        1/1     Running   1          16m   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-proxy-fdtms                           1/1     Running   0          15m   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-scheduler-master-node                 1/1     Running   19         16m   192.168.0.136   master-node   <none>           <none>
 ```
 - Investigate the pods with 'crictl'
 ```bash
 $ sudo crictl pods
 WARN[0000] runtime connect using default endpoints: [unix:///var/run/dockershim.sock unix:///run/containerd/containerd.sock unix:///run/crio/crio.sock unix:///var/run/cri-dockerd.sock]. As the default settings are now deprecated, you should set the endpoint instead.
 ERRO[0000] validate service connection: validate CRI v1 runtime API for endpoint "unix:///var/run/dockershim.sock": rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial unix /var/run/dockershim.sock: connect: no such file or directory"
-POD ID              CREATED             STATE               NAME                                       NAMESPACE           ATTEMPT             RUNTIME
-f36687cadaaa3       4 minutes ago       Ready               coredns-5dd5756b68-jjlh5                   kube-system         6                   (default)
-185cdf2867618       4 minutes ago       Ready               calico-kube-controllers-658d97c59c-8hx55   kube-system         10                  (default)
-774c959eb0fcd       4 minutes ago       Ready               coredns-5dd5756b68-sq9st                   kube-system         5                   (default)
-098f1aaa718fd       5 minutes ago       Ready               calico-node-82298                          kube-system         0                   (default)
-07b4dd6b5a9d5       About an hour ago   Ready               kube-proxy-p4lgt                           kube-system         1                   (default)
-2db005b431d89       About an hour ago   Ready               kube-controller-manager-master-node        kube-system         1                   (default)
-d521c059b525b       About an hour ago   Ready               etcd-master-node                           kube-system         1                   (default)
-034547c5e62f9       About an hour ago   Ready               kube-apiserver-master-node                 kube-system         1                   (default)
-dbdabaec3b382       About an hour ago   Ready               kube-scheduler-master-node                 kube-system         1                   (default)
+POD ID              CREATED              STATE               NAME                                       NAMESPACE           ATTEMPT             RUNTIME
+95839a0f1160b       About a minute ago   Ready               busybox-pod                                default             598                 (default)
+bd57ba0e0986c       About a minute ago   Ready               coredns-5dd5756b68-6n6lb                   kube-system         873                 (default)
+9e11c69eca71c       About a minute ago   Ready               calico-kube-controllers-658d97c59c-zxslg   kube-system         7                   (default)
+8eb7c4d489502       About a minute ago   Ready               coredns-5dd5756b68-h4tcm                   kube-system         873                 (default)
+88ad81031b39b       About a minute ago   Ready               calico-node-5qwqx                          kube-system         0                   (default)
+36bef92d2ae2c       16 minutes ago       Ready               kube-proxy-fdtms                           kube-system         0                   (default)
+42afa93ae326f       17 minutes ago       Ready               kube-apiserver-master-node                 kube-system         0                   (default)
+82d3b02d7b3f0       17 minutes ago       Ready               kube-controller-manager-master-node        kube-system         0                   (default)
+da5fa0dbdd4a1       17 minutes ago       Ready               kube-scheduler-master-node                 kube-system         0                   (default)
+6994bbf454583       17 minutes ago       Ready               etcd-master-node                           kube-system         0                   (default)
 ```
-
-
 
 ## DO NOT Install
 ### DO NOT Install Tigera Operators
@@ -133,5 +133,3 @@ $ kubectl apply-f https://docs.projectcalico.org/v3.20/manifests/calico.yaml
 - [Calico quickstart guide](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart) | tigera.io
 - [Install Calico networking and network policy for on-premises deployments](https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises) | tigera.io
 - [Coredns stuck in “ContainerCreating”](https://discuss.kubernetes.io/t/coredns-stuck-in-containercreating/19100) | kubernetes.io
-
-
