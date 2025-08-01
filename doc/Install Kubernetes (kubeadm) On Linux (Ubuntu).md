@@ -678,7 +678,7 @@ The reset process does not clean your kubeconfig files and you must remove them 
 Please, check the contents of the $HOME/.kube/config file.
 ```
 
-Initialize the Kubernetes cluster
+Initialize the Kubernetes cluster [^run_kubeadm_init]
 ```
 $ sudo kubeadm init --control-plane-endpoint=master-node --upload-certs --pod-network-cidr "10.244.0.0/16" --service-cidr "10.96.0.0/12"
 I0731 22:40:48.403163 2141562 version.go:256] remote version is much newer: v1.33.3; falling back to: stable-1.28
@@ -770,6 +770,15 @@ kubeadm join master-node:6443 --token kbpecc.git20g0izpaj9u94 \
 
 Retain the output from the text "Your Kubernetes control-plane has initialized successfully!" to the end of the output in a KeePass database
 
+Enable the kube config file for use
+```
+mkdir -p $HOME/.kube
+sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+sudo chown $(id -u):$(id -g) $HOME/.kube/config
+```
+
+Retain the kube config file in a KeePass database
+
 After a few minutes, the node is ready for use
 
 Confirm the node is 'Ready'
@@ -785,29 +794,27 @@ $ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
 node/master-node untainted
 ```
 
-Confirm The Pods Advance To STATUS Of 'Running'
+Confirm the administration pods Advance To STATUS Of 'Running'
+```
+$ kubectl get pods -o wide --all-namespaces
+NAMESPACE     NAME                                  READY   STATUS              RESTARTS   AGE     IP              NODE          NOMINATED NODE   READINESS GATES
+default       busybox-pod                           0/1     ContainerCreating   0          104s    <none>          master-node   <none>           <none>
+kube-system   coredns-5dd5756b68-6n6lb              0/1     ContainerCreating   0          6m33s   <none>          master-node   <none>           <none>
+kube-system   coredns-5dd5756b68-h4tcm              0/1     ContainerCreating   0          6m33s   <none>          master-node   <none>           <none>
+kube-system   etcd-master-node                      1/1     Running             4          6m48s   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-apiserver-master-node            1/1     Running             1          6m47s   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-controller-manager-master-node   1/1     Running             1          6m47s   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-proxy-fdtms                      1/1     Running             0          6m33s   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-scheduler-master-node            1/1     Running             19         6m47s   192.168.0.136   master-node   <none>           <none>
+```
 
 > [!IMPORTANT]
-> The coredns pods will not advance to a STATUS of "Running" until the technician installs a pod networking solution
-> Ad-hoc pods added now will not advacne to a STATUS of "Running" even after the technician installs a pod networking solution
-> - Note the node "busybox" stays in a STATUS of "Pending"
+> Non-administration pods will not advance to a STATUS of "Running" until the technician installs a pod networking solution
+> - Note the coredns pods stay in a STATUS of "Pending"
+> - Note the "busybox" pod stays in a STATUS of "Pending"
 > Refer to a later step to install a pod networking solution
 
-```
-NAMESPACE     NAME                                  READY   STATUS              RESTARTS   AGE   IP              NODE          NOMINATED NODE   READINESS GATES
-default       busybox                               0/1     Pending             0          27s   <none>          <none>        <none>           <none>
-kube-system   coredns-5dd5756b68-kkcmj              0/1     ContainerCreating   0          12h   <none>          master-node   <none>           <none>
-kube-system   coredns-5dd5756b68-mmrrn              0/1     ContainerCreating   0          12h   <none>          master-node   <none>           <none>
-kube-system   etcd-master-node                      1/1     Running             3          12h   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-apiserver-master-node            1/1     Running             0          12h   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-controller-manager-master-node   1/1     Running             0          12h   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-proxy-r8s25                      1/1     Running             0          12h   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-scheduler-master-node            1/1     Running             18         12h   192.168.0.136   master-node   <none>           <none>
-```
-
-### References
-- https://stackoverflow.com/questions/44190607/how-do-you-find-the-cluster-service-cidr-of-a-kubernetes-cluster
-- https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/
+[^run_kubeadm_init]: [I set my master with "kubeadm init"...](https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/)
 
 ## Install A Pod Networking Solution
 ### Perform On Nodes
@@ -815,7 +822,7 @@ kube-system   kube-scheduler-master-node            1/1     Running             
 - ❌ Worker Node
 
 ### Commands
-- [Install Calico]()
+- [Install Calico](https://github.com/tomrausch/kubernetes_public/blob/5ede2a217a4bb71d061a144f28c18dd264e6681c/doc/Install%20Calico.md)
 
 ## Confirm The Installation Token [^confirm_installation_token]
 ### Perform On Nodes
@@ -895,45 +902,6 @@ This node has joined the cluster:
 Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
 ```
 
-Create the containerd configuration file 'config.toml' [^create_config_toml]
-```bash
-$ sudo mkdir -p -m 755 /etc/containerd
-$ containerd config default | sudo tee /etc/containerd/config.toml
-```
-
-```
-tomrausch@master-node:~$ kubectl get pods -o wide --all-namespaces
-NAMESPACE     NAME                                       READY   STATUS             RESTARTS        AGE    IP              NODE             NOMINATED NODE   READINESS GATES
-default       busybox                                    1/1     Running            0               32h    172.16.77.136   master-node      <none>           <none>
-default       hello-blue-whale-7f856d65b7-cdmv6          1/1     Running            0               2d     172.16.77.131   master-node      <none>           <none>
-default       homepage-887d8ffd8-b5bvk                   1/1     Running            0               31h    172.16.77.139   master-node      <none>           <none>
-default       it-tools-798cdf4db-r7zv2                   1/1     Running            0               31h    172.16.77.138   master-node      <none>           <none>
-default       kuard-5c6b59fbd5-8r9f8                     1/1     Running            0               2d1h   172.16.77.133   master-node      <none>           <none>
-default       ubuntu                                     1/1     Running            0               31h    172.16.77.137   master-node      <none>           <none>
-kube-system   calico-kube-controllers-658d97c59c-8hx55   1/1     Running            0               2d     172.16.77.132   master-node      <none>           <none>
-kube-system   calico-node-82298                          0/1     Running            0               2d     192.168.0.136   master-node      <none>           <none>
-kube-system   calico-node-h7rbp                          0/1     CrashLoopBackOff   8 (2m36s ago)   28m    192.168.0.241   worker-node-01   <none>           <none>
-kube-system   coredns-5dd5756b68-jjlh5                   1/1     Running            0               2d1h   172.16.77.130   master-node      <none>           <none>
-kube-system   coredns-5dd5756b68-sq9st                   1/1     Running            0               2d2h   172.16.77.129   master-node      <none>           <none>
-kube-system   etcd-master-node                           1/1     Running            1 (2d1h ago)    2d2h   192.168.0.136   master-node      <none>           <none>
-kube-system   kube-apiserver-master-node                 1/1     Running            14 (2d1h ago)   2d2h   192.168.0.136   master-node      <none>           <none>
-kube-system   kube-controller-manager-master-node        1/1     Running            16 (30h ago)    2d2h   192.168.0.136   master-node      <none>           <none>
-kube-system   kube-proxy-klbvl                           0/1     CrashLoopBackOff   8 (2m42s ago)   28m    192.168.0.241   worker-node-01   <none>           <none>
-```
-
-Restart the containerd service
-```
-sudo systemctl restart containerd
-```
-
-- This **MAY** resolve the issues with pods on the Worker Node entering the state "CrashLoopBackOff"
-
-**RESEARCH**
-https://serverfault.com/questions/1094255/kube-proxy-not-working-for-service-cluster-ips
-
-
-[^create_config_toml]: [Anybody ran into issues when setting up a cluster following the steps from the video, “Demo - Deployment with Kubeadm”?](https://kodekloud.com/community/t/anybody-ran-into-issues-when-setting-up-a-cluster-following-the-steps-from-the-v/352468) | kodekloud
-
 ## Confirm The Worker Node Is Part Of The Kubernetes Cluster
 ### Perform On Nodes
 - ✅ Master Node
@@ -950,42 +918,36 @@ worker-node-01   Ready    <none>          5m4s   v1.28.15   192.168.0.241   <non
 
 List the available pods
 - Confirm the administrative pods "calico-node-..." and "kube-proxy-..." are running on both nodes
+- Confirm administrative pods on the master-node have IP address "192.168.0.136"
+- Confirm administrative pods on the worker-node-01 have IP address "192.168.0.241"
+- Confirm new non-administrative pods have IP addresses in the range "10.244.0.0/16"; that is, from IP address "10.244.0.1" to IP address "10.244.255.254"
 ```bash
-$ kubectl get pods -o wide --all-namespaces
-NAMESPACE     NAME                                       READY   STATUS             RESTARTS        AGE     IP              NODE             NOMINATED NODE   READINESS GATES
-default       busybox                                    1/1     Running            0               31h     172.16.77.136   master-node      <none>           <none>
-default       hello-blue-whale-7f856d65b7-cdmv6          1/1     Running            0               2d      172.16.77.131   master-node      <none>           <none>
-default       homepage-887d8ffd8-b5bvk                   1/1     Running            0               30h     172.16.77.139   master-node      <none>           <none>
-default       it-tools-798cdf4db-r7zv2                   1/1     Running            0               31h     172.16.77.138   master-node      <none>           <none>
-default       kuard-5c6b59fbd5-8r9f8                     1/1     Running            0               2d1h    172.16.77.133   master-node      <none>           <none>
-default       ubuntu                                     1/1     Running            0               31h     172.16.77.137   master-node      <none>           <none>
-kube-system   calico-kube-controllers-658d97c59c-8hx55   1/1     Running            0               2d      172.16.77.132   master-node      <none>           <none>
-kube-system   calico-node-82298                          1/1     Running            0               2d      192.168.0.136   master-node      <none>           <none>
-kube-system   calico-node-h7rbp                          1/1     Running            3 (49s ago)     6m36s   192.168.0.241   worker-node-01   <none>           <none>
-kube-system   coredns-5dd5756b68-jjlh5                   1/1     Running            0               2d1h    172.16.77.130   master-node      <none>           <none>
-kube-system   coredns-5dd5756b68-sq9st                   1/1     Running            0               2d2h    172.16.77.129   master-node      <none>           <none>
-kube-system   etcd-master-node                           1/1     Running            1 (2d1h ago)    2d2h    192.168.0.136   master-node      <none>           <none>
-kube-system   kube-apiserver-master-node                 1/1     Running            14 (2d1h ago)   2d2h    192.168.0.136   master-node      <none>           <none>
-kube-system   kube-controller-manager-master-node        1/1     Running            16 (30h ago)    2d2h    192.168.0.136   master-node      <none>           <none>
-kube-system   kube-proxy-klbvl                           1/1     Running            4 (109s ago)    6m36s   192.168.0.241   worker-node-01   <none>           <none>
-kube-system   kube-proxy-p4lgt                           1/1     Running            1 (2d1h ago)    2d2h    192.168.0.136   master-node      <none>           <none>
-kube-system   kube-scheduler-master-node                 1/1     Running            16 (30h ago)    2d2h    192.168.0.136   master-node      <none>           <none>
-kube-system   metrics-server-856f767b-9jp8x              0/1     ImagePullBackOff   0               19h     172.16.77.140   master-node      <none>           <none>
+$ kubectl get pods --all-namespaces -o wide
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE     IP              NODE             NOMINATED NODE   READINESS GATES
+default       busybox-pod                                1/1     Running   0          15m     10.244.77.132   master-node      <none>           <none>
+kube-system   calico-kube-controllers-658d97c59c-zxslg   1/1     Running   0          4m35s   10.244.77.131   master-node      <none>           <none>
+kube-system   calico-node-5qwqx                          1/1     Running   0          4m35s   192.168.0.136   master-node      <none>           <none>
+kube-system   calico-node-xpzt7                          1/1     Running   0          50s     192.168.0.241   worker-node-01   <none>           <none>
+kube-system   coredns-5dd5756b68-6n6lb                   1/1     Running   0          19m     10.244.77.130   master-node      <none>           <none>
+kube-system   coredns-5dd5756b68-h4tcm                   1/1     Running   0          19m     10.244.77.129   master-node      <none>           <none>
+kube-system   etcd-master-node                           1/1     Running   4          20m     192.168.0.136   master-node      <none>           <none>
+kube-system   kube-apiserver-master-node                 1/1     Running   1          20m     192.168.0.136   master-node      <none>           <none>
+kube-system   kube-controller-manager-master-node        1/1     Running   1          20m     192.168.0.136   master-node      <none>           <none>
+kube-system   kube-proxy-fdtms                           1/1     Running   0          19m     192.168.0.136   master-node      <none>           <none>
+kube-system   kube-proxy-z4xtc                           1/1     Running   0          50s     192.168.0.241   worker-node-01   <none>           <none>
+kube-system   kube-scheduler-master-node                 1/1     Running   19         20m     192.168.0.136   master-node      <none>           <none>
 ```
 
-## Create A Personal Kubernetes config File
-### Perform On Nodes
-- ✅ Master Node
-- ✅ Worker Node
-
-### Commands [^K1]
+List the available services
+- Confirm services have IP addresses in the range "10.96.0.0/12"; that is, from IP address "10.96.0.1" to IP address "10.111.255.254"
 ```bash
-$ mkdir -p $HOME/.kube
-$ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
-$ sudo chown $(id-u):$(id-g) $HOME/.kube/config
+$ kubectl get services --all-namespaces -o wide
+NAMESPACE     NAME         TYPE        CLUSTER-IP   EXTERNAL-IP   PORT(S)                  AGE   SELECTOR
+default       kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP                  25m   <none>
+kube-system   kube-dns     ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,9153/TCP   25m   k8s-app=kube-dns
 ```
 
-Retain the personal Kubernetes config file '$HOME/.kube/config' in a KeePass database
+
 
 ## Optional
 ### Perform On Nodes
@@ -993,13 +955,23 @@ Retain the personal Kubernetes config file '$HOME/.kube/config' in a KeePass dat
 - ❔ Worker Node
 
 ### Commands
+#### Setup 
+
 #### Deploy Ingress Controller (NGINX) [On MasterNode]
 ```bash
 $ kubectl apply-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.49.0/deploy/static/provider/baremetal/deploy.yaml
 ```
 
-#### Deploy kube-bench [^kube_bench]
-[^kube_bench]: [kube-bench](https://aquasecurity.github.io/kube-bench/v0.6.5/)
+#### Deploy kube-bench
+[kube-bench](https://aquasecurity.github.io/kube-bench/v0.6.5/)
+
+#### Deploy Metrics Server/Promethius
+- https://medium.com/@vinoji2005/install-prometheus-on-kubernetes-tutorial-and-example-6b3c800e7e1c
+
+#### Deploy Calico Whisker
+whisker.operator.tigera.io/default created
+
+#### Deploy Kubernetes Dashboard (K8 Studio Takes This Place)
 
 ## References
 - [Getting started](https://kubernetes.io/docs/setup/) | Kubernetes Documentation
