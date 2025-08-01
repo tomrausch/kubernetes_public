@@ -67,7 +67,10 @@ deployment.apps/calico-kube-controllers created
 > - This is the same pod-network-cidr used by the Flannel application
 > - The custom resource definitions are removed as the CRDs are defined in a previous YAML file
 >
-> Reference: [I set my master with "kubeadm init --pod-network-cidr=10.244.0.0/16", flannel is also set with that...](https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/) | Reddit
+> References
+> - [How do you find the cluster & service CIDR of a Kubernetes cluster?](https://stackoverflow.com/questions/44190607/how-do-you-find-the-cluster-service-cidr-of-a-kubernetes-cluster) | StackOverflow
+> - [I set my master with "kubeadm init --pod-network-cidr=10.244.0.0/16", flannel is also set with that...](https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/) | Reddit
+
 
 Reload the configuration and restart kubelet
 ```bash
