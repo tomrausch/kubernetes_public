@@ -251,7 +251,7 @@ $ sudo apt upgrade
 ```
 
 
-## Set The Kubernetes Configuration
+## Set The Kubernetes Configuration Files [^K1]
 ### Perform On Nodes
 - ✅ Master Node
 - ✅ Worker Node
@@ -347,172 +347,6 @@ net.bridge.bridge-nf-call-iptables = 1
 net.ipv4.ip_forward = 1
 ```
 
-
-## Reset The Hostname Of The Master Node
-### Perform On Nodes
-- ✅ Master Node
-- ❌ Worker Node
-
-### Commands
-Logon the future Kubernetes master node
-
-Determine the hostname and IP address
-```bash
-$ hostname
-tomrausch-HP-Elite-7100-Microtower-PC
-$ hostname -I
-192.168.0.136 172.17.0.1 192.168.58.1
-```
-- The current hostname of the future Kubernetes master node is "tomrausch-HP-Elite-7100-Microtower-PC"
-- The IP address of the future Kubernetes master node is "192.168.0.136"
-
-Reset the hostname of the Kubernetes master node
-```bash
-$ sudo hostnamectl set-hostname master-node
-```
-
-Confirm the hostname and IP address of the Kubernetes master node
-```bash
-$ hostname
-master-node
-$ hostname -I
-192.168.0.136 172.17.0.1 192.168.58.1
-```
-- The current hostname of the future Kubernetes master node is "master-node"
-  - Changed
-- The IP address of the future Kubernetes master node is "192.168.0.136"
-  - There is no change
-
-Edit the hosts file '/etc/hosts'
-```bash
-$ sudo nano /etc/hosts
-```
-Add the following two lines to the file '/etc/hosts'
-```bash
-192.168.0.136 master-node
-192.168.0.241 worker-node-01
-```
-- The IP address of the worker node is obtained in a following step
-
-Save the file to the file system and exit the editor
-
-Confirm the file '/etc/hosts'
-```bash
-$ cat /etc/hosts
-127.0.0.1 localhost
-127.0.0.1 tomrausch-HP-Elite-7100-Microtower-PC
-192.168.0.241 tom-rausch-ThinkPad-L560
-192.168.0.241 thomas-rausch-ThinkPad-L560
-192.168.0.136 master-node
-192.168.0.241 worker-node-01
-
-# The following lines are desirable for IPv6 capable hosts
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-# Added by Docker Desktop
-# To allow the same kube context to work on the host and the container:
-127.0.0.1       kubernetes.docker.internal
-# End of section
-```
-
-## Reset The Hostname Of The Worker Node
-### Perform On Nodes
-- ❌ Master Node
-- ✅ Worker Node
-
-### Commands
-Logon the future Kubernetes worker node
-
-Determine the hostname and IP address
-```bash
-$ hostname
-thomas-rausch-ThinkPad-L560
-$ hostname -I
-192.168.0.241 2601:248:100:eb90::27b5
-```
-- The current hostname of the future Kubernetes worker node is "thomas-rausch-ThinkPad-L560"
-- The IP address of the future Kubernetes worker node is "192.168.0.241"
-
-Reset the hostname of the Kubernetes worker node
-```bash
-$ sudo hostnamectl set-hostname worker-node-01
-```
-
-Confirm the hostname and IP address of the Kubernetes worker node
-```bash
-$ hostname
-worker-node-01
-$ hostname -I
-192.168.0.241 2601:248:100:eb90::27b5
-```
-- The current hostname of the future Kubernetes worker node is "master-node"
-  - Changed
-- The IP address of the future master Kubernetes worker node is "192.168.0.241"
-  - There is no change
-
-Edit the hosts file '/etc/hosts'
-```bash
-$ sudo nano /etc/hosts
-```
-Add the following two lines to the file '/etc/hosts'
-```bash
-192.168.0.136 master-node
-192.168.0.241 worker-node-01
-```
-- The IP address of the worker node is obtained in a following step
-
-Save the file to the file system and exit the editor
-
-Confirm the file '/etc/hosts'
-```bash
-$ cat /etc/hosts
-127.0.0.1 localhost
-127.0.1.1 tom-rausch-ThinkPad-L560
-127.0.1.1 thomas-rausch-ThinkPad-L560
-192.168.0.136 tomrausch-HP-Elite-7100-Microtower-PC
-192.168.0.136 master-node
-192.168.0.241 worker-node-01
-
-# The following lines are desirable for IPv6 capable hosts
-::1     ip6-localhost ip6-loopback
-fe00::0 ip6-localnet
-ff00::0 ip6-mcastprefix
-ff02::1 ip6-allnodes
-ff02::2 ip6-allrouters
-``` 
-
-## Determine The Parameters service-cidr And 
-### Perform On Nodes
-- ✅ Master Node
-- ❌ Worker Node
-
-### Commands
-Find the existing networks on the Linux device
-```
-$ ip route show
-default via 192.168.0.1 dev enp2s0 proto dhcp src 192.168.0.136 metric 100
-blackhole 172.16.77.128/26 proto bird
-172.16.126.192/26 via 192.168.0.241 dev tunl0 proto bird onlink
-172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
-192.168.0.0/24 dev enp2s0 proto kernel scope link src 192.168.0.136 metric 100
-```
-Select two network ranges that do not overlap these ranges
-- Example: 10.244.0.0/16
-- Example: 10.96.0.0/12
-
-Use these subnets in parameters when intiializing the cluster
-- Example: ```--pod-network-cidr "10.244.0.0/16"```
-- Example: ```--service-cidr "10.96.0.0/12"```
-
-## Initialize The Kubernetes Master Node
-### Perform On Nodes
-- ✅ Master Node
-- ❌ Worker Node
-
-### Commands [^K1]
 Edit the kubetlet configuration file '/etc/default/kubelet'
 ```bash
 $ sudo nano /etc/default/kubelet
@@ -533,8 +367,6 @@ Reload the configuration and restart kubelet
 ```bash
 sudo systemctl daemon-reload && sudo systemctl restart kubelet
 ```
-
-[^K1]:[Configuring each kubelet in your cluster using kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/kubelet-integration/) | kubernetes.io
 
 Edit the Docker daemon configuration file '/etc/docker/daemon.json'
 ```bash
@@ -557,7 +389,15 @@ Save the file to the file system and exit the editor
 Confirm the file '/etc/docker/daemon.json'
 ```bash
 $ cat /etc/docker/daemon.json
-KUBELET_EXTRA_ARGS="--cgroup-driver=cgroupfs"
+ {
+      "exec-opts": ["native.cgroupdriver=systemd"],
+      "log-driver": "json-file",
+      "log-opts": {
+      "max-size": "100m"
+   },
+
+       "storage-driver": "overlay2"
+       }
 ```
 
 Reload the configuration and restart Docker
@@ -632,25 +472,180 @@ ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELE
 Reload the configuration and restart kubelet
 ```
 $ sudo systemctl daemon-reload && sudo systemctl restart kubelet
-tomrausch@master-node:/usr/lib/systemd/system/kubelet.service.d$ sudo nano /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
-tomrausch@master-node:/usr/lib/systemd/system/kubelet.service.d$ cat /usr/lib/systemd/system/kubelet.service.d/10-kubeadm.conf
-# Note: This dropin only works with kubeadm and kubelet v1.11+
-[Service]
-Environment="KUBELET_KUBECONFIG_ARGS=--bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf"
-Environment="KUBELET_CONFIG_ARGS=--config=/var/lib/kubelet/config.yaml"
-Environment="KUBELET_EXTRA_ARGS=--fail-swap-on=false"
-# This is a file that "kubeadm init" and "kubeadm join" generates at runtime, populating the KUBELET_KUBEADM_ARGS variable dynamically
-EnvironmentFile=-/var/lib/kubelet/kubeadm-flags.env
-# This is a file that the user can use for overrides of the kubelet args as a last resort. Preferably, the user should use
-# the .NodeRegistration.KubeletExtraArgs object in the configuration files instead. KUBELET_EXTRA_ARGS should be sourced from this file.
-EnvironmentFile=-/etc/default/kubelet
-ExecStart=
-ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS
-tomrausch@master-node:/usr/lib/systemd/system/kubelet.service.d$
 ```
 
-Reset the existing configuration, if any
+[^K1]:[Configuring each kubelet in your cluster using kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/kubelet-integration/) | kubernetes.io
+
+
+## Reset The Hostname Of The Master Node
+### Perform On Nodes
+- ✅ Master Node
+- ❌ Worker Node
+
+### Commands
+Logon the future Kubernetes master node
+
+Determine the hostname and IP address
+```bash
+$ hostname
+tomrausch-HP-Elite-7100-Microtower-PC
+$ hostname -I
+192.168.0.136 172.17.0.1 192.168.58.1
 ```
+- The current hostname of the future Kubernetes master node is "tomrausch-HP-Elite-7100-Microtower-PC"
+- The IP address of the future Kubernetes master node is "192.168.0.136"
+
+Reset the hostname of the Kubernetes master node
+```bash
+$ sudo hostnamectl set-hostname master-node
+```
+
+Confirm the hostname and IP address of the Kubernetes master node
+```bash
+$ hostname
+master-node
+$ hostname -I
+192.168.0.136 172.17.0.1 192.168.58.1
+```
+- The current hostname of the future Kubernetes master node is "master-node"
+  - Changed
+- The IP address of the future Kubernetes master node is "192.168.0.136"
+  - There is no change
+
+Edit the hosts file '/etc/hosts'
+```bash
+$ sudo nano /etc/hosts
+```
+Add the following two lines to the file '/etc/hosts'
+```bash
+192.168.0.136 master-node
+192.168.0.241 worker-node-01
+```
+- The IP address of the worker node is obtained in a following step
+
+Save the file to the file system and exit the editor
+
+Confirm the file '/etc/hosts'
+```bash
+$ cat /etc/hosts
+127.0.0.1 localhost
+127.0.0.1 tomrausch-HP-Elite-7100-Microtower-PC
+192.168.0.241 tom-rausch-ThinkPad-L560
+192.168.0.241 thomas-rausch-ThinkPad-L560
+192.168.0.136 master-node
+192.168.0.241 worker-node-01
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+# Added by Docker Desktop
+# To allow the same kube context to work on the host and the container:
+127.0.0.1       kubernetes.docker.internal
+# End of section
+```
+
+
+## Reset The Hostname Of The Worker Node
+### Perform On Nodes
+- ❌ Master Node
+- ✅ Worker Node
+
+### Commands
+Logon the future Kubernetes worker node
+
+Determine the hostname and IP address
+```bash
+$ hostname
+thomas-rausch-ThinkPad-L560
+$ hostname -I
+192.168.0.241 2601:248:100:eb90::27b5
+```
+- The current hostname of the future Kubernetes worker node is "thomas-rausch-ThinkPad-L560"
+- The IP address of the future Kubernetes worker node is "192.168.0.241"
+
+Reset the hostname of the Kubernetes worker node
+```bash
+$ sudo hostnamectl set-hostname worker-node-01
+```
+
+Confirm the hostname and IP address of the Kubernetes worker node
+```bash
+$ hostname
+worker-node-01
+$ hostname -I
+192.168.0.241 2601:248:100:eb90::27b5
+```
+- The current hostname of the future Kubernetes worker node is "master-node"
+  - Changed
+- The IP address of the future master Kubernetes worker node is "192.168.0.241"
+  - There is no change
+
+Edit the hosts file '/etc/hosts'
+```bash
+$ sudo nano /etc/hosts
+```
+Add the following two lines to the file '/etc/hosts'
+```bash
+192.168.0.136 master-node
+192.168.0.241 worker-node-01
+```
+- The IP address of the worker node is obtained in a following step
+
+Save the file to the file system and exit the editor
+
+Confirm the file '/etc/hosts'
+```bash
+$ cat /etc/hosts
+127.0.0.1 localhost
+127.0.1.1 tom-rausch-ThinkPad-L560
+127.0.1.1 thomas-rausch-ThinkPad-L560
+192.168.0.136 tomrausch-HP-Elite-7100-Microtower-PC
+192.168.0.136 master-node
+192.168.0.241 worker-node-01
+
+# The following lines are desirable for IPv6 capable hosts
+::1     ip6-localhost ip6-loopback
+fe00::0 ip6-localnet
+ff00::0 ip6-mcastprefix
+ff02::1 ip6-allnodes
+ff02::2 ip6-allrouters
+``` 
+
+
+## Determine The Parameters pod-network-cidr And service-cidr
+### Perform On Nodes
+- ✅ Master Node
+- ❌ Worker Node
+
+### Commands
+Find the existing networks on the Linux device
+```
+$ ip route show
+default via 192.168.0.1 dev enp2s0 proto dhcp src 192.168.0.136 metric 100
+blackhole 172.16.77.128/26 proto bird
+172.16.126.192/26 via 192.168.0.241 dev tunl0 proto bird onlink
+172.17.0.0/16 dev docker0 proto kernel scope link src 172.17.0.1 linkdown
+192.168.0.0/24 dev enp2s0 proto kernel scope link src 192.168.0.136 metric 100
+```
+Select two network ranges that do not overlap these ranges
+- Example: 10.244.0.0/16
+- Example: 10.96.0.0/12
+
+Use these subnets in parameters when intiializing the cluster
+- Example: ```--pod-network-cidr "10.244.0.0/16"```
+- Example: ```--service-cidr "10.96.0.0/12"```
+
+
+## Initialize The Kubernetes Master Node
+### Perform On Nodes
+- ✅ Master Node
+- ❌ Worker Node
+
+Reset the existing configuration, if any
+```bash
 $ sudo kubeadm reset
 [reset] Reading configuration from the cluster...
 [reset] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
@@ -816,6 +811,7 @@ kube-system   kube-scheduler-master-node            1/1     Running             
 
 [^run_kubeadm_init]: [I set my master with "kubeadm init"...](https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/)
 
+
 ## Install A Pod Networking Solution
 ### Perform On Nodes
 - ✅ Master Node
@@ -823,6 +819,7 @@ kube-system   kube-scheduler-master-node            1/1     Running             
 
 ### Commands
 - [Install Calico](https://github.com/tomrausch/kubernetes_public/blob/5ede2a217a4bb71d061a144f28c18dd264e6681c/doc/Install%20Calico.md)
+
 
 ## Confirm The Installation Token [^confirm_installation_token]
 ### Perform On Nodes
@@ -868,7 +865,36 @@ Restart the containerd service
 $ sudo systemctl restart containerd.service
 ```
 
-Formate the command to create the Worker Node and join the Worker Node to the Master Node
+Reset the existing configuration, if any
+```bash
+$ sudo kubeadm reset
+[reset] Reading configuration from the cluster...
+[reset] FYI: You can look at this config file with 'kubectl -n kube-system get cm kubeadm-config -o yaml'
+W0729 14:36:33.870260 2402426 configset.go:78] Warning: No kubeproxy.config.k8s.io/v1alpha1 config is loaded. Continuing without it: configmaps "kube-proxy" not found
+W0729 14:36:33.882387 2402426 reset.go:120] [reset] Unable to fetch the kubeadm-config ConfigMap from cluster: failed to get node registration: failed to get corresponding node: nodes "tomrausch-hp-elite-7100-microtower-pc" not found
+W0729 14:36:33.882488 2402426 preflight.go:56] [reset] WARNING: Changes made to this host by 'kubeadm init' or 'kubeadm join' will be reverted.
+[reset] Are you sure you want to proceed? [y/N]: y
+[preflight] Running pre-flight checks
+W0729 14:36:35.733502 2402426 removeetcdmember.go:106] [reset] No kubeadm config, using etcd pod spec to get data directory
+[reset] Deleted contents of the etcd data directory: /var/lib/etcd
+[reset] Stopping the kubelet service
+[reset] Unmounting mounted directories in "/var/lib/kubelet"
+[reset] Deleting contents of directories: [/etc/kubernetes/manifests /var/lib/kubelet /etc/kubernetes/pki]
+[reset] Deleting files: [/etc/kubernetes/admin.conf /etc/kubernetes/kubelet.conf /etc/kubernetes/bootstrap-kubelet.conf /etc/kubernetes/controller-manager.conf /etc/kubernetes/scheduler.conf]
+
+The reset process does not clean CNI configuration. To do so, you must remove /etc/cni/net.d
+
+The reset process does not reset or clean up iptables rules or IPVS tables.
+If you wish to reset iptables, you must do so manually by using the "iptables" command.
+
+If your cluster was setup to utilize IPVS, run ipvsadm --clear (or similar)
+to reset your system's IPVS tables.
+
+The reset process does not clean your kubeconfig files and you must remove them manually.
+Please, check the contents of the $HOME/.kube/config file.
+```
+
+Formulate the command to create the Worker Node and join the Worker Node to the Master Node
 
 Here is the command format
 ```bash
@@ -884,7 +910,6 @@ The parameters are obtained in previous steps
 | hash | The hash obtained during the installation of the master node |
 
 Run the command to create the Worker Node and join the Worker Node to the Master Node
-
 ```bash
 $ sudo kubeadm join master-node:6443 --token u5t52h.jj4pol9efe58kcb0 --discovery-token-ca-cert-hash sha256:e1ce2ba30fe699ebd76846d834eb39002ba35e5d3ad6f316edcc7c9b3ddbb549
 [preflight] Running pre-flight checks
@@ -901,6 +926,7 @@ This node has joined the cluster:
 
 Run 'kubectl get nodes' on the control-plane to see this node join the cluster.
 ```
+
 
 ## Confirm The Worker Node Is Part Of The Kubernetes Cluster
 ### Perform On Nodes
@@ -948,7 +974,6 @@ kube-system   kube-dns     ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,
 ```
 
 
-
 ## Optional
 ### Perform On Nodes
 - ❔ Master Node
@@ -961,6 +986,8 @@ kube-system   kube-dns     ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,
 ```bash
 $ kubectl apply-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.49.0/deploy/static/provider/baremetal/deploy.yaml
 ```
+
+#### Deploy Load Balancer, Access Applications Through Single IP
 
 #### Deploy kube-bench
 [kube-bench](https://aquasecurity.github.io/kube-bench/v0.6.5/)
