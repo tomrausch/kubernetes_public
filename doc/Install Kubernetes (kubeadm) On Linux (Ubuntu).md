@@ -115,7 +115,7 @@ Get:7 https://prod-cdn.packages.k8s.io/repositories/isv:/kubernetes:/core:/stabl
 ### Commands
 Install the Kubernetes components
 ```bash
-$ sudo apt install kubeadm kubelet kubectl
+$ sudo apt install kubeadm kubelet kubectl conntrack cri-tools kubernetes-cni
 Reading package lists... Done
 Building dependency tree... Done
 Reading state information... Done
@@ -211,6 +211,10 @@ $ sudo kubectl version
 Client Version: v1.28.15
 Kustomize Version: v5.0.4-0.20230601165947-6ce0bf390ce3
 ```
+On the Worker Node the command output will include one additional line
+```bash
+The connection to the server localhost:8080 was refused - did you specify the right host or port?
+```
 - Description: Communicates with a Kubernetes cluster's control plane using the Kubernetes API
 - Documenation: [kubectl](https://kubernetes.io/docs/reference/kubectl/)
 
@@ -226,6 +230,8 @@ I0728 15:07:06.127903 2299031 server.go:518] "No api server defined - no events 
 I0728 15:07:06.127955 2299031 server.go:725] "--cgroups-per-qos enabled, but --cgroup-root was not specified.  defaulting to /"
 E0728 15:07:06.128214 2299031 run.go:74] "command failed" err="failed to run Kubelet: running with swap on is not supported, please disable swap! or set --fail-swap-on flag to false. /proc/swaps contained: [Filename\t\t\t\tType\t\tSize\t\tUsed\t\tPriority /swap.img                               file\t\t4194300\t\t3336\t\t-2]"
 ```
+the output on the Worker Node may vary
+
 - Description:  The primary "node agent" that runs on each node.
 - Documenation: [kubelet](https://kubernetes.io/docs/reference/command-line-tools-reference/kubelet/)
 
@@ -365,7 +371,7 @@ KUBELET_EXTRA_ARGS="--cgroup-driver=cgroupfs"
 
 Reload the configuration and restart kubelet
 ```bash
-sudo systemctl daemon-reload && sudo systemctl restart kubelet
+$ sudo systemctl daemon-reload && sudo systemctl restart kubelet
 ```
 
 Edit the Docker daemon configuration file '/etc/docker/daemon.json'
