@@ -1,20 +1,23 @@
-# Access A Kubernetes Resources From A Remote Device
+# Access Minikube Resources From A Remote Device
+
+> [!NOTE]
+> The procedures in this document are only for accessing resoruces from a minikube cluster. They are not needed for accessing resources from a true Kubernetes cluster.
 
 ## Prerequisite
-- [Install Kubernetes (Minikube) On Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/fd1faacc417ef3181736e628fa6ca61db1e79131/doc/Install%20Kubernetes%20On%20Linux.md)
+- [Install Minikube On Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/fd1faacc417ef3181736e628fa6ca61db1e79131/doc/Install%20Kubernetes%20On%20Linux.md)
 
 ----
-## Access A Kubernetes Resource From A Remote Device Using A ssh Tunnel
+## Access A Minikube Resource Using A ssh Tunnel
 
-### Access A Kubernetes Service Resource
+### Access A Minikube Service Resource Using A ssh Tunnel
 - Logon a local Windows device
-- Open a SSH connection to the Linux device that hosts Kubernetes (minikube) host
+- Open a SSH connection to the Linux device that hosts minikube
   - The IP address of the Linux device is the variable ```ip_address_kubernetes_host```
 
 > [!NOTE]
 > In this example, ```ip_address_kubernetes_host``` = "192.168.0.136"
 
-- Logon the Linux device that hosts minikube/Kubernetes
+- Logon the Linux device that hosts minikube
   - The User ID used to logon the Linux device is the variable ```user_id_kubernetes_host```
 
 > [!NOTE]
@@ -99,15 +102,14 @@ Last login: Fri May  9 16:38:37 2025 from 192.168.0.212
 
 ![image](https://github.com/user-attachments/assets/498b435d-0a7d-4f06-b9a6-07c900dd205f)
 
-### References
+#### References
 - [access an http server as localhost from an external pc over ssh](https://serverfault.com/questions/1004529/access-an-http-server-as-localhost-from-an-external-pc-over-ssh) | [serverfault](https://serverfault.com/)
 - [Which command is used to establish ssh tunnel in windows?](https://serverfault.com/questions/888693/which-command-is-used-to-establish-ssh-tunnel-in-windows) | [serverfault](https://serverfault.com/)
 
-----
-## Access A Kubernetes Ingress Resource
-Accessing a Kubernetes ingress is much like accessing a Kubernetes service
+### Access A Minikube Ingress Resource Using A ssh Tunnel
+Accessing a minikube ingress resource is much like accessing a minikube service resource
 
-- Obtain these variables in the same way as when accessing a Kubernetes service
+- Obtain these variables in the same way as when accessing a minikube service
 
   - ```user_id_kubernetes_host```
   - ```ip_address_kubernetes_host```
@@ -158,13 +160,11 @@ Events:       <none>
 - Open a Web browser
 - Access the URL ```http://localhost:<tcp_port_local_windows>/<path_kubernetes_ingress>```
 
-### Reference
+#### Reference
 - [Can someone explain SSH tunnel in a simple way?](https://stackoverflow.com/questions/5280827/can-someone-explain-ssh-tunnel-in-a-simple-way) | StackOverflow
 
 
-
-----
-## Access A Kubernetes Resource From A Remote Device Using Port Forwarding
+## Access A Minikube Resource Using Port Forwarding
 Setup this these services
 ```
 NAME               TYPE           CLUSTER-IP      EXTERNAL-IP    PORT(S)          AGE
@@ -196,14 +196,7 @@ Will see the Blue Whale
 - [Use Port Forwarding to Access Applications in a Cluster](https://kubernetes.io/docs/tasks/access-application-cluster/port-forward-access-application-cluster/) | Kubernetes
 
 
-
-----
-## Access A Kubernetes Resource From A Remote Device Using A minikube Tunnel
-
-https://minikube.sigs.k8s.io/docs/commands/tunnel/
-
-https://stackoverflow.com/questions/61990418/unable-to-access-application-through-minikube-tunnel
-
+## Access A Kubernetes Resource Using A Minikube Tunnel
 
 Start the tunnel
 ```
@@ -223,4 +216,7 @@ Status:
                 loadbalancer emulator: no errors
 ```
 
-```
+### References
+- https://minikube.sigs.k8s.io/docs/commands/tunnel/
+- https://stackoverflow.com/questions/61990418/unable-to-access-application-through-minikube-tunnel
+
