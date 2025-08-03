@@ -18,6 +18,11 @@ Confirm the Docker keyrings are present in the file system
 ```bash
 $ ls -l /etc/apt/keyrings | grep docker.asc
 -rw-r--r-- 1 root root 3817 Jul 27 15:19 docker.asc
+```
+
+Confirm the content of the Docker keyrings file
+- The contents are a PGP Public Key
+```bash
 $ cat /etc/apt/keyrings/docker.asc
 -----BEGIN PGP PUBLIC KEY BLOCK-----
 ...
@@ -37,7 +42,7 @@ deb [arch=amd64 signed-by=/etc/apt/keyrings/docker.asc] https://download.docker.
 ```
 [^alternate_command_docker_repository]: Alternate command: ```cat /etc/apt/sources.list /etc/apt/sources.list.d/* | grep docker```
 
-Confirm a Docker package repository is in the results of the command ```sudo apt-get update```
+Confirm two Docker package repositories are in the results of the command ```sudo apt-get update```
 - Before adding the Docker repository
 ```bash
 $ sudo apt-get update
@@ -48,14 +53,15 @@ Hit:4 http://security.ubuntu.com/ubuntu plucky-security InRelease
 ```
 
 - After adding the Docker repository
-  - Observe the repository ```https://download.docker.com/linux/ubuntu```
+  - Observe the repositories ```https://download.docker.com/linux/ubuntu``` and ```https://download.docker.com/linux/ubuntu plucky/stable```
 ```
 $ sudo apt-get update
+Get:1 https://download.docker.com/linux/ubuntu plucky InRelease [32.9 kB]
+Get:2 https://download.docker.com/linux/ubuntu plucky/stable amd64 Packages [9,812 B]
 Hit:1 http://us.archive.ubuntu.com/ubuntu plucky InRelease
 Hit:2 http://us.archive.ubuntu.com/ubuntu plucky-updates InRelease
 Hit:3 http://us.archive.ubuntu.com/ubuntu plucky-backports InRelease
 Hit:4 http://security.ubuntu.com/ubuntu plucky-security InRelease
-Hit:5 https://download.docker.com/linux/ubuntu plucky InRelease
 ```
 
 ## Install the Docker Packages
