@@ -1,4 +1,4 @@
-# Install Docker On Linux (Ubuntu)
+# Install Docker On Linux
 
 ## Setup apt Repository For Docker [^1]
 
