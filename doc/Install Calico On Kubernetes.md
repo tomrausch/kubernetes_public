@@ -1,4 +1,4 @@
-# Install Calico
+# Install Calico On Kubernetes
 
 ## Install Calico Custom Resource Definitions (CRD)
 ```bash
