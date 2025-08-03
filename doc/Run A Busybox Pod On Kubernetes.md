@@ -1,4 +1,4 @@
-# Run A Busybox Pod On Kuberfnetes
+# Run A Busybox Pod On Kubernetes
 To run BusyBox on Kubernetes, use ```kubectl``` to create a pod with the busybox image and specify a command to keep it running [^cant-start-busybox-pod]
 - The basic busybox image doesn't inherently run a process.
 
