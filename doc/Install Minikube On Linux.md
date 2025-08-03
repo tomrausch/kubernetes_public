@@ -497,6 +497,7 @@ status:
 [^5]: [Set up Ingress on Minikube with the NGINX Ingress Controller](https://kubernetes.io/docs/tasks/access-application-cluster/ingress-minikube/) | Kubernetes
 
 ## References
+- [Accessing API in Minikube: A Complete Guide](https://scalablehuman.com/2024/11/08/accessing-api-in-minikube-a-complete-guide/) | Scalable Human Blog
 - [Accessing apps](https://minikube.sigs.k8s.io/docs/handbook/accessing/) | [minikube Documentation](https://minikube.sigs.k8s.io/docs/)
 - [Goodbye Docker Desktop, Hello Minikube!](https://medium.com/itnext/goodbye-docker-desktop-hello-minikube-3649f2a1c469) | [ITNEXT](https://itnext.io/), [Medium](https://medium.com/)
 - https://github.com/kubernetes/minikube/issues/14346
