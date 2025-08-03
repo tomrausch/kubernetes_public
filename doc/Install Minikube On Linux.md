@@ -1,4 +1,4 @@
-# Install Minikube On Linux (Ubuntu)
+# Install Minikube On Linux
 
 ## Technology Stack
 - Linux (Ubuntu)
