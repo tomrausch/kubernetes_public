@@ -8,9 +8,8 @@ $ sudo apt-get install openssh-server
 
 ## Install Basic Packages
 ```bash
-$ sudo apt-get install net-tools
+$ sudo apt-get install apt-transport-https apticron bash-completion build-essential bzip2 ca-certificates curl debian-goodies etckeeper ethtool firehol gdebi-core git gnupg htop iperf less lshw lsof mtr-tiny nano ncftp net-tools nmap pastebinit psmisc python3-scapy rsync screen ssh sudo systemd-resolved tcpdump unzip vim vlan wget xbase-clients xclip zsh
 ```
-
 
 ## Prevent The Linux System From Hibernating Or Going To Sleep [^1]
 ```bash
