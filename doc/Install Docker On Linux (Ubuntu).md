@@ -18,6 +18,11 @@ Confirm the Docker keyrings are present in the file system
 ```bash
 $ ls -l /etc/apt/keyrings | grep docker.asc
 -rw-r--r-- 1 root root 3817 Jul 27 15:19 docker.asc
+$ cat /etc/apt/keyrings/docker.asc
+-----BEGIN PGP PUBLIC KEY BLOCK-----
+...
+=0YYh
+-----END PGP PUBLIC KEY BLOCK-----
 ```
 
 ### Add The Docker Repository To Package Sources
