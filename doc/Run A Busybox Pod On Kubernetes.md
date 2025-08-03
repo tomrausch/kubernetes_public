@@ -5,7 +5,7 @@ To run BusyBox on Kubernetes, use ```kubectl``` to create a pod with the busybox
 ## Create a Pod with BusyBox
 Create a pod with this comamnd
 ```bash
-kubectl run busybox-pod --image=busybox --command -- /bin/sh -c 'while true; do sleep 30; done' --restart=Never
+kubectl run busybox-pod --image=busybox --namespace default --command -- /bin/sh -c 'while true; do sleep 30; done' --restart=Never
 ```
 
 Here are the components of the comamnd
@@ -15,7 +15,8 @@ Here are the components of the comamnd
 - Image: busybox [^run-busybox-image-busybox-restart-never]
   - ```--image=busybox```
   - Specifies the busybox image
-- Simple command to keep it running [^run-busybox-image-busybox-restart-never]
+- Namespace: default
+- Simple command to keep the pod running [^run-busybox-image-busybox-restart-never]
   - ```--command -- /bin/sh -c '...'``` 
   - Provides the command to execute within the container
   - This command creates an infinite loop that sleeps for 30 seconds, preventing the container from exiting immediately  
