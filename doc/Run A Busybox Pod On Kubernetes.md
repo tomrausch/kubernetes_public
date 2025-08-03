@@ -62,9 +62,6 @@ For more robust deployments, consider adding health checks (liveness and readine
 ### Alternative Commands
 You can replace the sleep command with any other command that keeps the container running, such as running a simple web server using httpd or a simple ping command to test network connectivity. [^local-kubernetes-guide], [^building-optimized-containers-for-kubernetes], [^hot-reloading-with-busybox-httpd]
 
-## Conclusion
-By following these steps, you can successfully run busybox within your Minikube cluster and use it for various testing and troubleshooting scenarios. [^accessing-api-in-minikube-a-complete-guide]  
-
 [^cant-start-busybox-pod]: [Can't start busybox pod](https://serverfault.com/questions/1098192/cant-start-busybox-pod) | StackExchange
 [^run-busybox-image-busybox-restart-never]: [Kubectl run busybox –image=busybox –restart=Never – /bin/sh -c ‘env’](https://kodekloud.com/community/t/kubectl-run-busybox-image-busybox-restart-never-bin-sh-c-env/21499) | KodeKloud
 [^some-things-you-didnt-know-about-kubectl]: [Some things you didn’t know about kubectl](https://kubernetes.io/blog/2015/10/some-things-you-didnt-know-about-kubectl_28/) | kubernetes.io
@@ -72,6 +69,6 @@ By following these steps, you can successfully run busybox within your Minikube 
 [^is-it-possible-to-install-curl-into-busybox-in-kubernetes]: [Is it possible to install curl into busybox in kubernetes pod](https://stackoverflow.com/questions/62847331/is-it-possible-to-install-curl-into-busybox-in-kubernetes-pod) | StackOverflow
 [^kubernetes-init-containers]: [Kubernetes Init Containers](https://www.alibabacloud.com/blog/kubernetes-init-containers_594725) | Alibaba Cloud
 [^kubernetes-pods]: [Kubernetes - pods for everyone](https://sendilkumarn.com/blog/kubernetes-pods) | @sendilkumarn
-[^local-kubernetes-guide]: https://www.plural.sh/blog/local-kubernetes-guide/
-[^building-optimized-containers-for-kubernetes]: https://www.digitalocean.com/community/tutorials/building-optimized-containers-for-kubernetes
-[^hot-reloading-with-busybox-httpd]: https://queil.net/2023/01/hot-reloading-with-busybox-httpd/
+[^local-kubernetes-guide]: [Local Kubernetes: A Comprehensive Guide to Local Development](https://www.plural.sh/blog/local-kubernetes-guide/)
+[^building-optimized-containers-for-kubernetes]: [Building Optimized Containers for Kubernetes](https://www.digitalocean.com/community/tutorials/building-optimized-containers-for-kubernetes) | Digital Ocean
+[^hot-reloading-with-busybox-httpd]: [Hot-reloading with busybox httpd](https://queil.net/2023/01/hot-reloading-with-busybox-httpd/) | queil.net
