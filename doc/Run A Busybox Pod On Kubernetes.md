@@ -65,14 +65,13 @@ You can replace the sleep command with any other command that keeps the containe
 ## Conclusion
 By following these steps, you can successfully run busybox within your Minikube cluster and use it for various testing and troubleshooting scenarios. [^accessing-api-in-minikube-a-complete-guide]  
 
-[^cant-start-busybox-pod]: https://serverfault.com/questions/1098192/cant-start-busybox-pod
-[^run-busybox-image-busybox-restart-never]: https://kodekloud.com/community/t/kubectl-run-busybox-image-busybox-restart-never-bin-sh-c-env/21499
-[^some-things-you-didnt-know-about-kubectl]: https://kubernetes.io/blog/2015/10/some-things-you-didnt-know-about-kubectl_28/
-[^how-can-i-keep-a-container-running-on-kubernetes]: https://stackoverflow.com/questions/31870222/how-can-i-keep-a-container-running-on-kubernetes
-[^is-it-possible-to-install-curl-into-busybox-in-kubernetes]: https://stackoverflow.com/questions/62847331/is-it-possible-to-install-curl-into-busybox-in-kubernetes-pod
-[^kubernetes-init-containers]: https://www.alibabacloud.com/blog/kubernetes-init-containers_594725
-[^kubernetes-pods]: https://sendilkumarn.com/blog/kubernetes-pods
+[^cant-start-busybox-pod]: [Can't start busybox pod](https://serverfault.com/questions/1098192/cant-start-busybox-pod) | StackExchange
+[^run-busybox-image-busybox-restart-never]: [Kubectl run busybox –image=busybox –restart=Never – /bin/sh -c ‘env’](https://kodekloud.com/community/t/kubectl-run-busybox-image-busybox-restart-never-bin-sh-c-env/21499) | KodeKloud
+[^some-things-you-didnt-know-about-kubectl]: [Some things you didn’t know about kubectl](https://kubernetes.io/blog/2015/10/some-things-you-didnt-know-about-kubectl_28/) | kubernetes.io
+[^how-can-i-keep-a-container-running-on-kubernetes]: [How can I keep a container running on Kubernetes?](https://stackoverflow.com/questions/31870222/how-can-i-keep-a-container-running-on-kubernetes) | StackOverflow
+[^is-it-possible-to-install-curl-into-busybox-in-kubernetes]: [Is it possible to install curl into busybox in kubernetes pod](https://stackoverflow.com/questions/62847331/is-it-possible-to-install-curl-into-busybox-in-kubernetes-pod) | StackOverflow
+[^kubernetes-init-containers]: [Kubernetes Init Containers](https://www.alibabacloud.com/blog/kubernetes-init-containers_594725) | Alibaba Cloud
+[^kubernetes-pods]: [Kubernetes - pods for everyone](https://sendilkumarn.com/blog/kubernetes-pods) | @sendilkumarn
 [^local-kubernetes-guide]: https://www.plural.sh/blog/local-kubernetes-guide/
 [^building-optimized-containers-for-kubernetes]: https://www.digitalocean.com/community/tutorials/building-optimized-containers-for-kubernetes
 [^hot-reloading-with-busybox-httpd]: https://queil.net/2023/01/hot-reloading-with-busybox-httpd/
-[^accessing-api-in-minikube-a-complete-guide]: https://scalablehuman.com/2024/11/08/accessing-api-in-minikube-a-complete-guide/
