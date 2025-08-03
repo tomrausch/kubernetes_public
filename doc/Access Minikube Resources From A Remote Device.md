@@ -4,7 +4,7 @@
 > The procedures in this document are only for accessing resoruces from a minikube cluster. They are not needed for accessing resources from a true Kubernetes cluster.
 
 ## Prerequisite
-- [Install Minikube On Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/fd1faacc417ef3181736e628fa6ca61db1e79131/doc/Install%20Kubernetes%20On%20Linux.md)
+- [Install Minikube On Linux (Ubuntu)](https://github.com/tomrausch/kubernetes_public/blob/8d737fa6516d009ef7e321638edda402aecf033e/doc/Install%20Minikube%20On%20Linux%20(Ubuntu).md)
 
 ----
 ## Access A Minikube Resource Using A ssh Tunnel
