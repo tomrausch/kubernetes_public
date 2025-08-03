@@ -3,7 +3,7 @@
 ## Technology Stack
 - Linux (Ubuntu)
 - Docker
-- Kubernetes (minikube)
+- minikube
 
 ## Uninstall The Existing Configuration
 
