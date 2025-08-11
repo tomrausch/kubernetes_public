@@ -1,5 +1,4 @@
-# Install Prometheus
-
+# Install Prometheus [^install_promethius]
 
 Install the namespace "prometheus" [^prometheus-namespace]
 ```
@@ -63,7 +62,7 @@ Access Prometheus at this URL [http://192.168.0.136:30222/query](http://192.168.
 <img width="3839" height="1899" alt="Screenshot 2025-08-11 183003" src="https://github.com/user-attachments/assets/ed3a11ec-075b-4477-91d6-c98ab54aa2f8" />
 
 
-
+[^install_promethius]: [Install Promethius](https://medium.com/@vinoji2005/install-prometheus-on-kubernetes-tutorial-and-example-6b3c800e7e1c) | Medium
 [^prometheus-namespace]: [prometheus-namespace.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/prometheus/prometheus-namespace.yaml)
 [^prometheus-server-conf]: [prometheus-config.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/prometheus/prometheus-config.yaml)
 [^prometheus-server]: [prometheus-deployment.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/prometheus/prometheus-deployment.yaml)
