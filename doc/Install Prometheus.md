@@ -63,7 +63,7 @@ Access Prometheus at this URL [http://192.168.0.136:30222/query](http://192.168.
 
 
 [^install_promethius]: [Install Promethius](https://medium.com/@vinoji2005/install-prometheus-on-kubernetes-tutorial-and-example-6b3c800e7e1c) | Medium
-[^prometheus-namespace]: [prometheus-namespace.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/prometheus/prometheus-namespace.yaml)
-[^prometheus-server-conf]: [prometheus-config.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/prometheus/prometheus-config.yaml)
-[^prometheus-server]: [prometheus-deployment.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/prometheus/prometheus-deployment.yaml)
-[^prometheus-service]: [prometheus-service.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/prometheus/prometheus-service.yaml)
+[^prometheus-namespace]: [prometheus-namespace.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/prometheus/prometheus-namespace.yaml) | GitHub @tomrausch
+[^prometheus-server-conf]: [prometheus-config.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/prometheus/prometheus-config.yaml) | GitHub @tomrausch
+[^prometheus-server]: [prometheus-deployment.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/prometheus/prometheus-deployment.yaml) | GitHub @tomrausch
+[^prometheus-service]: [prometheus-service.yaml](https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/prometheus/prometheus-service.yaml) | GitHub @tomrausch
