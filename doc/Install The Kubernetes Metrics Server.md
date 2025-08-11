@@ -1,6 +1,11 @@
-# Install The Kubernetes Metrics Server
+# Install The Kubernetes Metrics Server [^kubernetes_metrics_server]
 
-# Install The Kubernetes Metrics Server Components [^install_components]
+
+## Perform On Nodes
+- ✅ Master Node
+- ❌ Worker Node
+
+## Install The Kubernetes Metrics Server Components [^install_components]
 
 Run this command to install the Kubernetes Metrics Server components
 ```
@@ -71,6 +76,8 @@ master-node      230m         2%     2678Mi          34%
 worker-node-01   106m         2%     2057Mi          28%
 ```
 
-
+[^kubernetes_metrics_server]: [Kubernetes Metrics Server](https://kubernetes-sigs.github.io/metrics-server/) | Kubernetes-Sigs
 [^install_components]: [How can I install metrics-server](https://discuss.kubernetes.io/t/how-can-i-install-metrics-server/23518/1) | kubernetes.io
 [^patch_metrics_server]: [Fix “error: Metrics API not available” in Kubernetes](https://computingforgeeks.com/fix-error-metrics-api-not-available-in-kubernetes/) | Computing For Geeks
+ 
+
