@@ -979,38 +979,14 @@ default       kubernetes   ClusterIP   10.96.0.1    <none>        443/TCP       
 kube-system   kube-dns     ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,9153/TCP   25m   k8s-app=kube-dns
 ```
 
-----
-Optional Items
-----
+## Install Optional Items
 
-## Install The Kubernetes Metric Server
-### Perform On Nodes
-- ✅ Master Node
-- ❌ Worker Node
+### Install The Kubernetes Metrics Server
+[Install The Kubernetes Metrics Server](https://github.com/tomrausch/kubernetes_public/blob/9679bc04ea95e40b8a12e19145da58df1de3b684/doc/Install%20The%20Kubernetes%20Metrics%20Server.md)
 
-### Commands
-Install the Metrics Server
-```
-$ kubectl apply -f https://github.com/kubernetes-sigs/metrics-server/releases/latest/download/components.yaml
-serviceaccount/metrics-server created
-clusterrole.rbac.authorization.k8s.io/system:aggregated-metrics-reader created
-clusterrole.rbac.authorization.k8s.io/system:metrics-server created
-rolebinding.rbac.authorization.k8s.io/metrics-server-auth-reader created
-clusterrolebinding.rbac.authorization.k8s.io/metrics-server:system:auth-delegator created
-clusterrolebinding.rbac.authorization.k8s.io/system:metrics-server created
-service/metrics-server created
-deployment.apps/metrics-server created
-apiservice.apiregistration.k8s.io/v1beta1.metrics.k8s.io created
-```
-Check the metrics server: 1/1 must be running
-```
-$ kubectl get pods -n kube-system | grep metrics
-metrics-server-856f767b-v8pkw              0/1     Running   0          21m
-```
-Deploy Promethius
+### Deploy Promethius
 
 ### Reference
-- [Kubernetes Metrics Server](https://kubernetes-sigs.github.io/metrics-server/) | Kubernetes-Sigs
 - [Install Promethius](https://medium.com/@vinoji2005/install-prometheus-on-kubernetes-tutorial-and-example-6b3c800e7e1c) | Medium
 
 
