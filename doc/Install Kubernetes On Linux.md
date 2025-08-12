@@ -244,13 +244,8 @@ The connection to the server localhost:8080 was refused - did you specify the ri
 ```bash
 $ sudo apt list --installed | grep kubelet
 kubelet/unknown,now 1.28.15-1.1 amd64 [installed]
-$ sudo kubelet
-I0728 15:07:06.106730 2299031 server.go:467] "Kubelet version" kubeletVersion="v1.28.15"
-I0728 15:07:06.106842 2299031 server.go:469] "Golang settings" GOGC="" GOMAXPROCS="" GOTRACEBACK=""
-I0728 15:07:06.107492 2299031 server.go:630] "Standalone mode, no API client"
-I0728 15:07:06.127903 2299031 server.go:518] "No api server defined - no events will be sent to API server"
-I0728 15:07:06.127955 2299031 server.go:725] "--cgroups-per-qos enabled, but --cgroup-root was not specified.  defaulting to /"
-E0728 15:07:06.128214 2299031 run.go:74] "command failed" err="failed to run Kubelet: running with swap on is not supported, please disable swap! or set --fail-swap-on flag to false. /proc/swaps contained: [Filename\t\t\t\tType\t\tSize\t\tUsed\t\tPriority /swap.img                               file\t\t4194300\t\t3336\t\t-2]"
+$ sudo kubelet --version
+Kubernetes v1.28.15
 ```
 the output on the Worker Node may vary
 
