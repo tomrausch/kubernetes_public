@@ -71,7 +71,6 @@ deployment.apps/calico-kube-controllers created
 > - [How do you find the cluster & service CIDR of a Kubernetes cluster?](https://stackoverflow.com/questions/44190607/how-do-you-find-the-cluster-service-cidr-of-a-kubernetes-cluster) | StackOverflow
 > - [I set my master with "kubeadm init --pod-network-cidr=10.244.0.0/16", flannel is also set with that...](https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/) | Reddit
 
-
 ## Confirm CNI Configuration Files
 Files in directory
 ```
@@ -148,8 +147,17 @@ Reload the configuration and restart kubelet
 sudo systemctl daemon-reload && sudo systemctl restart kubelet
 ```
 
-After installing Calico, all the pods including the coredns pods are running
-- Investigate the pods with 'kubectl'
+After installing Calico, confirm the node has "STATUS" of "Ready"
+```
+$ kubectl get nodes
+NAME          STATUS   ROLES           AGE   VERSION
+master-node   Ready    control-plane   28m   v1.28.15
+```
+
+After installing Calico, confirm 
+- Calico pods "calico-kube-controllers-..." and "calico-node-..." are present
+- All the pods including the coredns pods have "STATUS" of "Running"
+  - Investigate the pods with 'kubectl'
 ```bash
 $ kubectl get pods --all-namespaces -o wide
 NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE   IP              NODE          NOMINATED NODE   READINESS GATES
@@ -164,7 +172,8 @@ kube-system   kube-controller-manager-master-node        1/1     Running   1    
 kube-system   kube-proxy-fdtms                           1/1     Running   0          15m   192.168.0.136   master-node   <none>           <none>
 kube-system   kube-scheduler-master-node                 1/1     Running   19         16m   192.168.0.136   master-node   <none>           <none>
 ```
-- Investigate the pods with 'crictl'
+
+  - Investigate the pods with 'crictl'
 ```bash
 $ sudo crictl pods
 WARN[0000] runtime connect using default endpoints: [unix:///var/run/dockershim.sock unix:///run/containerd/containerd.sock unix:///run/crio/crio.sock unix:///var/run/cri-dockerd.sock]. As the default settings are now deprecated, you should set the endpoint instead.
@@ -182,23 +191,36 @@ da5fa0dbdd4a1       17 minutes ago       Ready               kube-scheduler-mast
 6994bbf454583       17 minutes ago       Ready               etcd-master-node                           kube-system         0                   (default)
 ```
 
-Watch the command ```kubectl get tigerastatus``` and observe the Calico services start
+## Enable The Flow Logs API [^enable_flow_logs_api]
+```bash
+$ kubectl apply -f - <<EOF
+apiVersion: operator.tigera.io/v1
+kind: Goldmane
+metadata:
+  name: default
+EOF
+Warning: resource goldmanes/default is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
+goldmane.operator.tigera.io/default configured
 ```
-Every 2.0s: kubectl get tigerastatus                                                                                                                                                                    master-node: Mon Aug 11 20:06:24 2025
 
-NAME        AVAILABLE   PROGRESSING   DEGRADED   SINCE
-apiserver                             True
-goldmane                              True
-whisker     True        False         False      18m
+[^enable_flow_logs_api]: [Enable the flow logs API](https://docs.tigera.io/calico/latest/observability/enable-whisker#enable-the-flow-logs-api)
+
+## Enable The Calico Whisker Web Console [^enable_calico_whisker_web_console]
+```bash
+$ kubectl apply -f - <<EOF
+apiVersion: operator.tigera.io/v1
+kind: Whisker
+metadata:
+  name: default
+EOF
+Warning: resource whiskers/default is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
+whisker.operator.tigera.io/default configured
 ```
 
-
-### Access Calico Whisker
-whisker.operator.tigera.io/default created
+[^enable_calico_whisker_web_console]: [Enable the Calico Whisker web console](https://docs.tigera.io/calico/latest/observability/enable-whisker#enable-the-calico-whisker-web-console)
 
 
-## DO NOT Install
-### DO NOT Install Tigera Operators
+## Install Tigera Operators
 ```
 $ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/tigera-operator.yaml
 namespace/tigera-operator created
@@ -210,9 +232,47 @@ rolebinding.rbac.authorization.k8s.io/tigera-operator-secrets created
 deployment.apps/tigera-operator created
 ```
 
+Watch the command ```kubectl get tigerastatus``` and observe the Calico services start
+```
+Every 2.0s: kubectl get tigerastatus                                    master-node: Tue Aug 12 15:46:25 2025
+
+NAME        AVAILABLE   PROGRESSING   DEGRADED   SINCE
+apiserver   True        False         False      2m48s
+calico      True        False         False      33s
+goldmane    True        False         False      2m38s
+ippools     True        False         False      2m53s
+whisker     True        False         False      118s
+```
+
+## Access Calico Whisker
+NA
+
 ### DO NOT Install The Calico Manifest
 ```bash
 $ kubectl apply-f https://docs.projectcalico.org/v3.20/manifests/calico.yaml
+```
+
+### Confirm Calico And Tigera Pods
+```bash
+$ kubectl get pods --all-namespaces -o wide
+NAMESPACE          NAME                                       READY   STATUS    RESTARTS   AGE     IP              NODE          NOMINATED NODE   READINESS GATES
+calico-apiserver   calico-apiserver-5d64f6856f-r8smd          1/1     Running   0          11m     10.244.77.133   master-node   <none>           <none>
+calico-apiserver   calico-apiserver-5d64f6856f-tngbt          1/1     Running   0          11m     10.244.77.134   master-node   <none>           <none>
+calico-system      calico-kube-controllers-78d7f6f887-2qvv6   1/1     Running   0          11m     10.244.77.137   master-node   <none>           <none>
+calico-system      calico-node-n5p7b                          1/1     Running   0          10m     192.168.0.136   master-node   <none>           <none>
+calico-system      calico-typha-58c797c68f-mhhkv              1/1     Running   0          10m     192.168.0.136   master-node   <none>           <none>
+calico-system      csi-node-driver-6ngbf                      2/2     Running   0          11m     10.244.77.138   master-node   <none>           <none>
+calico-system      goldmane-7d55c4b88b-crf7n                  1/1     Running   0          11m     10.244.77.136   master-node   <none>           <none>
+calico-system      whisker-847894db8d-crjsw                   2/2     Running   0          10m     10.244.77.140   master-node   <none>           <none>
+default            busybox-pod                                1/1     Running   0          44m     10.244.77.132   master-node   <none>           <none>
+kube-system        coredns-5dd5756b68-jw5hv                   1/1     Running   0          3h16m   10.244.77.131   master-node   <none>           <none>
+kube-system        coredns-5dd5756b68-lggbd                   1/1     Running   0          3h16m   10.244.77.130   master-node   <none>           <none>
+kube-system        etcd-master-node                           1/1     Running   2          3h16m   192.168.0.136   master-node   <none>           <none>
+kube-system        kube-apiserver-master-node                 1/1     Running   2          3h16m   192.168.0.136   master-node   <none>           <none>
+kube-system        kube-controller-manager-master-node        1/1     Running   2          3h16m   192.168.0.136   master-node   <none>           <none>
+kube-system        kube-proxy-mrhdh                           1/1     Running   0          3h16m   192.168.0.136   master-node   <none>           <none>
+kube-system        kube-scheduler-master-node                 1/1     Running   2          3h16m   192.168.0.136   master-node   <none>           <none>
+tigera-operator    tigera-operator-59f47b4f88-t5lgw           1/1     Running   0          12m     192.168.0.136   master-node   <none>           <none>
 ```
 
 ## References
