@@ -72,6 +72,78 @@ deployment.apps/calico-kube-controllers created
 > - [I set my master with "kubeadm init --pod-network-cidr=10.244.0.0/16", flannel is also set with that...](https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/) | Reddit
 
 
+## Confirm CNI Configuration Files
+Files in directory
+```
+$ sudo ls -la /etc/cni/net.d
+total 20
+drwx------ 2 root root 4096 Jul 31 22:27 .
+drwxr-xr-x 3 root root 4096 Jul 27 15:42 ..
+-rw-r--r-- 1 root root  662 Aug 11 19:13 10-calico.conflist
+-rw-r--r-- 1 root root  292 Jul 31 22:27 10-flannel.conflist
+-rw------- 1 root root 2720 Aug 11 19:13 calico-kubeconfig
+-rw-r--r-- 1 root root    0 Aug  4  2023 .kubernetes-cni-keep
+```
+
+Confirm file "10-calico.conflist"
+```
+$ sudo cat /etc/cni/net.d/10-calico.conflist
+{
+  "name": "k8s-pod-network",
+  "cniVersion": "0.3.1",
+  "plugins": [
+    {
+      "type": "calico",
+      "log_level": "info",
+      "log_file_path": "/var/log/calico/cni/cni.log",
+      "datastore_type": "kubernetes",
+      "nodename": "master-node",
+      "mtu": 0,
+      "ipam": {
+          "type": "calico-ipam"
+      },
+      "policy": {
+          "type": "k8s"
+      },
+      "kubernetes": {
+          "kubeconfig": "/etc/cni/net.d/calico-kubeconfig"
+      }
+    },
+    {
+      "type": "portmap",
+      "snat": true,
+      "capabilities": {"portMappings": true}
+    },
+    {
+      "type": "bandwidth",
+      "capabilities": {"bandwidth": true}
+    }
+  ]
+}
+```
+
+Confirm file "calico-kubeconfig"
+```
+$ sudo cat /etc/cni/net.d/calico-kubeconfig
+# Kubeconfig file for Calico CNI plugin. Installed by calico/node.
+apiVersion: v1
+kind: Config
+clusters:
+- name: local
+  cluster:
+    server: https://10.96.0.1:443
+    certificate-authority-data: "LS0tLS1CRUdJTiBDRVJUSUZJQ0FURS0tLS0tCk1JSURCVENDQWUyZ0F3SUJBZ0lJSVJ2Y1VPMWIyVjR3RFFZSktvWklodmNOQVFFTEJRQXdGVEVUTUJFR0ExVUUKQXhNS2EzVmlaWEp1WlhSbGN6QWVGdzB5TlRBNE1ERXlNak0wTURaYUZ3MHpOVEEzTXpBeU1qTTVNRFphTUJVeApFekFSQmdOVkJBTVRDbXQxWW1WeWJtVjBaWE13Z2dFaU1BMEdDU3FHU0liM0RRRUJBUVVBQTRJQkR3QXdnZ0VLCkFvSUJBUURPZC9ZZndzWDBHMW9tWDBCWTBJSlJIYnQrdU1zWi8yWkljL2pTT1cyRW5LdWpRellCNXhKbzc3M20KM3hJTndCWGRpTzdIeHJrc21KSGo5RExoWnd4WS9GTWlndlZReFErMzRJUXBNRXZaMzgxY1NmaFpZcTI4V3Y2LwpHbEJ0VHNvREdlZ0xZbDExQ1ZnRTN0Yi91QjFGZFBHa1NvNlcvVEtTNWIxZ2RpVDJlUTVLUGUxUW9Bem9FUlJ1CmlLZWJCYTRHOWQ4Ky84MmNHZWpYSFBKWW04RDVSWEtiajUwc3NOUDQ5K2gvdlpnK2pBOStwUXh5N3Vtb1lRTVgKYnVOZmd6TDBpT3J0WGUzYzc5bnBpM3FSaEZyTDdtWHB5ZDUwNDlzaFl0LzdMM0FoTTZDZ0srTUduc3dsREJQZwpOU1JPM1RBN0hPcGJQQ3lwaTlNcDd3cjZaM3gxQWdNQkFBR2pXVEJYTUE0R0ExVWREd0VCL3dRRUF3SUNwREFQCkJnTlZIUk1CQWY4RUJUQURBUUgvTUIwR0ExVWREZ1FXQkJUZElId2luTG1RZ2g0WEtJWXZ6NGlpSSs4eml6QVYKQmdOVkhSRUVEakFNZ2dwcmRXSmxjbTVsZEdWek1BMEdDU3FHU0liM0RRRUJDd1VBQTRJQkFRQ0hXanMyRUt6TApmUlNBLzk1cU1uY01OR2o1TTIwcG9GUDZFMlhKRURnNTJRN0F3ZXFGVlFVdStZU1djMG5kbDVxZjZqSWxBM3JlCmppa3BpN1pkYmluUHg2aW94WjltbjRNVThxS2FDTC9iS2VPTVV5aTZpMGJncUtORHVNVnZnb1cxamlacTBZQ3MKNnhncDU0VThNZ0EvV3JkVUhXVDRxTitJaE9za1lHY0JtVGxjMFU0OTlKZzB5dXl4NWRIUzRaWHJZZG9OTjNiKwp0amNJNVpkd1Z4cDFvSGFuNXBYRHdOVVVpelIyMmNXYVZGWVdnRndRVEtSWHJrSnM3SFVuMkp5Y2FWTkxsYXJHCno4NHhzcXR2YlNJQmlIcFB6N0JSTlVXdVE2eWxZcjc0a2V1eHFkbTNaVGR4bnhyNEJwbWdiWDB1VFdDek0yTWsKV3dDeElWZ3FTSjVwCi0tLS0tRU5EIENFUlRJRklDQVRFLS0tLS0K"
+users:
+- name: calico
+  user:
+    token: eyJhbGciOiJSUzI1NiIsImtpZCI6ImdGSDZWdmFvbjd1SUVGUUxSeFZzV09TYjlmZFc1NV9tZlltTXZqYWIzbnMifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzU1MDQ0MDI2LCJpYXQiOjE3NTQ5NTc2MjYsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlLXN5c3RlbSIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJjYWxpY28tbm9kZSIsInVpZCI6IjUzMjk4OWUzLWQxM2MtNDU0OC05ZjU0LTdjOTU4MmNkNmU2ZSJ9fSwibmJmIjoxNzU0OTU3NjI2LCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZS1zeXN0ZW06Y2FsaWNvLW5vZGUifQ.I-d-lj_kC779eFYJU-z5TzGWkmzNs13vLhSirMsAY_XbicsLboee5rhJwsPOQPKNmmb-UhZ6wy6e-kyifH-XZ4LCpjZ0SQtCvztOXmbxjEkdx7HjvPRrJE7tcEHzPid0XrYXvzHYMnpqLzWcPEATZBCe4f5jBIMw9J3FQnNhMUdK6125P-vXjWBtSo2V1NJkomGDbrYmSMrYSFCrjAcsiYP8Ru-aJu3vs5vD45CLuLXY1r0eU0yPuEkiEymJ6UtTvPAJkJD6UpZ9Xo3dutEFePdQJPJLdEUhROqhDLkJRBVwW0gn8YdH0VkLyONP7irwZMmNu5WHYPqFEW7R1oDSCw
+contexts:
+- name: calico-context
+  context:
+    cluster: local
+    user: calico
+```
+
 Reload the configuration and restart kubelet
 ```bash
 sudo systemctl daemon-reload && sudo systemctl restart kubelet
