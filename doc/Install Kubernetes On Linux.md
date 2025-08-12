@@ -1138,25 +1138,34 @@ worker-node-01   Ready    <none>          5m4s   v1.28.15   192.168.0.241   <non
 ```
 
 List the available pods
-- Confirm the administrative pods "calico-node-..." and "kube-proxy-..." are running on both nodes
+- Confirm the administrative pods "calico-node-...", "csi-node-...",
+-  and "kube-proxy-..." are running on both nodes
 - Confirm administrative pods on the master-node have IP address "192.168.0.136"
 - Confirm administrative pods on the worker-node-01 have IP address "192.168.0.241"
 - Confirm new non-administrative pods have IP addresses in the range "10.244.0.0/16"; that is, from IP address "10.244.0.1" to IP address "10.244.255.254"
 ```bash
-$ kubectl get pods --all-namespaces -o wide
-NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE     IP              NODE             NOMINATED NODE   READINESS GATES
-default       busybox-pod                                1/1     Running   0          15m     10.244.77.132   master-node      <none>           <none>
-kube-system   calico-kube-controllers-658d97c59c-zxslg   1/1     Running   0          4m35s   10.244.77.131   master-node      <none>           <none>
-kube-system   calico-node-5qwqx                          1/1     Running   0          4m35s   192.168.0.136   master-node      <none>           <none>
-kube-system   calico-node-xpzt7                          1/1     Running   0          50s     192.168.0.241   worker-node-01   <none>           <none>
-kube-system   coredns-5dd5756b68-6n6lb                   1/1     Running   0          19m     10.244.77.130   master-node      <none>           <none>
-kube-system   coredns-5dd5756b68-h4tcm                   1/1     Running   0          19m     10.244.77.129   master-node      <none>           <none>
-kube-system   etcd-master-node                           1/1     Running   4          20m     192.168.0.136   master-node      <none>           <none>
-kube-system   kube-apiserver-master-node                 1/1     Running   1          20m     192.168.0.136   master-node      <none>           <none>
-kube-system   kube-controller-manager-master-node        1/1     Running   1          20m     192.168.0.136   master-node      <none>           <none>
-kube-system   kube-proxy-fdtms                           1/1     Running   0          19m     192.168.0.136   master-node      <none>           <none>
-kube-system   kube-proxy-z4xtc                           1/1     Running   0          50s     192.168.0.241   worker-node-01   <none>           <none>
-kube-system   kube-scheduler-master-node                 1/1     Running   19         20m     192.168.0.136   master-node      <none>           <none>
+thomas-rausch@thomas-rausch-HP-Elite-7100-Microtower-PC:~$ kubectl get pods --all-namespaces -o wide
+NAMESPACE          NAME                                       READY   STATUS    RESTARTS   AGE     IP               NODE             NOMINATED NODE   READINESS GATES
+calico-apiserver   calico-apiserver-5d64f6856f-r8smd          1/1     Running   0          28m     10.244.77.133    master-node      <none>           <none>
+calico-apiserver   calico-apiserver-5d64f6856f-tngbt          1/1     Running   0          28m     10.244.77.134    master-node      <none>           <none>
+calico-system      calico-kube-controllers-78d7f6f887-2qvv6   1/1     Running   0          28m     10.244.77.137    master-node      <none>           <none>
+calico-system      calico-node-n5p7b                          1/1     Running   0          27m     192.168.0.136    master-node      <none>           <none>
+calico-system      calico-node-zqr9f                          1/1     Running   0          14m     192.168.0.241    worker-node-01   <none>           <none>
+calico-system      calico-typha-58c797c68f-mhhkv              1/1     Running   0          27m     192.168.0.136    master-node      <none>           <none>
+calico-system      csi-node-driver-6ngbf                      2/2     Running   0          28m     10.244.77.138    master-node      <none>           <none>
+calico-system      csi-node-driver-hszmq                      2/2     Running   0          14m     10.244.126.193   worker-node-01   <none>           <none>
+calico-system      goldmane-7d55c4b88b-crf7n                  1/1     Running   0          28m     10.244.77.136    master-node      <none>           <none>
+calico-system      whisker-847894db8d-crjsw                   2/2     Running   0          27m     10.244.77.140    master-node      <none>           <none>
+default            busybox-pod                                1/1     Running   0          60m     10.244.77.132    master-node      <none>           <none>
+kube-system        coredns-5dd5756b68-jw5hv                   1/1     Running   0          3h33m   10.244.77.131    master-node      <none>           <none>
+kube-system        coredns-5dd5756b68-lggbd                   1/1     Running   0          3h33m   10.244.77.130    master-node      <none>           <none>
+kube-system        etcd-master-node                           1/1     Running   2          3h33m   192.168.0.136    master-node      <none>           <none>
+kube-system        kube-apiserver-master-node                 1/1     Running   2          3h33m   192.168.0.136    master-node      <none>           <none>
+kube-system        kube-controller-manager-master-node        1/1     Running   2          3h33m   192.168.0.136    master-node      <none>           <none>
+kube-system        kube-proxy-lzrm2                           1/1     Running   0          14m     192.168.0.241    worker-node-01   <none>           <none>
+kube-system        kube-proxy-mrhdh                           1/1     Running   0          3h33m   192.168.0.136    master-node      <none>           <none>
+kube-system        kube-scheduler-master-node                 1/1     Running   2          3h33m   192.168.0.136    master-node      <none>           <none>
+tigera-operator    tigera-operator-59f47b4f88-t5lgw           1/1     Running   0          28m     192.168.0.136    master-node      <none>           <none>
 ```
 
 List the available services
