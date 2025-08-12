@@ -193,6 +193,11 @@ goldmane                              True
 whisker     True        False         False      18m
 ```
 
+
+### Access Calico Whisker
+whisker.operator.tigera.io/default created
+
+
 ## DO NOT Install
 ### DO NOT Install Tigera Operators
 ```
