@@ -111,7 +111,7 @@ da5fa0dbdd4a1       17 minutes ago       Ready               kube-scheduler-mast
 6994bbf454583       17 minutes ago       Ready               etcd-master-node                           kube-system         0                   (default)
 ```
 
-Run the command ```kubectl get tigerastatus``` and observe the Calico services start
+Watch the command ```kubectl get tigerastatus``` and observe the Calico services start
 ```
 Every 2.0s: kubectl get tigerastatus                                                                                                                                                                    master-node: Mon Aug 11 20:06:24 2025
 
