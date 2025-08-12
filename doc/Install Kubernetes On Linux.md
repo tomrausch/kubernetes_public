@@ -391,6 +391,22 @@ Reload the configuration and restart kubelet
 $ sudo systemctl daemon-reload && sudo systemctl restart kubelet
 ```
 
+Confirm the service "kubelet" is running
+```bash
+$ watch sudo systemctl status kubelet
+● kubelet.service - kubelet: The Kubernetes Node Agent
+     Loaded: loaded (/usr/lib/systemd/system/kubelet.service; enabled; preset: enabled)
+    Drop-In: /usr/lib/systemd/system/kubelet.service.d
+             └─10-kubeadm.conf
+     Active: activating (auto-restart) (Result: exit-code) since Tue 2025-08-12 11:58:58 CDT; 775ms ago
+ Invocation: a875341ab045421ca3c75c24d5dfb945
+       Docs: https://kubernetes.io/docs/
+    Process: 32660 ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS (code=exited, status=1/FAILURE)
+   Main PID: 32660 (code=exited, status=1/FAILURE)
+   Mem peak: 13.9M
+        CPU: 123ms
+```
+
 Edit the Docker daemon configuration file '/etc/docker/daemon.json'
 ```bash
 $ sudo nano /etc/docker/daemon.json
@@ -426,6 +442,49 @@ $ cat /etc/docker/daemon.json
 Reload the configuration and restart Docker
 ```bash
 sudo systemctl daemon-reload && sudo systemctl restart docker
+```
+
+Confirm the service "docker" is running
+```bash
+$ watch sudo systemctl status docker
+Every 2.0s: sudo systemctl status docker  thomas-rausch-HP-Elite-7100-Microtower-PC: Tue Aug 12 12:04:54 2025
+
+● docker.service - Docker Application Container Engine
+     Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2025-08-12 12:04:02 CDT; 52s ago
+ Invocation: 859d8d71e88c4a0abd758685f015db23
+TriggeredBy: ● docker.socket
+       Docs: https://docs.docker.com
+   Main PID: 33523 (dockerd)
+      Tasks: 14
+     Memory: 22.7M (peak: 24.5M)
+        CPU: 569ms
+     CGroup: /system.slice/docker.service
+             └─33523 /usr/bin/dockerd -H fd:// --containerd=/run/containerd/containerd.sock
+
+Aug 12 12:04:01 thomas-rausch-HP-Elite-7100-Microtower-PC dockerd[33523]: time="2025-08-12T12:04:01.017621321
+-05:00" level=info msg="OTEL tracing is not configured, using no-op tracer provider"
+Aug 12 12:04:01 thomas-rausch-HP-Elite-7100-Microtower-PC dockerd[33523]: time="2025-08-12T12:04:01.017808333
+-05:00" level=info msg="detected 127.0.0.53 nameserver, assuming systemd-resolved, so using resolv.conf: /run
+/systemd/resolve/resolv.conf"
+Aug 12 12:04:01 thomas-rausch-HP-Elite-7100-Microtower-PC dockerd[33523]: time="2025-08-12T12:04:01.035467347
+-05:00" level=info msg="[graphdriver] trying configured driver: overlay2"
+Aug 12 12:04:01 thomas-rausch-HP-Elite-7100-Microtower-PC dockerd[33523]: time="2025-08-12T12:04:01.075977266
+-05:00" level=info msg="Loading containers: start."
+Aug 12 12:04:01 thomas-rausch-HP-Elite-7100-Microtower-PC dockerd[33523]: time="2025-08-12T12:04:01.764567789
+-05:00" level=info msg="Default bridge (docker0) is assigned with an IP address 172.17.0.0/16. Daemon option
+--bip can be used to set a preferred IP address"
+Aug 12 12:04:01 thomas-rausch-HP-Elite-7100-Microtower-PC dockerd[33523]: time="2025-08-12T12:04:01.968054588
+-05:00" level=info msg="Loading containers: done."
+Aug 12 12:04:01 thomas-rausch-HP-Elite-7100-Microtower-PC dockerd[33523]: time="2025-08-12T12:04:01.990676709
+-05:00" level=info msg="Docker daemon" commit=27.5.1-0ubuntu3 containerd-snapshotter=false storage-driver=ove
+rlay2 version=27.5.1
+Aug 12 12:04:01 thomas-rausch-HP-Elite-7100-Microtower-PC dockerd[33523]: time="2025-08-12T12:04:01.990741065
+-05:00" level=info msg="Daemon has completed initialization"
+Aug 12 12:04:02 thomas-rausch-HP-Elite-7100-Microtower-PC dockerd[33523]: time="2025-08-12T12:04:02.004217635
+-05:00" level=info msg="API listen on /run/docker.sock"
+Aug 12 12:04:02 thomas-rausch-HP-Elite-7100-Microtower-PC systemd[1]: Started docker.service - Docker Applica
+tion Container Engine.
 ```
 
 Find the location of kubeadm configuration file
@@ -495,6 +554,22 @@ ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELE
 Reload the configuration and restart kubelet
 ```
 $ sudo systemctl daemon-reload && sudo systemctl restart kubelet
+```
+
+Confirm the service "kubelet" is running
+```bash
+$ watch sudo systemctl status kubelet
+● kubelet.service - kubelet: The Kubernetes Node Agent
+     Loaded: loaded (/usr/lib/systemd/system/kubelet.service; enabled; preset: enabled)
+    Drop-In: /usr/lib/systemd/system/kubelet.service.d
+             └─10-kubeadm.conf
+     Active: activating (auto-restart) (Result: exit-code) since Tue 2025-08-12 11:58:58 CDT; 775ms ago
+ Invocation: a875341ab045421ca3c75c24d5dfb945
+       Docs: https://kubernetes.io/docs/
+    Process: 32660 ExecStart=/usr/bin/kubelet $KUBELET_KUBECONFIG_ARGS $KUBELET_CONFIG_ARGS $KUBELET_KUBEADM_ARGS $KUBELET_EXTRA_ARGS (code=exited, status=1/FAILURE)
+   Main PID: 32660 (code=exited, status=1/FAILURE)
+   Mem peak: 13.9M
+        CPU: 123ms
 ```
 
 [^K1]:[Configuring each kubelet in your cluster using kubeadm](https://kubernetes.io/docs/setup/production-environment/tools/kubeadm/kubelet-integration/) | kubernetes.io
