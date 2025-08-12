@@ -136,6 +136,8 @@ then
 $ sudo chmod 666 /var/run/docker.sock
 ```
 
+DO NOT INSTALL containerd.io
+
 ## Update And Upgrade All Packages
 ```bash
 $ sudo apt update
