@@ -186,9 +186,9 @@ Server: Docker Engine - Community
 sudo systemctl start docker
 ```
 
-Confirm Docker is running
+Confirm the service "docker" is running
 ```bash
-$ sudo systemctl status docker
+$ watch sudo systemctl status docker
 ● docker.service - Docker Application Container Engine
      Loaded: loaded (/usr/lib/systemd/system/docker.service; enabled; preset: enabled)
      Active: active (running) since Sun 2025-07-27 15:42:06 CDT; 33min ago
@@ -211,6 +211,33 @@ Jul 27 15:42:06 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="20
 Jul 27 15:42:06 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="2025-07-27T15:42:06.203077837-05:00" level=info msg="API listen on /run/docker.sock"
 Jul 27 15:42:06 tomrausch-HP-Elite-7100-Microtower-PC systemd[1]: Started docker.service - Docker Application Container Engine.
 Jul 27 15:47:26 tomrausch-HP-Elite-7100-Microtower-PC dockerd[2290405]: time="2025-07-27T15:47:26.679714072-05:00" level=info msg="ignoring event" container=0b6b0d215f50f2e713c9f300e50092fdcd9dd11ba68d1166c998812371868369 module=libcontainerd namespace=moby topic=/tasks/>
+```
+
+Confirm the service "containerd" is running
+```bash
+$ watch sudo systemctl status containerd
+● containerd.service - containerd container runtime
+     Loaded: loaded (/usr/lib/systemd/system/containerd.service; enabled; preset: enabled)
+     Active: active (running) since Tue 2025-08-12 10:45:39 CDT; 4min 4s ago
+ Invocation: 0a2fa06377014ff9a2c1dd2f0c3d1eef
+       Docs: https://containerd.io
+   Main PID: 27637 (containerd)
+      Tasks: 13
+     Memory: 17.4M (peak: 40.3M)
+        CPU: 795ms
+     CGroup: /system.slice/containerd.service
+             └─27637 /usr/bin/containerd
+
+Aug 12 10:45:39 thomas-rausch-HP-Elite-7100-Microtower-PC containerd[27637]: time="2025-08-12T10:45:39.630088016-05:00" level=info msg="containerd successfully booted in 0.037077s"
+Aug 12 10:45:39 thomas-rausch-HP-Elite-7100-Microtower-PC systemd[1]: Started containerd.service - containerd container runtime.
+Aug 12 10:48:48 thomas-rausch-HP-Elite-7100-Microtower-PC containerd[27637]: time="2025-08-12T10:48:48.992691452-05:00" level=info msg="connecting to shim 0f1b275587a654fff3ae3421107dd5c4fd1e0e64b31520ea73c5a85323fabd06" address="unix:/>
+Aug 12 10:48:49 thomas-rausch-HP-Elite-7100-Microtower-PC containerd[27637]: time="2025-08-12T10:48:49.162530568-05:00" level=info msg="shim disconnected" id=0f1b275587a654fff3ae3421107dd5c4fd1e0e64b31520ea73c5a85323fabd06 namespace=moby
+Aug 12 10:48:49 thomas-rausch-HP-Elite-7100-Microtower-PC containerd[27637]: time="2025-08-12T10:48:49.162575459-05:00" level=warning msg="cleaning up after shim disconnected" id=0f1b275587a654fff3ae3421107dd5c4fd1e0e64b31520ea73c5a8532>
+Aug 12 10:48:49 thomas-rausch-HP-Elite-7100-Microtower-PC containerd[27637]: time="2025-08-12T10:48:49.162596945-05:00" level=info msg="cleaning up dead shim" namespace=moby
+Aug 12 10:48:54 thomas-rausch-HP-Elite-7100-Microtower-PC containerd[27637]: time="2025-08-12T10:48:54.806310052-05:00" level=info msg="connecting to shim 202f54ab12b82f902ec2714093369b8ad11cbe46cbf9ed66673e1fa58aaaeb4a" address="unix:/>
+Aug 12 10:48:55 thomas-rausch-HP-Elite-7100-Microtower-PC containerd[27637]: time="2025-08-12T10:48:55.002817057-05:00" level=info msg="shim disconnected" id=202f54ab12b82f902ec2714093369b8ad11cbe46cbf9ed66673e1fa58aaaeb4a namespace=moby
+Aug 12 10:48:55 thomas-rausch-HP-Elite-7100-Microtower-PC containerd[27637]: time="2025-08-12T10:48:55.002855496-05:00" level=warning msg="cleaning up after shim disconnected" id=202f54ab12b82f902ec2714093369b8ad11cbe46cbf9ed66673e1fa58>
+Aug 12 10:48:55 thomas-rausch-HP-Elite-7100-Microtower-PC containerd[27637]: time="2025-08-12T10:48:55.002872299-05:00" level=info msg="cleaning up dead shim" namespace=moby
 ```
 
 Run the command ```sudo docker run hello-world``` and observe the results
@@ -296,7 +323,7 @@ For more examples and ideas, visit:
 
 [^3]:[Manage Docker as a non-root user](https://docs.docker.com/engine/install/linux-postinstall/#manage-docker-as-a-non-root-user) | Docker Docs
 
-### Configure Docker To Run On System Startup [^4]
+### Configure The Services "docker" And "containerd" To Run On System Startup [^4]
 Run these commands to configure Docker to run on system startup
 ```
 $ sudo systemctl enable docker.service
