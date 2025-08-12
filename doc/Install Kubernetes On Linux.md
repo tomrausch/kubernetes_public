@@ -987,7 +987,8 @@ kube-system   kube-dns     ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,
 
 - [Install The Kubernetes Metrics Server](https://github.com/tomrausch/kubernetes_public/blob/9679bc04ea95e40b8a12e19145da58df1de3b684/doc/Install%20The%20Kubernetes%20Metrics%20Server.md)
 - [Install Prometheus](https://github.com/tomrausch/kubernetes_public/blob/13428cf0f962cb77a299e9f20c2c40daf94bc4a7/doc/Install%20Prometheus.md)
-
+- Install kubectx (and with in kubens)
+- Install [kube-bench](https://aquasecurity.github.io/kube-bench/v0.6.5/)
 
 ### Deploy Ingress Controller (NGINX) [On MasterNode]
 ```bash
@@ -995,12 +996,6 @@ $ kubectl apply-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/con
 ```
 
 ### Deploy Load Balancer, Access Applications Through Single IP
-
-### Deploy kube-bench
-[kube-bench](https://aquasecurity.github.io/kube-bench/v0.6.5/)
-
-### Deploy Calico Whisker
-whisker.operator.tigera.io/default created
 
 ### Deploy Kubernetes Dashboard (K8 Studio Takes This Place)
 
