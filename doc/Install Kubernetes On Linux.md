@@ -1014,17 +1014,7 @@ node/master-node untainted
 - ❌ Worker Node
 
 ### Commands
-- [Install Calico](https://github.com/tomrausch/kubernetes_public/blob/5ede2a217a4bb71d061a144f28c18dd264e6681c/doc/Install%20Calico.md)
-
-
-Confirm the node is 'Ready'
-```
-$ kubectl get nodes
-NAME          STATUS   ROLES           AGE   VERSION
-master-node   Ready    control-plane   28m   v1.28.15
-```
-
-
+- [Install Calico On Kubernetes](https://github.com/tomrausch/kubernetes_public/blob/3ea5df345ee3555ea6d51d9fc82fdc31cff206f9/doc/Install%20Calico%20On%20Kubernetes.md)
 
 ## Confirm The Installation Token [^confirm_installation_token]
 ### Perform On Nodes
