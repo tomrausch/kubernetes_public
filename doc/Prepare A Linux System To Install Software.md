@@ -68,10 +68,15 @@ $ cat /etc/fstab
 
 
 ## Remove Unneeded Packages
+Remove orphaned dependencies
 ```bash
-sudo apt autoremove
+$ sudo apt autoremove
 ```
 
+Clean up downloaded package archives from the local cache
+```bash
+$ sudo apt autoclean
+```
 
 ## Update All Existing System Packages
 ```bash
