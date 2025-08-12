@@ -80,7 +80,6 @@ total 20
 drwx------ 2 root root 4096 Jul 31 22:27 .
 drwxr-xr-x 3 root root 4096 Jul 27 15:42 ..
 -rw-r--r-- 1 root root  662 Aug 11 19:13 10-calico.conflist
--rw-r--r-- 1 root root  292 Jul 31 22:27 10-flannel.conflist
 -rw------- 1 root root 2720 Aug 11 19:13 calico-kubeconfig
 -rw-r--r-- 1 root root    0 Aug  4  2023 .kubernetes-cni-keep
 ```
