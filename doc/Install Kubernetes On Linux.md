@@ -742,6 +742,7 @@ Use these subnets in parameters when intiializing the cluster
 - ✅ Master Node
 - ❌ Worker Node
 
+### Commands
 Reset the existing configuration, if any
 ```bash
 $ sudo kubeadm reset
@@ -875,35 +876,36 @@ sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
 sudo chown $(id -u):$(id -g) $HOME/.kube/config
 ```
 
-Retain the kube config file in a KeePass database
 
-After a few minutes, the node is ready for use
+## Check The Kubernetes Cluster
+### Perform On Nodes
+- ✅ Master Node
+- ❌ Worker Node
 
-Confirm the node is 'Ready'
-```
-$ kubectl get nodes
-NAME          STATUS   ROLES           AGE   VERSION
-master-node   Ready    control-plane   28m   v1.28.15
-```
+### Commands
+After a few minutes, check the status of the kubernetes cluster
 
-Untaint the nodes
-```
-$ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
-node/master-node untainted
+#### Create A busybox Pod
+```bash
+$ kubectl run busybox-pod --image=busybox --namespace default --command -- /bin/sh -c 'while true; do sleep 30; done' --restart=Never
+pod/busybox-pod created
 ```
 
-Confirm the administration pods Advance To STATUS Of 'Running'
-```
-$ kubectl get pods -o wide --all-namespaces
-NAMESPACE     NAME                                  READY   STATUS              RESTARTS   AGE     IP              NODE          NOMINATED NODE   READINESS GATES
-default       busybox-pod                           0/1     ContainerCreating   0          104s    <none>          master-node   <none>           <none>
-kube-system   coredns-5dd5756b68-6n6lb              0/1     ContainerCreating   0          6m33s   <none>          master-node   <none>           <none>
-kube-system   coredns-5dd5756b68-h4tcm              0/1     ContainerCreating   0          6m33s   <none>          master-node   <none>           <none>
-kube-system   etcd-master-node                      1/1     Running             4          6m48s   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-apiserver-master-node            1/1     Running             1          6m47s   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-controller-manager-master-node   1/1     Running             1          6m47s   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-proxy-fdtms                      1/1     Running             0          6m33s   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-scheduler-master-node            1/1     Running             19         6m47s   192.168.0.136   master-node   <none>           <none>
+#### List All Pods In All Namespaces
+- The coredns pods have STATUS of "Pending"
+- The other kube-system pods have STATUS of "Running"
+- The busybox pod has a STATUS of "Pending"
+```bash
+$ kubectl get pods --all-namespaces
+NAMESPACE     NAME                                  READY   STATUS    RESTARTS   AGE
+default       busybox-pod                           0/1     Pending   0          65s
+kube-system   coredns-5dd5756b68-jw5hv              0/1     Pending   0          148m
+kube-system   coredns-5dd5756b68-lggbd              0/1     Pending   0          148m
+kube-system   etcd-master-node                      1/1     Running   2          148m
+kube-system   kube-apiserver-master-node            1/1     Running   2          148m
+kube-system   kube-controller-manager-master-node   1/1     Running   2          148m
+kube-system   kube-proxy-mrhdh                      1/1     Running   0          148m
+kube-system   kube-scheduler-master-node            1/1     Running   2          148m
 ```
 
 > [!IMPORTANT]
@@ -912,8 +914,99 @@ kube-system   kube-scheduler-master-node            1/1     Running             
 > - Note the "busybox" pod stays in a STATUS of "Pending"
 > Refer to a later step to install a pod networking solution
 
-[^run_kubeadm_init]: [I set my master with "kubeadm init"...](https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/)
+#### List All Nodes
+The master-node STATUS is "NotReady"
+```bash
+$ kubectl get nodes
+NAME          STATUS     ROLES           AGE    VERSION
+master-node   NotReady   control-plane   146m   v1.28.15
+```
 
+#### Describe The Node "master-node"
+The Ready condition has the Message "container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized" [^kubernetes_node_not_ready]:
+```bash
+$ kubectl describe node master-node
+Name:               master-node
+Roles:              control-plane
+Labels:             beta.kubernetes.io/arch=amd64
+                    beta.kubernetes.io/os=linux
+                    kubernetes.io/arch=amd64
+                    kubernetes.io/hostname=master-node
+                    kubernetes.io/os=linux
+                    node-role.kubernetes.io/control-plane=
+                    node.kubernetes.io/exclude-from-external-load-balancers=
+Annotations:        kubeadm.alpha.kubernetes.io/cri-socket: unix:///var/run/containerd/containerd.sock
+                    node.alpha.kubernetes.io/ttl: 0
+                    volumes.kubernetes.io/controller-managed-attach-detach: true
+CreationTimestamp:  Tue, 12 Aug 2025 12:38:42 -0500
+Taints:             node.kubernetes.io/not-ready:NoSchedule
+Unschedulable:      false
+Lease:
+  HolderIdentity:  master-node
+  AcquireTime:     <unset>
+  RenewTime:       Tue, 12 Aug 2025 15:15:03 -0500
+Conditions:
+  Type             Status  LastHeartbeatTime                 LastTransitionTime                Reason                       Message
+  ----             ------  -----------------                 ------------------                ------                       -------
+  MemoryPressure   False   Tue, 12 Aug 2025 15:11:56 -0500   Tue, 12 Aug 2025 12:38:41 -0500   KubeletHasSufficientMemory   kubelet has sufficient memory available
+  DiskPressure     False   Tue, 12 Aug 2025 15:11:56 -0500   Tue, 12 Aug 2025 12:38:41 -0500   KubeletHasNoDiskPressure     kubelet has no disk pressure
+  PIDPressure      False   Tue, 12 Aug 2025 15:11:56 -0500   Tue, 12 Aug 2025 12:38:41 -0500   KubeletHasSufficientPID      kubelet has sufficient PID available
+  Ready            False   Tue, 12 Aug 2025 15:11:56 -0500   Tue, 12 Aug 2025 12:38:41 -0500   KubeletNotReady              container runtime network not ready: NetworkReady=false reason:NetworkPluginNotReady message:Network plugin returns error: cni plugin not initialized
+Addresses:
+  InternalIP:  192.168.0.136
+  Hostname:    master-node
+Capacity:
+  cpu:                8
+  ephemeral-storage:  479594152Ki
+  hugepages-2Mi:      0
+  memory:             7564124Ki
+  pods:               110
+Allocatable:
+  cpu:                8
+  ephemeral-storage:  441993969752
+  hugepages-2Mi:      0
+  memory:             7461724Ki
+  pods:               110
+System Info:
+  Machine ID:                 0a8b5a34c62a4778a3dea5b6a8c9082a
+  System UUID:                e1d74304-1fde-11e1-99ba-b2e411621d1c
+  Boot ID:                    58705821-1630-4f62-bb72-74292320b7e6
+  Kernel Version:             6.14.0-27-generic
+  OS Image:                   Ubuntu 25.04
+  Operating System:           linux
+  Architecture:               amd64
+  Container Runtime Version:  containerd://2.0.5
+  Kubelet Version:            v1.28.15
+  Kube-Proxy Version:         v1.28.15
+PodCIDR:                      10.244.0.0/24
+PodCIDRs:                     10.244.0.0/24
+Non-terminated Pods:          (5 in total)
+  Namespace                   Name                                   CPU Requests  CPU Limits  Memory Requests  Memory Limits  Age
+  ---------                   ----                                   ------------  ----------  ---------------  -------------  ---
+  kube-system                 etcd-master-node                       100m (1%)     0 (0%)      100Mi (1%)       0 (0%)         156m
+  kube-system                 kube-apiserver-master-node             250m (3%)     0 (0%)      0 (0%)           0 (0%)         156m
+  kube-system                 kube-controller-manager-master-node    200m (2%)     0 (0%)      0 (0%)           0 (0%)         156m
+  kube-system                 kube-proxy-mrhdh                       0 (0%)        0 (0%)      0 (0%)           0 (0%)         156m
+  kube-system                 kube-scheduler-master-node             100m (1%)     0 (0%)      0 (0%)           0 (0%)         156m
+Allocated resources:
+  (Total limits may be over 100 percent, i.e., overcommitted.)
+  Resource           Requests    Limits
+  --------           --------    ------
+  cpu                650m (8%)   0 (0%)
+  memory             100Mi (1%)  0 (0%)
+  ephemeral-storage  0 (0%)      0 (0%)
+  hugepages-2Mi      0 (0%)      0 (0%)
+Events:              <none>
+```
+
+Untaint the nodes
+```
+$ kubectl taint nodes --all node-role.kubernetes.io/control-plane-
+node/master-node untainted
+```
+
+[^run_kubeadm_init]: [I set my master with "kubeadm init"...](https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/)
+[^kubernetes_node_not_ready]: [Kubernetes Node Not Ready Error and How to Fix It](https://lumigo.io/kubernetes-troubleshooting/kubernetes-node-not-ready-error-and-how-to-fix-it/)
 
 ## Install A Pod Networking Solution
 ### Perform On Nodes
@@ -922,6 +1015,15 @@ kube-system   kube-scheduler-master-node            1/1     Running             
 
 ### Commands
 - [Install Calico](https://github.com/tomrausch/kubernetes_public/blob/5ede2a217a4bb71d061a144f28c18dd264e6681c/doc/Install%20Calico.md)
+
+
+Confirm the node is 'Ready'
+```
+$ kubectl get nodes
+NAME          STATUS   ROLES           AGE   VERSION
+master-node   Ready    control-plane   28m   v1.28.15
+```
+
 
 
 ## Confirm The Installation Token [^confirm_installation_token]
