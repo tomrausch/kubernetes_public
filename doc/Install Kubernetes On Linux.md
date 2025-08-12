@@ -41,20 +41,43 @@ gnupg set to manually installed.
 ```
 
 ### Confirm The Packages Are Installated
+
+#### Package apt-transport-https
 ```bash
 $ sudo apt list --installed | grep apt-transport-https
 apt-transport-https/noble-updates,now 2.8.3 all [installed]
+```
+- Description: APT transport for downloading via the HTTP Secure protocol (HTTPS)
+- Documentation: [apt-transport-https](https://manpages.ubuntu.com/manpages/jammy/man1/apt-transport-https.1.html)
+
+
+#### Package ca-certificates
+```bash
 $ sudo apt list --installed | grep ca-certificates
 ca-certificates/noble,now 20240203 all [installed]
+```
+- Description: A program that updates the directory /etc/ssl/certs to hold SSL certificates and generates ca-certificates.crt, a concatenated single-file list of certificates.
+- Documentation: [ca-certificates](https://manpages.ubuntu.com/manpages/xenial/man8/update-ca-certificates.8.html)
+
+#### Package curl
+```bash
 $ sudo apt list --installed | grep curl
 curl/noble-updates,noble-security,now 8.5.0-2ubuntu10.6 amd64 [installed]
 libcurl3t64-gnutls/noble-updates,noble-security,now 8.5.0-2ubuntu10.6 amd64 [installed,automatic]
 libcurl4t64/noble-updates,noble-security,now 8.5.0-2ubuntu10.6 amd64 [installed,automatic]
+```
+- Description: A tool for transferring data from or to a server using URLs
+- Documentation: [curl](https://curl.se/docs/manpage.html)
+
+#### Package gnupg
+```bash
 $ sudo apt list --installed | grep gnupg
 gnupg-l10n/noble-updates,noble-security,now 2.4.4-2ubuntu17.3 all [installed,automatic]
 gnupg-utils/noble-updates,noble-security,now 2.4.4-2ubuntu17.3 amd64 [installed,automatic]
 gnupg/noble-updates,noble-security,now 2.4.4-2ubuntu17.3 all [installed]
 ```
+- Description: GNU Privacy Guard, an implementation of the OpenPGP standard
+- Documentation: [gnupg](https://www.gnupg.org/)
 
 
 ## Add Official GnuPG (GPG) Keyrings For Kubernetes
