@@ -136,7 +136,63 @@ then
 $ sudo chmod 666 /var/run/docker.sock
 ```
 
-DO NOT INSTALL containerd.io
+DO NOT INSTALL the package "containerd.io"
+
+## Confirm The Packages Are Installed And The Commands Are Functioning
+
+### Package bridge-utils
+```bash
+$ sudo apt list --installed | grep bridge-utils
+bridge-utils/plucky,now 1.7.1-4ubuntu1 amd64 [installed,automatic]
+```
+- Description: A utility needed to create and manage bridge devices
+- Documenation: [bridge-utils](https://www.linuxfromscratch.org/blfs/view/svn/basicnet/bridge-utils.html)
+
+### Package containerd
+```bash
+$ sudo apt list --installed | grep containerd
+containerd/plucky-updates,now 2.0.5-0ubuntu1~25.04.1 amd64 [installed,automatic]
+$ containerd --version
+containerd github.com/containerd/containerd/v2 2.0.5
+```
+- Description: An industry-standard container runtime with an emphasis on simplicity, robustness, and portability
+- Documenation: [containerd](https://github.com/containerd/containerd/blob/main/README.md)
+
+### Package docker.io
+```bash
+$ sudo apt list --installed | grep docker.io
+docker.io/plucky,now 27.5.1-0ubuntu3 amd64 [installed]
+```
+
+### Package pigz, Command pigz
+```bash
+$ sudo apt list --installed | grep pigz
+pigz/plucky,now 2.8-1 amd64 [installed,automatic]
+$ pigz --version
+pigz 2.8
+```
+- Description: a fully functional replacement for gzip that exploits multiple processors and multiple cores
+- Documenation: [pigz](https://github.com/madler/pigz/blob/master/README)
+
+### Package runc, Command runc
+```bash
+$ sudo apt list --installed | grep runc
+runc/plucky,now 1.2.5-0ubuntu1 amd64 [installed,automatic]
+$ runc --version
+runc version 1.2.5-0ubuntu1
+spec: 1.2.0
+go: go1.24.0
+libseccomp: 2.5.5
+```
+- Description: A tool for spawning and running containers on Linux according to the OCI specification
+- Documentation: [runc](https://github.com/opencontainers/runc/blob/main/README.md)
+
+### Package ubuntu-fan
+```bash
+$ sudo apt list --installed | ubuntu-fan
+ubuntu-fan/plucky,now 0.12.16 all [installed,automatic]
+```
+- Description: A tool to map between a smaller network address space (typically a /16 network) and a larger one (typically a /8)
 
 ## Update And Upgrade All Packages
 ```bash
