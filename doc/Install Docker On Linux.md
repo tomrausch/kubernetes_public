@@ -2,6 +2,17 @@
 
 ## Setup apt Repository For Docker [^1]
 
+### Reset Package Manager
+Remove orphaned dependencies
+```bash
+$ sudo apt autoremove
+```
+
+Clean up downloaded package archives from the local cache
+```bash
+$ sudo apt autoclean
+```
+
 ### Install Prerequisite Packages
 ```bash
 $ sudo apt-get install ca-certificates curl
@@ -55,7 +66,7 @@ Hit:4 http://security.ubuntu.com/ubuntu plucky-security InRelease
 - After adding the Docker repository
   - Observe the repositories ```https://download.docker.com/linux/ubuntu``` and ```https://download.docker.com/linux/ubuntu plucky/stable```
 ```
-$ sudo apt-get update
+$ sudo apt-get upgrade
 Get:1 https://download.docker.com/linux/ubuntu plucky InRelease [32.9 kB]
 Get:2 https://download.docker.com/linux/ubuntu plucky/stable amd64 Packages [9,812 B]
 Hit:1 http://us.archive.ubuntu.com/ubuntu plucky InRelease
