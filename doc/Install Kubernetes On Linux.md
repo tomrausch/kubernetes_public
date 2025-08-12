@@ -678,6 +678,11 @@ The reset process does not clean your kubeconfig files and you must remove them 
 Please, check the contents of the $HOME/.kube/config file.
 ```
 
+Remove the directory "/etc/cni/net.d"
+```
+$ sudo rm -r /etc/cni/net.d
+```
+
 Initialize the Kubernetes cluster [^run_kubeadm_init]
 ```
 $ sudo kubeadm init --control-plane-endpoint=master-node --upload-certs --pod-network-cidr "10.244.0.0/16" --service-cidr "10.96.0.0/12"
