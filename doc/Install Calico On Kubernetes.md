@@ -264,14 +264,7 @@ calico-system      calico-typha-58c797c68f-mhhkv              1/1     Running   
 calico-system      csi-node-driver-6ngbf                      2/2     Running   0          11m     10.244.77.138   master-node   <none>           <none>
 calico-system      goldmane-7d55c4b88b-crf7n                  1/1     Running   0          11m     10.244.77.136   master-node   <none>           <none>
 calico-system      whisker-847894db8d-crjsw                   2/2     Running   0          10m     10.244.77.140   master-node   <none>           <none>
-default            busybox-pod                                1/1     Running   0          44m     10.244.77.132   master-node   <none>           <none>
-kube-system        coredns-5dd5756b68-jw5hv                   1/1     Running   0          3h16m   10.244.77.131   master-node   <none>           <none>
-kube-system        coredns-5dd5756b68-lggbd                   1/1     Running   0          3h16m   10.244.77.130   master-node   <none>           <none>
-kube-system        etcd-master-node                           1/1     Running   2          3h16m   192.168.0.136   master-node   <none>           <none>
-kube-system        kube-apiserver-master-node                 1/1     Running   2          3h16m   192.168.0.136   master-node   <none>           <none>
-kube-system        kube-controller-manager-master-node        1/1     Running   2          3h16m   192.168.0.136   master-node   <none>           <none>
-kube-system        kube-proxy-mrhdh                           1/1     Running   0          3h16m   192.168.0.136   master-node   <none>           <none>
-kube-system        kube-scheduler-master-node                 1/1     Running   2          3h16m   192.168.0.136   master-node   <none>           <none>
+...
 tigera-operator    tigera-operator-59f47b4f88-t5lgw           1/1     Running   0          12m     192.168.0.136   master-node   <none>           <none>
 ```
 
