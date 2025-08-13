@@ -53,11 +53,11 @@ service/prometheus-service created
 Confirm the Service "prometheus-service"
 ```
 $ kubectl get service prometheus-service -n prometheus
-NAME                 TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)          AGE
-prometheus-service   NodePort       10.106.50.5   <pending>     80:30222/TCP   54s
+NAME                 TYPE       CLUSTER-IP      EXTERNAL-IP   PORT(S)        AGE
+prometheus-service   NodePort   10.109.98.178   <none>        80:31350/TCP   8m56s
 ```
 
-Access Prometheus at this URL [http://192.168.0.136:30222/query](http://192.168.0.136:30222/query)
+Access Prometheus at this URL ```http://192.168.0.136:<node-port>/query```
 
 <img width="3839" height="1899" alt="Screenshot 2025-08-11 183003" src="https://github.com/user-attachments/assets/ed3a11ec-075b-4477-91d6-c98ab54aa2f8" />
 
