@@ -4,6 +4,7 @@ metadata:
   name: ingress-whisker
   labels:
     projectcalico.org/name: ingress-nginx
+    k8s-app: whisker
 spec:
   rules:
   - host: master-node
