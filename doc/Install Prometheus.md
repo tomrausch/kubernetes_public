@@ -54,7 +54,7 @@ Confirm the Service "prometheus-service"
 ```
 $ kubectl get service prometheus-service -n prometheus
 NAME                 TYPE           CLUSTER-IP    EXTERNAL-IP   PORT(S)          AGE
-prometheus-service   LoadBalancer   10.106.50.5   <pending>     80:30222/TCP   54s
+prometheus-service   NodePort       10.106.50.5   <pending>     80:30222/TCP   54s
 ```
 
 Access Prometheus at this URL [http://192.168.0.136:30222/query](http://192.168.0.136:30222/query)
