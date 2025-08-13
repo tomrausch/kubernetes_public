@@ -6,7 +6,7 @@ metadata:
     projectcalico.org/name: ingress-nginx
 spec:
   rules:
-  - host: 192.136.0.136
+  - host: master-node
     http:
       paths:
       - path: /
