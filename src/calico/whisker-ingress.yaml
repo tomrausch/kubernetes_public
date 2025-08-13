@@ -1,7 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: ingress-whisker
+  name: whisker-ingress
+  namespace: calico-system 
   labels:
     projectcalico.org/name: ingress-nginx
     k8s-app: whisker
