@@ -245,7 +245,49 @@ whisker     True        False         False      118s
 ```
 
 ## Access Calico Whisker
-NA
+If not already done, [Install The NGINX Gateway](https://github.com/tomrausch/kubernetes_public/blob/7245f5e7dda852ffa6ef40769669db586e52046d/doc/Access%20Kubernetes%20Applications%20Through%20An%20Application%20Gateway.md#install-the-nginx-gateway)
+
+Create an Ingress resource YAML file that references all the installed applications
+- Use a distinct "host" designation for Calico Whisker
+```
+  - host: whisker.master-node
+```
+
+Here is a reference file
+- [ingress-nginx-calico-system.yaml](https://github.com/tomrausch/kubernetes_public/blob/c41727af2c199ec2ccc0d8040894bf16f438bf01/src/ingress/ingress-nginx-calico-system.yaml)
+
+Create the Ingress resource in the Kubernetes cluster. Create the Ingress resource in the namespace "calico-system".
+```bash
+$ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/ingress/ingress-nginx-calico-system.yaml
+ingress.networking.k8s.io/ ingress-calico-system created
+```
+
+Confirm the Ingress resource in the Kubernetes cluster
+```bash
+$ kubectl get ingress --namespace calico-system
+NAME                    CLASS   HOSTS                 ADDRESS         PORTS   AGE
+ingress-calico-system   nginx   whisker.master-node   192.168.0.241   80      57m
+```
+
+Add a reference to the Whisker application in the file "hosts". The format is ```<ip_address_of_the_kubernetes_cluster>``` a space, and then the ```whisker.master-code```
+```bash
+# Kubernetes load balancer namespace "default":
+192.168.0.136 whisker.master-node
+```
+
+Access the applications through the NGINX gateway. The format of the URL is  ```http://whisker.master-node:<port_for_http_access_in_nginx_gateway>```
+
+Here is the application "Whisker" accessed through the NGINX application gateway
+
+<img width="2423" height="1356" alt="image" src="https://github.com/user-attachments/assets/e570a97c-4e92-466e-8fbf-5917b1a6dec1" />
+
+
+
+
+
+
+
+
 
 ### DO NOT Install The Calico Manifest
 ```bash
@@ -270,5 +312,6 @@ tigera-operator    tigera-operator-59f47b4f88-t5lgw           1/1     Running   
 
 ## References
 - [Calico quickstart guide](https://docs.tigera.io/calico/latest/getting-started/kubernetes/quickstart) | tigera.io
-- [Install Calico networking and network policy for on-premises deployments](https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises) | tigera.io
 - [Coredns stuck in “ContainerCreating”](https://discuss.kubernetes.io/t/coredns-stuck-in-containercreating/19100) | kubernetes.io
+- [Install Calico networking and network policy for on-premises deployments](https://docs.tigera.io/calico/latest/getting-started/kubernetes/self-managed-onprem/onpremises) | tigera.io
+- [Proper way to configure Calico Whisker for Ingress exposure?](https://github.com/orgs/projectcalico/discussions/10395) | GitHub
