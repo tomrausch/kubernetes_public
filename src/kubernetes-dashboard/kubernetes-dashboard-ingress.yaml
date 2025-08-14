@@ -5,11 +5,12 @@ metadata:
   namespace: kubernetes-dashboard
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+    nginx.ingress.kubernetes.io/backend-protocol: "HTTPS"
 spec:
   ingressClassName: nginx
   rules:
   - host: kubernetes-dashboard.master-node
-    https:
+    http:
       paths:
       - path: /
         pathType: Prefix
