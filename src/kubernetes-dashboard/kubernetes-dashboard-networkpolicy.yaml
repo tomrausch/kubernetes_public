@@ -14,7 +14,7 @@ spec:
           app.kubernetes.io/component: controller
           app.kubernetes.io/name: ingress-nginx
     ports:
-    - port: 8443
+    - port: 8081
       protocol: TCP
   podSelector:
     matchLabels:
