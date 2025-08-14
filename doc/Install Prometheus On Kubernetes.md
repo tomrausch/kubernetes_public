@@ -1,4 +1,4 @@
-# Install Prometheus [^install_promethius]
+# Install Prometheus On Kubernetes [^install_promethius]
 
 Install the namespace "prometheus" [^prometheus-namespace]
 ```
