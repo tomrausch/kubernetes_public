@@ -9,7 +9,7 @@ spec:
   ingressClassName: nginx
   rules:
   - host: kubernetes-dashboard.master-node
-    https:
+    http:
       paths:
       - path: /
         pathType: Prefix
