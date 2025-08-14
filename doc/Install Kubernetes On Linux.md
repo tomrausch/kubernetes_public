@@ -1181,15 +1181,44 @@ kube-system   kube-dns     ClusterIP   10.96.0.10   <none>        53/UDP,53/TCP,
 
 - [Install The Kubernetes Metrics Server](https://github.com/tomrausch/kubernetes_public/blob/9679bc04ea95e40b8a12e19145da58df1de3b684/doc/Install%20The%20Kubernetes%20Metrics%20Server.md)
 - [Install Prometheus](https://github.com/tomrausch/kubernetes_public/blob/13428cf0f962cb77a299e9f20c2c40daf94bc4a7/doc/Install%20Prometheus.md)
-- Install kubectx (and with in kubens)
-- Install [kube-bench](https://aquasecurity.github.io/kube-bench/v0.6.5/)
+- Install [kubectx + kubens](https://github.com/ahmetb/kubectx/blob/master/README.md)
+- [Install Helm For Ubuntu](https://helm.sh/docs/intro/install/#from-apt-debianubuntu)
 
-### Deploy Ingress Controller (NGINX) [On MasterNode]
-```bash
-$ kubectl apply-f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v0.49.0/deploy/static/provider/baremetal/deploy.yaml
+### Install The Kubernetes Dashboard
+Follow procedure [Deploy and Access the Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
+
+Confirm the Pods
+```
+thomas-rausch@master-node:~$ kubectl get pods --namespace kubernetes-dashboard
+NAME                                                    READY   STATUS    RESTARTS   AGE
+kubernetes-dashboard-api-6d84545678-zzv58               1/1     Running   0          57s
+kubernetes-dashboard-auth-67898d8759-5dkl9              1/1     Running   0          57s
+kubernetes-dashboard-kong-6bf7cb4d8c-dbv2j              1/1     Running   0          57s
+kubernetes-dashboard-metrics-scraper-79ddb8cd78-dzlcl   1/1     Running   0          57s
+kubernetes-dashboard-web-5c84bb867f-sjjbw               1/1     Running   0          57s
 ```
 
-### Deploy Load Balancer, Access Applications Through Single IP
+Confirm the Services
+```
+$ kubectl get service --namespace kubernetes-dashboard
+NAME                                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+kubernetes-dashboard-api               ClusterIP   10.100.180.58    <none>        8000/TCP   8m41s
+kubernetes-dashboard-auth              ClusterIP   10.100.220.176   <none>        8000/TCP   8m41s
+kubernetes-dashboard-kong-proxy        ClusterIP   10.101.161.197   <none>        443/TCP    8m41s
+kubernetes-dashboard-metrics-scraper   ClusterIP   10.102.227.183   <none>        8000/TCP   8m41s
+kubernetes-dashboard-web               ClusterIP   10.98.218.124    <none>        8000/TCP   8m41s
+```
+
+Deploy the Ingress
+```
+$ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/ingress/ingress-nginx-kubernetes-dashboard.yaml
+ingress.networking.k8s.io/ingress-kubernetes-dashboard created
+```
+
+
+
+## Pending Evaluation
+- [NO] Install [kube-bench](https://aquasecurity.github.io/kube-bench/v0.6.5/)
 
 ### Deploy Kubernetes Dashboard (K8 Studio Takes This Place)
 
