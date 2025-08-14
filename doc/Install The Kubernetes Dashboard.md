@@ -47,5 +47,7 @@ Use the bearer token to authenticate to the Kubernetes Dashboard application
 <img width="1658" height="609" alt="image" src="https://github.com/user-attachments/assets/bbcba828-a9f2-4b22-94df-e0f1dc6cacc9" />
 
 
+## Reference
+- [how to configure ingress to direct traffic to an https backend using https](https://stackoverflow.com/questions/54459015/how-to-configure-ingress-to-direct-traffic-to-an-https-backend-using-https) | StackOverflow
 
 
