@@ -5,6 +5,8 @@ metadata:
   namespace: calico-system
   annotations:
     nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+    app.kubernetes.io/author: thomas-rausch
 spec:
   ingressClassName: nginx
   rules:
