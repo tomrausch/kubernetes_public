@@ -3,6 +3,8 @@ kind: NetworkPolicy
 metadata:
   name: whisker-ingress
   namespace: calico-system
+  labels:
+    app.kubernetes.io/author: thomas-rausch
 spec:
   ingress:
   - from:
