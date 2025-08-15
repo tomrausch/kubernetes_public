@@ -1,6 +1,6 @@
 
-# Install The Kubernetes Dashboard
-Follow this procedure [Deploy and Access the Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/)
+# Deploy The Kubernetes Dashboard
+Follow this procedure [Deploy and Access the Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/) | kubernetes.io
 
 Confirm the Pods
 ```
@@ -42,9 +42,9 @@ $ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_publi
 serviceaccount/dashboard-admin-sa created
 ```
 
-Create the Role Binding
+Create the Cluster Role Binding
 ```
-$ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kubernetes-dashboard/kubernetes-dashboard-rolebinding-dashboard-admin-sa.yaml
+$ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kubernetes-dashboard/kubernetes-dashboard-clusterrolebinding-dashboard-admin-crb.yaml
 rolebinding.rbac.authorization.k8s.io/kubernetes created
 ```
 
