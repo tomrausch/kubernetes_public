@@ -2,7 +2,7 @@
 
 ## Create Calico Custom Resource Definitions (CRD)
 ```bash
-$ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/operator-crds.yaml
+$ kubectl create -f "https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/operator-crds.yaml"
 customresourcedefinition.apiextensions.k8s.io/apiservers.operator.tigera.io created
 customresourcedefinition.apiextensions.k8s.io/gatewayapis.operator.tigera.io created
 customresourcedefinition.apiextensions.k8s.io/goldmanes.operator.tigera.io created
@@ -39,7 +39,7 @@ customresourcedefinition.apiextensions.k8s.io/baselineadminnetworkpolicies.polic
 
 ## Create Tigera Custom Resources
 ```bash
-$ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/calico/tigera-calico-custom-resources.yaml
+$ kubectl create -f "https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/calico/tigera-calico-custom-resources.yaml"
 installation.operator.tigera.io/default created
 apiserver.operator.tigera.io/default created
 goldmane.operator.tigera.io/default created
@@ -48,7 +48,7 @@ whisker.operator.tigera.io/default created
 
 ## Create Calico General Resources
 ```bash
-$ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/calico/calico_general.yaml
+$ kubectl create -f "https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/calico/calico_general.yaml"
 poddisruptionbudget.policy/calico-kube-controllers created
 serviceaccount/calico-kube-controllers created
 serviceaccount/calico-node created
@@ -72,8 +72,8 @@ deployment.apps/calico-kube-controllers created
 > - [I set my master with "kubeadm init --pod-network-cidr=10.244.0.0/16", flannel is also set with that...](https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/) | Reddit
 
 ## Create The Tigera Operators
-```
-$ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/tigera-operator.yaml
+```bash
+$ kubectl create -f "https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/tigera-operator.yaml"
 namespace/tigera-operator created
 serviceaccount/tigera-operator created
 clusterrole.rbac.authorization.k8s.io/tigera-operator-secrets created
@@ -113,10 +113,12 @@ whisker.operator.tigera.io/default configured
 
 
 ## Confirm The Calico Configuration
+
+After installing Calico, confirm the following.
+
 ### Confirm The Nodes
-After installing Calico, confirm the following
-- The node "master-node" has "STATUS" of "Ready"
-```
+The node "master-node" has "STATUS" of "Ready"
+```bash
 $ kubectl get nodes
 NAME          STATUS   ROLES           AGE   VERSION
 master-node   Ready    control-plane   28m   v1.28.15
@@ -161,8 +163,8 @@ da5fa0dbdd4a1       17 minutes ago       Ready               kube-scheduler-mast
 ```
 
 ### Confirm The CNI Configuration Files
-Files in directory
-```
+These files are in directory ```/etc/cni/net.d```
+```bash
 $ sudo ls -la /etc/cni/net.d
 total 20
 drwx------ 2 root root 4096 Jul 31 22:27 .
@@ -172,8 +174,8 @@ drwxr-xr-x 3 root root 4096 Jul 27 15:42 ..
 -rw-r--r-- 1 root root    0 Aug  4  2023 .kubernetes-cni-keep
 ```
 
-Confirm file "10-calico.conflist"
-```
+Confirm the file "10-calico.conflist"
+```bash
 $ sudo cat /etc/cni/net.d/10-calico.conflist
 {
   "name": "k8s-pod-network",
@@ -209,7 +211,7 @@ $ sudo cat /etc/cni/net.d/10-calico.conflist
 }
 ```
 
-Confirm file "calico-kubeconfig"
+Confirm the file "calico-kubeconfig"
 ```
 $ sudo cat /etc/cni/net.d/calico-kubeconfig
 # Kubeconfig file for Calico CNI plugin. Installed by calico/node.
@@ -249,14 +251,19 @@ whisker     True        False         False      118s
 ```
 
 ## Access Calico Whisker
-Install the NetworkPolicy that enables communication with the Whisker node [whisker-networkpolicy.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/calico/whisker-networkpolicy.yaml)
+
+### Install The NGINX Gateway
+If not already done, [Install The NGINX Gateway](https://github.com/tomrausch/kubernetes_public/blob/7245f5e7dda852ffa6ef40769669db586e52046d/doc/Access%20Kubernetes%20Applications%20Through%20An%20Application%20Gateway.md#install-the-nginx-gateway)
+
+
+### Install the Network Policy
+The Network Policy enables communication with the Whisker node
+[whisker-networkpolicy.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/calico/whisker-networkpolicy.yaml)
 
 ```bash
 $ kubectl create -f "https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/calico/whisker-networkpolicy.yaml"
 networkpolicy.networking.k8s.io/whisker-ingress created
 ```
-
-If not already done, [Install The NGINX Gateway](https://github.com/tomrausch/kubernetes_public/blob/7245f5e7dda852ffa6ef40769669db586e52046d/doc/Access%20Kubernetes%20Applications%20Through%20An%20Application%20Gateway.md#install-the-nginx-gateway)
 
 Create an Ingress resource YAML file that references all the installed applications
 - Use a distinct "host" designation for Calico Whisker
