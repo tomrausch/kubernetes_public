@@ -1,6 +1,6 @@
-# Install Calico On Kubernetes
+# Deploy Calico On Kubernetes
 
-## Install Calico Custom Resource Definitions (CRD)
+## Create Calico Custom Resource Definitions (CRD)
 ```bash
 $ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/operator-crds.yaml
 customresourcedefinition.apiextensions.k8s.io/apiservers.operator.tigera.io created
@@ -37,7 +37,7 @@ customresourcedefinition.apiextensions.k8s.io/adminnetworkpolicies.policy.networ
 customresourcedefinition.apiextensions.k8s.io/baselineadminnetworkpolicies.policy.networking.k8s.io created
 ```
 
-## Install Tigera Custom Resources
+## Create Tigera Custom Resources
 ```bash
 $ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/calico/tigera-calico-custom-resources.yaml
 installation.operator.tigera.io/default created
@@ -46,7 +46,7 @@ goldmane.operator.tigera.io/default created
 whisker.operator.tigera.io/default created
 ```
 
-## Install Calico General Resources
+## Create Calico General Resources
 ```bash
 $ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/calico/calico_general.yaml
 poddisruptionbudget.policy/calico-kube-controllers created
@@ -71,7 +71,96 @@ deployment.apps/calico-kube-controllers created
 > - [How do you find the cluster & service CIDR of a Kubernetes cluster?](https://stackoverflow.com/questions/44190607/how-do-you-find-the-cluster-service-cidr-of-a-kubernetes-cluster) | StackOverflow
 > - [I set my master with "kubeadm init --pod-network-cidr=10.244.0.0/16", flannel is also set with that...](https://www.reddit.com/r/kubernetes/comments/vim21o/i_set_my_master_with_kubeadm_init/) | Reddit
 
-## Confirm CNI Configuration Files
+## Create The Tigera Operators
+```
+$ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/tigera-operator.yaml
+namespace/tigera-operator created
+serviceaccount/tigera-operator created
+clusterrole.rbac.authorization.k8s.io/tigera-operator-secrets created
+clusterrole.rbac.authorization.k8s.io/tigera-operator created
+clusterrolebinding.rbac.authorization.k8s.io/tigera-operator created
+rolebinding.rbac.authorization.k8s.io/tigera-operator-secrets created
+deployment.apps/tigera-operator created
+```
+
+## Enable The Flow Logs API [^enable_flow_logs_api]
+```bash
+$ kubectl apply -f - <<EOF
+apiVersion: operator.tigera.io/v1
+kind: Goldmane
+metadata:
+  name: default
+EOF
+Warning: resource goldmanes/default is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
+goldmane.operator.tigera.io/default configured
+```
+
+[^enable_flow_logs_api]: [Enable the flow logs API](https://docs.tigera.io/calico/latest/observability/enable-whisker#enable-the-flow-logs-api)
+
+## Enable The Calico Whisker Web Console [^enable_calico_whisker_web_console]
+```bash
+$ kubectl apply -f - <<EOF
+apiVersion: operator.tigera.io/v1
+kind: Whisker
+metadata:
+  name: default
+EOF
+Warning: resource whiskers/default is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
+whisker.operator.tigera.io/default configured
+```
+
+[^enable_calico_whisker_web_console]: [Enable the Calico Whisker web console](https://docs.tigera.io/calico/latest/observability/enable-whisker#enable-the-calico-whisker-web-console)
+
+
+## Confirm The Calico Configuration
+### Confirm The Nodes
+After installing Calico, confirm the following
+- The node "master-node" has "STATUS" of "Ready"
+```
+$ kubectl get nodes
+NAME          STATUS   ROLES           AGE   VERSION
+master-node   Ready    control-plane   28m   v1.28.15
+```
+
+### Confirm The Pods
+Calico pods "calico-kube-controllers-..." and "calico-node-..." are present
+
+All the pods including the coredns pods have "STATUS" of "Running"
+- Investigate the pods with 'kubectl'
+```bash
+$ kubectl get pods --all-namespaces -o wide
+NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE   IP              NODE          NOMINATED NODE   READINESS GATES
+default       busybox-pod                                1/1     Running   0          11m   10.244.77.132   master-node   <none>           <none>
+kube-system   calico-kube-controllers-658d97c59c-zxslg   1/1     Running   0          44s   10.244.77.131   master-node   <none>           <none>
+kube-system   calico-node-5qwqx                          1/1     Running   0          44s   192.168.0.136   master-node   <none>           <none>
+kube-system   coredns-5dd5756b68-6n6lb                   1/1     Running   0          15m   10.244.77.130   master-node   <none>           <none>
+kube-system   coredns-5dd5756b68-h4tcm                   1/1     Running   0          15m   10.244.77.129   master-node   <none>           <none>
+kube-system   etcd-master-node                           1/1     Running   4          16m   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-apiserver-master-node                 1/1     Running   1          16m   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-controller-manager-master-node        1/1     Running   1          16m   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-proxy-fdtms                           1/1     Running   0          15m   192.168.0.136   master-node   <none>           <none>
+kube-system   kube-scheduler-master-node                 1/1     Running   19         16m   192.168.0.136   master-node   <none>           <none>
+```
+
+- Investigate the pods with 'crictl'
+```bash
+$ sudo crictl pods
+WARN[0000] runtime connect using default endpoints: [unix:///var/run/dockershim.sock unix:///run/containerd/containerd.sock unix:///run/crio/crio.sock unix:///var/run/cri-dockerd.sock]. As the default settings are now deprecated, you should set the endpoint instead.
+ERRO[0000] validate service connection: validate CRI v1 runtime API for endpoint "unix:///var/run/dockershim.sock": rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial unix /var/run/dockershim.sock: connect: no such file or directory"
+POD ID              CREATED              STATE               NAME                                       NAMESPACE           ATTEMPT             RUNTIME
+95839a0f1160b       About a minute ago   Ready               busybox-pod                                default             598                 (default)
+bd57ba0e0986c       About a minute ago   Ready               coredns-5dd5756b68-6n6lb                   kube-system         873                 (default)
+9e11c69eca71c       About a minute ago   Ready               calico-kube-controllers-658d97c59c-zxslg   kube-system         7                   (default)
+8eb7c4d489502       About a minute ago   Ready               coredns-5dd5756b68-h4tcm                   kube-system         873                 (default)
+88ad81031b39b       About a minute ago   Ready               calico-node-5qwqx                          kube-system         0                   (default)
+36bef92d2ae2c       16 minutes ago       Ready               kube-proxy-fdtms                           kube-system         0                   (default)
+42afa93ae326f       17 minutes ago       Ready               kube-apiserver-master-node                 kube-system         0                   (default)
+82d3b02d7b3f0       17 minutes ago       Ready               kube-controller-manager-master-node        kube-system         0                   (default)
+da5fa0dbdd4a1       17 minutes ago       Ready               kube-scheduler-master-node                 kube-system         0                   (default)
+6994bbf454583       17 minutes ago       Ready               etcd-master-node                           kube-system         0                   (default)
+```
+
+### Confirm The CNI Configuration Files
 Files in directory
 ```
 $ sudo ls -la /etc/cni/net.d
@@ -147,91 +236,6 @@ Reload the configuration and restart kubelet
 sudo systemctl daemon-reload && sudo systemctl restart kubelet
 ```
 
-After installing Calico, confirm the node has "STATUS" of "Ready"
-```
-$ kubectl get nodes
-NAME          STATUS   ROLES           AGE   VERSION
-master-node   Ready    control-plane   28m   v1.28.15
-```
-
-After installing Calico, confirm 
-- Calico pods "calico-kube-controllers-..." and "calico-node-..." are present
-- All the pods including the coredns pods have "STATUS" of "Running"
-  - Investigate the pods with 'kubectl'
-```bash
-$ kubectl get pods --all-namespaces -o wide
-NAMESPACE     NAME                                       READY   STATUS    RESTARTS   AGE   IP              NODE          NOMINATED NODE   READINESS GATES
-default       busybox-pod                                1/1     Running   0          11m   10.244.77.132   master-node   <none>           <none>
-kube-system   calico-kube-controllers-658d97c59c-zxslg   1/1     Running   0          44s   10.244.77.131   master-node   <none>           <none>
-kube-system   calico-node-5qwqx                          1/1     Running   0          44s   192.168.0.136   master-node   <none>           <none>
-kube-system   coredns-5dd5756b68-6n6lb                   1/1     Running   0          15m   10.244.77.130   master-node   <none>           <none>
-kube-system   coredns-5dd5756b68-h4tcm                   1/1     Running   0          15m   10.244.77.129   master-node   <none>           <none>
-kube-system   etcd-master-node                           1/1     Running   4          16m   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-apiserver-master-node                 1/1     Running   1          16m   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-controller-manager-master-node        1/1     Running   1          16m   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-proxy-fdtms                           1/1     Running   0          15m   192.168.0.136   master-node   <none>           <none>
-kube-system   kube-scheduler-master-node                 1/1     Running   19         16m   192.168.0.136   master-node   <none>           <none>
-```
-
-  - Investigate the pods with 'crictl'
-```bash
-$ sudo crictl pods
-WARN[0000] runtime connect using default endpoints: [unix:///var/run/dockershim.sock unix:///run/containerd/containerd.sock unix:///run/crio/crio.sock unix:///var/run/cri-dockerd.sock]. As the default settings are now deprecated, you should set the endpoint instead.
-ERRO[0000] validate service connection: validate CRI v1 runtime API for endpoint "unix:///var/run/dockershim.sock": rpc error: code = Unavailable desc = connection error: desc = "transport: Error while dialing: dial unix /var/run/dockershim.sock: connect: no such file or directory"
-POD ID              CREATED              STATE               NAME                                       NAMESPACE           ATTEMPT             RUNTIME
-95839a0f1160b       About a minute ago   Ready               busybox-pod                                default             598                 (default)
-bd57ba0e0986c       About a minute ago   Ready               coredns-5dd5756b68-6n6lb                   kube-system         873                 (default)
-9e11c69eca71c       About a minute ago   Ready               calico-kube-controllers-658d97c59c-zxslg   kube-system         7                   (default)
-8eb7c4d489502       About a minute ago   Ready               coredns-5dd5756b68-h4tcm                   kube-system         873                 (default)
-88ad81031b39b       About a minute ago   Ready               calico-node-5qwqx                          kube-system         0                   (default)
-36bef92d2ae2c       16 minutes ago       Ready               kube-proxy-fdtms                           kube-system         0                   (default)
-42afa93ae326f       17 minutes ago       Ready               kube-apiserver-master-node                 kube-system         0                   (default)
-82d3b02d7b3f0       17 minutes ago       Ready               kube-controller-manager-master-node        kube-system         0                   (default)
-da5fa0dbdd4a1       17 minutes ago       Ready               kube-scheduler-master-node                 kube-system         0                   (default)
-6994bbf454583       17 minutes ago       Ready               etcd-master-node                           kube-system         0                   (default)
-```
-
-## Enable The Flow Logs API [^enable_flow_logs_api]
-```bash
-$ kubectl apply -f - <<EOF
-apiVersion: operator.tigera.io/v1
-kind: Goldmane
-metadata:
-  name: default
-EOF
-Warning: resource goldmanes/default is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
-goldmane.operator.tigera.io/default configured
-```
-
-[^enable_flow_logs_api]: [Enable the flow logs API](https://docs.tigera.io/calico/latest/observability/enable-whisker#enable-the-flow-logs-api)
-
-## Enable The Calico Whisker Web Console [^enable_calico_whisker_web_console]
-```bash
-$ kubectl apply -f - <<EOF
-apiVersion: operator.tigera.io/v1
-kind: Whisker
-metadata:
-  name: default
-EOF
-Warning: resource whiskers/default is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
-whisker.operator.tigera.io/default configured
-```
-
-[^enable_calico_whisker_web_console]: [Enable the Calico Whisker web console](https://docs.tigera.io/calico/latest/observability/enable-whisker#enable-the-calico-whisker-web-console)
-
-
-## Install Tigera Operators
-```
-$ kubectl create -f https://raw.githubusercontent.com/projectcalico/calico/v3.30.2/manifests/tigera-operator.yaml
-namespace/tigera-operator created
-serviceaccount/tigera-operator created
-clusterrole.rbac.authorization.k8s.io/tigera-operator-secrets created
-clusterrole.rbac.authorization.k8s.io/tigera-operator created
-clusterrolebinding.rbac.authorization.k8s.io/tigera-operator created
-rolebinding.rbac.authorization.k8s.io/tigera-operator-secrets created
-deployment.apps/tigera-operator created
-```
-
 Watch the command ```kubectl get tigerastatus``` and observe the Calico services start
 ```
 Every 2.0s: kubectl get tigerastatus                                    master-node: Tue Aug 12 15:46:25 2025
@@ -260,8 +264,8 @@ Create an Ingress resource YAML file that references all the installed applicati
   - host: whisker.master-node
 ```
 
-Here is a reference file
-- [ingress-nginx-calico-system.yaml](https://github.com/tomrausch/kubernetes_public/blob/c41727af2c199ec2ccc0d8040894bf16f438bf01/src/ingress/ingress-nginx-calico-system.yaml)
+- Here is a reference file
+  - [calico-system-ingress-nginx.yaml](https://github.com/tomrausch/kubernetes_public/blob/16162bfa93cd49fafbaba71c7f1106659d20d7a9/src/calico/calico-system-ingress-nginx.yaml)
 
 Create the Ingress resource in the Kubernetes cluster. Create the Ingress resource in the namespace "calico-system".
 ```bash
