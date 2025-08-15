@@ -1,8 +1,6 @@
-
 # Deploy The Kubernetes Dashboard
-Follow this procedure [Deploy and Access the Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/) | kubernetes.io
 
-Confirm the Pods
+Confirm the Pods in Namespace "kubernetes-dashboard"
 ```bash
 $ kubectl get pods --namespace kubernetes-dashboard
 NAME                                                    READY   STATUS    RESTARTS   AGE
@@ -13,7 +11,7 @@ kubernetes-dashboard-metrics-scraper-79ddb8cd78-dzlcl   1/1     Running   0     
 kubernetes-dashboard-web-5c84bb867f-sjjbw               1/1     Running   0          57s
 ```
 
-Confirm the Services
+Confirm the Services in Namespace "kubernetes-dashboard"
 ```bash
 $ kubectl get service --namespace kubernetes-dashboard
 NAME                                   TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
@@ -48,18 +46,22 @@ $ kubectl create -f "https://raw.githubusercontent.com/tomrausch/kubernetes_publ
 rolebinding.rbac.authorization.k8s.io/kubernetes created
 ```
 
-Obtain a bearer token
+Obtain a bearer token for the Service Account "dashboard-admin-sa"
 ```bash
 $ kubectl -n kubernetes-dashboard create token dashboard-admin-sa
 eyJhbGciOiJSUzI1NiIsImtpZCI6InViWWhGY1ZGaDc1VS1Xa0RUX1k0UWo2MW9WZUFBZWlacGZaRlNMRDRZc3cifQ.eyJhdWQiOlsiaHR0cHM6Ly9rdWJlcm5ldGVzLmRlZmF1bHQuc3ZjLmNsdXN0ZXIubG9jYWwiXSwiZXhwIjoxNzU1MjE3Njk3LCJpYXQiOjE3NTUyMTQwOTcsImlzcyI6Imh0dHBzOi8va3ViZXJuZXRlcy5kZWZhdWx0LnN2Yy5jbHVzdGVyLmxvY2FsIiwia3ViZXJuZXRlcy5pbyI6eyJuYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsInNlcnZpY2VhY2NvdW50Ijp7Im5hbWUiOiJkZWZhdWx0IiwidWlkIjoiNzkyMmMzMDEtMTA5MS00MDQ0LWI2ZmYtOTAyZTZhNjUwNjFhIn19LCJuYmYiOjE3NTUyMTQwOTcsInN1YiI6InN5c3RlbTpzZXJ2aWNlYWNjb3VudDprdWJlcm5ldGVzLWRhc2hib2FyZDpkZWZhdWx0In0.eLIgb3IHABYtGtWyk1F7bDOrgvj7oFj_HwoN4vhJDpwvMXofoGvnVpQq51DS_J6PnihrAsLXPETJogJeX1YGuJDS644mYvFyjOd7gv2aKBOrRwJjsc-Sc3vRrO9bKSTgI5JLktyOp_QCF2UNws8wLIYOH-rJpyaV_x9CUQt6sWe7wgqCunBjEl5tqs0Wm5saMayMxL1RwGGzneR3B_J8_7dHz8kes4DCUAeyvt9-nOXzhP-6vwvGz9FLyW79sIq3SywMl5jd_TOzusv1KCdAsPf0zMqDVTeXL8gNJbNNve2vECQBSafIbUFwj2Dir1gVlyuPEZB7KKzP8Uf2K0FfDA
 ```
 
 Use the bearer token to authenticate to the Kubernetes Dashboard application
+<p></p>
+&nbsp; &nbsp; &nbsp; &nbsp; <img  width="800" height="300" alt="image" src="https://github.com/user-attachments/assets/bbcba828-a9f2-4b22-94df-e0f1dc6cacc9" />
+<p></p>
 
-<img width="1658" height="609" alt="image" src="https://github.com/user-attachments/assets/bbcba828-a9f2-4b22-94df-e0f1dc6cacc9" />
-
+Access the Kubernetes Dashboard application!
+<p></p>
+&nbsp; &nbsp; &nbsp; &nbsp; <img width="950" height="500" alt="image" src="https://github.com/user-attachments/assets/d9a66a4b-c25c-447f-a2f1-017b04659982" />
+<p></p>
 
 ## Reference
+- [Deploy and Access the Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/) | kubernetes.io
 - [how to configure ingress to direct traffic to an https backend using https](https://stackoverflow.com/questions/54459015/how-to-configure-ingress-to-direct-traffic-to-an-https-backend-using-https) | StackOverflow
-
-
