@@ -10,6 +10,8 @@ metadata:
     kind: Whisker
     name: default
   resourceVersion: "15257"
+  labels:
+    app.kubernetes.io/author: thomas-rausch
 spec:
   clusterIP: 10.110.43.50
   clusterIPs:
