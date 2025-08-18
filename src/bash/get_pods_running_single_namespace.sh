@@ -1,4 +1,5 @@
 #!/bin/bash
+# Description: Get (list) all pods with Status "Running" in a single namespace
 # Reference: https://medium.com/p/24bc24c867e8
 NAMESPACE=$1   # Takes namespace as an argument
 echo "NAMESPACE = $1"
