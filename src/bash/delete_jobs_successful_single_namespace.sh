@@ -1,5 +1,5 @@
 #!/bin/bash
-# Description: Delete All Jobs In State "Successful" In A Single Namespace
+# Description: Delete all Jobs in status = "Successful" in a single namespace
 # Reference:   https://medium.com/devops-dev/top-16-kubernetes-scripts-for-streamlined-cluster-management-24bc24c867e8
 NAMESPACE=$1
 if [ -z "$NAMESPACE" ]; then
