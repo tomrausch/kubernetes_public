@@ -1,5 +1,5 @@
 #!/bin/bash
-# Description: Get (list) all pods in Status.Phase = "Running" and Reason = "CrashLoopBackoff" in a single namespace
+# Description: Get (list) all Pods in Status.Phase = "Running" and Reason = "CrashLoopBackoff" in a single namespace
 # Reference:   https://medium.com/devops-dev/top-16-kubernetes-scripts-for-streamlined-cluster-management-24bc24c867e8
 NAMESPACE=$1
 if [ -z "$NAMESPACE" ]; then
