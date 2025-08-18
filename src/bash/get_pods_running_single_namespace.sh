@@ -1,5 +1,5 @@
 #!/bin/bash
-# Description: Get (list) all pods in Status.Phase = 'Running' in a single namespace
+# Description: Get (list) all Pods in Status.Phase = 'Running' in a single namespace
 # Reference: https://medium.com/p/24bc24c867e8
 NAMESPACE=$1   # Takes namespace as an argument
 echo "NAMESPACE = $1"
