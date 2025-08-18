@@ -1,5 +1,5 @@
 #!/bin/bash
-# Description: List All Pods In State "CrashLoopBackoff" In A Single Namespace
+# Description: Get (list) All Pods In State "CrashLoopBackoff" In A Single Namespace
 # Reference:   https://medium.com/devops-dev/top-16-kubernetes-scripts-for-streamlined-cluster-management-24bc24c867e8
 NAMESPACE=$1
 if [ -z "$NAMESPACE" ]; then
