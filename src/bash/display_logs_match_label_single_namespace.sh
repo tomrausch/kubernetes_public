@@ -9,8 +9,8 @@ if [ -z "$LABEL" ]; then
   echo "Default: '<namespace>' = 'default'"
   exit 1
 fi
-echo "LABEL     = '" $LABEL "'"
-echo "NAMESPACE = '" $NAMESPACE  "'"
+echo "LABEL     = $LABEL"
+echo "NAMESPACE = $NAMESPACE"
 for POD in $(kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o name); do
   echo "=== $POD ==="
   kubectl logs -f -n "$NAMESPACE" "$POD" &
