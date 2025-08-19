@@ -1,7 +1,7 @@
 #!/bin/bash
 # Description: Display Logs of all Pods matching a specific Label in a single Namespace
 # Reference:   https://medium.com/devops-dev/top-16-kubernetes-scripts-for-streamlined-cluster-management-24bc24c867e8
-LABEL="$1"                 
+LABEL="$1"
 NAMESPACE="${2:-default}"
 if [ -z "$LABEL" ]; then
   echo "Usage: $0 <label> <namespace>"
