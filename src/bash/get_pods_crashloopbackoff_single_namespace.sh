@@ -4,7 +4,7 @@
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   echo "Usage  : $0 <namespace>"
   echo "Default: '<namespace>' = 'default'"
-  echo "Command: kubectl get pods -n <namespace> --field-selector=status.phase=Running -o json | jq -r '.items[] | select(.status.containerStatuses[]?.state.waiting?.reason=="CrashLoopBackOff") | .metadata.name'
+  echo "Command: kubectl get pods -n <namespace> --field-selector=status.phase=Running -o json | jq -r '.items[] | select(.status.containerStatuses[]?.state.waiting?.reason=="CrashLoopBackOff") | .metadata.name
   exit 1
 fi
 NAMESPACE="${1:-default}"
