@@ -1,8 +1,7 @@
 #!/bin/bash
 # Description: Get (list) all Pods in Status.Phase = 'Running' in a single namespace
 # Reference: https://medium.com/p/24bc24c867e8
-NAMESPACE=$1   # Takes namespace as an argument
-echo "NAMESPACE = $1"
+NAMESPACE="${1:-default}"
 if [ -z "$NAMESPACE" ]; then
   echo "Usage: $0 <namespace>"
   exit 1
