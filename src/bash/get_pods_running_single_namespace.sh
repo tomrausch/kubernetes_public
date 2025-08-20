@@ -1,7 +1,7 @@
 #!/bin/bash
 # Description: Get (list) all Pods in Status.Phase = 'Running' in a single Namespace
 # Reference: https://medium.com/p/24bc24c867e8
-if [ "$1" == "-h" ]; then
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   echo "Usage  : $0 <namespace>"
   echo "Default: '<namespace>' = 'default'"
   echo "Command: kubectl get pods -n <namespace> --field-selector=status.phase=Running"
