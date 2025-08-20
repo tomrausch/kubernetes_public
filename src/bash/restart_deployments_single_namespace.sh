@@ -1,7 +1,7 @@
 #!/bin/bash
 # Description: Restart all Deployments in a single Namespace
 # Reference: https://medium.com/devops-dev/top-16-kubernetes-scripts-for-streamlined-cluster-management-24bc24c867e8
-if [ "$1" == "-h" ]; then
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   echo "Usage  : $0 <namespace>"
   echo "Default: '<namespace>' = 'default'"
   echo "Command: kubectl rollout restart deployment -n <namespace>"
