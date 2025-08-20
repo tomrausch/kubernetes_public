@@ -4,7 +4,7 @@
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   echo "Usage  : $0 <namespace>"
   echo "Default: '<namespace>' = 'default'"
-  echo "Command: kubectl top pods -n <namespace>'"
+  echo "Command: kubectl top pods -n <namespace>"
   exit 1
 fi
 NAMESPACE="${1:-default}"
