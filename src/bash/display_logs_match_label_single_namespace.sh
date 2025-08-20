@@ -5,7 +5,7 @@ if [[ "$1" == "-h" ]]; then
   echo "Usage: $0 <label> <namespace>"
   echo "Default: '<label>' = 'run=busybox-pod'"
   echo "Default: '<namespace>' = 'default'"
-  echo "Command for each Pod: kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o name"
+  echo "Command for each Pod: kubectl get pods -n <namespace> -l <label> -o name"
   exit 1
 fi
 LABEL="${1:-run=busybox-pod}"
