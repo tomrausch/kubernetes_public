@@ -10,7 +10,7 @@ if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
 fi
 NAMESPACE="${1:-default}"
 SORTBY="$2"
-if [ -z "$2"]; then
+if [ -z "$SORTBY"]; then
   kubectl top pods -n "$NAMESPACE"
 else
  kubectl top pods -n "$NAMESPACE" --sort-by="$SORTBY"
