@@ -3,11 +3,12 @@
 # Reference:   https://medium.com/devops-dev/top-16-kubernetes-scripts-for-streamlined-cluster-management-24bc24c867e8
 if [[ "$1" == "-h" ]]; then
   echo "Usage: $0 <label> <namespace>"
+  echo "Default: '<label>' = 'author:thomas_rausch'"
   echo "Default: '<namespace>' = 'default'"
   echo "Command: kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o name"
   exit 1
 fi
-LABEL="$1"
+LABEL="${1:-author:thomas_rausch}"
 NAMESPACE="${2:-default}"
 for POD in $(kubectl get pods -n "$NAMESPACE" -l "$LABEL" -o name); do
   echo "=== $POD ==="
