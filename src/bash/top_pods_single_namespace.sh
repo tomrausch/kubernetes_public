@@ -1,6 +1,6 @@
 #!/bin/bash
 # Description: Top (get CPU and Memory utilization) for all Pods in a single Namespace
-#              (Optional) Sort by CPU or by MEMORY
+#              (Optional) Sort by "cpu" or by "memory"
 # Reference:   https://medium.com/devops-dev/top-16-kubernetes-scripts-for-streamlined-cluster-management-24bc24c867e8
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   echo "Usage  : $0 <namespace> [<sortby>: cpu|memory]"
