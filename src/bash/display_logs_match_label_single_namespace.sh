@@ -1,7 +1,7 @@
 #!/bin/bash
 # Description: Display Logs of all Pods matching a specific Label in a single Namespace
 # Reference:   https://medium.com/devops-dev/top-16-kubernetes-scripts-for-streamlined-cluster-management-24bc24c867e8
-if [[ "$1" == "-h" ]]; then
+if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   echo "Usage: $0 <label> <namespace>"
   echo "Default: '<label>' = 'run=busybox-pod'"
   echo "Default: '<namespace>' = 'default'"
