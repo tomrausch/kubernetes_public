@@ -4,7 +4,6 @@
 # Reference:   https://medium.com/devops-dev/top-16-kubernetes-scripts-for-streamlined-cluster-management-24bc24c867e8
 if [ "$1" == "-h" ] || [ "$1" == "--help" ]; then
   echo "Usage  : $0 <namespace> [<sortby>: cpu|memory]"
-  echo 
   echo "Default: '<namespace>' = 'default'"
   echo "Command: kubectl top pods -n <namespace> [--sort-by=<sortby>]"
   exit 1
