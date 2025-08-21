@@ -6,7 +6,7 @@ metadata:
     app: mysql
     type: local
 spec:
-  storageClassName: local-storage
+  storageClassName: manual
   capacity:
     storage: 10Gi
   accessModes:
@@ -15,7 +15,7 @@ spec:
     path: /mnt/mysql
   claimRef:
     name: mysql-pv-claim
-    namespace: default
+    namespace: mysql
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -31,4 +31,5 @@ spec:
   resources:
     requests:
       storage: 5Gi
+
 
