@@ -13,9 +13,6 @@ No additional instructions
 ### [mysql_04_Storage.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_04_Storage.yaml)
 Create directory "/mnt/mysql"
 
-Reference
-- [Configure a Pod to Use a PersistentVolume for Storage](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/)
-
 ### [mysql_05_ConfigMap.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_05_ConfigMap.yaml)
 No additional instructions
 
@@ -207,74 +204,14 @@ deployment.apps/mysql created
 service/mysql created
 ```
 
-```bash
-$ kubectl get pods -n mysql
-NAME                     READY   STATUS    RESTARTS   AGE
-mysql-7c6f44b59c-qtzh2   0/1     Pending   0          7m33s
-
-thomas-rausch@master-node:/mnt$ kubectl describe pods -n mysql
-Name:             mysql-7c6f44b59c-qtzh2
-Namespace:        mysql
-Priority:         0
-Service Account:  default
-Node:             <none>
-Labels:           app=mysql
-                  pod-template-hash=7c6f44b59c
-Annotations:      <none>
-Status:           Pending
-IP:
-IPs:              <none>
-Controlled By:    ReplicaSet/mysql-7c6f44b59c
-Containers:
-  mysql:
-    Image:      mysql:latest
-    Port:       3306/TCP
-    Host Port:  0/TCP
-    Environment:
-      MYSQL_ROOT_PASSWORD:  <set to the key 'password' in secret 'mysql-secret'>  Optional: false
-    Mounts:
-      /mnt/data from mysql-persistent-storage (rw)
-      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-w44nt (ro)
-Conditions:
-  Type           Status
-  PodScheduled   False
-Volumes:
-  mysql-persistent-storage:
-    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
-    ClaimName:  mysql-pv-claim
-    ReadOnly:   false
-  kube-api-access-w44nt:
-    Type:                    Projected (a volume that contains injected data from multiple sources)
-    TokenExpirationSeconds:  3607
-    ConfigMapName:           kube-root-ca.crt
-    ConfigMapOptional:       <nil>
-    DownwardAPI:             true
-QoS Class:                   BestEffort
-Node-Selectors:              <none>
-Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
-                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
-Events:
-  Type     Reason            Age    From               Message
-  ----     ------            ----   ----               -------
-  Warning  FailedScheduling  7m39s  default-scheduler  0/2 nodes are available: 2 node(s) didn't find available persistent volumes to bind. preemption: 0/2 nodes are available: 2 Preemption is not helpful for scheduling..
-  Warning  FailedScheduling  2m20s  default-scheduler  0/2 nodes are available: 2 node(s) didn't find available persistent volumes to bind. preemption: 0/2 nodes are available: 2 Preemption is not helpful for scheduling..
-```
-
-
-
-
-
-
-
-
 Run the following command to confirm the Service
 - Ensure there are no warnings or errors in the "Events"
 ```bash
-$ kubectl get service -n mysql -l app=mysql
-NAME    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
-mysql   ClusterIP   10.107.242.139   <none>        3306/TCP   40s
+z kubectl get service -n mysql
+NAME    TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
+mysql   ClusterIP   10.109.40.44   <none>        3306/TCP   5m3s
 
-$ kubectl describe service -n mysql -l app=mysql
+$ kubectl describe service -n mysql
 Name:              mysql
 Namespace:         mysql
 Labels:            app=mysql
@@ -283,30 +220,30 @@ Selector:          app=mysql
 Type:              ClusterIP
 IP Family Policy:  SingleStack
 IP Families:       IPv4
-IP:                10.103.193.61
-IPs:               10.103.193.61
+IP:                10.109.40.44
+IPs:               10.109.40.44
 Port:              <unset>  3306/TCP
 TargetPort:        3306/TCP
-Endpoints:         <none>
+Endpoints:         10.244.126.218:3306
 Session Affinity:  None
 Events:            <none>
 ```
 
 Run the following command to confirm the Deployment
+- Ensure there are no warnings or errors in the "Events"
 ```bash
-$ kubectl get deployment -n mysql -l app=mysql
+$ kubectl get deployment -n mysql
 NAME    READY   UP-TO-DATE   AVAILABLE   AGE
-mysql   0/1     1            0           24s
+mysql   1/1     1            1           6m28s
 
-
-$ kubectl describe deployment -n mysql -l app=mysql
+$ kubectl describe deployment -n mysql
 Name:               mysql
 Namespace:          mysql
-CreationTimestamp:  Thu, 21 Aug 2025 15:01:00 -0500
+CreationTimestamp:  Thu, 21 Aug 2025 15:58:31 -0500
 Labels:             app=mysql
 Annotations:        deployment.kubernetes.io/revision: 1
 Selector:           app=mysql
-Replicas:           1 desired | 1 updated | 1 total | 0 available | 1 unavailable
+Replicas:           1 desired | 1 updated | 1 total | 1 available | 0 unavailable
 StrategyType:       Recreate
 MinReadySeconds:    0
 Pod Template:
@@ -319,7 +256,7 @@ Pod Template:
     Environment:
       MYSQL_ROOT_PASSWORD:  <set to the key 'password' in secret 'mysql-secret'>  Optional: false
     Mounts:
-      /mnt/data from mysql-persistent-storage (rw)
+      /mnt/mysql from mysql-persistent-storage (rw)
   Volumes:
    mysql-persistent-storage:
     Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
@@ -328,65 +265,95 @@ Pod Template:
 Conditions:
   Type           Status  Reason
   ----           ------  ------
-  Available      False   MinimumReplicasUnavailable
-  Progressing    True    ReplicaSetUpdated
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
 OldReplicaSets:  <none>
-NewReplicaSet:   mysql-7c6f44b59c (1/1 replicas created)
+NewReplicaSet:   mysql-5d8bb6ffdf (1/1 replicas created)
 Events:
-  Type    Reason             Age   From                   Message
-  ----    ------             ----  ----                   -------
-  Normal  ScalingReplicaSet  98s   deployment-controller  Scaled up replica set mysql-7c6f44b59c to 1
+  Type    Reason             Age    From                   Message
+  ----    ------             ----   ----                   -------
+  Normal  ScalingReplicaSet  6m50s  deployment-controller  Scaled up replica set mysql-5d8bb6ffdf to 1
+```
+
+Run the following command to confirm the Pod
+- Ensure there are no warnings or errors in the "Events"
+```bash
+$ kubectl get pods -n mysql
+NAME                     READY   STATUS    RESTARTS   AGE
+mysql-5d8bb6ffdf-vl7vv   1/1     Running   0          66s
+
+$ kubectl describe pods -n mysql
+Name:             mysql-5d8bb6ffdf-vl7vv
+Namespace:        mysql
+Priority:         0
+Service Account:  default
+Node:             worker-node-01/192.168.0.241
+Start Time:       Thu, 21 Aug 2025 15:58:31 -0500
+Labels:           app=mysql
+                  pod-template-hash=5d8bb6ffdf
+Annotations:      cni.projectcalico.org/containerID: cf0d5e2037fa491a89326a139162f9af784a3bdc382f20553f88aec30f4a72d1
+                  cni.projectcalico.org/podIP: 10.244.126.218/32
+                  cni.projectcalico.org/podIPs: 10.244.126.218/32
+Status:           Running
+IP:               10.244.126.218
+IPs:
+  IP:           10.244.126.218
+Controlled By:  ReplicaSet/mysql-5d8bb6ffdf
+Containers:
+  mysql:
+    Container ID:   containerd://1300201491f17454c123cbba3ac175c37d3e4735f42b3341e31a2d511e2deac8
+    Image:          mysql:latest
+    Image ID:       docker.io/library/mysql@sha256:a776e89aad2d425c248ccfb840115aaa52883499ff36512db4d503b11aae455a
+    Port:           3306/TCP
+    Host Port:      0/TCP
+    State:          Running
+      Started:      Thu, 21 Aug 2025 15:59:18 -0500
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      MYSQL_ROOT_PASSWORD:  <set to the key 'password' in secret 'mysql-secret'>  Optional: false
+    Mounts:
+      /mnt/mysql from mysql-persistent-storage (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-x7mtc (ro)
+Conditions:
+  Type              Status
+  Initialized       True
+  Ready             True
+  ContainersReady   True
+  PodScheduled      True
+Volumes:
+  mysql-persistent-storage:
+    Type:       PersistentVolumeClaim (a reference to a PersistentVolumeClaim in the same namespace)
+    ClaimName:  mysql-pv-claim
+    ReadOnly:   false
+  kube-api-access-x7mtc:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    ConfigMapOptional:       <nil>
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  2m31s  default-scheduler  Successfully assigned mysql/mysql-5d8bb6ffdf-vl7vv to worker-node-01
+  Normal  Pulling    2m31s  kubelet            Pulling image "mysql:latest"
+  Normal  Pulled     105s   kubelet            Successfully pulled image "mysql:latest" in 45.727s (45.727s including waiting)
+  Normal  Created    105s   kubelet            Created container mysql
+  Normal  Started    105s   kubelet            Started container mysql
 ```
 
 Alternate commands
 - [Confirm The Deployment And Service](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Confirm%20The%20Deployment%20And%20Service.md)
 
 ### Confirm MySQL Is Running
-Obtain the name of the mysql Pod
+Run this command in the mysql Pod
 ```
-$ kubectl get pods -n mysql
-NAME                     READY   STATUS    RESTARTS   AGE
-mysql-7c6f44b59c-qtzh2   0/1     Pending   0          6m30s
-```
-
-```
-kubectl exec --stdin --tty mysql-7c6f44b59c-qtzh2 -- /bin/bash
-```
-
-
-Run mysql And List The Databases
-```
-kubectl exec --stdin --tty pod/mysql-deploy-7bc6bb6cc6-r689s -- /bin/bash
-
-mysql -p #enter the password defined in the secret configuration
-```
-
-
-```
-mysql> show databases;
-+--------------------+
-| Database           |
-+--------------------+
-| book-management-db |
-| information_schema |
-| mysql              |
-| performance_schema |
-| sys                |
-+--------------------+
-5 rows in set (0.01 sec)
-```
-
-
-### References
-- [Deploying MySQL on Kubernetes](https://medium.com/@midejoseph24/deploying-mysql-on-kubernetes-16758a42a746) | [Joseph Ariyo](https://medium.com/@midejoseph24/), Medium
-- [Exposing an External IP Address to Access an Application in a Cluster](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/) | kubernetes.io
-- [Run a Single-Instance Stateful Application](https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/)
-
-
-
-Type 'help;' or '\h' for help. Type '\c' to clear the current input statement.
-
-mysql> SHOW DATABASES;
+$ kubectl exec -it mysql-5d8bb6ffdf-vl7vv -n mysql -- mysql -uroot -pSecretPassword -e "show databases;"
+mysql: [Warning] Using a password on the command line interface can be insecure.
 +--------------------+
 | Database           |
 +--------------------+
@@ -395,33 +362,12 @@ mysql> SHOW DATABASES;
 | performance_schema |
 | sys                |
 +--------------------+
-4 rows in set (0.021 sec)
-
-mysql>
-```
-
-```
-bash-5.1# df
-Filesystem     1K-blocks    Used Available Use% Mounted on
-overlay         98831908 6418032  92397492   7% /
-tmpfs              65536       0     65536   0% /dev
-/dev/sdb        20466256      24  20449848   1% /mnt/data
-/dev/sda1       98831908 6418032  92397492   7% /etc/hosts
-shm                65536       0     65536   0% /dev/shm
-tmpfs            6099332      12   6099320   1% /run/secrets/kubernetes.io/serviceaccount
-tmpfs            4069056       0   4069056   0% /proc/acpi
-tmpfs            4069056       0   4069056   0% /proc/scsi
-tmpfs            4069056       0   4069056   0% /sys/firmware
 ```
 
 ### References
+- [Configure a Pod to Use a PersistentVolume for Storage](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/)
 - [Deploying MySQL on Kubernetes](https://medium.com/@midejoseph24/deploying-mysql-on-kubernetes-16758a42a746) | [Joseph Ariyo](https://medium.com/@midejoseph24/), Medium
 - [Exposing an External IP Address to Access an Application in a Cluster](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/) | kubernetes.io
 - [Kubernetes Deployment: Deploying MySQL databases on the GKE](https://medium.com/globant/kubernetes-deployment-deploying-mysql-databases-on-the-gke-8fa675d3d8a) | MEdium
+- [Run a Single-Instance Stateful Application](https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/)
 - [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd) | Google
-
-
-
-
-
-
