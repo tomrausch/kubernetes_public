@@ -11,31 +11,17 @@ No additional instructions
 No additional instructions
 
 ### [mysql_04_Storage.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_04_Storage.yaml)
-Run the following command to determine available mount points
-```bash
-$ df | grep -v "/run"
-Filesystem     1K-blocks     Used Available Use% Mounted on
-/dev/sda2      479594152 17976160 437182436   4% /
-tmpfs            3782064        0   3782064   0% /dev/shm
-tmpfs            3782068     2848   3779220   1% /tmp
-```
+Create directory "/mnt/mysql"
 
-Select the mount point that will host the PersistentVolume
-  - In this example, the mount point is "/"
-
-Edit the file [mysql_04_Storage.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_05_Storage.yaml)
-  - Enter the section "kind: PersistentVolume"
-  - Set the "hostPath:" to the selected mount point
-```
-  hostPath:
-    path: "/"
-```
+Reference
+- [Configure a Pod to Use a PersistentVolume for Storage](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/)
 
 ### [mysql_05_ConfigMap.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_05_ConfigMap.yaml)
 No additional instructions
 
 ### [mysql_06_Deployment_Service.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_06_Deployment_Service.yaml)
 No additional instructions
+
 
 ## Create The Namespace
 Run the following command to create the Namespace
@@ -433,6 +419,7 @@ tmpfs            4069056       0   4069056   0% /sys/firmware
 - [Exposing an External IP Address to Access an Application in a Cluster](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/) | kubernetes.io
 - [Kubernetes Deployment: Deploying MySQL databases on the GKE](https://medium.com/globant/kubernetes-deployment-deploying-mysql-databases-on-the-gke-8fa675d3d8a) | MEdium
 - [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd) | Google
+
 
 
 
