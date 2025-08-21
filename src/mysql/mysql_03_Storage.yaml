@@ -26,9 +26,10 @@ metadata:
   labels:
     app: mysql
 spec:
-  storageClassName: standard
+  storageClassName: manual
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
+
