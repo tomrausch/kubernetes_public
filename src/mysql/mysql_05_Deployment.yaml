@@ -44,4 +44,3 @@ spec:
   - port: 3306
   selector:
     app: mysql
-
