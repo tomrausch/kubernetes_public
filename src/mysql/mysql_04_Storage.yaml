@@ -6,7 +6,7 @@ metadata:
     app: mysql
     type: local
 spec:
-  storageClassName: default
+  storageClassName: local-storage
   capacity:
     storage: 20Gi
   accessModes:
@@ -25,10 +25,11 @@ metadata:
   labels:
     app: mysql
 spec:
-  storageClassName: default
+  storageClassName: local-storage
   accessModes:
     - ReadWriteOnce
   resources:
     requests:
       storage: 20Gi
+
 
