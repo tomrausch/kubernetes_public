@@ -2,6 +2,7 @@ apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mysql-pv-volume
+  namespace: mysql
   labels:
     app: mysql
 spec:
@@ -21,7 +22,7 @@ spec:
 apiVersion: v1
 kind: PersistentVolumeClaim
 metadata:
-  namespace: default
+  namespace: mysql
   name: mysql-pv-claim
   labels:
     app: mysql
@@ -32,3 +33,4 @@ spec:
   resources:
     requests:
       storage: 20Gi
+
