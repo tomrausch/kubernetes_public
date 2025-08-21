@@ -10,7 +10,7 @@ No additional instructions
 ### [mysql_03_StorageClass.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_03_StorageClass.yaml)
 No additional instructions
 
-### [mysql_04_Storage.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_05_Storage.yaml)
+### [mysql_04_Storage.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_04_Storage.yaml)
 Run the following command to determine available mount points
 ```bash
 $ df | grep -v "/run"
@@ -433,6 +433,7 @@ tmpfs            4069056       0   4069056   0% /sys/firmware
 - [Exposing an External IP Address to Access an Application in a Cluster](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/) | kubernetes.io
 - [Kubernetes Deployment: Deploying MySQL databases on the GKE](https://medium.com/globant/kubernetes-deployment-deploying-mysql-databases-on-the-gke-8fa675d3d8a) | MEdium
 - [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd) | Google
+
 
 
 
