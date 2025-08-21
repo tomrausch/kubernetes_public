@@ -30,7 +30,7 @@ spec:
           name: mysql
         volumeMounts:
         - name: mysql-persistent-storage
-          mountPath: /mnt/data
+          mountPath: /mnt/mysql
       volumes:
       - name: mysql-persistent-storage
         persistentVolumeClaim:
@@ -48,4 +48,5 @@ spec:
   - port: 3306
   selector:
     app: mysql
+
 
