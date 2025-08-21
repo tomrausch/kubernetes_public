@@ -1,6 +1,6 @@
 # Deploy A MySQL Database On Kubernetes
 
-## 💿 Deploy A MySQL Database With YAML Files
+## Deploy A MySQL Database With YAML Files
 
 ### Ready The YAML files
 - [mysql_01_Namespace.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_01_Namespace.yaml)
@@ -25,7 +25,7 @@ mysql   Active   51s
 
 
 ### Create The Secret
-Run the following command to Create the Secret
+Run the following command to create the Secret
 ```bash
 $ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_01_Secret.yaml
 secret/mysql-secret configured
@@ -40,8 +40,8 @@ mysql-secret   kubernetes.io/basic-auth   1      69s
 
 
 ### Deploy The Storage
-Run the following command to deploy the storage: a PersistentVolume and a PersistentVolumeClaim
-```
+Run the following command to create the storage: a PersistentVolume and a PersistentVolumeClaim
+```bash
 $ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_03_Storage.yaml
 persistentvolume/mysql-pv-volume created
 persistentvolumeclaim/mysql-pv-claim created
@@ -62,6 +62,28 @@ mysql-pv-claim   Pending                                      standard       63s
 ```
 
 
+### Create The Deployment And The Service
+
+Run the following command to create the Deployment and the Service
+```bash
+$ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_05_Deployment_Service.yaml
+deployment.apps/mysql created
+service/mysql created
+```
+
+Run the following command to confirm the Service
+```bash
+$ kubectl get service -n mysql -l app=mysql
+NAME    TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+mysql   ClusterIP   10.107.242.139   <none>        3306/TCP   40s
+```
+
+Run the following command to confirm the Deployment
+```bash
+$ kubectl get deployment -n mysql -l app=mysql
+NAME    READY   UP-TO-DATE   AVAILABLE   AGE
+mysql   0/1     1            0           24s
+```
 
 
 ====
@@ -814,5 +836,6 @@ tmpfs            4069056       0   4069056   0% /sys/firmware
 - [Exposing an External IP Address to Access an Application in a Cluster](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/) | kubernetes.io
 - [Kubernetes Deployment: Deploying MySQL databases on the GKE](https://medium.com/globant/kubernetes-deployment-deploying-mysql-databases-on-the-gke-8fa675d3d8a) | MEdium
 - [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd) | Google
+
 
 
