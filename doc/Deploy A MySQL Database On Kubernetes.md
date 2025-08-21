@@ -1,5 +1,70 @@
 # Deploy A MySQL Database On Kubernetes
 
+## 💿 Deploy A MySQL Database With YAML Files
+
+### Ready The YAML files
+- [mysql_01_Namespace.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_01_Namespace.yaml)
+- [mysql_02_Secret.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_02_Secret.yaml)
+- [mysql_03_Storage.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_03_Storage.yaml)
+- [mysql_04_ConfigMap.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_04_ConfigMap.yaml)
+- [mysql_05_Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_05_Deployment.yaml)
+
+### Create The Namespace
+Run the following command to create the Namespace
+```bash
+$ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_01_Namespace.yaml
+namespace/mysql created
+```
+
+Run the following command to confirm the Namespace
+```bash
+$ kubectl get namespace -l app=mysql
+NAME    STATUS   AGE
+mysql   Active   51s
+```
+
+
+### Create The Secret
+Run the following command to Create the Secret
+```bash
+$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_01_Secret.yaml
+secret/mysql-secret configured
+```
+
+Run the following command to confirm the Secret
+```bash
+$ kubectl get secret -n mysql -l app=mysql
+NAME           TYPE                       DATA   AGE
+mysql-secret   kubernetes.io/basic-auth   1      69s
+```
+
+
+### Deploy The Storage
+Run the following command to deploy the storage: a PersistentVolume and a PersistentVolumeClaim
+```
+$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_03_Storage.yaml
+persistentvolume/mysql-pv-volume created
+persistentvolumeclaim/mysql-pv-claim created
+```
+
+Run the following command to confirm the PersistentVolume
+```bash
+$ kubectl get persistentvolume -n mysql -l app=mysql
+NAME              CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                    STORAGECLASS   REASON   AGE
+mysql-pv-volume   20Gi       RWO            Retain           Available   default/mysql-pv-claim   standard                6s
+```
+
+Run the following command to confirm the PersistentVolumeClaim
+```bash
+$ kubectl get persistentvolumeclaim -n mysql -l app=mysql
+NAME             STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS   AGE
+mysql-pv-claim   Pending                                      standard       63s
+```
+
+
+
+
+====
 ## Source: Kubernetes.io
 ### Apply The YAML Files
 Run these ```kubectl``` commands and observe these results
@@ -85,39 +150,11 @@ mysql   NodePort   10.106.103.149   <none>        3306:30460/TCP   6m28s
 - [Deploying MySQL on Kubernetes](https://medium.com/@midejoseph24/deploying-mysql-on-kubernetes-16758a42a746) | [Joseph Ariyo](https://medium.com/@midejoseph24/), Medium
 - [Exposing an External IP Address to Access an Application in a Cluster](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/) | kubernetes.io
 
-## Alternate II
 
 
-## 💿 Deploy A MySQL Database
+=====
 
-Ready these YAML files
-- [mysql_01_Secret.yaml](https://github.com/tomrausch/kubernetes_public/blob/cb4288547a853fdc88f80f15945ddf9904f54e8c/src/mysql/mysql_01_Secret.yaml)
-- [mysql_02_Storage.yaml](https://github.com/tomrausch/kubernetes_public/blob/cb4288547a853fdc88f80f15945ddf9904f54e8c/src/mysql/mysql_02_Storage.yaml)
-- [mysql_03_Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/cb4288547a853fdc88f80f15945ddf9904f54e8c/src/mysql/mysql_03_Deployment.yaml)
-- [mysql_04_ConfigMap.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/mysql/mysql_04_ConfigMap.yaml)
 
-Run the command ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_01_Secret.yaml``` to deploy the Secret
-```bash
-$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_01_Secret.yaml
-secret/mysql-secret configured
-```
-
-Check the Secret (in GUI)
-
-Run the command ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_02_Storage.yaml``` to deploy the PersistentVolume and the PersistentVolumeClaim
-```
-$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_02_Storage.yaml
-persistentvolume/mysql-pv-volume created
-persistentvolumeclaim/mysql-pv-claim created
-```
-
-Check the PersistentVolume and the PersistentVolumeClaim (in GUI)
-
-Run the command ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_03_ConfigMap.yaml``` to deploy the ConfigMap
-```
-$ kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_03_ConfigMap.yaml
-configmap/tcp-services created
-```
 
 Check the ConfigMap (in GUI)
 
@@ -777,4 +814,5 @@ tmpfs            4069056       0   4069056   0% /sys/firmware
 - [Exposing an External IP Address to Access an Application in a Cluster](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/) | kubernetes.io
 - [Kubernetes Deployment: Deploying MySQL databases on the GKE](https://medium.com/globant/kubernetes-deployment-deploying-mysql-databases-on-the-gke-8fa675d3d8a) | MEdium
 - [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd) | Google
+
 
