@@ -8,11 +8,11 @@ metadata:
 spec:
   storageClassName: local-storage
   capacity:
-    storage: 20Gi
+    storage: 10Gi
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: "/mnt/data" 
+    path: "/" 
   claimRef:
     name: mysql-pv-claim
     namespace: default
@@ -30,6 +30,4 @@ spec:
     - ReadWriteOnce
   resources:
     requests:
-      storage: 20Gi
-
-
+      storage: 5Gi
