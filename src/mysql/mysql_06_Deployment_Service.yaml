@@ -46,6 +46,7 @@ metadata:
   name: mysql
   namespace: mysql
 spec:
+  type: ClusterIP
   ports:
     - name: mysql-3306
       port: 3306
@@ -53,3 +54,4 @@ spec:
       protocol: TCP
   selector:
     app: mysql
+
