@@ -200,7 +200,31 @@ Reference
 - [Exposing TCP and UDP services](https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/exposing-tcp-udp-services.md)
 
 
-### Create The Deployment And The Service
+### Edit The MySQL Deployment
+Run the following command to edit the MySQL Deployment
+```bash
+$ kubectl edit deployment ingress-nginx-controller -n ingress-nginx
+```
+
+Add the argument ```- --tcp-services-configmap=mysql/tcp-services``` to the Deployment
+- Here are the arguments after this argument is added
+```
+    spec:
+      containers:
+      - args:
+        - /nginx-ingress-controller
+        - --election-id=ingress-controller-leader
+        - --controller-class=k8s.io/ingress-nginx
+        - --configmap=$(POD_NAMESPACE)/ingress-nginx-controller
+        - --tcp-services-configmap=mysql/tcp-services
+        - --validating-webhook=:8443
+        - --validating-webhook-certificate=/usr/local/certificates/cert
+        - --validating-webhook-key=/usr/local/certificates/key
+
+```
+
+
+### Create The MySQL Deployment And The MySQL Service
 Run the following command to create the Deployment and the Service
 ```bash
 $ kubectl create -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/mysql/mysql_06_Deployment_Service.yaml
@@ -393,6 +417,13 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 +--------------------+
 ```
 
+
+### Access The MySQL Database From Outside The Kubernetes Cluster
+Access the MySQL database from outside the Kubernetes cluster with these parameters
+- Host: mysql.master-node
+- Port: The "xxxxx" in the "80:xxxxx" port of the Service "ingress-nginx-controller"
+  - If the "80:31479" port of the Service "ingress-nginx-controller" is "80:31479/TCP", use the port 31479
+
 ### References
 - [Configure a Pod to Use a PersistentVolume for Storage](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/)
 - [Deploying MySQL on Kubernetes](https://medium.com/@midejoseph24/deploying-mysql-on-kubernetes-16758a42a746) | [Joseph Ariyo](https://medium.com/@midejoseph24/), Medium
@@ -400,4 +431,5 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 - [Kubernetes Deployment: Deploying MySQL databases on the GKE](https://medium.com/globant/kubernetes-deployment-deploying-mysql-databases-on-the-gke-8fa675d3d8a) | [Niranjan Gawali](https://medium.com/@niranjan.gawali), Medium
 - [Run a Single-Instance Stateful Application](https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/) | kubernetes.io
 - [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd) | Google
+
 
