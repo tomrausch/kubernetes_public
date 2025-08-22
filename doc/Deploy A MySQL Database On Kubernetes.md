@@ -81,7 +81,7 @@ storageclass.storage.k8s.io/local-storage created
 ```
 
 Run the following commands to confirm the StorageClass
-- Ensure there are no warnings or errors in the "Events"
+- Ensure there are no Warnings or Errors in the "Events"
 ```bash
 $ kubectl get storageclass local-storage
 NAME            PROVISIONER                    RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
@@ -110,7 +110,7 @@ persistentvolumeclaim/mysql-pv-claim created
 ```
 
 Run the following command to confirm the PersistentVolume
-- Ensure there are no warnings or errors in the "Events"
+- Ensure there are no Warnings or Errors in the "Events"
 ```bash
 $ kubectl get persistentvolume -l app=mysql
 NAME              CAPACITY   ACCESS MODES   RECLAIM POLICY   STATUS      CLAIM                    STORAGECLASS    REASON   AGE
@@ -139,7 +139,7 @@ Events:            <none>
 ```
 
 Run the following command to confirm the PersistentVolumeClaim
-- Ensure there are no warnings or errors in the "Events"
+- Ensure there are no Warnings or Errors in the "Events"
 ```bash
 $ kubectl get persistentvolumeclaim -n mysql -l app=mysql 
 NAME             STATUS    VOLUME   CAPACITY   ACCESS MODES   STORAGECLASS    AGE
@@ -172,7 +172,7 @@ configmap/tcp-services created
 ```
 
 Run the following command to confirm the ConfigMap
-- Ensure there are no warnings or errors in the "Events"
+- Ensure there are no Warnings or Errors in the "Events"
 ```bash
 $ kubectl get configmap -n mysql -l app=mysql
 NAME           DATA   AGE
@@ -199,6 +199,7 @@ Events:  <none>
 Reference
 - [Exposing TCP and UDP services](https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/exposing-tcp-udp-services.md)
 
+
 ### Create The Deployment And The Service
 Run the following command to create the Deployment and the Service
 ```bash
@@ -208,7 +209,7 @@ service/mysql created
 ```
 
 Run the following command to confirm the Service
-- Ensure there are no warnings or errors in the "Events"
+- Ensure there are no Warnings or Errors in the "Events"
 ```bash
 z kubectl get service -n mysql
 NAME    TYPE        CLUSTER-IP     EXTERNAL-IP   PORT(S)    AGE
@@ -233,7 +234,7 @@ Events:            <none>
 ```
 
 Run the following command to confirm the Deployment
-- Ensure there are no warnings or errors in the "Events"
+- Ensure there are no Warnings or Errors in the "Events"
 ```bash
 $ kubectl get deployment -n mysql
 NAME    READY   UP-TO-DATE   AVAILABLE   AGE
@@ -279,7 +280,7 @@ Events:
 ```
 
 Run the following command to confirm the Pod
-- Ensure there are no warnings or errors in the "Events"
+- Ensure there are no Warnings or Errors in the "Events"
 ```bash
 $ kubectl get pods -n mysql
 NAME                     READY   STATUS    RESTARTS   AGE
@@ -349,6 +350,31 @@ Events:
   Normal  Started    105s   kubelet            Started container mysql
 ```
 
+Run the following to confirm the Endpoint
+- Ensure there are no Warnings or Errors in the "Events"
+```
+$ kubectl get endpoints -n mysql
+NAME    ENDPOINTS                                                  AGE
+mysql   10.244.126.218:3306,10.244.126.218:443,10.244.126.218:80   22h
+
+$ kubectl describe endpoints -n mysql                                             Name:         mysql
+Namespace:    mysql
+Labels:       <none>
+Annotations:  endpoints.kubernetes.io/last-change-trigger-time: 2025-08-21T20:59:18Z
+Subsets:
+  Addresses:          10.244.126.218
+  NotReadyAddresses:  <none>
+  Ports:
+    Name              Port  Protocol
+    ----              ----  --------
+    proxied-tcp-3306  3306  TCP
+    https             443   TCP
+    http              80    TCP
+
+Events:  <none>
+```
+
+
 Alternate commands
 - [Confirm The Deployment And Service](https://github.com/tomrausch/kubernetes_public/blob/main/doc/Confirm%20The%20Deployment%20And%20Service.md)
 
@@ -374,3 +400,4 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 - [Kubernetes Deployment: Deploying MySQL databases on the GKE](https://medium.com/globant/kubernetes-deployment-deploying-mysql-databases-on-the-gke-8fa675d3d8a) | [Niranjan Gawali](https://medium.com/@niranjan.gawali), Medium
 - [Run a Single-Instance Stateful Application](https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/) | kubernetes.io
 - [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd) | Google
+
