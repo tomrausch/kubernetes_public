@@ -58,13 +58,14 @@ metadata:
     app.kubernetes.io/part-of: ingress-nginx
 spec:
   selector:
-    app: mysql
+    app: mysql-nodeport
   type: NodePort
   ports:
-    - name: mysql
+    - name: mysql-nodeport
       port: 3306
       targetPort: 3306
       protocol: TCP
   selector:
-    app.kubernetes.io/name: mysql
+    app.kubernetes.io/name: mysql-nodeport
+
 
