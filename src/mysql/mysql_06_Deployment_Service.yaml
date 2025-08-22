@@ -65,9 +65,3 @@ spec:
       protocol: TCP
   selector:
     app: mysql
-
-
-
-
-
-
