@@ -41,18 +41,30 @@ kind: Service
 metadata:
   name: mysql
   namespace: mysql
+spec:
+  ports:
+  - port: 3306
+  selector:
+    app: mysql
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-nodeport
+  namespace: mysql
   labels:
     app: mysql
-    app.kubernetes.io/name: mysql
+    app.kubernetes.io/name: mysql-nodeport
     app.kubernetes.io/part-of: ingress-nginx
 spec:
   selector:
     app: mysql
   type: NodePort
   ports:
-    - name: proxied-tcp-3306
+    - name: mysql
       port: 3306
       targetPort: 3306
       protocol: TCP
   selector:
     app.kubernetes.io/name: mysql
+
