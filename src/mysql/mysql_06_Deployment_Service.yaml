@@ -67,6 +67,29 @@ spec:
       protocol: TCP
   selector:
     app.kubernetes.io/name: mysql-nodeport
-
-
-
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql-clusterip
+  namespace: mysql
+  labels:
+    app.kubernetes.io/author: thomas-rausch
+spec:
+  clusterIP: 10.244.126.218 
+  clusterIPs:
+  - 10.244.126.218
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+  - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+  - port: 3306
+    protocol: TCP
+    targetPort: 3306
+  selector:
+    app: mysql
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
