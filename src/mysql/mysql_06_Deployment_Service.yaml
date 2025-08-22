@@ -58,5 +58,3 @@ spec:
       protocol: TCP
   selector:
     app: mysql
-    app.kubernetes.io/name: mysql
-    app.kubernetes.io/part-of: mysql
