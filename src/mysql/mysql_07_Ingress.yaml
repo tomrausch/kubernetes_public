@@ -7,6 +7,9 @@ metadata:
     nginx.ingress.kubernetes.io/rewrite-target: /
   labels:
     app.kubernetes.io/author: thomas-rausch
+  args:
+    - /nginx-ingress-controller
+    - --tcp-services-configmap=mysql/tcp-services
 spec:
   ingressClassName: nginx
   rules:
