@@ -53,7 +53,7 @@ metadata:
   name: mysql-nodeport
   namespace: mysql
   labels:
-    app: mysql
+    app: mysql-nodeport
     app.kubernetes.io/name: mysql-nodeport
     app.kubernetes.io/part-of: ingress-nginx
 spec:
@@ -67,5 +67,6 @@ spec:
       protocol: TCP
   selector:
     app.kubernetes.io/name: mysql-nodeport
+
 
 
