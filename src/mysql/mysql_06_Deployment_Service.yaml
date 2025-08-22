@@ -48,10 +48,11 @@ metadata:
 spec:
   type: ClusterIP
   ports:
-    - name: proxied-tcp-3306
+    - name: 3306
       port: 3306
       targetPort: 3306
       protocol: TCP
   selector:
     app: mysql
+
 
