@@ -50,7 +50,7 @@ spec:
   - port: 3306
   selector:
     app: mysql
-  type: LoadBalancer
+  type: NodePort
   ports:
     - name: proxied-tcp-3306
       port: 3306
@@ -58,3 +58,4 @@ spec:
       protocol: TCP
   selector:
     app.kubernetes.io/name: mysql
+
