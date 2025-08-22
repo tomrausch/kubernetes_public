@@ -47,12 +47,13 @@ metadata:
   namespace: mysql
 spec:
   ports:
-    - name: 3306
+    - name: mysql-3306
       port: 3306
       targetPort: 3306
       protocol: TCP
   selector:
     app: mysql
+
 
 
 
