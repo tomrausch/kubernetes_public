@@ -19,10 +19,6 @@ spec:
       containers:
       - image: mysql:latest
         name: mysql
-        args:
-          - /nginx-ingress-controller
-          - --default-backend-service=mysql/mysql
-          - --tcp-services-configmap=mysql/tcp-services
         env:
         - name: MYSQL_ROOT_PASSWORD
           valueFrom:
@@ -54,4 +50,5 @@ spec:
       protocol: TCP
   selector:
     app: mysql
+
 
