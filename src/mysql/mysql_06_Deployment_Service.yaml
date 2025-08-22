@@ -15,12 +15,12 @@ spec:
     metadata:
       labels:
         app: mysql
-    spec:
-      containers:
-      - image: mysql:latest
-        name: mysql
-        env:
-        - name: MYSQL_ROOT_PASSWORD
+   spec:
+     containers:
+     - image: mysql:latest
+       name: mysql
+       env:
+       - name: MYSQL_ROOT_PASSWORD
           valueFrom:
             secretKeyRef:
               name: mysql-secret
@@ -43,11 +43,9 @@ metadata:
   namespace: mysql
   labels:
     app: mysql
-    app.kubernetes.io/name: ingress-nginx
+    app.kubernetes.io/name: mysql
     app.kubernetes.io/part-of: ingress-nginx
 spec:
-  ports:
-  - port: 3306
   selector:
     app: mysql
   type: NodePort
@@ -58,4 +56,3 @@ spec:
       protocol: TCP
   selector:
     app.kubernetes.io/name: mysql
-
