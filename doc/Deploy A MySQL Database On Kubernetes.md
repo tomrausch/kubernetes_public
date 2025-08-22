@@ -188,13 +188,16 @@ Data
 ====
 3306:
 ----
-default/mysql:3306
+mysql/mysql:3306
 
 BinaryData
 ====
 
 Events:  <none>
 ```
+
+Reference
+- [Exposing TCP and UDP services](https://github.com/kubernetes/ingress-nginx/blob/main/docs/user-guide/exposing-tcp-udp-services.md)
 
 ### Create The Deployment And The Service
 Run the following command to create the Deployment and the Service
@@ -371,3 +374,4 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 - [Kubernetes Deployment: Deploying MySQL databases on the GKE](https://medium.com/globant/kubernetes-deployment-deploying-mysql-databases-on-the-gke-8fa675d3d8a) | MEdium
 - [Run a Single-Instance Stateful Application](https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/)
 - [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd) | Google
+
