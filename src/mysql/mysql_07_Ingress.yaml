@@ -1,0 +1,22 @@
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  name: mysql-ingress
+  namespace: mysql
+  annotations:
+    nginx.ingress.kubernetes.io/rewrite-target: /
+  labels:
+    app.kubernetes.io/author: thomas-rausch
+spec:
+  ingressClassName: nginx
+  rules:
+  - host: mysql.master-node
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: mysql
+            port:
+              number: 3306
