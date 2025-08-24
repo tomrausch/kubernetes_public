@@ -39,29 +39,31 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql
+  name: mysql-ingress
   namespace: mysql
+  labels:
+    app: mysql-ingress
 spec:
   type: ClusterIP
   ports:
-    - name: mysql-3306
+    - name: mysql-ingress
+      port: 3306
+      targetPort: 3306
+      protocol: TCP
+  selector:
+    app: mysql-ingress
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mysql
+  namespace: mysql
+spec:
+  type: NodePort
+  ports:
+    - name: mysql-node-port
       port: 3306
       targetPort: 3306
       protocol: TCP
   selector:
     app: mysql
-# ---
-# apiVersion: v1
-# kind: Service
-# metadata:
-#   name: mysql-node-port
-#   namespace: mysql
-# spec:
-#   type: NodePort
-#   ports:
-#     - name: mysql-3306
-#       port: 3306
-#       targetPort: 3306
-#       protocol: TCP
-#   selector:
-#     app: mysql
