@@ -1,0 +1,13 @@
+# https://medium.com/@obaff/14-kubernetes-yaml-files-youll-use-regularly-b3b81107d294
+apiVersion: v1
+kind: Service
+metadata:
+  name: my-loadbalancer
+spec:
+  selector:
+    app: my-app
+  ports:
+    - protocol: TCP
+      port: 80
+      targetPort: 80
+  type: LoadBalancer
