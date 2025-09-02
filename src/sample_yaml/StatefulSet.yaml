@@ -1,0 +1,19 @@
+# https://medium.com/@obaff/14-kubernetes-yaml-files-youll-use-regularly-b3b81107d294
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: my-statefulset
+spec:
+  selector:
+    matchLabels:
+      app: stateful
+  serviceName: "stateful-service"
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: stateful
+    spec:
+      containers:
+        - name: stateful-container
+          image: mysql
