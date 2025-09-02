@@ -1,0 +1,11 @@
+# https://medium.com/@obaff/14-kubernetes-yaml-files-youll-use-regularly-b3b81107d294
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: my-pvc
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 500Mi
