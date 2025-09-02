@@ -1,0 +1,15 @@
+# audit-policy.yaml
+# https://medium.com/itnext/the-kubernetes-troubleshooting-handbook-7596a1fdf2ff
+apiVersion: audit.k8s.io/v1
+kind: Policy
+rules:
+- level: Metadata
+  resources:
+  - group: ""
+    resources: ["pods"]
+- level: RequestResponse
+  users: ["admin"]
+  verbs: ["update", "patch"]
+  resources:
+  - group: ""
+    resources: ["configmaps"]
