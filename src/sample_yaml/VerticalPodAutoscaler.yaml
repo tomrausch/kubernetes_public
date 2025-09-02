@@ -1,0 +1,12 @@
+# https://medium.com/devsecops-community/day-43-autoscaling-in-kubernetes-hpa-and-vpa-because-even-apps-need-to-flex-0495705c3e28
+apiVersion: autoscaling.k8s.io/v1
+kind: VerticalPodAutoscaler
+metadata:
+  name: student-dabba-vpa
+spec:
+  targetRef:
+    apiVersion: "apps/v1"
+    kind: Deployment
+    name: student-app
+  updatePolicy:
+    updateMode: "Auto"
