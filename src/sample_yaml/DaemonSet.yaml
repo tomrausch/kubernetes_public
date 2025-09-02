@@ -1,0 +1,18 @@
+# https://medium.com/@obaff/14-kubernetes-yaml-files-youll-use-regularly-b3b81107d294
+apiVersion: apps/v1
+kind: DaemonSet
+metadata:
+  name: my-daemonset
+spec:
+  selector:
+    matchLabels:
+      app: daemon
+  template:
+    metadata:
+      labels:
+        app: daemon
+    spec:
+      containers:
+        - name: daemon-container
+          image: busybox
+          command: ["sleep", "3600"]
