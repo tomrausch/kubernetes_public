@@ -34,3 +34,6 @@
 - ```k9s -c pod```: Launch K9s directly into the pod view.
 - ```k9s --context mycontext```: Start K9s using a non-default Kubernetes context.
 - ```k9s --readonly```: Start K9s in read-only mode, disabling modification commands.
+
+# References
+- [How to Master K9s for Kubernetes Development](https://medium.com/@karthidkk123/how-to-master-k9s-for-kubernetes-development-6655adf06788) | Medium
