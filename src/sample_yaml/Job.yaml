@@ -1,0 +1,13 @@
+# https://medium.com/@obaff/14-kubernetes-yaml-files-youll-use-regularly-b3b81107d294
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: my-job
+spec:
+  template:
+    spec:
+      containers:
+        - name: job-container
+          image: busybox
+          command: ["echo", "Hello Kubernetes"]
+      restartPolicy: Never
