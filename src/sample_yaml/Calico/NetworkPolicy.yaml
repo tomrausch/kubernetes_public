@@ -1,0 +1,26 @@
+# https://docs.tigera.io/calico-cloud/reference/resources/networkpolicy
+apiVersion: projectcalico.org/v3
+kind: NetworkPolicy
+metadata:
+  name: internal-access.allow-tcp-6379
+  namespace: production
+spec:
+  tier: internal-access
+  selector: role == 'database'
+  types:
+    - Ingress
+    - Egress
+  ingress:
+    - action: Allow
+      metadata:
+        annotations:
+          from: frontend
+          to: database
+      protocol: TCP
+      source:
+        selector: role == 'frontend'
+      destination:
+        ports:
+          - 6379
+  egress:
+    - action: Allow
