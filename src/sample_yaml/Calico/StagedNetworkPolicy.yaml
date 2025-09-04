@@ -1,0 +1,22 @@
+# https://docs.tigera.io/calico-cloud/reference/resources/stagednetworkpolicy
+apiVersion: projectcalico.org/v3
+kind: StagedNetworkPolicy
+metadata:
+  name: internal-access.allow-tcp-6379
+  namespace: production
+spec:
+  tier: internal-access
+  selector: role == 'database'
+  types:
+    - Ingress
+    - Egress
+  ingress:
+    - action: Allow
+      protocol: TCP
+      source:
+        selector: role == 'frontend'
+      destination:
+        ports:
+          - 6379
+  egress:
+    - action: Allow
