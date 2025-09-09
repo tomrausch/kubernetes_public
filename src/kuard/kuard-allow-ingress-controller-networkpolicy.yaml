@@ -13,14 +13,10 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-default # Label of your Ingress Controller pod
+              app.kubernetes.io/name: ingress-nginx-controller # Label of your Ingress Controller pod
           namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: ingress-nginx # Namespace of your Ingress Controller
       ports:
         - protocol: TCP
-          port: 80 # Port on which your application pods listen for HTTP traffic
-        - protocol: TCP
           port: 8080 # Port on which your application pods listen for HTTP traffic
-        - protocol: TCP
-          port: 443 # Port on which your application pods listen for HTTPS traffic
