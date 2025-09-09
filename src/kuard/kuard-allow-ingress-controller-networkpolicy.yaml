@@ -13,7 +13,7 @@ spec:
     - from:
         - podSelector:
             matchLabels:
-              app.kubernetes.io/name: ingress-nginx-controller # Label of your Ingress Controller pod
+              app.kubernetes.io/name: ingress-nginx # Label of your Ingress Controller pod
           namespaceSelector:
             matchLabels:
               kubernetes.io/metadata.name: ingress-nginx # Namespace of your Ingress Controller
