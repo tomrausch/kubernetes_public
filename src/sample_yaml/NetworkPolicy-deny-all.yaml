@@ -1,0 +1,13 @@
+# https://medium.com/faun/mastering-kubernetes-networking-types-setup-and-best-practices-4274ed2cba94
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all
+  namespace: default
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress: []
+  egress: []
