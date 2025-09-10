@@ -17,16 +17,22 @@ service/it-tools exposed
 
 Perform the checks in [Confirm The Deployment And Service](https://github.com/tomrausch/kubernetes_public/blob/9569089708b8f66adc3a30add0f74f5c53544dd3/doc/Confirm%20The%20Deployment%20And%20Service.md) for Service "service/kuard"
 
-### Table 1
+### Active
 
 | Name | Commands |  Reference |
 | :---: | :--- | :---: |
 | hello-blue-whale |  🔹 ```kubectl create deployment hello-blue-whale --image=vamsijakkula/hello-blue-whale:v1``` <br> 🔹 ```kubectl expose deployment hello-blue-whale --type=ClusterIP --port=80``` <br> 🔹 ```kubectl apply -f  https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/hello-blue-whale/hello-blue-whale-allow-ingress-controller-networkpolicy.yaml``` | [vamsijakkula](https://gist.github.com/vamsijakkula)|
+| it-tools | 🔹 ```kubectl create deployment it-tools --image=corentinth/it-tools:2024.10.22-7ca5933``` <br> 🔹 ```kubectl expose deployment it-tools --type=ClusterIP --port=80``` <br> 🔹 ```https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools-allow-ingress-controller-networkpolicy.yaml``` | [CorentinTh/it-tools](https://github.com/CorentinTh/it-tools) |
+| kuard | 🔹 ```kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue``` <br> 🔹 ```kubectl expose deployment kuard --type=ClusterIP --port=8080``` <br> 🔹 ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kuard/kuard-allow-ingress-controller-networkpolicy.yaml``` | [kuard](https://github.com/kubernetes-up-and-running/kuard) |
+
+### Inactive
+| Name | Commands |  Reference |
+| :---: | :--- | :---: |
 | hello-minikube | 🔹 ```kubectl create deployment hello-minikube --image=kicbase/echo-server:1.0``` <br> 🔹 ```kubectl expose deployment hello-minikube --type=ClusterIP --port=8080``` [^expose_type_cluster_ip_not_verified] <br> Additional Steps Below | minikube start [^minikube_start_service]|
 | hello-world (Snake Game) | 🔹 ```kubectl create deployment hello-world --image=bhargavshah86/kube-test:v0.1``` <br> 🔹 ```kubectl expose deployment hello-world --type=ClusterIP --port=80``` [^expose_type_cluster_ip_not_verified] | [hello-world-k8s](https://github.com/skynet86/hello-world-k8s) <br> [“Hello World” on Kubernetes Cluster](https://shahbhargav.medium.com/hello-world-on-kubernetes-cluster-6bec6f4b1bfd) |
-| it-tools | 🔹 ```kubectl create deployment it-tools --image=corentinth/it-tools:latest``` <br> 🔹 ```kubectl expose deployment it-tools --type=ClusterIP --port=80``` <br> 🔹 ```https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools-allow-ingress-controller-networkpolicy.yaml``` | [CorentinTh/it-tools](https://github.com/CorentinTh/it-tools) |
-| kuard | 🔹 ```kubectl create deployment kuard --image=gcr.io/kuar-demo/kuard-amd64:blue``` <br> 🔹 ```kubectl expose deployment kuard --type=ClusterIP --port=8080``` <br> 🔹 ```kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kuard/kuard-allow-ingress-controller-networkpolicy.yaml``` | [kuard](https://github.com/kubernetes-up-and-running/kuard) |
 | web | 🔹 ```kubectl create deployment web gcr.io/google-samples/hello-app:1.0``` <br> 🔹 ```kubectl expose deployment web --type=ClusterIP --port=8080```[^expose_type_cluster_ip_not_verified] | [web](https://console.cloud.google.com/artifacts/docker/google-samples/us/gcr.io/hello-app?inv=1&invt=AbxY8g) |
+
+
 
 For each service exposed as "TYPE" = "ClusterIP", make the associated application available through an application gateway. Procedures are at this link [Access Kubernetes Applications Through An Application Gateway](https://github.com/tomrausch/kubernetes_public/blob/7245f5e7dda852ffa6ef40769669db586e52046d/doc/Access%20Kubernetes%20Applications%20Through%20An%20Application%20Gateway.md)
 
