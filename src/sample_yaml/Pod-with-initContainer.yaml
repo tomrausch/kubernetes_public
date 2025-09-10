@@ -1,0 +1,22 @@
+# https://blog.devgenius.io/5-secret-kubernetes-tricks-you-didnt-know-6d930dfdfffa
+apiVersion: v1
+kind: Pod
+metadata:
+  name: example-pod
+spec:
+  initContainers:
+  - name: init-migration
+    image: my-migration-image
+    command: ['sh', '-c', 'python migrate.py']
+    volumeMounts:
+    - name: migration-scripts
+      mountPath: /scripts
+  containers:
+  - name: app-container
+    image: my-app-image
+    volumeMounts:
+    - name: migration-scripts
+      mountPath: /app/scripts
+  volumes:
+  - name: migration-scripts
+    emptyDir: {}
