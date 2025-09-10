@@ -21,4 +21,4 @@ spec:
         - protocol: TCP
           port: 8787 # Port on which your application pods listen for HTTP traffic
         - protocol: TCP
-          port: 443 # Port on which your application pods listen for HTTPS traffic
+          port: 8787 # Port on which your application pods listen for HTTPS traffic
