@@ -10,6 +10,16 @@ metadata:
 spec:
   ingressClassName: nginx
   rules:
+  - host: enclosed.master-node
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: enclosed
+            port:
+              number: 8787
   - host: hello-blue-whale.master-node
     http:
       paths:
