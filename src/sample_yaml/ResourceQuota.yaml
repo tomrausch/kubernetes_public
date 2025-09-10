@@ -1,0 +1,11 @@
+# https://blog.devgenius.io/5-secret-kubernetes-tricks-you-didnt-know-6d930dfdfffa
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: compute-resources
+spec:
+  hard:
+    requests.cpu: "2"
+    requests.memory: 4Gi
+    limits.cpu: "4"
+    limits.memory: 8Gi
