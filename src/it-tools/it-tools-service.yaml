@@ -1,0 +1,59 @@
+apiVersion: v1
+kind: Service
+metadata:
+  creationTimestamp: '2025-08-13T20:25:11Z'
+  labels:
+    app: it-tools
+  managedFields:
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:metadata:
+          f:labels:
+            .: {}
+            f:app: {}
+        f:spec:
+          f:externalTrafficPolicy: {}
+          f:internalTrafficPolicy: {}
+          f:ports:
+            .: {}
+            k:{"port":80,"protocol":"TCP"}:
+              .: {}
+              f:port: {}
+              f:protocol: {}
+              f:targetPort: {}
+          f:selector: {}
+          f:sessionAffinity: {}
+      manager: kubectl-expose
+      operation: Update
+      time: '2025-08-13T20:25:11Z'
+    - apiVersion: v1
+      fieldsType: FieldsV1
+      fieldsV1:
+        f:spec:
+          f:type: {}
+      manager: kubectl-edit
+      operation: Update
+      time: '2025-08-14T21:54:41Z'
+  name: it-tools
+  namespace: default
+  resourceVersion: '353554'
+  uid: 4a6dbd20-b1a0-42e0-9a4a-f2c15c836938
+spec:
+  clusterIP: 10.105.126.208
+  clusterIPs:
+    - 10.105.126.208
+  internalTrafficPolicy: Cluster
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  ports:
+    - port: 80
+      protocol: TCP
+      targetPort: 80
+  selector:
+    app: it-tools
+  sessionAffinity: None
+  type: ClusterIP
+status:
+  loadBalancer: {}
