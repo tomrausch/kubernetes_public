@@ -1,24 +1,49 @@
-# Deploy Applications On Kubernetes
+# Deploy The Application "it-tools" On Kubernetes
 
 ## Create The Deployment
-Deploy the YAML file
-- 
+Run this command to create the Deployment from an existing YAML file
+```
+kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools-deployment.yaml
+```
 
+Alternately, run this command to create the Deployment using only the image
+```
+kubectl create deployment it-tools --image=corentinth/it-tools:2024.10.22-7ca5933
+```
 
- ```kubectl create deployment it-tools --image=corentinth/it-tools:2024.10.22-7ca5933``` <br> 🔹 ```kubectl expose deployment it-tools --type=ClusterIP --port=80``` <br> 🔹 ```https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools-allow-ingress-controller-networkpolicy.yaml``` | [CorentinTh/it-tools](https://github.com/CorentinTh/it-tools) |
+Here is the output of the command
+```
+deployment.apps/it-tools created
+``` 
+ 
+## Expose the Deployment
+Run this command to expose the Deployment from an existing YAML file
+```
+kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools-service.yaml
+```
+
+Alternately, run this command to create the Deployment using only the existing Deployment
+```
+kubectl expose deployment it-tools --type=ClusterIP --port=80
+```
+
+ ##
+ 
+ 
+ ```https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools-allow-ingress-controller-networkpolicy.yaml``` | [CorentinTh/it-tools](https://github.com/CorentinTh/it-tools) |
 
 
 
 - Run the command "Command - Create Deployment" in Table 1 below and observe the result to deploy an image and create the Deployment
 ```bash
 $ kubectl create deployment it-tools --image=corentinth/it-tools:latest
-deployment.apps/it-tools created
+
 ```
 
 Run the command "Command - Expose Service" in the table below and observe the result to expose the Deployment
 ```bash
 $ kubectl expose deployment it-tools --type=LoadBalancer --port=8080
-service/it-tools exposed
+
 ```
 
 Perform the checks in [Confirm The Deployment And Service](https://github.com/tomrausch/kubernetes_public/blob/9569089708b8f66adc3a30add0f74f5c53544dd3/doc/Confirm%20The%20Deployment%20And%20Service.md) for Service "service/kuard"
