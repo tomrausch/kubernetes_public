@@ -1,30 +1,25 @@
 apiVersion: v1
 kind: Service
 metadata:
-  creationTimestamp: "2025-04-16T15:26:05Z"
   labels:
     app: hello-minikube
   name: hello-minikube
   namespace: default
-  resourceVersion: "3226"
-  uid: 8072e7c8-2a8b-45e4-baa3-449bbf93a413
 spec:
-  clusterIP: 10.97.143.108
+  clusterIP: 10.96.254.15
   clusterIPs:
-  - 10.97.143.108
-  externalTrafficPolicy: Cluster
+  - 10.96.254.15
   internalTrafficPolicy: Cluster
   ipFamilies:
   - IPv4
   ipFamilyPolicy: SingleStack
   ports:
-  - nodePort: 31532
-    port: 8080
+  - port: 8080
     protocol: TCP
     targetPort: 8080
   selector:
     app: hello-minikube
   sessionAffinity: None
-  type: NodePort
+  type: ClusterIP
 status:
   loadBalancer: {}
