@@ -1,4 +1,4 @@
-# Access Kubernetes Applications Through An Application Gateway
+# Access Kubernetes Applications Through An NGINX Application Gateway
 
 ## Install The NGINX Gateway
 
