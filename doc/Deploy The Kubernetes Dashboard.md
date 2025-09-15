@@ -1,5 +1,14 @@
 # Deploy The Kubernetes Dashboard
 
+Deploy the Dashboard [^deploying-the-dashboard-ui]
+```bash
+# Add kubernetes-dashboard repository
+helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+# Deploy a Helm Release named "kubernetes-dashboard" using the kubernetes-dashboard chart
+helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+```
+[^deploying-the-dashboard-ui]: [Deploying The Dashboard UI](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/#deploying-the-dashboard-ui)
+
 Confirm the Pods in Namespace "kubernetes-dashboard"
 ```bash
 $ kubectl get pods --namespace kubernetes-dashboard
@@ -22,11 +31,12 @@ kubernetes-dashboard-metrics-scraper   ClusterIP   10.102.227.183   <none>      
 kubernetes-dashboard-web               ClusterIP   10.98.218.124    <none>        8000/TCP   8m41s
 ```
 
-Create the Ingress
+Create the Ingress [^create_ingress]
 ```bash
 $ kubectl create -f "https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kubernetes-dashboard/kubernetes-dashboard-ingress.yaml"
 ingress.networking.k8s.io/ingress-kubernetes-dashboard created
 ```
+ [^create_ingress]: [how to configure ingress to direct traffic to an https backend using https](https://stackoverflow.com/questions/54459015/how-to-configure-ingress-to-direct-traffic-to-an-https-backend-using-https) | StackOverflow
 
 [NOT NEEDED] Create the Network Policy
 ```bash
@@ -64,4 +74,4 @@ Access the Kubernetes Dashboard application!
 
 ## Reference
 - [Deploy and Access the Kubernetes Dashboard](https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/) | kubernetes.io
-- [how to configure ingress to direct traffic to an https backend using https](https://stackoverflow.com/questions/54459015/how-to-configure-ingress-to-direct-traffic-to-an-https-backend-using-https) | StackOverflow
+
