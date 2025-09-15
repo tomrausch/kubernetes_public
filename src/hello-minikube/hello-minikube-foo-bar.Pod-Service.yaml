@@ -13,6 +13,8 @@ kind: Service
 apiVersion: v1
 metadata:
   name: foo-service
+  labels:
+    app: foo
 spec:
   selector:
     app: foo
@@ -34,6 +36,8 @@ kind: Service
 apiVersion: v1
 metadata:
   name: bar-service
+  labels:
+    app: bar
 spec:
   selector:
     app: bar
