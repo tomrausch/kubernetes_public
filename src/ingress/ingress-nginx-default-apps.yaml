@@ -30,6 +30,16 @@ spec:
             name: hello-blue-whale
             port:
               number: 80
+  - host: hello-minikube.master-node
+    http:
+      paths:
+      - path: /
+        pathType: Prefix
+        backend:
+          service:
+            name: hello-minikube
+            port:
+              number: 8080
   - host: it-tools.master-node
     http:
       paths:
