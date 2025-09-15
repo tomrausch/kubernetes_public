@@ -1,1 +1,24 @@
-
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: hello-minikube-allow-ingress-controller
+  namespace: default # Replace with the namespace of your application pods
+spec:
+  podSelector:
+    matchLabels:
+      app: hello-minikube # Label of the application pods to which ingress is allowed
+  policyTypes:
+    - Ingress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app.kubernetes.io/name: ingress-nginx # Label of your Ingress Controller pod
+          namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: ingress-nginx # Namespace of your Ingress Controller
+      ports:
+        - protocol: TCP
+          port: 8080 # Port on which your application pods listen for HTTP traffic
+        - protocol: TCP
+          port: 443 # Port on which your application pods listen for HTTPS traffic
