@@ -25,6 +25,16 @@ Here are the components of the comamnd
   - Prevents the pod from restarting if it exits.
   - For testing purposes, this is often what you want.
 
+Here is an alternate command
+```bash
+kubectl run busybox-pod --image=busybox --namespace default --command sleep infinity --restart=Never
+```
+
+Here is an alternate command that creates an Ubuntu container
+
+```bash
+kubectl run ubuntu --image=ubuntu --namespace default --command sleep infinity --restart=Never
+```
 
 ## Check the Pod's Status
 ```bash
@@ -45,6 +55,15 @@ kubectl exec -it busybox-pod -- /bin/sh
 
 This will open an interactive shell within the pod. [^is-it-possible-to-install-curl-into-busybox-in-kubernetes]
 - Remember to exit the shell when you're done. 
+
+Interact with the pod
+```bash
+$ kubectl exec busybox -it -- hostname
+busybox
+$ kubectl exec busybox -it -- hostname -i
+172.16.77.136
+```
+
 
 ## Why This Works
 - The busybox image is a minimal Linux environment containing many common command-line utilities. It doesn't have a built-in server or process that runs continuously. 
