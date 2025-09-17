@@ -6,6 +6,9 @@ metadata:
   labels:
     app.kubernetes.io/author: thomas-rausch
 spec:
+  types:
+    - Ingress
+    - Egress
   ingress:
   - from:
     - podSelector: {} 
