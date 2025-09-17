@@ -1,10 +1,3 @@
-🔹 
-🔹 
-🔹 kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kuard/kuard-allow-ingress-controller-networkpolicy.yaml
-
-
-
-
 # Deploy The Application "kuard" On Kubernetes
 
 ## Create The Deployment
@@ -29,7 +22,7 @@ Run this command to expose the Deployment from an existing YAML file [^kuard.Ser
 ```
 kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kuard/kuard.Service.yaml
 ```
-[^kuard.Service.yaml]: [it-tools-service.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/kuard/kuard.Service.yaml)
+[^kuard.Service.yaml]: [kuard.Service.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/kuard/kuard.Service.yaml)
 
 Alternately, run this command to expose the Deployment 
 ```
@@ -40,21 +33,21 @@ In both cases, exposing the Deployment simultaneously creates the Service
 
 In both cases, here is the output of the command
 ```
-service/it-tools created
+service/kuard created
 ``` 
 
 ## Allow Ingress Network Traffic
-Run this command to set the Network Policy from an existing YAML file [^it-tools-allow-ingress-controller-networkpolicy.yaml]
+Run this command to set the Network Policy from an existing YAML file [^kuard-allow-ingress-controller.NetworkPolicy.yaml]
 - This Network Policy allows ingress network traffic from the Ingress Controller to the Application Service
 - This Network Policy allows ingress network traffic even if all network traffic in the "default" namespace is blocked
 ```
-kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools-allow-ingress-controller-networkpolicy.yaml
+kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kuard/kuard-allow-ingress-controller.NetworkPolicy.yaml
 ```
-[^it-tools-allow-ingress-controller-networkpolicy.yaml]: [it-tools-allow-ingress-controller-networkpolicy.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/it-tools/it-tools-allow-ingress-controller-networkpolicy.yaml)
+[^kuard-allow-ingress-controller.NetworkPolicy.yaml]: [kuard-allow-ingress-controller.NetworkPolicy.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/kuard/kuard-allow-ingress-controller.NetworkPolicy.yaml)
 
 Here is the output of the command
 ```
-networkpolicy.networking.k8s.io/it-tools-allow-ingress-controller unchanged
+networkpolicy.networking.k8s.io/kuard-ingress-controller created
 ```
 
 
