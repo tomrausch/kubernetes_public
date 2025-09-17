@@ -1,18 +1,18 @@
 🔹 
-🔹 kubectl expose deployment kuard --type=ClusterIP --port=8080
+🔹 
 🔹 kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kuard/kuard-allow-ingress-controller-networkpolicy.yaml
 
 
 
 
-# Deploy The Application "it-tools" On Kubernetes
+# Deploy The Application "kuard" On Kubernetes
 
 ## Create The Deployment
-Run this command to create the Deployment from an existing YAML file [^kuard-deployment.yaml]
+Run this command to create the Deployment from an existing YAML file [^kuard.Deployment.yaml]
 ```
-kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kuard/kuard-deployment.yaml
+kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kuard/kuard.Deployment.yaml
 ```
-[^kuard.Deployment.yaml]: [kuard.Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/kuard/kuard-deployment.yaml)
+[^kuard.Deployment.yaml]: [kuard.Deployment.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/kuard/kuard.Deployment.yaml)
 
 Alternately, run this command to create the Deployment using the image
 ```
@@ -25,15 +25,15 @@ deployment.apps/kuard created
 ``` 
  
 ## Expose the Deployment & Simultaneously Create The Service
-Run this command to expose the Deployment from an existing YAML file [^it-tools-service.yaml]
+Run this command to expose the Deployment from an existing YAML file [^kuard.Service.yaml]
 ```
-kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/it-tools/it-tools-service.yaml
+kubectl apply -f https://raw.githubusercontent.com/tomrausch/kubernetes_public/refs/heads/main/src/kuard/kuard.Service.yaml
 ```
-[^it-tools-service.yaml]: [it-tools-service.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/it-tools/it-tools-service.yaml)
+[^kuard.Service.yaml]: [it-tools-service.yaml](https://github.com/tomrausch/kubernetes_public/blob/main/src/kuard/kuard.Service.yaml)
 
 Alternately, run this command to expose the Deployment 
 ```
-kubectl expose deployment it-tools --type=ClusterIP --port=80
+kubectl expose deployment kuard --type=ClusterIP --port=8080
 ```
 
 In both cases, exposing the Deployment simultaneously creates the Service
