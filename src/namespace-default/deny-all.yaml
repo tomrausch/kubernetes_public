@@ -1,0 +1,18 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: deny-all
+  namespace: default
+  uid: 99002bf7-6ef0-47d4-92b3-4ffbdd6d2d62
+  resourceVersion: '4823548'
+  generation: 1
+  creationTimestamp: '2025-09-09T20:06:55Z'
+  annotations:
+    kubectl.kubernetes.io/last-applied-configuration: >
+      {"apiVersion":"networking.k8s.io/v1","kind":"NetworkPolicy","metadata":{"annotations":{},"name":"deny-all","namespace":"default"},"spec":{"egress":[],"ingress":[],"podSelector":{},"policyTypes":["Ingress","Egress"]}}
+  selfLink: /apis/networking.k8s.io/v1/namespaces/default/networkpolicies/deny-all
+spec:
+  podSelector: {}
+  policyTypes:
+    - Ingress
+    - Egress
