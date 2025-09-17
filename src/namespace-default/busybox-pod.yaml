@@ -1,0 +1,144 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-pod
+  namespace: default
+  uid: c61f2b8e-2814-40f0-9474-d0e9db0c8a00
+  resourceVersion: '3415867'
+  creationTimestamp: '2025-08-12T20:11:12Z'
+  labels:
+    run: busybox-pod
+  annotations:
+    cni.projectcalico.org/containerID: d896fd5038a5027151e7aee02ab948479db9ed06d9e88ea7e2f1cf016179faca
+    cni.projectcalico.org/podIP: 10.244.77.165/32
+    cni.projectcalico.org/podIPs: 10.244.77.165/32
+  selfLink: /api/v1/namespaces/default/pods/busybox-pod
+status:
+  phase: Running
+  conditions:
+    - type: Initialized
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2025-08-12T20:25:02Z'
+    - type: Ready
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2025-09-01T19:35:49Z'
+    - type: ContainersReady
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2025-09-01T19:35:49Z'
+    - type: PodScheduled
+      status: 'True'
+      lastProbeTime: null
+      lastTransitionTime: '2025-08-12T20:25:02Z'
+  hostIP: 192.168.0.136
+  podIP: 10.244.77.165
+  podIPs:
+    - ip: 10.244.77.165
+  startTime: '2025-08-12T20:25:02Z'
+  containerStatuses:
+    - name: busybox-pod
+      state:
+        running:
+          startedAt: '2025-09-01T19:35:48Z'
+      lastState:
+        terminated:
+          exitCode: 255
+          reason: Unknown
+          startedAt: '2025-08-16T21:17:09Z'
+          finishedAt: '2025-09-01T19:34:45Z'
+          containerID: >-
+            containerd://b6449e0ea83dcf8c6e41902803522c4d9d3023e18a5087cbbc896469d41f5ddf
+      ready: true
+      restartCount: 2
+      image: docker.io/library/busybox:latest
+      imageID: >-
+        docker.io/library/busybox@sha256:ab33eacc8251e3807b85bb6dba570e4698c3998eca6f0fc2ccb60575a563ea74
+      containerID: >-
+        containerd://a51b502cf6604c5655b5baad9ac83a653f0542cedf7922380a9aa16091578800
+      started: true
+  qosClass: BestEffort
+  ephemeralContainerStatuses:
+    - name: debugger-ldmbj
+      state:
+        terminated:
+          exitCode: 0
+          reason: Completed
+          startedAt: '2025-08-28T16:37:48Z'
+          finishedAt: '2025-08-28T17:18:28Z'
+          containerID: >-
+            containerd://fa455901f8d84ba6cf277b76e1f92de7b8888748498018fd19040a28b5dda2d8
+      lastState: {}
+      ready: false
+      restartCount: 0
+      image: docker.io/nicolaka/netshoot:latest
+      imageID: >-
+        docker.io/nicolaka/netshoot@sha256:7f08c4aff13ff61a35d30e30c5c1ea8396eac6ab4ce19fd02d5a4b3b5d0d09a2
+      containerID: >-
+        containerd://fa455901f8d84ba6cf277b76e1f92de7b8888748498018fd19040a28b5dda2d8
+spec:
+  volumes:
+    - name: kube-api-access-mmgf8
+      projected:
+        sources:
+          - serviceAccountToken:
+              expirationSeconds: 3607
+              path: token
+          - configMap:
+              name: kube-root-ca.crt
+              items:
+                - key: ca.crt
+                  path: ca.crt
+          - downwardAPI:
+              items:
+                - path: namespace
+                  fieldRef:
+                    apiVersion: v1
+                    fieldPath: metadata.namespace
+        defaultMode: 420
+  containers:
+    - name: busybox-pod
+      image: busybox
+      command:
+        - /bin/sh
+        - '-c'
+        - while true; do sleep 30; done
+        - '--restart=Never'
+      resources: {}
+      volumeMounts:
+        - name: kube-api-access-mmgf8
+          readOnly: true
+          mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      imagePullPolicy: Always
+  ephemeralContainers:
+    - name: debugger-ldmbj
+      image: nicolaka/netshoot
+      resources: {}
+      terminationMessagePath: /dev/termination-log
+      terminationMessagePolicy: File
+      imagePullPolicy: Always
+      stdin: true
+      tty: true
+  restartPolicy: Always
+  terminationGracePeriodSeconds: 30
+  dnsPolicy: ClusterFirst
+  serviceAccountName: default
+  serviceAccount: default
+  nodeName: master-node
+  securityContext: {}
+  schedulerName: default-scheduler
+  tolerations:
+    - key: node.kubernetes.io/not-ready
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
+    - key: node.kubernetes.io/unreachable
+      operator: Exists
+      effect: NoExecute
+      tolerationSeconds: 300
+  priority: 0
+  enableServiceLinks: true
+  preemptionPolicy: PreemptLowerPriority
