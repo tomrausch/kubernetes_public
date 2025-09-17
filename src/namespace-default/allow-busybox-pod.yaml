@@ -2,7 +2,6 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-busybox-pod
-  namespace: default
 spec:
   podSelector:
     matchLabels:
@@ -11,10 +10,10 @@ spec:
   - Ingress
   - Egress
   ingress:
-  - from:
-    - namespaceSelector: {}
-    - podSelector: {}
+    - from:
+        - namespaceSelector: {}
+          podSelector: {}
   egress:
-  - to:
-    - podSelector: {}
-    - namespaceSelector: {}
+    - to:
+        - namespaceSelector: {}
+          podSelector: {}
