@@ -6,7 +6,7 @@ metadata:
   labels:
     app.kubernetes.io/author: thomas-rausch
 spec:
-   policyTypes:
+  policyTypes:
     - Ingress
     - Egress
   ingress:
