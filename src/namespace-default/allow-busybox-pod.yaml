@@ -2,18 +2,15 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   name: allow-busybox-pod
+  namespace: default
 spec:
   podSelector:
     matchLabels:
       run: busybox-pod
   policyTypes:
-  - Ingress
-  - Egress
+    - Ingress
+    - Egress
   ingress:
-    - from:
-        - namespaceSelector: {}
-          podSelector: {}
+    - {} # Allows all ingress traffic
   egress:
-    - to:
-        - namespaceSelector: {}
-          podSelector: {}
+    - {} # Allows all egress traffic
