@@ -47,16 +47,8 @@ NAME          READY   STATUS    RESTARTS   AGE
 busybox-pod   1/1     Running   0          10m
 ```
 
-## Accessing the Pod
+## Run Commands Inside The Pod
 Use the command ```kubectl exec``` to run commands inside the busybox [^how-can-i-keep-a-container-running-on-kubernetes]
-```bash
-kubectl exec -it busybox-pod -- /bin/sh
-```
-
-This will open an interactive shell within the pod. [^is-it-possible-to-install-curl-into-busybox-in-kubernetes]
-- Remember to exit the shell when you're done. 
-
-Interact with the pod
 ```bash
 $ kubectl exec busybox -it -- hostname
 busybox
@@ -64,6 +56,13 @@ $ kubectl exec busybox -it -- hostname -i
 172.16.77.136
 ```
 
+Use this command to open a shell on the pod
+```bash
+kubectl exec -it busybox-pod -- /bin/sh
+```
+
+This will open an interactive shell within the pod. [^is-it-possible-to-install-curl-into-busybox-in-kubernetes]
+- Remember to exit the shell when you're done. 
 
 ## Why This Works
 - The busybox image is a minimal Linux environment containing many common command-line utilities. It doesn't have a built-in server or process that runs continuously. 
