@@ -1,0 +1,65 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kuard
+  namespace: default
+  uid: 6d4e598b-b327-4fa7-88f9-5f17f4eaeb60
+  resourceVersion: '5096337'
+  generation: 2
+  creationTimestamp: '2025-08-13T20:50:09Z'
+  labels:
+    app: kuard
+  annotations:
+    deployment.kubernetes.io/revision: '2'
+  selfLink: /apis/apps/v1/namespaces/default/deployments/kuard
+status:
+  observedGeneration: 2
+  replicas: 1
+  updatedReplicas: 1
+  readyReplicas: 1
+  availableReplicas: 1
+  conditions:
+    - type: Progressing
+      status: 'True'
+      lastUpdateTime: '2025-08-20T03:53:47Z'
+      lastTransitionTime: '2025-08-13T20:50:09Z'
+      reason: NewReplicaSetAvailable
+      message: ReplicaSet "kuard-7df6cd7cdb" has successfully progressed.
+    - type: Available
+      status: 'True'
+      lastUpdateTime: '2025-09-11T09:23:16Z'
+      lastTransitionTime: '2025-09-11T09:23:16Z'
+      reason: MinimumReplicasAvailable
+      message: Deployment has minimum availability.
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: kuard
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: kuard
+      annotations:
+        kubectl.kubernetes.io/restartedAt: '2025-08-19T22:53:45-05:00'
+    spec:
+      containers:
+        - name: kuard-amd64
+          image: gcr.io/kuar-demo/kuard-amd64:blue
+          resources: {}
+          terminationMessagePath: /dev/termination-log
+          terminationMessagePolicy: File
+          imagePullPolicy: IfNotPresent
+      restartPolicy: Always
+      terminationGracePeriodSeconds: 30
+      dnsPolicy: ClusterFirst
+      securityContext: {}
+      schedulerName: default-scheduler
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 25%
+      maxSurge: 25%
+  revisionHistoryLimit: 10
+  progressDeadlineSeconds: 600
