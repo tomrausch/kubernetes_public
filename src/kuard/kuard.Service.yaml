@@ -1,0 +1,29 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: kuard
+  namespace: default
+  uid: 18d83359-a5c7-4ed7-ad41-f2315332d3fd
+  resourceVersion: '506776'
+  creationTimestamp: '2025-08-13T20:50:18Z'
+  labels:
+    app: kuard
+  selfLink: /api/v1/namespaces/default/services/kuard
+status:
+  loadBalancer: {}
+spec:
+  ports:
+    - protocol: TCP
+      port: 8080
+      targetPort: 8080
+  selector:
+    app: kuard
+  clusterIP: 10.109.151.234
+  clusterIPs:
+    - 10.109.151.234
+  type: ClusterIP
+  sessionAffinity: None
+  ipFamilies:
+    - IPv4
+  ipFamilyPolicy: SingleStack
+  internalTrafficPolicy: Cluster
