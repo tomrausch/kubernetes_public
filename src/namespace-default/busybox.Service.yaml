@@ -3,9 +3,9 @@ kind: Service
 metadata:
   name: busybox
   namespace: default
-  author: thomas_rausch
   labels:
     app: busybox
+    author: thomas_rausch
 spec:
   selector:
     app: busybox
