@@ -1,0 +1,16 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: busybox
+  namespace: administration
+  labels:
+    app: busybox
+    author: thomas_rausch
+spec:
+  selector:
+    app: busybox
+  ports:
+    - protocol: TCP
+      port: 22
+      targetPort: 22
+  type: NodePort
