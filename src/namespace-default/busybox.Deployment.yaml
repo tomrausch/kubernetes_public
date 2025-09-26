@@ -1,0 +1,47 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: busybox-deployment
+  namespace: default
+  labels:
+    app: busybox
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: busybox
+  template:
+    metadata:
+      labels:
+        app: busybox
+    spec:
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 1000  # Arbitrary non-root UID
+      containers:
+      - name: busybox
+        image: busybox:1.36.1  # Immutable version tag
+        command: ["sh", "-c", "while true; do echo Hello Kubernetes!; sleep 10; done"]
+        resources:
+          requests:
+            memory: "64Mi"
+            cpu: "100m"
+          limits:
+            memory: "128Mi"
+            cpu: "250m"
+        livenessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "echo liveness check"
+          initialDelaySeconds: 5
+          periodSeconds: 10
+        readinessProbe:
+          exec:
+            command:
+            - sh
+            - -c
+            - "echo readiness check"
+          initialDelaySeconds: 5
+          periodSeconds: 10
