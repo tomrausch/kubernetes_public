@@ -3,7 +3,14 @@ kind: Service
 metadata:
   name: busybox
   namespace: default
+  author: thomas_rausch
   labels:
     app: busybox
-status:
-  loadBalancer: {}
+spec:
+  selector:
+    app: busybox
+  ports:
+    - protocol: TCP
+      port: 22
+      targetPort: 22
+  type: ClusterIP
