@@ -79,11 +79,11 @@ spec:
         terminationMessagePath: /dev/termination-log
         terminationMessagePolicy: File
         imagePullPolicy: IfNotPresent
-    restartPolicy: Always
-    terminationGracePeriodSeconds: 30
-    dnsPolicy: ClusterFirst
-    securityContext: {}
-    schedulerName: default-scheduler
+        restartPolicy: Always
+        terminationGracePeriodSeconds: 30
+        dnsPolicy: ClusterFirst
+        securityContext: {}
+        schedulerName: default-scheduler
   strategy:
     type: RollingUpdate
     rollingUpdate:
