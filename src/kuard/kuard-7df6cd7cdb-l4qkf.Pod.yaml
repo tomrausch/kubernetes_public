@@ -27,13 +27,6 @@ spec:
   - image: gcr.io/kuar-demo/kuard-amd64:blue
     imagePullPolicy: IfNotPresent
     name: kuard-amd64
-    resources: {}
-    terminationMessagePath: /dev/termination-log
-    terminationMessagePolicy: File
-    volumeMounts:
-    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
-      name: kube-api-access-bghf8
-      readOnly: true
     resources:
       requests:
         cpu: "500m"
@@ -41,6 +34,12 @@ spec:
       limits:
         cpu: "1000m"
         memory: "256Mi"
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-bghf8
+      readOnly: true
   dnsPolicy: ClusterFirst
   enableServiceLinks: true
   nodeName: master-node
