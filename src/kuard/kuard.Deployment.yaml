@@ -47,7 +47,13 @@ spec:
       containers:
         - name: kuard-amd64
           image: gcr.io/kuar-demo/kuard-amd64:blue
-          resources: {}
+          resources:
+            requests:
+              cpu: "500m"
+              memory: "128Mi"
+            limits:
+              cpu: "1000m"
+              memory: "256Mi"
           terminationMessagePath: /dev/termination-log
           terminationMessagePolicy: File
           imagePullPolicy: IfNotPresent
