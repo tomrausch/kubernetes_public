@@ -1,0 +1,14 @@
+# Ref: Conquer CKA Exam 3.7
+apiVersion: v1
+kind: Namespace
+metadata:
+  creationTimestamp: "2025-11-09T03:43:02Z"
+  labels:
+    kubernetes.io/metadata.name: app-team1
+  name: app-team1
+  uid: 63da2f25-e9bc-48cc-a378-e353fb979297
+spec:
+  finalizers:
+  - kubernetes
+status:
+  phase: Active
