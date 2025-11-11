@@ -1,0 +1,14 @@
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  creationTimestamp: "2025-11-11T05:01:51Z"
+  name: deploy
+  uid: 7864f17a-3dce-4821-88e7-7e7b1b124c7d
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: deployment-clusterrole
+subjects:
+- kind: ServiceAccount
+  name: cicd-token
+  namespace: app-team1
