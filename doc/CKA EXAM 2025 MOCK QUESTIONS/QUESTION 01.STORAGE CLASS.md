@@ -6,7 +6,7 @@
 
 ## Prerequisite
 ### Explain StorageClass To Enumerate Allowed Values
-```
+```bash
 controlplane:~$ k explain storageclass 
 GROUP:      storage.k8s.io
 KIND:       StorageClass
@@ -104,7 +104,7 @@ Save this configuration to a file named ```sc-default-retain.yaml``` and apply i
 ### Steps
 
 #### List The Current StorageClasses
-```
+```bash
 controlplane:~$ kubectl get storageclasses
 NAME                    PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
 local-path (default)    rancher.io/local-path               Delete          WaitForFirstConsumer   false                  27d
@@ -114,13 +114,15 @@ controlplane:~$ kubectl get storageclasses.storage.k8s.io
 ```
 
 #### Edit The StorageClasses YAML File
-```
+```bash
 controlplane:~$ nano sc-default-retain.yaml
 ```
 
 #### Cat The StorageClasses YAML File
-```
+```bash
 controlplane:~$ cat sc-default-retain.yaml
+```
+```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -138,14 +140,14 @@ parameters:
 ```
 
 #### Apply The StorageClasses YAML File
-```
+```bash
 controlplane:~$ kubectl apply -f sc-default-retain.yaml 
 storageclass.storage.k8s.io/low-latency created
 ```
 
 #### List The StorageClasses
 Note two -- ```local-path``` and ```low-latency``` -- are ```(default)```
-```
+```bash
 controlplane:~$ kubectl get storageclasses
 NAME                    PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
 local-path (default)    rancher.io/local-path               Delete          WaitForFirstConsumer   false                  27d
@@ -157,8 +159,10 @@ controlplane:~$ kubectl get storageclasses.storage.k8s.io
 
 #### Get The Current Default Storage Class "local-path" In YAML Format
 Note ```default``` is ```true```
-```
+```bash
 controlplane:~$ kubectl get storageclass local-path -o yaml
+```
+``` yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -176,13 +180,15 @@ volumeBindingMode: WaitForFirstConsumer
 ```
 
 #### Edit The Current StorageClass ```local-path```
-```
+```bash
 controlplane:~$ kubectl edit storageclass local-path   
 ```
 
 #### Get The Current Default Storage Class ```local-path``` In YAML Format
+```bash
+controlplane:~$ kubectl get storageclass local-path -o yaml
 ```
-controlplane:~$ kubectl get storageclass local-path -o yaml                              
+```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -201,7 +207,7 @@ volumeBindingMode: WaitForFirstConsumer
 
 #### List The StorageClasses
 Note one -- ```low-latency``` -- is ```(default)```
-```
+```bash
 controlplane:~$ kubectl get storageclass                   
 NAME                    PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
 local-path              rancher.io/local-path               Delete          WaitForFirstConsumer   false                  27d
@@ -217,18 +223,20 @@ You already have a StorageClass named ```old-default```.  You created a new Stor
 ### Steps
 
 #### Backup StorageClass ```low-latency``` to ```fast-csi```
-```
+```bash
 controlplane:~$ kubectl get storageclass low-latency -o yaml > sc-fast-csi.yaml
 ```
 
 #### Edit StorageClass ```fast-csi``` YAML File
-```
+```bash
 controlplane:~$ nano sc-fast-csi.yaml
 ```
 
 #### Cat StorageClass ```fast-csi``` YAML File
-```
+```bash
 controlplane:~$ cat sc-fast-csi.yaml
+```
+```yaml
 allowVolumeExpansion: true
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
@@ -251,14 +259,14 @@ volumeBindingMode: WaitForFirstConsumer
 ```
 
 #### Apply StorageClass ```fast-csi``` YAML File
-```
+```bash
 controlplane:~$ kubectl apply -f sc-fast-csi.yaml  
 storageclass.storage.k8s.io/fast-csi created
 ```
 
 #### List The StorageClasses
 Note ```low-latency``` is ```default```
-```
+```bash
 controlplane:~$ kubectl get storageclass                                       
 NAME                    PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
 fast-csi                csi-driver.example-vendor.example   Retain          WaitForFirstConsumer   true                   10s
@@ -268,26 +276,26 @@ controlplane:~$
 ```
 
 #### Record Configuration
-```
+```json
 {"allowVolumeExpansion":true,"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"false"},"name":"low-latency"},"mountOptions":["discard"],"parameters":{"guaranteedReadWriteLatency":"true"},"provisioner":"csi-driver.example-vendor.example","reclaimPolicy":"Retain","volumeBindingMode":"WaitForFirstConsumer"}
 ```
 
 #### Patch The Value ```is-default-class``` In StorageClass ```fast-api```
 Note must be in JSON string
-```
+```bash
 controlplane:~$ kubectl patch storageclass fast-csi -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
 storageclass.storage.k8s.io/fast-csi patched
 ```
 
 #### Patch The Value ```is-default-class``` In StorageClass ```low-latency```
-```
+```bash
 controlplane:~$ kubectl patch storageclass low-latency -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
 storageclass.storage.k8s.io/low-latency patched
 ```
 
 #### List The StorageClasses
 Note ```fast-csi``` is ```default```
-```
+```bash
 controlplane:~$ kubectl get storageclass
 NAME                 PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
 fast-csi (default)   csi-driver.example-vendor.example   Retain          WaitForFirstConsumer   true                   12m
@@ -309,13 +317,15 @@ It must:
 ### Steps
 
 #### Create The YAML File ```perf-csi-sc.yaml```
-```
+```bash
 controlplane:~$ nano perf-csi-sc.yaml
 ```
 
 #### Cat The YAML File ```perf-csi-sc.yaml```
-```
+```bash
 controlplane:~$ cat perf-csi-sc.yaml
+```
+```yaml
 apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
@@ -333,13 +343,13 @@ parameters:
 ```
 
 #### Apply The YAML File ```perf-csi-sc.yaml```
-```
+```bash
 controlplane:~$ kubectl apply -f perf-csi-sc.yaml
 storageclass.storage.k8s.io/perf-csi-sc created
 ```
 
 #### List The StorageClasses
-```
+```bash
 controlplane:~$ kubectl get storageclass
 NAME                 PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
 fast-csi (default)   csi-driver.example-vendor.example   Retain          WaitForFirstConsumer   true                   40m
@@ -355,7 +365,7 @@ Run a command to identify which StorageClass is currently set to "default"
 ### Steps
 
 #### List the StorageClass
-```
+```bash
 controlplane:~$ nano perf-csi-sc.yaml
 ```
 
