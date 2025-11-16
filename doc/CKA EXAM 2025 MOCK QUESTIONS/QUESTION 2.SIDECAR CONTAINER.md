@@ -1,8 +1,8 @@
 # SIDECAR CONTAINER
 
 ## Progress
-- 🔳 Watch Video -> ✅
-- 🔳 Complete All SubQuestions
+- ✅ Watch Video 
+- ✅🔳 Complete All SubQuestions
 
 ## References
 - [CKA EXAM 2025 MOCK QUESTION 02 - SIDE CAR CONTAINERS](https://youtu.be/b8iayk3l9nk?si=auZ_kcvhOvZD8nSV) | YouTube
