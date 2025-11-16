@@ -10,6 +10,7 @@
 ## TO DO
 - 🔳 Run [CKA Simulator](https://killer.sh/)
 - 🔳 Complete Examples in [Killercoda Interactive Environments](https://killercoda.com/)
+- 🔳 Complete Scenarios in https://killercoda.com/cka
 
 
 ## Session Prerequisites
