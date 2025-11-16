@@ -553,19 +553,21 @@ controlplane:~$
 
 ### Get The Pod
 - Confirm the pod exists
-- Confirm the pod has the same name ```myapp-5fc7bcccf4-k5t4z```
-- Confirm the pod has two containers
+- Confirm the old pod ```myapp-5fc7bcccf4-k5t4z``` terminates
+  - Pods are immutable; must be destroyed and recreated
+- Confirm the new pod has a new name ```myapp-5fc7bcccf4-xxxxx```
+- Confirm the new pod has two containers
 ```bash
 controlplane:~$ k -n default get pods
 NAME                     READY   STATUS    RESTARTS   AGE
 myapp-5fc7bcccf4-k5t4z   1/1     Running   0          59s
 ```
 
-### Describe The Pod  ```myapp-5fc7bcccf4-k5t4z```
+### Describe The Pod  ```myapp-5fc7bcccf4-xxxxx```
 - Confirm the pod has two containers
 - Confirm the original container has the same Container ID
 ```bash
-controlplane:~$ k -n default describe pods myapp-5fc7bcccf4-k5t4z
+controlplane:~$ k -n default describe pods myapp-5fc7bcccf4-xxxxx
 ```
 ```yaml
 ...
@@ -573,6 +575,11 @@ controlplane:~$ k -n default describe pods myapp-5fc7bcccf4-k5t4z
 
 ### Observe The ```tail``` Output In The Logs
 ```
-controlplane:~$ k -n default kubectl logs myapp-5fc7bcccf4-k5t4z --all-containers=true
+controlplane:~$ k -n default kubectl logs myapp-5fc7bcccf4-xxxx --all-containers=true
+logging
+logging
+logging
+...
 ```
+
 
