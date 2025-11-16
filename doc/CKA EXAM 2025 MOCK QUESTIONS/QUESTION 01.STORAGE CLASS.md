@@ -1,5 +1,9 @@
 # STORAGE CLASS
 
+## Progress
+- ✅ Watch Video
+- ✅ Complete All SubQuestions
+
 ## References
 - [CKA EXAM 2025 MOCK QUESTION 01- STORAGE CLASS](https://youtu.be/b8iayk3l9nk?si=auZ_kcvhOvZD8nSV) | YouTube
 - [Storage Classes](https://kubernetes.io/docs/concepts/storage/storage-classes/) | Kubernetes.io
@@ -373,9 +377,4 @@ controlplane:~$ nano perf-csi-sc.yaml
 Create a new StorageClass named ```cluster-one```
 - ```rancher.io/local-path```
 - ```VOLUMEBINDINGMODE = WaitForFirstConsumer```
-
-### Progress
-- ✅ Watch Video
-- ✅ Complete All SubQuestions
-
 
