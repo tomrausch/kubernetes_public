@@ -3,6 +3,8 @@
 ## References
 - [CKA EXAM 2025 MOCK QUESTION 16 CRD](https://www.youtube.com/watch?v=hQXCkTU6Xbw&list=PLvOcEsRqg0tKO1znOiZN5fhdAY2DCTvFY) (Playlist) | NeoKloud 
 
+## Files
+- [QUESTION 01 - STORAGE CLASS](https://github.com/tomrausch/kubernetes_public/blob/main/doc/CKA%20EXAM%202025%20MOCK%20QUESTIONS/QUESTION%2001.STORAGE%20CLASS.md)
 
 ## Prerequisites
 Set alias
@@ -32,17 +34,6 @@ CURRENT   NAME                          CLUSTER      AUTHINFO           NAMESPAC
 *         kubernetes-admin@kubernetes   kubernetes   kubernetes-admin   
 ```
 
-## Files
-
-- [QUESTION 01 - STORAGE CLASS]("C:\Users\tomra\OneDrive\Documents\_CKA Exam\CKA EXAM 2025 MOCK QUESTION 16 CRD\CKA EXAM 2025 MOCK QUESTION 01 - STORAGE CLASS.md")
-
-## Ad-Hoc Questions
-### Identify Pods By Label
-```
-controlplane:~$ kubectl get pods --namespace kube-system -l component=etcd
-NAME                READY   STATUS    RESTARTS      AGE
-etcd-controlplane   1/1     Running   1 (57m ago)   27d
-```
 
 
 ================================
