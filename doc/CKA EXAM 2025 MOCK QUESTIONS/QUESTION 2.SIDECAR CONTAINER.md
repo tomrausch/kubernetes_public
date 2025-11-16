@@ -1,10 +1,14 @@
 # SIDECAR CONTAINER
 
-
+## Progress
+- 🔳 Watch Video -> ✅
+- 🔳 Complete All SubQuestions
 
 ## References
 - [CKA EXAM 2025 MOCK QUESTION 02 - SIDE CAR CONTAINERS](https://youtu.be/b8iayk3l9nk?si=auZ_kcvhOvZD8nSV) | YouTube
+- [kubectl logs](https://kubernetes.io/docs/reference/kubectl/generated/kubectl_logs/) | Kubernetes.io
 - [Sidecar Containers](https://kubernetes.io/docs/concepts/workloads/pods/sidecar-containers/) | Kubernetes.io
+- [Volumes](https://kubernetes.io/docs/concepts/storage/volumes/) | Kubernetes.io
 
 
 ## Question - Add A Sidecar Container For Log Tailing
@@ -25,370 +29,550 @@ Currently there is no mechanism to tail or view this log in real time
 - Do not delete or modify the original ```myapp``` container
 - Make sure the ```logshipper``` runs as a Sidecar Container, not as an ```initContainer```
 
+## Prerequisites
 
+### Print The Supported API resources
+```bash
+controlplane:/opt$ kubectl api-resources
+NAME                                SHORTNAMES   APIVERSION                        NAMESPACED   KIND
+bindings                                         v1                                true         Binding
+componentstatuses                   cs           v1                                false        ComponentStatus
+configmaps                          cm           v1                                true         ConfigMap
+endpoints                           ep           v1                                true         Endpoints
+events                              ev           v1                                true         Event
+limitranges                         limits       v1                                true         LimitRange
+namespaces                          ns           v1                                false        Namespace
+nodes                               no           v1                                false        Node
+persistentvolumeclaims              pvc          v1                                true         PersistentVolumeClaim
+persistentvolumes                   pv           v1                                false        PersistentVolume
+pods                                po           v1                                true         Pod
+podtemplates                                     v1                                true         PodTemplate
+replicationcontrollers              rc           v1                                true         ReplicationController
+resourcequotas                      quota        v1                                true         ResourceQuota
+secrets                                          v1                                true         Secret
+serviceaccounts                     sa           v1                                true         ServiceAccount
+services                            svc          v1                                true         Service
+mutatingwebhookconfigurations                    admissionregistration.k8s.io/v1   false        MutatingWebhookConfiguration
+validatingadmissionpolicies                      admissionregistration.k8s.io/v1   false        ValidatingAdmissionPolicy
+validatingadmissionpolicybindings                admissionregistration.k8s.io/v1   false        ValidatingAdmissionPolicyBinding
+validatingwebhookconfigurations                  admissionregistration.k8s.io/v1   false        ValidatingWebhookConfiguration
+customresourcedefinitions           crd,crds     apiextensions.k8s.io/v1           false        CustomResourceDefinition
+apiservices                                      apiregistration.k8s.io/v1         false        APIService
+controllerrevisions                              apps/v1                           true         ControllerRevision
+daemonsets                          ds           apps/v1                           true         DaemonSet
+deployments                         deploy       apps/v1                           true         Deployment
+replicasets                         rs           apps/v1                           true         ReplicaSet
+statefulsets                        sts          apps/v1                           true         StatefulSet
+selfsubjectreviews                               authentication.k8s.io/v1          false        SelfSubjectReview
+tokenreviews                                     authentication.k8s.io/v1          false        TokenReview
+localsubjectaccessreviews                        authorization.k8s.io/v1           true         LocalSubjectAccessReview
+selfsubjectaccessreviews                         authorization.k8s.io/v1           false        SelfSubjectAccessReview
+selfsubjectrulesreviews                          authorization.k8s.io/v1           false        SelfSubjectRulesReview
+subjectaccessreviews                             authorization.k8s.io/v1           false        SubjectAccessReview
+horizontalpodautoscalers            hpa          autoscaling/v2                    true         HorizontalPodAutoscaler
+cronjobs                            cj           batch/v1                          true         CronJob
+jobs                                             batch/v1                          true         Job
+certificatesigningrequests          csr          certificates.k8s.io/v1            false        CertificateSigningRequest
+leases                                           coordination.k8s.io/v1            true         Lease
+bgpconfigurations                                crd.projectcalico.org/v1          false        BGPConfiguration
+bgppeers                                         crd.projectcalico.org/v1          false        BGPPeer
+blockaffinities                                  crd.projectcalico.org/v1          false        BlockAffinity
+caliconodestatuses                               crd.projectcalico.org/v1          false        CalicoNodeStatus
+clusterinformations                              crd.projectcalico.org/v1          false        ClusterInformation
+felixconfigurations                              crd.projectcalico.org/v1          false        FelixConfiguration
+globalnetworkpolicies                            crd.projectcalico.org/v1          false        GlobalNetworkPolicy
+globalnetworksets                                crd.projectcalico.org/v1          false        GlobalNetworkSet
+hostendpoints                                    crd.projectcalico.org/v1          false        HostEndpoint
+ipamblocks                                       crd.projectcalico.org/v1          false        IPAMBlock
+ipamconfigs                                      crd.projectcalico.org/v1          false        IPAMConfig
+ipamhandles                                      crd.projectcalico.org/v1          false        IPAMHandle
+ippools                                          crd.projectcalico.org/v1          false        IPPool
+ipreservations                                   crd.projectcalico.org/v1          false        IPReservation
+kubecontrollersconfigurations                    crd.projectcalico.org/v1          false        KubeControllersConfiguration
+networkpolicies                                  crd.projectcalico.org/v1          true         NetworkPolicy
+networksets                                      crd.projectcalico.org/v1          true         NetworkSet
+endpointslices                                   discovery.k8s.io/v1               true         EndpointSlice
+events                              ev           events.k8s.io/v1                  true         Event
+flowschemas                                      flowcontrol.apiserver.k8s.io/v1   false        FlowSchema
+prioritylevelconfigurations                      flowcontrol.apiserver.k8s.io/v1   false        PriorityLevelConfiguration
+ingressclasses                                   networking.k8s.io/v1              false        IngressClass
+ingresses                           ing          networking.k8s.io/v1              true         Ingress
+ipaddresses                         ip           networking.k8s.io/v1              false        IPAddress
+networkpolicies                     netpol       networking.k8s.io/v1              true         NetworkPolicy
+servicecidrs                                     networking.k8s.io/v1              false        ServiceCIDR
+runtimeclasses                                   node.k8s.io/v1                    false        RuntimeClass
+poddisruptionbudgets                pdb          policy/v1                         true         PodDisruptionBudget
+clusterrolebindings                              rbac.authorization.k8s.io/v1      false        ClusterRoleBinding
+clusterroles                                     rbac.authorization.k8s.io/v1      false        ClusterRole
+rolebindings                                     rbac.authorization.k8s.io/v1      true         RoleBinding
+roles                                            rbac.authorization.k8s.io/v1      true         Role
+deviceclasses                                    resource.k8s.io/v1                false        DeviceClass
+resourceclaims                                   resource.k8s.io/v1                true         ResourceClaim
+resourceclaimtemplates                           resource.k8s.io/v1                true         ResourceClaimTemplate
+resourceslices                                   resource.k8s.io/v1                false        ResourceSlice
+priorityclasses                     pc           scheduling.k8s.io/v1              false        PriorityClass
+csidrivers                                       storage.k8s.io/v1                 false        CSIDriver
+csinodes                                         storage.k8s.io/v1                 false        CSINode
+csistoragecapacities                             storage.k8s.io/v1                 true         CSIStorageCapacity
+storageclasses                      sc           storage.k8s.io/v1                 false        StorageClass
+volumeattachments                                storage.k8s.io/v1                 false        VolumeAttachment
+volumeattributesclasses             vac          storage.k8s.io/v1                 false        VolumeAttributesClass
+```
+
+```volume``` is not a Kubernetes API Resource. Explaining ```Volume``` to enumerate allowed values fails
+
+```bash
+controlplane:/opt$ k explain volume
+the server doesn't have a resource type "volume"
+```
 
 ## Steps
 
+### Note Directory ```/opt```
+The directory ```/opt``` will be in the Pod, not in the Node
 
-
-
-========================================================================================================
-
-## Prerequisite
-### Explain StorageClass To Enumerate Allowed Values
+### Edit The Deployment YAML File
 ```bash
-controlplane:~$ k explain storageclass 
-GROUP:      storage.k8s.io
-KIND:       StorageClass
-VERSION:    v1
-
-DESCRIPTION:
-    StorageClass describes the parameters for a class of storage for which
-    PersistentVolumes can be dynamically provisioned.
-    
-    StorageClasses are non-namespaced; the name of the storage class according
-    to etcd is in ObjectMeta.Name.
-    
-FIELDS:
-  allowVolumeExpansion  <boolean>
-    allowVolumeExpansion shows whether the storage class allow volume expand.
-
-  allowedTopologies     <[]TopologySelectorTerm>
-    allowedTopologies restrict the node topologies where volumes can be
-    dynamically provisioned. Each volume plugin defines its own supported
-    topology specifications. An empty TopologySelectorTerm list means there is
-    no topology restriction. This field is only honored by servers that enable
-    the VolumeScheduling feature.
-
-  apiVersion    <string>
-    APIVersion defines the versioned schema of this representation of an object.
-    Servers should convert recognized schemas to the latest internal value, and
-    may reject unrecognized values. More info:
-    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#resources
-
-  kind  <string>
-    Kind is a string value representing the REST resource this object
-    represents. Servers may infer this from the endpoint the client submits
-    requests to. Cannot be updated. In CamelCase. More info:
-    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#types-kinds
-
-  metadata      <ObjectMeta>
-    Standard object's metadata. More info:
-    https://git.k8s.io/community/contributors/devel/sig-architecture/api-conventions.md#metadata
-
-  mountOptions  <[]string>
-    mountOptions controls the mountOptions for dynamically provisioned
-    PersistentVolumes of this storage class. e.g. ["ro", "soft"]. Not validated
-    - mount of the PVs will simply fail if one is invalid.
-
-  parameters    <map[string]string>
-    parameters holds the parameters for the provisioner that should create
-    volumes of this storage class.
-
-  provisioner   <string> -required-
-    provisioner indicates the type of the provisioner.
-
-  reclaimPolicy <string>
-  enum: Delete, Recycle, Retain
-    reclaimPolicy controls the reclaimPolicy for dynamically provisioned
-    PersistentVolumes of this storage class. Defaults to Delete.
-    
-    Possible enum values:
-     - `"Delete"` means the volume will be deleted from Kubernetes on release
-    from its claim. The volume plugin must support Deletion.
-     - `"Recycle"` means the volume will be recycled back into the pool of
-    unbound persistent volumes on release from its claim. The volume plugin must
-    support Recycling.
-     - `"Retain"` means the volume will be left in its current phase (Released)
-    for manual reclamation by the administrator. The default policy is Retain.
-
-  volumeBindingMode     <string>
-  enum: Immediate, WaitForFirstConsumer
-    volumeBindingMode indicates how PersistentVolumeClaims should be provisioned
-    and bound.  When unset, VolumeBindingImmediate is used. This field is only
-    honored by servers that enable the VolumeScheduling feature.
-    
-    Possible enum values:
-     - `"Immediate"` indicates that PersistentVolumeClaims should be immediately
-    provisioned and bound. This is the default mode.
-     - `"WaitForFirstConsumer"` indicates that PersistentVolumeClaims should not
-    be provisioned and bound until the first Pod is created that references the
-    PeristentVolumeClaim. The volume provisioning and binding will occur during
-    Pod scheduing.
+controlplane:~$ nano deployment-myapp.yaml
 ```
 
-
-#### List The Current StorageClasses
+### Cat The Deployment YAML File
 ```bash
-controlplane:~$ kubectl get storageclasses
-NAME                    PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-local-path (default)    rancher.io/local-path               Delete          WaitForFirstConsumer   false                  27d
-
-Alternate
-controlplane:~$ kubectl get storageclasses.storage.k8s.io
-```
-
-#### Edit The StorageClasses YAML File
-```bash
-controlplane:~$ nano sc-default-retain.yaml
-```
-
-#### Cat The StorageClasses YAML File
-```bash
-controlplane:~$ cat sc-default-retain.yaml
+controlplane:~$ cat deployment-myapp.yaml
 ```
 ```yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
+apiVersion: apps/v1
+kind: Deployment
 metadata:
-  name: low-latency
-  annotations:
-    storageclass.kubernetes.io/is-default-class: "true"
-provisioner: csi-driver.example-vendor.example
-reclaimPolicy: Retain # default value is Delete
-allowVolumeExpansion: true
-mountOptions:
-  - discard # this might enable UNMAP / TRIM at the block storage layer
-volumeBindingMode: WaitForFirstConsumer
-parameters:
-  guaranteedReadWriteLatency: "true" # provider-specific
+  name: myapp
+  labels:
+    app: myapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: myapp
+          image: alpine:latest
+          command: ['sh', '-c', 'while true; do echo "logging" >> /opt/logs.txt; sleep 1; done']
+          volumeMounts:
+            - name: data
+              mountPath: /opt
+          env:
+          - name: ENVIRONMENT
+            value: PRODUCTION
+          - name: LOG_LEVEL
+            value: INFO
+          - name: APP_VERSION
+            value: v1.0.3
+          - name: ENABLE_METRICS
+            value: "true"
+      volumes:
+        - name: data
+          emptyDir: {}
 ```
 
-#### Apply The StorageClasses YAML File
+### Apply The Deployment YAML File
 ```bash
-controlplane:~$ kubectl apply -f sc-default-retain.yaml 
-storageclass.storage.k8s.io/low-latency created
+controlplane:~$ kubectl apply -f deployment-myapp.yaml
+deployment.apps/myapp created
 ```
 
-#### List The StorageClasses
-Note two -- ```local-path``` and ```low-latency``` -- are ```(default)```
+### Describe The Deployment ```myapp```
 ```bash
-controlplane:~$ kubectl get storageclasses
-NAME                    PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-local-path (default)    rancher.io/local-path               Delete          WaitForFirstConsumer   false                  27d
-low-latency (default)   csi-driver.example-vendor.example   Retain          WaitForFirstConsumer   true                   8m5s
-
-Alternate
-controlplane:~$ kubectl get storageclasses.storage.k8s.io
-```
-
-#### Get The Current Default Storage Class "local-path" In YAML Format
-Note ```default``` is ```true```
-```bash
-controlplane:~$ kubectl get storageclass local-path -o yaml
-```
-``` yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"name":"local-path"},"provisioner":"rancher.io/local-path","reclaimPolicy":"Delete","volumeBindingMode":"WaitForFirstConsumer"}
-    storageclass.kubernetes.io/is-default-class: "true"
-  creationTimestamp: "2025-10-19T15:50:43Z"
-  name: local-path
-  resourceVersion: "806"
-  uid: 33d1dd94-ffef-4f9b-ac01-4cfef0594c01
-provisioner: rancher.io/local-path
-reclaimPolicy: Delete
-volumeBindingMode: WaitForFirstConsumer
-```
-
-#### Edit The Current StorageClass ```local-path```
-```bash
-controlplane:~$ kubectl edit storageclass local-path   
-```
-
-#### Get The Current Default Storage Class ```local-path``` In YAML Format
-```bash
-controlplane:~$ kubectl get storageclass local-path -o yaml
+controlplane:~$ k -n default describe deployments myapp
 ```
 ```yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{},"name":"local-path"},"provisioner":"rancher.io/local-path","reclaimPolicy":"Delete","volumeBindingMode":"WaitForFirstConsumer"}
-    storageclass.kubernetes.io/is-default-class: "false"
-  creationTimestamp: "2025-10-19T15:50:43Z"
-  name: local-path
-  resourceVersion: "6847"
-  uid: 33d1dd94-ffef-4f9b-ac01-4cfef0594c01
-provisioner: rancher.io/local-path
-reclaimPolicy: Delete
-volumeBindingMode: WaitForFirstConsumer
+Name:                   myapp
+Namespace:              default
+CreationTimestamp:      Sun, 16 Nov 2025 18:56:34 +0000
+Labels:                 app=myapp
+Annotations:            deployment.kubernetes.io/revision: 1
+Selector:               app=myapp
+Replicas:               1 desired | 1 updated | 1 total | 1 available | 0 unavailable
+StrategyType:           RollingUpdate
+MinReadySeconds:        0
+RollingUpdateStrategy:  25% max unavailable, 25% max surge
+Pod Template:
+  Labels:  app=myapp
+  Containers:
+   myapp:
+    Image:      alpine:latest
+    Port:       <none>
+    Host Port:  <none>
+    Command:
+      sh
+      -c
+      while true; do echo "logging" >> /opt/logs.txt; sleep 1; done
+    Environment:
+      ENVIRONMENT:     PRODUCTION
+      LOG_LEVEL:       INFO
+      APP_VERSION:     v1.0.3
+      ENABLE_METRICS:  true
+    Mounts:
+      /opt from data (rw)
+  Volumes:
+   data:
+    Type:          EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:        
+    SizeLimit:     <unset>
+  Node-Selectors:  <none>
+  Tolerations:     <none>
+Conditions:
+  Type           Status  Reason
+  ----           ------  ------
+  Available      True    MinimumReplicasAvailable
+  Progressing    True    NewReplicaSetAvailable
+OldReplicaSets:  <none>
+NewReplicaSet:   myapp-5fc7bcccf4 (1/1 replicas created)
+Events:
+  Type    Reason             Age   From                   Message
+  ----    ------             ----  ----                   -------
+  Normal  ScalingReplicaSet  17m   deployment-controller  Scaled up replica set myapp-5fc7bcccf4 from 0 to 1
 ```
 
-#### List The StorageClasses
-Note one -- ```low-latency``` -- is ```(default)```
+### Get The Pod
+- Confirm the pod exists
+- Confirm the pod has one container
 ```bash
-controlplane:~$ kubectl get storageclass                   
-NAME                    PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-local-path              rancher.io/local-path               Delete          WaitForFirstConsumer   false                  27d
-low-latency (default)   csi-driver.example-vendor.example   Retain          WaitForFirstConsumer   true                   26m
+controlplane:~$ k -n default get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+myapp-5fc7bcccf4-k5t4z   1/1     Running   0          59s
 ```
 
-## Question 2 
-### Task
-You already have a StorageClass named ```old-default```.  You created a new StorageClass names ```fast-csi``` (already applied) but forgot to mark it as the default.
-- Patch ```fast-csi``` to be the default StorageClass
-- Remove the default annotation from the ```old-default```
-
-### Steps
-
-#### Backup StorageClass ```low-latency``` to ```fast-csi```
+### Describe The Pod  ```myapp-5fc7bcccf4-k5t4z```
 ```bash
-controlplane:~$ kubectl get storageclass low-latency -o yaml > sc-fast-csi.yaml
-```
-
-#### Edit StorageClass ```fast-csi``` YAML File
-```bash
-controlplane:~$ nano sc-fast-csi.yaml
-```
-
-#### Cat StorageClass ```fast-csi``` YAML File
-```bash
-controlplane:~$ cat sc-fast-csi.yaml
+controlplane:~$ k -n default describe pods myapp-5fc7bcccf4-k5t4z
 ```
 ```yaml
-allowVolumeExpansion: true
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
+Name:             myapp-5fc7bcccf4-k5t4z
+Namespace:        default
+Priority:         0
+Service Account:  default
+Node:             node01/172.30.2.2
+Start Time:       Sun, 16 Nov 2025 18:56:34 +0000
+Labels:           app=myapp
+                  pod-template-hash=5fc7bcccf4
+Annotations:      cni.projectcalico.org/containerID: 243fa39c51c77ccb19b15fc37ac63eddb087f357bdf31305910e218c46e5c415
+                  cni.projectcalico.org/podIP: 192.168.1.4/32
+                  cni.projectcalico.org/podIPs: 192.168.1.4/32
+Status:           Running
+IP:               192.168.1.4
+IPs:
+  IP:           192.168.1.4
+Controlled By:  ReplicaSet/myapp-5fc7bcccf4
+Containers:
+  myapp:
+    Container ID:  containerd://a3481167ebea4270cf88611a928a519f7468b489e1b1a3da6dc1bf2797dc8fb9
+    Image:         alpine:latest
+    Image ID:      docker.io/library/alpine@sha256:4b7ce07002c69e8f3d704a9c5d6fd3053be500b7f1c69fc0d80990c2ad8dd412
+    Port:          <none>
+    Host Port:     <none>
+    Command:
+      sh
+      -c
+      while true; do echo "logging" >> /opt/logs.txt; sleep 1; done
+    State:          Running
+      Started:      Sun, 16 Nov 2025 18:56:40 +0000
+    Ready:          True
+    Restart Count:  0
+    Environment:
+      ENVIRONMENT:     PRODUCTION
+      LOG_LEVEL:       INFO
+      APP_VERSION:     v1.0.3
+      ENABLE_METRICS:  true
+    Mounts:
+      /opt from data (rw)
+      /var/run/secrets/kubernetes.io/serviceaccount from kube-api-access-mwm6k (ro)
+Conditions:
+  Type                        Status
+  PodReadyToStartContainers   True 
+  Initialized                 True 
+  Ready                       True 
+  ContainersReady             True 
+  PodScheduled                True 
+Volumes:
+  data:
+    Type:       EmptyDir (a temporary directory that shares a pod's lifetime)
+    Medium:     
+    SizeLimit:  <unset>
+  kube-api-access-mwm6k:
+    Type:                    Projected (a volume that contains injected data from multiple sources)
+    TokenExpirationSeconds:  3607
+    ConfigMapName:           kube-root-ca.crt
+    Optional:                false
+    DownwardAPI:             true
+QoS Class:                   BestEffort
+Node-Selectors:              <none>
+Tolerations:                 node.kubernetes.io/not-ready:NoExecute op=Exists for 300s
+                             node.kubernetes.io/unreachable:NoExecute op=Exists for 300s
+Events:
+  Type    Reason     Age    From               Message
+  ----    ------     ----   ----               -------
+  Normal  Scheduled  6m3s   default-scheduler  Successfully assigned default/myapp-5fc7bcccf4-k5t4z to node01
+  Normal  Pulling    6m3s   kubelet            Pulling image "alpine:latest"
+  Normal  Pulled     5m57s  kubelet            Successfully pulled image "alpine:latest" in 5.529s (5.529s including waiting). Image size: 3813273 bytes.
+  Normal  Created    5m57s  kubelet            Created container: myapp
+  Normal  Started    5m57s  kubelet            Started container myapp
+```
+
+### Backup The Pod To YAML
+```bash
+controlplane:~$ k -n default get pods myapp-5fc7bcccf4-k5t4z -o yaml > pod-myapp-5fc7bcccf4-k5t4z.yaml
+```
+```yaml
+apiVersion: v1
+kind: Pod
 metadata:
   annotations:
-    kubectl.kubernetes.io/last-applied-configuration: |
-      {"allowVolumeExpansion":true,"apiVersion":"storage.k8s.io/v1","kind":"StorageClass",x"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"false"},"name":"low-latency"},"mountOptions":["discard"],"parameters":{"guaranteedReadWriteLatency":"true"},"provisioner":"csi-driver.example-vendor.example","reclaimPolicy":"Retain","volumeBindingMode":"WaitForFirstConsumer"}
-    storageclass.kubernetes.io/is-default-class: "false"
-  creationTimestamp: "2025-11-16T01:54:28Z"
-  name: fast-csi
-  resourceVersion: "5324"
-  uid: 48462728-7254-49ae-adba-e897342a1529
-mountOptions:
-- discard
-parameters:
-  guaranteedReadWriteLatency: "true"
-provisioner: csi-driver.example-vendor.example
-reclaimPolicy: Retain
-volumeBindingMode: WaitForFirstConsumer
+    cni.projectcalico.org/containerID: 243fa39c51c77ccb19b15fc37ac63eddb087f357bdf31305910e218c46e5c415
+    cni.projectcalico.org/podIP: 192.168.1.4/32
+    cni.projectcalico.org/podIPs: 192.168.1.4/32
+  creationTimestamp: "2025-11-16T18:56:34Z"
+  generateName: myapp-5fc7bcccf4-
+  generation: 1
+  labels:
+    app: myapp
+    pod-template-hash: 5fc7bcccf4
+  name: myapp-5fc7bcccf4-k5t4z
+  namespace: default
+  ownerReferences:
+  - apiVersion: apps/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: ReplicaSet
+    name: myapp-5fc7bcccf4
+    uid: b2778fef-7a65-4402-92d5-229e6714555c
+  resourceVersion: "8701"
+  uid: 12c84cb7-b11b-43b0-9a4f-afb54cdf9c41
+spec:
+  containers:
+  - command:
+    - sh
+    - -c
+    - while true; do echo "logging" >> /opt/logs.txt; sleep 1; done
+    env:
+    - name: ENVIRONMENT
+      value: PRODUCTION
+    - name: LOG_LEVEL
+      value: INFO
+    - name: APP_VERSION
+      value: v1.0.3
+    - name: ENABLE_METRICS
+      value: "true"
+    image: alpine:latest
+    imagePullPolicy: Always
+    name: myapp
+    resources: {}
+    terminationMessagePath: /dev/termination-log
+    terminationMessagePolicy: File
+    volumeMounts:
+    - mountPath: /opt
+      name: data
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-mwm6k
+      readOnly: true
+  dnsPolicy: ClusterFirst
+  enableServiceLinks: true
+  nodeName: node01
+  preemptionPolicy: PreemptLowerPriority
+  priority: 0
+  restartPolicy: Always
+  schedulerName: default-scheduler
+  securityContext: {}
+  serviceAccount: default
+  serviceAccountName: default
+  terminationGracePeriodSeconds: 30
+  tolerations:
+  - effect: NoExecute
+    key: node.kubernetes.io/not-ready
+    operator: Exists
+    tolerationSeconds: 300
+  - effect: NoExecute
+    key: node.kubernetes.io/unreachable
+    operator: Exists
+    tolerationSeconds: 300
+  volumes:
+  - emptyDir: {}
+    name: data
+  - name: kube-api-access-mwm6k
+    projected:
+      defaultMode: 420
+      sources:
+      - serviceAccountToken:
+          expirationSeconds: 3607
+          path: token
+      - configMap:
+          items:
+          - key: ca.crt
+            path: ca.crt
+          name: kube-root-ca.crt
+      - downwardAPI:
+          items:
+          - fieldRef:
+              apiVersion: v1
+              fieldPath: metadata.namespace
+            path: namespace
+status:
+  conditions:
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-16T18:56:41Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodReadyToStartContainers
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-16T18:56:34Z"
+    observedGeneration: 1
+    status: "True"
+    type: Initialized
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-16T18:56:41Z"
+    observedGeneration: 1
+    status: "True"
+    type: Ready
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-16T18:56:41Z"
+    observedGeneration: 1
+    status: "True"
+    type: ContainersReady
+  - lastProbeTime: null
+    lastTransitionTime: "2025-11-16T18:56:34Z"
+    observedGeneration: 1
+    status: "True"
+    type: PodScheduled
+  containerStatuses:
+  - containerID: containerd://a3481167ebea4270cf88611a928a519f7468b489e1b1a3da6dc1bf2797dc8fb9
+    image: docker.io/library/alpine:latest
+    imageID: docker.io/library/alpine@sha256:4b7ce07002c69e8f3d704a9c5d6fd3053be500b7f1c69fc0d80990c2ad8dd412
+    lastState: {}
+    name: myapp
+    ready: true
+    resources: {}
+    restartCount: 0
+    started: true
+    state:
+      running:
+        startedAt: "2025-11-16T18:56:40Z"
+    volumeMounts:
+    - mountPath: /opt
+      name: data
+    - mountPath: /var/run/secrets/kubernetes.io/serviceaccount
+      name: kube-api-access-mwm6k
+      readOnly: true
+      recursiveReadOnly: Disabled
+  hostIP: 172.30.2.2
+  hostIPs:
+  - ip: 172.30.2.2
+  observedGeneration: 1
+  phase: Running
+  podIP: 192.168.1.4
+  podIPs:
+  - ip: 192.168.1.4
+  qosClass: BestEffort
+  startTime: "2025-11-16T18:56:34Z"
 ```
 
-#### Apply StorageClass ```fast-csi``` YAML File
+### Confirm Pod Can Run Command ```date```
 ```bash
-controlplane:~$ kubectl apply -f sc-fast-csi.yaml  
-storageclass.storage.k8s.io/fast-csi created
+controlplane:~$ kubectl -n default exec myapp-5fc7bcccf4-k5t4z -- date
+Sun Nov 16 19:00:01 UTC 2025
 ```
 
-#### List The StorageClasses
-Note ```low-latency``` is ```default```
+### Confirm Log File Appears In Pod Directory ```/opt```
 ```bash
-controlplane:~$ kubectl get storageclass                                       
-NAME                    PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-fast-csi                csi-driver.example-vendor.example   Retain          WaitForFirstConsumer   true                   10s
-local-path              rancher.io/local-path               Delete          WaitForFirstConsumer   false                  27d
-low-latency (default)   csi-driver.example-vendor.example   Retain          WaitForFirstConsumer   true                   66m
+controlplane:~$ kubectl -n default exec myapp-5fc7bcccf4-k5t4z -- ls -l /opt
+total 4
+-rw-r--r--    1 root     root          2024 Nov 16 19:00 logs.txt
+```
+
+### Edit The Deployment YAML File
+```bash
+controlplane:~$ nano deployment-myapp.yaml
+```
+
+### Cat The Deployment YAML File
+```bash
+controlplane:~$ cat deployment-myapp.yaml
+```
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp
+  labels:
+    app: myapp
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: myapp
+  template:
+    metadata:
+      labels:
+        app: myapp
+    spec:
+      containers:
+        - name: myapp
+          image: alpine:latest
+          command: ['sh', '-c', 'while true; do echo "logging" >> /opt/logs.txt; sleep 1; done']
+          volumeMounts:
+            - name: data
+              mountPath: /opt
+          env:
+          - name: ENVIRONMENT
+            value: PRODUCTION
+          - name: LOG_LEVEL
+            value: INFO
+          - name: APP_VERSION
+            value: v1.0.3
+          - name: ENABLE_METRICS
+            value: "true"
+      initContainers:
+        - name: logshipper
+          image: alpine:latest
+          restartPolicy: Always
+          command: ['sh', '-c', 'tail -F /opt/logs.txt']
+          volumeMounts:
+            - name: data
+              mountPath: /opt
+      volumes:
+        - name: data
+          emptyDir: {}
+```
+
+### Patch The Deployment
+```bash
 controlplane:~$ 
 ```
 
-#### Record Configuration
-```json
-{"allowVolumeExpansion":true,"apiVersion":"storage.k8s.io/v1","kind":"StorageClass","metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"false"},"name":"low-latency"},"mountOptions":["discard"],"parameters":{"guaranteedReadWriteLatency":"true"},"provisioner":"csi-driver.example-vendor.example","reclaimPolicy":"Retain","volumeBindingMode":"WaitForFirstConsumer"}
+### Get The Pod
+- Confirm the pod exists
+- Confirm the pod has the same name ```myapp-5fc7bcccf4-k5t4z```
+- Confirm the pod has two containers
+```bash
+controlplane:~$ k -n default get pods
+NAME                     READY   STATUS    RESTARTS   AGE
+myapp-5fc7bcccf4-k5t4z   1/1     Running   0          59s
 ```
 
-#### Patch The Value ```is-default-class``` In StorageClass ```fast-api```
-Note must be in JSON string
+### Describe The Pod  ```myapp-5fc7bcccf4-k5t4z```
+- Confirm the pod has two containers
+- Confirm the original container has the same Container ID
 ```bash
-controlplane:~$ kubectl patch storageclass fast-csi -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"true"}}}'
-storageclass.storage.k8s.io/fast-csi patched
-```
-
-#### Patch The Value ```is-default-class``` In StorageClass ```low-latency```
-```bash
-controlplane:~$ kubectl patch storageclass low-latency -p '{"metadata":{"annotations":{"storageclass.kubernetes.io/is-default-class":"false"}}}'
-storageclass.storage.k8s.io/low-latency patched
-```
-
-#### List The StorageClasses
-Note ```fast-csi``` is ```default```
-```bash
-controlplane:~$ kubectl get storageclass
-NAME                 PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-fast-csi (default)   csi-driver.example-vendor.example   Retain          WaitForFirstConsumer   true                   12m
-local-path           rancher.io/local-path               Delete          WaitForFirstConsumer   false                  27d
-low-latency          csi-driver.example-vendor.example   Retain          WaitForFirstConsumer   true                   78m
-```
-
-## Question 3
-### Task
-Create a StorageClass named ```perf-csi-sc``` using the same ```csi-driver.example-vendor.example``` provisioner but **do not** make it the default
-
-It must:
-- Allow volume expansion
-- Include the parameter ```guaranteedReadWriteLatency: "true"```
-- Use ```Immediate``` ```volumeBindingMode```
-- Use ```Delete``` as ```reclaimPolicy```
-
-
-### Steps
-
-#### Create The YAML File ```perf-csi-sc.yaml```
-```bash
-controlplane:~$ nano perf-csi-sc.yaml
-```
-
-#### Cat The YAML File ```perf-csi-sc.yaml```
-```bash
-controlplane:~$ cat perf-csi-sc.yaml
+controlplane:~$ k -n default describe pods myapp-5fc7bcccf4-k5t4z
 ```
 ```yaml
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
-metadata:
-  name: perf-csi-sc
-  annotations:
-    storageclass.kubernetes.io/is-default-class: "false"
-provisioner: csi-driver.example-vendor.example
-reclaimPolicy: Delete # default value is Delete
-allowVolumeExpansion: true
-mountOptions:
-  - discard # this might enable UNMAP / TRIM at the block storage layer
-volumeBindingMode: Immediate
-parameters:
-  guaranteedReadWriteLatency: "true" # provider-specific
+...
 ```
 
-#### Apply The YAML File ```perf-csi-sc.yaml```
-```bash
-controlplane:~$ kubectl apply -f perf-csi-sc.yaml
-storageclass.storage.k8s.io/perf-csi-sc created
+### Observe The ```tail``` Output In The Logs
+```
+controlplane:~$ k -n default kubectl logs myapp-5fc7bcccf4-k5t4z --all-containers=true
 ```
 
-#### List The StorageClasses
-```bash
-controlplane:~$ kubectl get storageclass
-NAME                 PROVISIONER                         RECLAIMPOLICY   VOLUMEBINDINGMODE      ALLOWVOLUMEEXPANSION   AGE
-fast-csi (default)   csi-driver.example-vendor.example   Retain          WaitForFirstConsumer   true                   40m
-local-path           rancher.io/local-path               Delete          WaitForFirstConsumer   false                  27d
-low-latency          csi-driver.example-vendor.example   Retain          WaitForFirstConsumer   true                   106m
-perf-csi-sc          csi-driver.example-vendor.example   Delete          Immediate              true                   7m56s
-```
-
-## Question 4
-### Task
-Run a command to identify which StorageClass is currently set to "default"
-
-### Steps
-
-#### List the StorageClass
-```bash
-controlplane:~$ nano perf-csi-sc.yaml
-```
-
-## Question 5
-Create a new StorageClass named ```cluster-one```
-- ```rancher.io/local-path```
-- ```VOLUMEBINDINGMODE = WaitForFirstConsumer```
-
-### Progress
-- ✅ Watch Video
-- ✅ Complete All SubQuestions
