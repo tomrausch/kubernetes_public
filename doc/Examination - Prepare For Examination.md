@@ -48,29 +48,53 @@
 - 🔳 CNI (cilium and flannel installation)
 - 🔳 Helm: Installing, upgrading and deleting chart releases
 - 🔳 Static pod (/etc/kubernetes/manifests)
+```
+$ sudo ls -l /etc/kubernetes/manifests
+	-rw------- 1 root root 2591 Oct 19 15:49 etcd.yaml
+	-rw------- 1 root root 3943 Nov 15 00:00 kube-apiserver.yaml
+	-rw------- 1 root root 3458 Oct 19 15:49 kube-controller-manager.yaml
+	-rw------- 1 root root 1725 Oct 19 15:49 kube-scheduler.yaml
+```
 - 🔳 Requestes and Limits on Containers
 - 🔳 Network Policies
 - 🔳 PVC and Storage classes management
 
 
-
-
-## TO DO
+## Exercises
 - 🔳 Run [CKA Simulator](https://killer.sh/)
-- 🔳 Complete Examples in [Killercoda Interactive Environments](https://killercoda.com/)
-- 🔳 Complete Scenarios in https://killercoda.com/cka
+- 🔳 Complete Examples in [Killercoda Interactive Environments](https://killercoda.com/) | Killercoda
+- 🔳 Complete [Scenarios for the Certified Kubernetes Administrator](https://killercoda.com/cka) | Killercoda
+	- Kim Wüstkamp (20 Scenarios)
+ 	- Chad M. Crowell (40 Scenarios)
+  	- Sachin H R (70 Scenarios)
+  	- Alexis Carbillet (10 Scenarios)
+
+- [ ] [API Server Misconfigured](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Kube Controller Manager Misconfigured](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Kubelet Misconfigured](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Application Misconfigured 1](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Application Misconfigured 2](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Application Multi-Container Issue](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Config Map Access in Pods](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Ingress Create](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Network Policy Namespace Selector](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Network Policy Misconfigured](https://killercoda.com/killer-shell-cka/...)
+- [ ] [RBAC Service Account Permissions](https://killercoda.com/killer-shell-cka/...)
+- [ ] [RBAC User Permissions](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Scheduling Priority](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Scheduling Pod Affinity](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Scheduling Pod AnitAffinity](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Daemon Set Host Path Configurator](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Cluster Setup](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Cluster Upgrade](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Cluster Node Join](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Cluster Certificate Management](https://killercoda.com/killer-shell-cka/...)
+- [ ] [Static Pod Move](https://killercoda.com/killer-shell-cka/...)
+
+
+
+
 - 🔳 Complete [Exam Simulator](https://trainingportal.linuxfoundation.org/learn/course/certified-kubernetes-administrator-cka/exam/exam)
-
-
-
-Domains & Competencies
-Expand All
-
-
-
-current node to verify that you are on the right node and cluster. Sometimes you may need to change contexts within the same cluster.
-
-
 
 
 
@@ -97,7 +121,6 @@ current node to verify that you are on the right node and cluster. Sometimes you
 - [ ] --output=jsonpath='{.items[*].metadata.name}')
   - [Jobs](https://kubernetes.io/docs/concepts/workloads/controllers/job/)
 - [ ] Understand Cron Jobs
-- [ ] Helm Charts
 - [ ] Kubernetes annotations
 - [ ] iptables
 - [ ] Scheduling - Node Affinity, Pod Affinity
@@ -115,14 +138,8 @@ Log Locations
 - kubelet logs: /var/log/syslog or journalctl
 
 
+
 ```
-$ sudo ls -l /etc/kubernetes/manifests
-	-rw------- 1 root root 2591 Oct 19 15:49 etcd.yaml
-	-rw------- 1 root root 3943 Nov 15 00:00 kube-apiserver.yaml
-	-rw------- 1 root root 3458 Oct 19 15:49 kube-controller-manager.yaml
-	-rw------- 1 root root 1725 Oct 19 15:49 kube-scheduler.yaml
-
-
 calico-kube-controllers   7                   3729037522361       calico-kube-controllers-7bb4
 kube-apiserver            0                   2c67f6e224215       kube-apiserver-controlplane
 kube-controller-manager   2                   235d36325b72a       kube-controller-manager-cont
@@ -135,28 +152,6 @@ calico-node               1                   2fea0b9e44a58       canal-rgkd5
 kube-proxy                1                   26df5b6644f18       kube-proxy-6rdfg
 etcd                      1                   791e89b79944c       etcd-controlplane
 ```
-- [ ] [API Server Misconfigured](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Kube Controller Manager Misconfigured](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Kubelet Misconfigured](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Application Misconfigured 1](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Application Misconfigured 2](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Application Multi-Container Issue](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Config Map Access in Pods](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Ingress Create](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Network Policy Namespace Selector](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Network Policy Misconfigured](https://killercoda.com/killer-shell-cka/...)
-- [ ] [RBAC Service Account Permissions](https://killercoda.com/killer-shell-cka/...)
-- [ ] [RBAC User Permissions](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Scheduling Priority](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Scheduling Pod Affinity](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Scheduling Pod AnitAffinity](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Daemon Set Host Path Configurator](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Cluster Setup](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Cluster Upgrade](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Cluster Node Join](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Cluster Certificate Management](https://killercoda.com/killer-shell-cka/...)
-- [ ] [Static Pod Move](https://killercoda.com/killer-shell-cka/...)
-
 
 
 
