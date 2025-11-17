@@ -7,12 +7,6 @@
 - [QUESTION 01 - STORAGE CLASS](https://github.com/tomrausch/kubernetes_public/blob/main/doc/CKA%20EXAM%202025%20MOCK%20QUESTIONS/QUESTION%2001.STORAGE%20CLASS.md)
 - [Ad Hoc Questions](https://github.com/tomrausch/kubernetes_public/blob/main/doc/CKA%20EXAM%202025%20MOCK%20QUESTIONS/Ad%20Hoc%20Questions.md)
 
-## TO DO
-- 🔳 Run [CKA Simulator](https://killer.sh/)
-- 🔳 Complete Examples in [Killercoda Interactive Environments](https://killercoda.com/)
-- 🔳 Complete Scenarios in https://killercoda.com/cka
-
-
 ## Session Prerequisites
 ### Set Alias
 ```bash
