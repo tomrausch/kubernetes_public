@@ -1,4 +1,3 @@
-
 ## TO DO
 - 🔳 Run [CKA Simulator](https://killer.sh/)
 - 🔳 Complete Examples in [Killercoda Interactive Environments](https://killercoda.com/)
