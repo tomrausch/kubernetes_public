@@ -1,8 +1,8 @@
 # CNI CALICO FLANNEL
 
 ## Progress
-- 🔳 Watch Video -> ✅
-- 🔳 Complete All SubQuestions
+- ✅ Watch Video
+- ✅ Complete All SubQuestions
 
 ## References
 - [CKA EXAM 2025 MOCK QUESTION 03 - CNI CALICO FLANNE](https://www.youtube.com/watch?v=V301KFSYuXk) | YouTube
