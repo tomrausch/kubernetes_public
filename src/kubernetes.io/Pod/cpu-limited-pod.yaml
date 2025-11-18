@@ -1,0 +1,13 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: cpu-limited-pod
+spec:
+  containers:
+  - name: cpu-limited-pod-nginx
+    image: nginx:latest
+    resources:
+      limits:
+        cpu: "16" # Sets a CPU limit of 1 CPU core
+      requests:
+        cpu: "16" # Requests 0.5 CPU core
