@@ -16,7 +16,8 @@
 - 🔳 Understand application deployments and how to perform rolling update and rollbacks
 - 🔳 Use ConfigMaps and Secrets to configure applications
 - 🔳 Configure workload autoscaling
-  - 🔳 [HorizontalPodAutoscaler Walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/)
+  - ✅ HPA
+  - [ ] VPA
 - 🔳 Understand the primitives used to create robust, self-healing, application deployments
 - 🔳 Configure Pod admission and scheduling (limits, node affinity, etc.)
 
@@ -61,20 +62,26 @@ $ sudo ls -l /etc/kubernetes/manifests
 - 🔳 PVC and Storage classes management
 
 
-- 🔳 CKA Install Kubernetes
-- 🔳 [Kubernetes Scheduler | How it Works](https://youtu.be/6p1XcgsFHsU)
-- 🔳 [How I passed the Certified Kubernetes Administrator (CKA) Exam in 2025](https://youtu.be/dHXgg9fbP8E) 14:48
-- 🔳 [10 Mistakes that will RUIN Your CKA/CKAD Score!](https://youtu.be/jWs1_TfPQoQ) 
-- 🔳 https://youtu.be/SEQ_AueLUGs
-- 🔳 https://youtu.be/YXLpLyWGar4
-- 🔳 https://youtube.com/playlist?list=PLi0QOhIwpoFqFimUI-kpaPhAvF7K1TPJ-&si=Of7Jb2LHV8BFAoo3
-- 🔳 https://youtube.com/playlist?list=PLvOcEsRqg0tIiE6GOdvqQFOq2lKYpZDfG&si=jA54oQgkdn7RhQ_a
+- 🔳 [CKA Exam](https://youtube.com/playlist?list=PLi0QOhIwpoFqFimUI-kpaPhAvF7K1TPJ-&si=Of7Jb2LHV8BFAoo3) 48 Videos
+- 🔳 [CKA 2025](https://youtube.com/playlist?list=PLvOcEsRqg0tIiE6GOdvqQFOq2lKYpZDfG&si=jA54oQgkdn7RhQ_a) 15 Videos
+- 🔳 [How to Setup a 3 Node Kubernetes Cluster for CKA Step by Step | K21Academy](https://www.youtube.com/watch?v=gsQFa3bIHE0) 34:54
+  - Presented so you can build your own three-node cluster for practice
+- 🔳 [Mastering Kubernetes Gateway API: A Comprehensive Guide with Tutorial](https://youtu.be/HLXyrQT8zV0) 34:50
 - 🔳 [2025 CKA Exam Questions & Solutions UPDATE! | Full Walkthrough!](https://www.youtube.com/watch?v=eGv6iPWQKyo) 46:40
+- 🔳 [Kubernetes Scheduler | How it Works](https://youtu.be/6p1XcgsFHsU) 16:57
+- 🔳 [Troubleshooting Pods: CKA Questions & Kubernetes Basics - Part 1 | 2025 Prep](https://youtu.be/YXLpLyWGar4) 15:17
+- 🔳 [How I passed the Certified Kubernetes Administrator (CKA) Exam in 2025](https://youtu.be/dHXgg9fbP8E) 14:48
+- 🔳 [What is Helm in Kubernetes? Helm and Helm Charts explained | Kubernetes Tutorial 23](https://youtu.be/-ykwb1d0DXU) 14:15
+- 🔳 [CKA Exam Tips: How To Crack The Exam In 2023 | Certified Kubernetes Administrator | KodeKloud](https://youtu.be/8LJibrSurKA?si=soiO2hx6_0P-oNah) 10:22
+- 🔳 [Kubernetes Storage Full Guide 2025 | PV, PVC, StorageClass, Dynamic Provisioning, CKA Must-Know](https://www.youtube.com/watch?v=Aovnq3iduzw) 8:15
+- 🔳 [For CKA CKAD and CKS Exam | Kubernetes Cluster Setup | Practice Questions | On Windows](https://youtu.be/SEQ_AueLUGs) 7:27
+
 
 - 🔳 Taints And Tolerations
-- 🔳 Dynamic Provisioning
-- 🔳 https://youtu.be/-ykwb1d0DXU
-- 🔳 https://youtu.be/HLXyrQT8zV0
+
+
+- ✅ [10 Mistakes that will RUIN Your CKA/CKAD Score!](https://youtu.be/jWs1_TfPQoQ) 8:10
+
 
 ```
 To view pod CPU usage in Kubernetes, the Kubernetes Metrics Server must be installed and running in your cluster. Once the Metrics Server is deployed, you can use the kubectl top command-line tool.
@@ -271,3 +278,81 @@ Status: Downloaded newer image for nginx:latest
 docker.io/library/nginx:latest
 controlplane:~$ 
 ```
+
+### Horizontal Pod Autoscaling
+  - 🔳 [HorizontalPodAutoscaler Walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/)
+```
+thomas-rausch@master-node:~$ kubectl top pods --sort-by=cpu
+NAME                                  CPU(cores)   MEMORY(bytes)
+php-apache-598b474864-tm9fr           386m         12Mi
+load-generator                        9m           1Mi
+busybox-deployment-5f5d6755dd-59t9f   2m           1Mi
+enclosed-85f687f859-6bf6z             1m           20Mi
+kuard-75cd5d4cc9-kq4gr                1m           5Mi
+cpu-limited-pod                       0m           4Mi
+hello-blue-whale-6b67f9df46-6qcvr     0m           2Mi
+hello-minikube-7f54cff968-s5jqg       0m           1Mi
+it-tools-5775bc6577-lpzgn             0m           7Mi
+
+thomas-rausch@master-node:~$ kubectl top pods --sort-by=cpu
+NAME                                  CPU(cores)   MEMORY(bytes)
+php-apache-598b474864-tm9fr           449m         12Mi
+php-apache-598b474864-s4czv           231m         12Mi
+load-generator                        11m          1Mi
+busybox-deployment-5f5d6755dd-59t9f   1m           1Mi
+enclosed-85f687f859-6bf6z             1m           20Mi
+hello-minikube-7f54cff968-s5jqg       1m           1Mi
+kuard-75cd5d4cc9-kq4gr                1m           5Mi
+cpu-limited-pod                       0m           4Mi
+hello-blue-whale-6b67f9df46-6qcvr     0m           2Mi
+it-tools-5775bc6577-lpzgn             0m           7Mi
+
+thomas-rausch@master-node:~$ kubectl top pods --sort-by=cpu
+NAME                                  CPU(cores)   MEMORY(bytes)
+php-apache-598b474864-tm9fr           449m         12Mi
+php-apache-598b474864-s4czv           231m         12Mi
+load-generator                        11m          1Mi
+busybox-deployment-5f5d6755dd-59t9f   1m           1Mi
+enclosed-85f687f859-6bf6z             1m           20Mi
+hello-minikube-7f54cff968-s5jqg       1m           1Mi
+kuard-75cd5d4cc9-kq4gr                1m           5Mi
+cpu-limited-pod                       0m           4Mi
+hello-blue-whale-6b67f9df46-6qcvr     0m           2Mi
+it-tools-5775bc6577-lpzgn             0m           7Mi
+
+thomas-rausch@master-node:~$ kubectl top pods --sort-by=cpu
+NAME                                  CPU(cores)   MEMORY(bytes)
+php-apache-598b474864-tm9fr           243m         12Mi
+php-apache-598b474864-s4czv           175m         12Mi
+php-apache-598b474864-8qsfn           166m         12Mi
+php-apache-598b474864-dn76t           124m         11Mi
+load-generator                        10m          0Mi
+busybox-deployment-5f5d6755dd-59t9f   2m           0Mi
+enclosed-85f687f859-6bf6z             1m           20Mi
+hello-minikube-7f54cff968-s5jqg       1m           1Mi
+kuard-75cd5d4cc9-kq4gr                1m           5Mi
+cpu-limited-pod                       0m           4Mi
+hello-blue-whale-6b67f9df46-6qcvr     0m           2Mi
+it-tools-5775bc6577-lpzgn             0m           7Mi
+
+Every 2.0s: kubectl get hpa                                                                                                                                                                             master-node: Tue Nov 18 15:59:47 2025
+
+NAME         REFERENCE               TARGETS   MINPODS   MAXPODS   REPLICAS   AGE
+kuard        Deployment/kuard        0%/5%     1         2         1          67d
+php-apache   Deployment/php-apache   34%/50%   1         10        7          8m49s
+```
+
+### Run A Command With Output
+```
+kubectl run -i --tty load-generator --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do wget -q -O- http://php-apache;                                                                done"
+
+kubectl run -i --tty date --rm --image=busybox:1.28 --restart=Never -- /bin/sh -c "while sleep 0.01; do date; done"
+```
+
+### Readiness Probe
+```
+Success/Failure: The probe is considered successful if it returns a success code (e.g., an HTTP 200) or a zero exit code. It is considered a failure if it times out, returns an error code, or a non-zero exit code.
+```
+
+
+
