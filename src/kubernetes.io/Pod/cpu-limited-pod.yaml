@@ -11,3 +11,4 @@ spec:
         cpu: "16" # Sets a CPU limit of 1 CPU core
       requests:
         cpu: "16" # Requests 0.5 CPU core
+  nodeName: worker-node-01
