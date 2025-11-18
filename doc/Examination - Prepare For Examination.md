@@ -16,6 +16,7 @@
 - 🔳 Understand application deployments and how to perform rolling update and rollbacks
 - 🔳 Use ConfigMaps and Secrets to configure applications
 - 🔳 Configure workload autoscaling
+  - 🔳 [HorizontalPodAutoscaler Walkthrough](https://kubernetes.io/docs/tasks/run-application/horizontal-pod-autoscale-walkthrough/)
 - 🔳 Understand the primitives used to create robust, self-healing, application deployments
 - 🔳 Configure Pod admission and scheduling (limits, node affinity, etc.)
 
@@ -62,12 +63,14 @@ $ sudo ls -l /etc/kubernetes/manifests
 
 - 🔳 CKA Install Kubernetes
 - 🔳 [Kubernetes Scheduler | How it Works](https://youtu.be/6p1XcgsFHsU)
-- 🔳 https://youtu.be/dHXgg9fbP8E
-- 🔳 https://youtu.be/jWs1_TfPQoQ
+- 🔳 [How I passed the Certified Kubernetes Administrator (CKA) Exam in 2025](https://youtu.be/dHXgg9fbP8E) 14:48
+- 🔳 [10 Mistakes that will RUIN Your CKA/CKAD Score!](https://youtu.be/jWs1_TfPQoQ) 
 - 🔳 https://youtu.be/SEQ_AueLUGs
 - 🔳 https://youtu.be/YXLpLyWGar4
 - 🔳 https://youtube.com/playlist?list=PLi0QOhIwpoFqFimUI-kpaPhAvF7K1TPJ-&si=Of7Jb2LHV8BFAoo3
 - 🔳 https://youtube.com/playlist?list=PLvOcEsRqg0tIiE6GOdvqQFOq2lKYpZDfG&si=jA54oQgkdn7RhQ_a
+- 🔳 [2025 CKA Exam Questions & Solutions UPDATE! | Full Walkthrough!](https://www.youtube.com/watch?v=eGv6iPWQKyo) 46:40
+
 - 🔳 Taints And Tolerations
 - 🔳 Dynamic Provisioning
 - 🔳 https://youtu.be/-ykwb1d0DXU
@@ -251,3 +254,20 @@ API version: 3.4
 ```
 ### Reading
 - [How to access kubernetes keys in etcd](https://stackoverflow.com/questions/47807892/how-to-access-kubernetes-keys-in-etcd) | Stack Overflow
+
+## Check If Image Can Be Pulled
+```
+controlplane:~$ docker pull nginx:latest
+latest: Pulling from library/nginx
+0e4bc2bd6656: Pull complete 
+b5feb73171bf: Pull complete 
+108ab8292820: Pull complete 
+53d743880af4: Pull complete 
+77fa2eb06317: Pull complete 
+192e2451f875: Pull complete 
+de57a609c9d5: Pull complete 
+Digest: sha256:553f64aecdc31b5bf944521731cd70e35da4faed96b2b7548a3d8e2598c52a42
+Status: Downloaded newer image for nginx:latest
+docker.io/library/nginx:latest
+controlplane:~$ 
+```
