@@ -53,7 +53,16 @@ controlplane:~$ helm repo add argo https://argoproj.github.io/argo-helm
 "argo" has been added to your repositories
 ```
 
+### List The Repositories
+```bash
+controlplane:~$ helm repo list  
+NAME                    URL                                    
+argo                    https://argoproj.github.io/argo-helm   
+kubernetes-dashboard    https://kubernetes.github.io/dashboard/
+```
+
 ### Search For All The Repositories
+This is a list of the Charts
 ```bash
 controlplane:~$ helm search repo
 NAME                            CHART VERSION   APP VERSION     DESCRIPTION                                       
@@ -69,6 +78,271 @@ argo/argocd-apps                2.0.2                           A Helm chart for
 argo/argocd-image-updater       1.0.1           v1.0.1          A Helm chart for Argo CD Image Updater, a tool ...
 argo/argocd-notifications       1.8.1           v1.2.1          A Helm chart for ArgoCD notifications, an add-o...
 ```
+
+### Search For Versions
+```
+controlplane:~$ helm search repo kubernetes-dashboard/kubernetes-dashboard --versions
+NAME                                            CHART VERSION   APP VERSION     DESCRIPTION                                   
+kubernetes-dashboard/kubernetes-dashboard       7.14.0                          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.13.0                          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.12.0                          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.11.1                          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.11.0                          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.10.5                          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.10.4                          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.10.3                          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.10.2                          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.10.1                          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.10.0                          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.9.0                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.8.0                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.7.0                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.6.1                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.6.0                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.5.0                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.4.0                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.3.2                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.3.1                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.3.0                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.2.0                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.1.3                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.1.2                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.1.1                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.1.0                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.0.1                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       7.0.0                           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       6.0.8           v2.7.0          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       6.0.7           v2.7.0          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       6.0.6           v2.7.0          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       6.0.5           v2.7.0          General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       6.0.0           2.7.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.11.0          2.7.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.10.0          2.6.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.9.0           2.6.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.8.0           2.6.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.7.0           2.6.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.6.0           2.6.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.4.1           2.5.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.3.1           2.5.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.3.0           2.5.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.2.0           2.5.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.1.3           2.4.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.1.2           2.4.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.1.1           2.4.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.0.6           2.4.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.0.5           2.4.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.0.4           2.4.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.0.3           2.4.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.0.2           2.3.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.0.1           2.3.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       5.0.0           2.3.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.6.0           2.3.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.5.0           2.3.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.4.0           2.3.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.3.2           2.3.1           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.3.1           2.3.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.3.0           2.3.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.2.0           2.2.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.1.0           2.2.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.0.3           2.2.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.0.2           2.2.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.0.1           2.1.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       4.0.0           2.1.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       3.0.2           2.1.0           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       3.0.1           2.0.5           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       3.0.0           2.0.4           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.8.3           2.0.4           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.8.2           2.0.4           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.8.1           2.0.4           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.8.0           2.0.4           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.7.1           2.0.4           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.6.0           2.0.3           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.5.0           2.0.3           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.3.0           2.0.3           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.2.0           2.0.3           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.1.1           2.0.3           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.0.3           2.0.3           General-purpose web UI for Kubernetes clusters
+kubernetes-dashboard/kubernetes-dashboard       2.0.1           2.0.1           General-purpose web UI for Kubernetes clusters
+```
+
+
+```
+Setting the Chart Version for a Release: When installing or upgrading a Helm chart, you can specify a particular chart version to use from a repository. This is done with the --version flag during helm install or helm upgrade.
+Code
+
+    helm install my-release my-repo/my-chart --version 1.2.3
+    helm upgrade my-release my-repo/my-chart --version 1.2.4
+```
+
+```
+controlplane:~$ kubectl get pods -A
+NAMESPACE            NAME                                      READY   STATUS    RESTARTS      AGE
+kube-system          calico-kube-controllers-7bb4b4d4d-8q2r8   1/1     Running   3 (33m ago)   29d
+kube-system          canal-djlvw                               2/2     Running   2 (33m ago)   29d
+kube-system          canal-kc8m5                               2/2     Running   2 (32m ago)   29d
+kube-system          coredns-76bb9b6fb5-4z2mz                  1/1     Running   1 (32m ago)   29d
+kube-system          coredns-76bb9b6fb5-7vqcc                  1/1     Running   1 (32m ago)   29d
+kube-system          etcd-controlplane                         1/1     Running   2 (33m ago)   29d
+kube-system          kube-apiserver-controlplane               1/1     Running   2 (33m ago)   29d
+kube-system          kube-controller-manager-controlplane      1/1     Running   2 (33m ago)   29d
+kube-system          kube-proxy-6rdfg                          1/1     Running   2 (33m ago)   29d
+kube-system          kube-proxy-kgl6s                          1/1     Running   1 (32m ago)   29d
+kube-system          kube-scheduler-controlplane               1/1     Running   2 (33m ago)   29d
+local-path-storage   local-path-provisioner-76f88ddd78-hs6k4   1/1     Running   2 (33m ago)   29d
+controlplane:~$ helm install argo-cd argo/argo-cd --version 9.1.0
+```
+
+
+```
+controlplane:~$ helm install argo-cd argo/argo-cd --version 9.1.0
+NAME: argo-cd
+LAST DEPLOYED: Tue Nov 18 03:00:09 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 1
+TEST SUITE: None
+NOTES:
+In order to access the server UI you have the following options:
+
+1. kubectl port-forward service/argo-cd-argocd-server -n default 8080:443
+
+    and then open the browser on http://localhost:8080 and accept the certificate
+
+2. enable ingress in the values file `server.ingress.enabled` and either
+      - Add the annotation for ssl passthrough: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-1-ssl-passthrough
+      - Set the `configs.params."server.insecure"` in the values file and terminate SSL at your ingress: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-multiple-ingress-objects-and-hosts
+
+
+After reaching the UI the first time you can login with username: admin and the random password generated during the installation. You can find the password by running:
+
+kubectl -n default get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+(You should delete the initial secret afterwards as suggested by the Getting Started Guide: https://argo-cd.readthedocs.io/en/stable/getting_started/#4-login-using-the-cli)
+controlplane:~$ 
+```
+
+```
+controlplane:~$ kubectl get pods -A
+NAMESPACE            NAME                                                        READY   STATUS    RESTARTS      AGE
+default              argo-cd-argocd-application-controller-0                     1/1     Running   0             101s
+default              argo-cd-argocd-applicationset-controller-6c5d86bf4c-4zdkt   1/1     Running   0             102s
+default              argo-cd-argocd-dex-server-74b5848d69-c7chf                  1/1     Running   0             102s
+default              argo-cd-argocd-notifications-controller-7cc89d47f6-k6wtn    1/1     Running   0             101s
+default              argo-cd-argocd-redis-5b8fff568-nwk98                        1/1     Running   0             102s
+default              argo-cd-argocd-repo-server-69678645dd-wqpds                 1/1     Running   0             102s
+default              argo-cd-argocd-server-69f68c95cf-6wbhh                      1/1     Running   0             102s
+kube-system          calico-kube-controllers-7bb4b4d4d-8q2r8                     1/1     Running   3 (35m ago)   29d
+kube-system          canal-djlvw                                                 2/2     Running   2 (35m ago)   29d
+kube-system          canal-kc8m5                                                 2/2     Running   2 (35m ago)   29d
+kube-system          coredns-76bb9b6fb5-4z2mz                                    1/1     Running   1 (35m ago)   29d
+kube-system          coredns-76bb9b6fb5-7vqcc                                    1/1     Running   1 (35m ago)   29d
+kube-system          etcd-controlplane                                           1/1     Running   2 (35m ago)   29d
+kube-system          kube-apiserver-controlplane                                 1/1     Running   2 (35m ago)   29d
+kube-system          kube-controller-manager-controlplane                        1/1     Running   2 (35m ago)   29d
+kube-system          kube-proxy-6rdfg                                            1/1     Running   2 (35m ago)   29d
+kube-system          kube-proxy-kgl6s                                            1/1     Running   1 (35m ago)   29d
+kube-system          kube-scheduler-controlplane                                 1/1     Running   2 (35m ago)   29d
+local-path-storage   local-path-provisioner-76f88ddd78-hs6k4                     1/1     Running   2 (35m ago)   29d
+```
+
+
+```
+controlplane:~$ ls -l .cache/helm/repository
+total 1604
+-rw-r--r-- 1 root root  203757 Nov 18 03:00 argo-cd-9.1.0.tgz
+-rw-r--r-- 1 root root     148 Nov 18 02:57 argo-charts.txt
+-rw-r--r-- 1 root root 1429805 Nov 18 02:57 argo-index.yaml
+```
+
+```
+controlplane:~$ helm list                                
+NAME    NAMESPACE       REVISION        UPDATED                                 STATUS          CHART           APP VERSION
+argo-cd default         1               2025-11-18 03:00:09.521802736 +0000 UTC deployed        argo-cd-9.1.0   v3.2.0     
+controlplane:~$ helm upgrade argo-cd argo/argo-cd --version 9.1.1
+Release "argo-cd" has been upgraded. Happy Helming!
+NAME: argo-cd
+LAST DEPLOYED: Tue Nov 18 03:10:41 2025
+NAMESPACE: default
+STATUS: deployed
+REVISION: 2
+TEST SUITE: None
+NOTES:
+In order to access the server UI you have the following options:
+
+1. kubectl port-forward service/argo-cd-argocd-server -n default 8080:443
+
+    and then open the browser on http://localhost:8080 and accept the certificate
+
+2. enable ingress in the values file `server.ingress.enabled` and either
+      - Add the annotation for ssl passthrough: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-1-ssl-passthrough
+      - Set the `configs.params."server.insecure"` in the values file and terminate SSL at your ingress: https://argo-cd.readthedocs.io/en/stable/operator-manual/ingress/#option-2-multiple-ingress-objects-and-hosts
+
+
+After reaching the UI the first time you can login with username: admin and the random password generated during the installation. You can find the password by running:
+
+kubectl -n default get secret argocd-initial-admin-secret -o jsonpath="{.data.password}" | base64 -d
+
+(You should delete the initial secret afterwards as suggested by the Getting Started Guide: https://argo-cd.readthedocs.io/en/stable/getting_started/#4-login-using-the-cli)
+```
+
+```
+controlplane:~$ helm show chart argo/argo-cd
+annotations:
+  artifacthub.io/changes: |
+    - kind: changed
+      description: Add documentation about breaking changes when upgrading to 9.1.0 for redis-ha dependency
+  artifacthub.io/signKey: |
+    fingerprint: 2B8F22F57260EFA67BE1C5824B11F800CD9D2252
+    url: https://argoproj.github.io/argo-helm/pgp_keys.asc
+apiVersion: v2
+appVersion: v3.2.0
+dependencies:
+- condition: redis-ha.enabled
+  name: redis-ha
+  repository: https://dandydeveloper.github.io/charts/
+  version: 4.34.11
+description: A Helm chart for Argo CD, a declarative, GitOps continuous delivery tool
+  for Kubernetes.
+home: https://github.com/argoproj/argo-helm
+icon: https://argo-cd.readthedocs.io/en/stable/assets/logo.png
+keywords:
+- argoproj
+- argocd
+- gitops
+kubeVersion: '>=1.25.0-0'
+maintainers:
+- name: argoproj
+  url: https://argoproj.github.io/
+name: argo-cd
+sources:
+- https://github.com/argoproj/argo-helm/tree/main/charts/argo-cd
+- https://github.com/argoproj/argo-cd
+version: 9.1.3
+```
+
+```
+controlplane:~$ helm history argo-cd       
+REVISION        UPDATED                         STATUS          CHART           APP VERSION     DESCRIPTION     
+1               Tue Nov 18 03:00:09 2025        superseded      argo-cd-9.1.0   v3.2.0          Install complete
+2               Tue Nov 18 03:10:41 2025        deployed        argo-cd-9.1.1   v3.2.0          Upgrade complete
+```
+
+```
+controlplane:~$ helm history argo-cd       
+REVISION        UPDATED                         STATUS          CHART           APP VERSION     DESCRIPTION     
+1               Tue Nov 18 03:00:09 2025        superseded      argo-cd-9.1.0   v3.2.0          Install complete
+2               Tue Nov 18 03:10:41 2025        deployed        argo-cd-9.1.1   v3.2.0          Upgrade complete
+controlplane:~$ helm rollback argo-cd 1
+Rollback was a success! Happy Helming!
+controlplane:~$ helm history argo-cd
+REVISION        UPDATED                         STATUS          CHART           APP VERSION     DESCRIPTION     
+1               Tue Nov 18 03:00:09 2025        superseded      argo-cd-9.1.0   v3.2.0          Install complete
+2               Tue Nov 18 03:10:41 2025        superseded      argo-cd-9.1.1   v3.2.0          Upgrade complete
+3               Tue Nov 18 03:21:09 2025        deployed        argo-cd-9.1.0   v3.2.0          Rollback to 1
+```
+
+
+===============================================================================================================
 
 ### List The Files In The Repository
 ```bash
@@ -86,7 +360,16 @@ Hang tight while we grab the latest from your chart repositories...
 Update Complete. ⎈Happy Helming!⎈
 ```
 
-
+### List Of COmmands
+Once you have the list of charts, you can run these commands
+```
+helm - The Helm package manager for Kubernetes.
+helm show all - show all information of the chart
+helm show chart - show the chart's definition
+helm show crds - show the chart's CRDs
+helm show readme - show the chart's README
+helm show values - show the chart's values
+```
 
 
 
