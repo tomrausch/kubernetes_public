@@ -60,16 +60,65 @@ $ sudo ls -l /etc/kubernetes/manifests
 - 🔳 PVC and Storage classes management
 
 
+- 🔳 CKA Install Kubernetes
+- 🔳 [Kubernetes Scheduler | How it Works](https://youtu.be/6p1XcgsFHsU)
+- 🔳 https://youtu.be/dHXgg9fbP8E
+- 🔳 https://youtu.be/jWs1_TfPQoQ
+- 🔳 https://youtu.be/SEQ_AueLUGs
+- 🔳 https://youtu.be/YXLpLyWGar4
+- 🔳 https://youtube.com/playlist?list=PLi0QOhIwpoFqFimUI-kpaPhAvF7K1TPJ-&si=Of7Jb2LHV8BFAoo3
+- 🔳 https://youtube.com/playlist?list=PLvOcEsRqg0tIiE6GOdvqQFOq2lKYpZDfG&si=jA54oQgkdn7RhQ_a
+- 🔳 Taints And Tolerations
+- 🔳 Dynamic Provisioning
+- 🔳 https://youtu.be/-ykwb1d0DXU
+- 🔳 https://youtu.be/HLXyrQT8zV0
 
-[Kubernetes Scheduler | How it Works](https://youtu.be/6p1XcgsFHsU)
-https://youtu.be/dHXgg9fbP8E
-https://youtu.be/jWs1_TfPQoQ
-https://youtu.be/SEQ_AueLUGs
-https://youtu.be/YXLpLyWGar4
-https://youtube.com/playlist?list=PLi0QOhIwpoFqFimUI-kpaPhAvF7K1TPJ-&si=Of7Jb2LHV8BFAoo3
-https://youtube.com/playlist?list=PLvOcEsRqg0tIiE6GOdvqQFOq2lKYpZDfG&si=jA54oQgkdn7RhQ_a
-Taints And Tolerations
+```
+To view pod CPU usage in Kubernetes, the Kubernetes Metrics Server must be installed and running in your cluster. Once the Metrics Server is deployed, you can use the kubectl top command-line tool.
 
+Here are the commands to show pod CPU usage:
+
+To view CPU usage for all pods in a specific namespace:
+
+Code
+
+kubectl top pods -n <namespace-name>
+
+Replace <namespace-name> with the actual namespace where your pods reside.
+
+To view CPU usage for a specific pod:
+
+Code
+
+kubectl top pod <pod-name> -n <namespace-name>
+
+Replace <pod-name> with the name of the pod and <namespace-name> with its namespace.
+
+To view CPU usage for all containers within a specific pod:
+
+Code
+
+kubectl top pod <pod-name> --containers -n <namespace-name>
+
+This command provides a breakdown of CPU usage for each container running inside the specified pod.
+
+To view CPU usage for all pods across all namespaces:
+
+Code
+
+kubectl top pods --all-namespaces
+
+This provides a comprehensive overview of CPU usage for all pods in the entire cluster.
+
+Note: The output of kubectl top displays CPU usage in "m" (millicores), where 1000m equals 1 CPU core.
+
+Dive deeper in AI Mode
+```
+
+
+```
+user9074332, Yes you need metrics server installed first. You can do so by executing following commands: wget https://raw.githubusercontent.com/pythianarora/total-practice/master/sample-kubernetes-code/metrics-server.yaml kubectl create -f metrics-server.yaml
+```
 
 
 
