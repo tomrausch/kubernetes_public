@@ -60,6 +60,19 @@ $ sudo ls -l /etc/kubernetes/manifests
 - 🔳 PVC and Storage classes management
 
 
+
+[Kubernetes Scheduler | How it Works](https://youtu.be/6p1XcgsFHsU)
+https://youtu.be/dHXgg9fbP8E
+https://youtu.be/jWs1_TfPQoQ
+https://youtu.be/SEQ_AueLUGs
+https://youtu.be/YXLpLyWGar4
+https://youtube.com/playlist?list=PLi0QOhIwpoFqFimUI-kpaPhAvF7K1TPJ-&si=Of7Jb2LHV8BFAoo3
+https://youtube.com/playlist?list=PLvOcEsRqg0tIiE6GOdvqQFOq2lKYpZDfG&si=jA54oQgkdn7RhQ_a
+Taints And Tolerations
+
+
+
+
 ## Exercises
 - 🔳 Run [CKA Simulator](https://killer.sh/)
 - 🔳 Complete Examples in [Killercoda Interactive Environments](https://killercoda.com/) | Killercoda
