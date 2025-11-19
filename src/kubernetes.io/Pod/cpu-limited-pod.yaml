@@ -19,3 +19,7 @@ spec:
   - name: cache-volume
     emptyDir:
       sizeLimit: 500Mi
+  - name: node-home-dir
+    hostPath:
+      path: /home/thomas-rausch
+      type: Directory # this field is optional
