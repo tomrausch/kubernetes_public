@@ -2,6 +2,7 @@
 
 ### Storage (10%)
 - 🔳 Implement storage classes and dynamic volume provisioning
+  - Local volumes do not support dynamic provisioning in Kubernetes 1.34;
 - 🔳 Configure volume types, access modes and reclaim policies
 - 🔳 Manage persistent volumes and persistent volume claims
 
