@@ -3,7 +3,9 @@ kind: NetworkPolicy
 metadata:
   name: deny-ingress-default-and-3306
 spec:
-  podSelector: {}
+  podSelector: 
+    matchLabels:
+      app: mysql 
   policyTypes:
   - Ingress
   ingress:
