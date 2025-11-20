@@ -1,0 +1,14 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: busybox-kube-system
+  namespace: kube-system # Replace with the desired namespace
+spec:
+  containers:
+  - name: busybox-kube-system
+    image: busybox
+    command:
+      - /bin/sh
+      - '-c'
+      - while true; do sleep 30; done
+      - '--restart=Never'
