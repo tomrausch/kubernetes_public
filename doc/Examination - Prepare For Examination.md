@@ -42,6 +42,34 @@
 
 ### Some topics that you could get on the exam😉
 - 🔳 ETCD Database Backup & Restore
+```
+$ cat
+
+
+$ sudo ETCDCTL_API=3 etcdctl --endpoints 192.168.0.136:2379 --cert=/etc/kubernetes/pki/etcd/server.crt --key=/etc/kubernetes/pki/etcd/server.key --cacert=/etc/kubernetes/pki/etcd/ca.crt  member list
+e0d3b20a8228bff8, started, master-node, https://192.168.0.136:2380, https://192.168.0.136:2379, false
+
+$ sudo etcdutl --write-out=table snapshot status $HOME/snapshot.db
++----------+----------+------------+------------+
+|   HASH   | REVISION | TOTAL KEYS | TOTAL SIZE |
++----------+----------+------------+------------+
+| 195c9523 | 17732977 |       2030 |      12 MB |
++----------+----------+------------+------------+
+
+kubectl get pods -A -n kube-system
+sudo systemctl stop etcd.service
+sudo ETCDCTL_API=3 etcdctl --endpoints 10.2.0.9:2379 --data-dir=/var/lib/etcd-backup snapshot restore snapshot.db
+
+chown -R etcd:etcd /var/lib/etcd-backup
+sudo systemctl start etcd.service
+
+change the path to /var/lib/etcd to /var/lib/etcd-backup in etcd.yaml
+cd /etc/kubernetes/manifests
+sed -i 's=var/lib/etcd/=/var/lib/etcd-backup' etcd.yaml
+
+etcd pod gonna restart and it should be up in running mode. I hope this could be the answer for the restore. if any corrections/changes lemme know
+```
+ 
 - 🔳 Kubeadm upgrade task
 - 🔳 Kubelet configuration and logging ( Tip: /var/lib/kubelet/config.yaml)
 - 🔳 Default containers and pods logging location (/var/log/…)
@@ -76,12 +104,12 @@ $ sudo ls -l /etc/kubernetes/manifests
 - 🔳 [CKA Exam Tips: How To Crack The Exam In 2023 | Certified Kubernetes Administrator | KodeKloud](https://youtu.be/8LJibrSurKA?si=soiO2hx6_0P-oNah) 10:22
 - 🔳 [Kubernetes Storage Full Guide 2025 | PV, PVC, StorageClass, Dynamic Provisioning, CKA Must-Know](https://www.youtube.com/watch?v=Aovnq3iduzw) 8:15
 - 🔳 [For CKA CKAD and CKS Exam | Kubernetes Cluster Setup | Practice Questions | On Windows](https://youtu.be/SEQ_AueLUGs) 7:27
-
-
 - 🔳 Taints And Tolerations
-
-
 - ✅ [10 Mistakes that will RUIN Your CKA/CKAD Score!](https://youtu.be/jWs1_TfPQoQ) 8:10
+
+## Day Of Examination
+- Open Quick Reference https://kubernetes.io/docs/reference/kubectl/quick-reference/
+  - https://www.youtube.com/watch?v=fy8v6nkA-Bc
 
 
 ```
