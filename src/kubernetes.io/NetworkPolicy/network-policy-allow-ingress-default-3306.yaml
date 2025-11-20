@@ -15,7 +15,7 @@ spec:
         matchExpressions:
         - key: namespace
           operator: In
-          values: ["default"]
+          values: ["default","kube-system"]
     ports:
     - protocol: TCP
       port: 3306
