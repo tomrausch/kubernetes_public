@@ -119,6 +119,7 @@ https://youtu.be/rP-W3Tv3plw?si=VeG-U0d-I3DmS5yf
     - Privileged access
     - Host Networking
     - Elevated Rights
+  - https://kubernetes.io/docs/tasks/configure-pod-container/enforce-standards-namespace-labels/
 
 
 ```
