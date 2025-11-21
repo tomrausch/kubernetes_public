@@ -111,6 +111,20 @@ $ sudo ls -l /etc/kubernetes/manifests
 - Open Quick Reference https://kubernetes.io/docs/reference/kubectl/quick-reference/
   - https://www.youtube.com/watch?v=fy8v6nkA-Bc
 
+https://youtu.be/rP-W3Tv3plw?si=VeG-U0d-I3DmS5yf
+[2025 CKA Exam Questions & Solutions UPDATE! | Full Walkthrough!](https://www.youtube.com/watch?v=eGv6iPWQKyo)
+- Create PersistentVolumeClaim, PersistentVolume already created via Dynamic Volume Provisioning
+- Security Standards
+  - Cannot Have
+    - Privileged access
+    - Host Networking
+    - Elevated Rights
+
+
+```
+
+```
+
 
 ```
 To view pod CPU usage in Kubernetes, the Kubernetes Metrics Server must be installed and running in your cluster. Once the Metrics Server is deployed, you can use the kubectl top command-line tool.
