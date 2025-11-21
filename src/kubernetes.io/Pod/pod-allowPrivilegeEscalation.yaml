@@ -2,6 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: security-allowPrivilegeEscalation
+  namespace: restricted-ns
 spec:
   containers:
   - name: sec-allowPrivilegeEscalation
