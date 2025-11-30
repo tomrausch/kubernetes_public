@@ -8,7 +8,7 @@ spec:
   ingress:
     - from:
         - ipBlock:
-            cidr: 192.168.0.0/24
+            cidr: 192.168.1.0/24
         - namespaceSelector:
             matchExpressions:
               - key: namespace
