@@ -3,11 +3,11 @@ kind: Gateway
 metadata:
   name: mysql-tcp-gateway
 spec:
-  gatewayClassName: mysql-tcp-gateway-class
+  gatewayClassName: tigera-gateway-class
   listeners:
-  - name: mysql-tcp-3306
+  - name: mysql-tcp-33306
     protocol: TCP
-    port: 3306
+    port: 33306
     allowedRoutes:
       kinds:
       - kind: TCPRoute
@@ -19,7 +19,7 @@ metadata:
 spec:
   parentRefs:
   - name: mysql-tcp-gateway
-    sectionName: mysql-tcp-3306
+    sectionName: mysql-tcp-33306
   rules:
   - backendRefs:
     - name: mysql-tcp-3306
