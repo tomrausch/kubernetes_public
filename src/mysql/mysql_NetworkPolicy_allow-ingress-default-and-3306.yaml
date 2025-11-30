@@ -8,15 +8,15 @@ spec:
   ingress:
     - from:
         - ipBlock:
-            cidr: 192.168.1.0/24
-        - namespaceSelector:
-            matchExpressions:
-              - key: namespace
-                operator: In
-                values:
-                  - default
-                  - kube-system
-                  - mysql
+            cidr: 192.168.0.0/24
+        # - namespaceSelector:
+        #    matchExpressions:
+        #      - key: namespace
+        #        operator: In
+        #        values:
+        #          - default
+        #          - kube-system
+        #          - mysql
       ports:
         - port: 3306
           protocol: TCP
