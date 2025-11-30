@@ -1,0 +1,11 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  annotations:
+  generation: 1
+  name: deny-all-ingress-mysql
+  namespace: mysql
+spec:
+  podSelector: {}
+  policyTypes:
+  - Ingress
