@@ -1,0 +1,27 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  generation: 2
+  name: allow-ingress-default-and-3306
+  namespace: mysql
+spec:
+  ingress:
+    - from:
+        - ipBlock:
+            cidr: 192.168.0.0/24
+        - namespaceSelector:
+            matchExpressions:
+              - key: namespace
+                operator: In
+                values:
+                  - default
+                  - kube-system
+                  - mysql
+      ports:
+        - port: 3306
+          protocol: TCP
+  podSelector:
+    matchLabels:
+      app: mysql
+  policyTypes:
+    - Ingress
