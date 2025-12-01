@@ -4,17 +4,17 @@ metadata:
   name: allow-ingress-egress-within-namespace-mysql
   namespace: mysql # The namespace where this policy applies (where the target pods reside)
 spec:
-  podSelector: {} # Selects all pods in the namespace
+  podSelector: {}  # Selects all pods in the namespace
   policyTypes:
-  - Ingress
-  - Egress
+    - Ingress
+    - Egress
   ingress:
-  - from:
-    - namespaceSelector:
-        matchLabels:
-          kubernetes.io/metadata.name: mysql # Label of the source namespace
+    - from:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: mysql # Label of the source namespace
   egress:
-  - to:
-    - namespaceSelector:
-        matchLabels:
-          kubernetes.io/metadata.name: mysql # Label of the destionation namespace
+    - to:
+        - namespaceSelector:
+            matchLabels:
+              kubernetes.io/metadata.name: mysql # Label of the destination namespace
