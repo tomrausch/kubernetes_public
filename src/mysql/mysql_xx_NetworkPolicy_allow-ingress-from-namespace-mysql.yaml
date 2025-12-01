@@ -1,0 +1,14 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: allow-ingress-from-namespace-mysql
+  namespace: mysql # The namespace where this policy applies (where the target pods reside)
+spec:
+  podSelector: {} # Selects all pods in the target-namespace
+  policyTypes:
+  - Ingress
+  ingress:
+  - from:
+    - namespaceSelector:
+        matchLabels:
+          kubernetes.io/metadata.name: mysql # Label of the source namespace
