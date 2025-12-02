@@ -6,6 +6,6 @@ metadata:
   name: deny-ingress-all_pods-ns_mysql
   namespace: mysql  # Form in namespace "mysql"
 spec:
-  podSelector: {}   # Select all pods in the namespace
+  podSelector: {}   # Select all Pods in the namespace
   policyTypes:
   - Ingress         # Set Policy Type = "Ingress"
