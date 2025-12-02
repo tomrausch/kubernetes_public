@@ -1,6 +1,15 @@
-apiVersion: v1
-kind: Namespace
+# Purpose : Form Kubernetes Namespace Object
+# Required Kubernetes API Resource
+#   NAME         SHORTNAMES   APIVERSION   NAMESPACED  KIND
+#   namespaces   ns           v1           false       Namespace
+#
+apiVersion: v1                               # Set API resource
+kind: Namespace                              # Set object kind
 metadata:
-  name: mysql
+  name: mysql                                # Set object name
+  annotations:
+    creator/author: "Thomas Rausch, Atos"    # Set creator/author
+    version: "2025-12-02"                    # Set version
+    description: "Create namespace 'mysql'"  # Set description
   labels:
-    app: mysql
+    app: mysql                               # Set object label 'app=mysql'
