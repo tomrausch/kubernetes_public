@@ -8,4 +8,4 @@ metadata:
 spec:
   podSelector: {}   # Select all pods in the namespace
   policyTypes:
-  - Ingress         # Policy Type = "Ingress"
+  - Ingress         # Set Policy Type = "Ingress"
