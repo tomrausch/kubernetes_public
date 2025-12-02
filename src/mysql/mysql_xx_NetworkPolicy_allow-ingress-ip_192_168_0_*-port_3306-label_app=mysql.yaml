@@ -1,13 +1,24 @@
-apiVersion: networking.k8s.io/v1
-kind: NetworkPolicy
+# Purpose     : Form Kubernetes Object
+# Object Kind : NetworkPolicy
+# Object Name : allow-ingress-ip_192_168_0_*-port_3306-label_app=mysql
+# Description : Allow Ingress network traffic from the IP CIDR Range 192.168.0.0/24 (192.168.0.*) and on TCP Port 3306
+# Author      : Tom Rausch, Atos
+#
+# Kubernetes API Resource
+# -----------------------
+# NAME             SHORTNAMES  APIVERSION            NAMESPACED   KIND
+# networkpolicies  netpol      networking.k8s.io/v1  true         NetworkPolicy
+#
+apiVersion: networking.k8s.io/v1                                 # Set API resource
+kind: NetworkPolicy                                              # Set object kind
 metadata:
-  name: allow-ingress-ip_192_168_0_*-port_3306-label_app=mysql
-  namespace: mysql                  # Form in namespace "mysql"
+  name: allow-ingress-ip_192_168_0_*-port_3306-label_app=mysql   # Set object name
+  namespace: mysql                                               # Object is in effect in Namesapce "mysql"
 spec:
   ingress:
     - from:
         - ipBlock:
-            cidr: 192.168.0.0/24    # Set Ingress IP CIDR 192.168.0.*
+            cidr: 192.168.0.0/24                                 # Set Ingress IP CIDR Range 192.168.0.0/24 (192.168.0.*)
         # - namespaceSelector:
         #    matchExpressions:
         #      - key: namespace
@@ -17,10 +28,10 @@ spec:
         #          - kube-system
         #          - mysql
       ports:
-        - port: 3306                # Set TCP Port 3306
+        - port: 3306                                             # Set Ingress TCP Port 3306
           protocol: TCP
   podSelector:
     matchLabels:
-      app: mysql                    # Select Pods with label "app=mysql"
+      app: mysql                                                 # Select Pods with label "app=mysql"
   policyTypes:
-    - Ingress                       # Set Policy Type = "Ingress"
+    - Ingress                                                    # Set Policy Type = "Ingress"
