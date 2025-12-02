@@ -1,7 +1,6 @@
 apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
-  generation: 2
   name: allow-ingress-ip_192_168_0_*-port_3306-label_app=mysql
   namespace: mysql                  # Form in namespace "mysql"
 spec:
@@ -22,6 +21,6 @@ spec:
           protocol: TCP
   podSelector:
     matchLabels:
-      app: mysql                    # Select pods with label "app=mysql"
+      app: mysql                    # Select Pods with label "app=mysql"
   policyTypes:
-    - Ingress
+    - Ingress                       # Set Policy Type = "Ingress"
