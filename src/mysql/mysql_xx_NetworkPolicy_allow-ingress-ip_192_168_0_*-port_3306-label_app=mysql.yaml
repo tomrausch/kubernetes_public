@@ -13,7 +13,7 @@ apiVersion: networking.k8s.io/v1                                 # Set API resou
 kind: NetworkPolicy                                              # Set object kind
 metadata:
   name: allow-ingress-ip_192_168_0_*-port_3306-label_app=mysql   # Set object name
-  namespace: mysql                                               # Object is in effect in Namesapce "mysql"
+  namespace: mysql                                               # Object is in effect in Namespace "mysql"
 spec:
   ingress:
     - from:
