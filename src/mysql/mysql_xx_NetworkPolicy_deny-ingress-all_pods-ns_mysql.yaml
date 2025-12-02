@@ -1,13 +1,7 @@
-# Purpose     : Form Kubernetes Object
-# Object Kind : NetworkPolicy
-# Object Name : deny-ingress-all_pods-ns_mysql
-# Description : Deny all Ingress network traffic in the namespace "mysql"
-# Author      : Tom Rausch, Atos
-#
-# Kubernetes API Resource
-# -----------------------
-# NAME             SHORTNAMES  APIVERSION            NAMESPACED   KIND
-# networkpolicies  netpol      networking.k8s.io/v1  true         NetworkPolicy
+# Purpose : Form Kubernetes NetworkPolicy Object
+# Required Kubernetes API Resource
+#   NAME             SHORTNAMES  APIVERSION            NAMESPACED   KIND
+#   networkpolicies  netpol      networking.k8s.io/v1  true         NetworkPolicy
 #
 apiVersion: networking.k8s.io/v1            # Set API resource
 kind: NetworkPolicy                         # Set object kind
@@ -15,8 +9,9 @@ metadata:
   name: deny-ingress-all_pods-ns_mysql      # Set object name
   namespace: mysql                          # Object is in effect in Namespace "mysql"     
   annotations:
-    creator/author: "Thomas Rausch, Atos"
-    version: "2025-12-02"
+    creator/author: "Thomas Rausch, Atos"   # Set creator/author
+    version: "2025-12-02"                   # Set version
+    description: "Deny all Ingress network traffic in the namespace 'mysql'"  # Set description
 spec:
   podSelector: {}                           # Select all Pods in the Namespace
   policyTypes:
