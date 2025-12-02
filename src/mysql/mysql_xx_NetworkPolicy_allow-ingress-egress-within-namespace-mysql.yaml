@@ -1,19 +1,17 @@
-# Purpose     : Form Kubernetes Object
-# Object Kind : NetworkPolicy
-# Object Name : allow-ingress_egress-ns_label_name=mysql
-# Description : Allow all Ingress and Egress network traffic with the namespace with the label "name=mysql"
-# Author      : Tom Rausch, Atos
-#
-# Kubernetes API Resource
-# -----------------------
-# NAME             SHORTNAMES  APIVERSION            NAMESPACED   KIND
-# networkpolicies  netpol      networking.k8s.io/v1  true         NetworkPolicy
+# Purpose : Form Kubernetes NetworkPolicy Object
+# Required Kubernetes API Resource
+#   NAME             SHORTNAMES  APIVERSION            NAMESPACED   KIND
+#   networkpolicies  netpol      networking.k8s.io/v1  true         NetworkPolicy
 #
 apiVersion: networking.k8s.io/v1                  # Set API resource
 kind: NetworkPolicy                               # Set object kind
 metadata:
   name: allow-ingress_egress-ns_label_name=mysql  # Set object name
   namespace: mysql                                # Object is in effect in Namespace "mysql"
+  annotations:
+    creator/author: "Thomas Rausch, Atos"         # Set creator/author
+    version: "2025-12-02"                         # Set version
+    description: "Allow all Ingress and Egress network traffic within the namespace with the label 'name=mysql'"  # Set description
 spec:
   podSelector: {}                                 # Select all Pods in the Namespace
   policyTypes:
