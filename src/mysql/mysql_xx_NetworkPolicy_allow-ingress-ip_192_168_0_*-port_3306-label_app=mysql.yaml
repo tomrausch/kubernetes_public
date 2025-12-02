@@ -14,6 +14,9 @@ kind: NetworkPolicy                                              # Set object ki
 metadata:
   name: allow-ingress-ip_192_168_0_*-port_3306-label_app=mysql   # Set object name
   namespace: mysql                                               # Object is in effect in Namespace "mysql"
+  annotations:
+    creator/author: "Thomas Rausch, Atos"
+    version: "2025-12-02"
 spec:
   ingress:
     - from:
