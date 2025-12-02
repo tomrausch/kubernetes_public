@@ -2,7 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   generation: 2
-  name: allow-ingress-default-and-3306
+  name: allow-ingress-ip-192_168_0_*-port-3306
   namespace: mysql
 spec:
   ingress:
