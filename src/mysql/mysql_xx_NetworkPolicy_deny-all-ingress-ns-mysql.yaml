@@ -4,8 +4,8 @@ metadata:
   annotations:
   generation: 1
   name: deny-all-ingress-ns-mysql
-  namespace: mysql
+  namespace: mysql  # Form in namespace "mysql"
 spec:
-  podSelector: {}
+  podSelector: {}   # Select all pods in the namespace
   policyTypes:
-  - Ingress
+  - Ingress         # Policy Type = "Ingress"
