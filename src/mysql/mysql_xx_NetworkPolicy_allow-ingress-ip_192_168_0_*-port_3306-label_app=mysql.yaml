@@ -2,13 +2,13 @@ apiVersion: networking.k8s.io/v1
 kind: NetworkPolicy
 metadata:
   generation: 2
-  name: allow-ingress-ip-192_168_0_*-port-3306_label-app=mysql
+  name: allow-ingress-ip_192_168_0_*-port_3306-label_app=mysql
   namespace: mysql                  # Form in namespace "mysql"
 spec:
   ingress:
     - from:
         - ipBlock:
-            cidr: 192.168.0.0/24    # Set IP CIDR 192.168.0.*
+            cidr: 192.168.0.0/24    # Set Ingress IP CIDR 192.168.0.*
         # - namespaceSelector:
         #    matchExpressions:
         #      - key: namespace
@@ -18,10 +18,10 @@ spec:
         #          - kube-system
         #          - mysql
       ports:
-        - port: 3306
+        - port: 3306                # Set TCP Port 3306
           protocol: TCP
   podSelector:
     matchLabels:
-      app: mysql                     # Select pods with label "app=mysql"
+      app: mysql                    # Select pods with label "app=mysql"
   policyTypes:
     - Ingress
