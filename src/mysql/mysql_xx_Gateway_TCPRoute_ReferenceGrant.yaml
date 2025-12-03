@@ -11,10 +11,10 @@ metadata:
   annotations:
     creator/author: "Thomas Rausch, Atos"      # Set creator/author
     version: "2025-12-03"                      # Set version
-    description: "Form Gateway object of Gateway Class 'tigera-gateway-class' listening on TCP Port 3306 allow only TCPRoute"  # Set description
+    description: "Form Gateway object of GatewayClass 'tigera-gateway-class' listening on TCP Port 3306 allow only TCPRoute"  # Set description
     reference: "https://docs.tigera.io/calico/latest/networking/ingress-gateway/tutorial-ingress-gateway-canary"               # Set reference
 spec:
-  gatewayClassName: tigera-gateway-class       # Set gatewayClassname
+  gatewayClassName: tigera-gateway-class       # Set name of GatewayClass object
   listeners:
   - name: tcp-3306-allow-tcproute
     protocol: TCP
@@ -43,5 +43,46 @@ spec:
   - name: listen-tcp-3306-allow-tcproute-mysql   # Set parent Gateway object
   rules:
   - backendRefs:
-    - name: mysql                                # Set backend Service
+    - name: mysql-clusterip                      # Set backend Service
       port: 3306                                 # Set backend TCP port
+---
+# Purpose : Form Kubernetes ReferenceGrant Object
+# Required Kubernetes API Resource
+#   NAME              SHORTNAMES  APIVERSION                           NAMESPACED   KIND
+#   referencegrants   refgrant     ateway.networking.k8s.io/v1beta1    true         ReferenceGrant
+#
+apiVersion: gateway.networking.k8s.io/v1beta1
+kind: ReferenceGrant
+metadata:
+  name: tcproute-default-to-mysql
+  namespace: mysql
+  annotations:
+    creator/author: "Thomas Rausch, Atos"          # Set creator/author
+    version: "2025-12-03"                          # Set version
+    description: "Allows TCPRoute from Gateway to Service in Namespace 'mysql'"                                      # Set description
+    reference: "https://docs.tigera.io/calico/latest/networking/ingress-gateway/tutorial-ingress-gateway-canary"     # Set reference
+spec:
+  from:
+  - group: gateway.networking.k8s.io
+    kind: TCPRoute
+    namespace: default
+  to:
+  - group: ""
+    kind: Service
+---
+# PreRequisite - GatewayClass ""
+#   NAME             SHORTNAMES   APIVERSION                     NAMESPACED   KIND
+#   gatewayclasses   gc           gateway.networking.k8s.io/v1   false        GatewayClass
+#
+#
+#   apiVersion: gateway.networking.k8s.io/v1
+#   kind: GatewayClass
+#   metadata:
+#     name: tigera-gateway-class
+#   spec:
+#     controllerName: gateway.envoyproxy.io/gatewayclass-controller
+#     parametersRef:
+#       group: gateway.envoyproxy.io
+#       kind: EnvoyProxy
+#       name: envoy-proxy-config
+#       namespace: tigera-gateway
