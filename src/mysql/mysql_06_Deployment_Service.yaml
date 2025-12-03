@@ -38,19 +38,19 @@ spec:
         - containerPort: 3306
           name: mysql
         volumeMounts:
-        - name: volumemount-mysql
-          mountPath: /mnt/mysql
+        - name: volume-mysql                                    # Set name of parent volume of the volumeMount; must match the volumes.name in this YAML file
+          mountPath: /mnt/mysql                                 # Set local mount path of the volumeMount
         resources:              
-          requests:                                             # Set Pod resource limits
+          requests:                                             # Set Pod resource requests
             cpu: "20m"
             memory: "500Mi"
-          limits:
+          limits:                                               # Set Pod resource limits
             cpu: "100m"
             memory: "1000Mi"
       volumes:
-      - name: volume-mysql
+      - name: volume-mysql                                      # Set name of volume
         persistentVolumeClaim:
-          claimName: local-storage-mysql
+          claimName: local-storage-mysql                        # Set name of parent PersistentVolumeClaim; parent PersistentVolumeClaim must exist
 ---
 apiVersion: v1
 kind: Service
@@ -83,3 +83,4 @@ spec:
 #      protocol: TCP
  # selector:
  #   app: mysql
+
