@@ -59,7 +59,7 @@ metadata:
   annotations:
     creator/author: "Thomas Rausch, Atos"          # Set creator/author
     version: "2025-12-03"                          # Set version
-    description: "Form TCPRoute object from Gateway 'listen-tcp-3306-allow-tcproute-mysql' to Service 'mysql' on TCP Port 3306"  # Set description
+    description: "Form TCPRoute object from Gateway 'listen-tcp-3306-allow-tcproute-mysql' to MySQL Service on TCP Port 3306"  # Set description
     reference: "https://docs.tigera.io/calico/latest/networking/ingress-gateway/tutorial-ingress-gateway-canary"           # Set reference
 spec:
   parentRefs:
@@ -69,29 +69,29 @@ spec:
     - name: nodeport-tcp-3306-app-mysql          # Set backend Service
       port: 3306                                 # Set backend TCP port
 ---
-# Purpose : Form Kubernetes ReferenceGrant Object
-# Required Kubernetes API Resource
-#   NAME              SHORTNAMES  APIVERSION                           NAMESPACED   KIND
-#   referencegrants   refgrant     ateway.networking.k8s.io/v1beta1    true         ReferenceGrant
-#
-apiVersion: gateway.networking.k8s.io/v1beta1
-kind: ReferenceGrant
-metadata:
-  name: tcproute-default-to-mysql
-  namespace: mysql
-  annotations:
-    creator/author: "Thomas Rausch, Atos"          # Set creator/author
-    version: "2025-12-03"                          # Set version
-    description: "Allows TCPRoute from Gateway to Service in Namespace 'mysql'"                                      # Set description
-    reference: "https://docs.tigera.io/calico/latest/networking/ingress-gateway/tutorial-ingress-gateway-canary"     # Set reference
-spec:
-  from:
-  - group: gateway.networking.k8s.io
-    kind: TCPRoute
-    namespace: default
-  to:
-  - group: ""
-    kind: Service
+# # Purpose : Form Kubernetes ReferenceGrant Object
+# # Required Kubernetes API Resource
+# #   NAME              SHORTNAMES  APIVERSION                           NAMESPACED   KIND
+# #   referencegrants   refgrant     ateway.networking.k8s.io/v1beta1    true         ReferenceGrant
+# #
+# apiVersion: gateway.networking.k8s.io/v1beta1
+# kind: ReferenceGrant
+# metadata:
+#   name: tcproute-default-to-mysql
+#   namespace: mysql
+#   annotations:
+#     creator/author: "Thomas Rausch, Atos"          # Set creator/author
+#     version: "2025-12-03"                          # Set version
+#     description: "Allows TCPRoute from Gateway to Service in Namespace 'mysql'"                                      # Set description
+#     reference: "https://docs.tigera.io/calico/latest/networking/ingress-gateway/tutorial-ingress-gateway-canary"     # Set reference
+# spec:
+#   from:
+#   - group: gateway.networking.k8s.io
+#     kind: TCPRoute
+#     namespace: default
+#   to:
+#   - group: ""
+#     kind: Service
 ---
 # PreRequisite - GatewayClass ""
 #   NAME             SHORTNAMES   APIVERSION                     NAMESPACED   KIND
