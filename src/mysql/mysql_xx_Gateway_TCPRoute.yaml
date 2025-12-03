@@ -1,28 +1,48 @@
-apiVersion: gateway.networking.k8s.io/v1
-kind: Gateway
+# Purpose : Form Kubernetes Gateway Object
+# Required Kubernetes API Resource
+#   NAME             SHORTNAMES  APIVERSION                     NAMESPACED   KIND
+#   gateways         gtw         gateway.networking.k8s.io/v1   true         Gateway
+#
+apiVersion: gateway.networking.k8s.io/v1       # Set API resource
+kind: Gateway                                  # Set object kind
 metadata:
-  name: mysql-tcp-gateway
-  namespace: mysql
+  name: listen-tcp-3306-allow-tcproute-mysql   # Set object name
+  namespace: mysql                             # Object is in effect in Namespace "mysql"     
+  annotations:
+    creator/author: "Thomas Rausch, Atos"      # Set creator/author
+    version: "2025-12-03"                      # Set version
+    description: "Form Gateway object of Gateway Class 'tigera-gateway-class' listening on TCP Port 3306 allow only TCPRoute"  # Set description
+    reference: "https://docs.tigera.io/calico/latest/networking/ingress-gateway/tutorial-ingress-gateway-canary"               # Set reference
 spec:
-  gatewayClassName: tigera-gateway-class
+  gatewayClassName: tigera-gateway-class       # Set gatewayClassname
+spec:
   listeners:
-  - name: mysql-tcp-33306
+  - name: tcp-3306-allow-tcproute
     protocol: TCP
-    port: 33306
+    port: 3306
     allowedRoutes:
       kinds:
       - kind: TCPRoute
 ---
-apiVersion: gateway.networking.k8s.io/v1alpha2
-kind: TCPRoute
+# Purpose : Form Kubernetes TCPRoute Object
+# Required Kubernetes API Resource
+#   NAME        SHORTNAMES  APIVERSION                           NAMESPACED   KIND
+#   tcproutes               gateway.networking.k8s.io/v1alpha2   true         TCPRoute
+#
+apiVersion: gateway.networking.k8s.io/v1alpha2     # Set API resource
+kind: TCPRoute                                     # Set object kind
 metadata:
-  name: mysql-tcp-route
-  namespace: mysql
+  name: listen-tcp-3306-allow-tcproute-mysql-3306  # Set object name
+  namespace: mysql                                 # Object is in effect in Namespace "mysql"     
+  annotations:
+    creator/author: "Thomas Rausch, Atos"          # Set creator/author
+    version: "2025-12-03"                          # Set version
+    description: "Form TCPRoute object from Gateway 'listen-tcp-3306-allow-tcproute-mysql' to Service 'mysql' on TCP Port 3306"  # Set description
+    reference: "https://docs.tigera.io/calico/latest/networking/ingress-gateway/tutorial-ingress-gateway-canary"           # Set reference
 spec:
   parentRefs:
-  - name: mysql-tcp-gateway
-    sectionName: mysql-tcp-33306
+  - name: listen-tcp-3306-allow-tcproute-mysql   # Set parent Gateway object
   rules:
   - backendRefs:
-    - name: mysql-tcp-3306
-      port: 3306
+    - name: mysql                                # Set backend Service
+      port: 3306                                 # Set backend TCP port
