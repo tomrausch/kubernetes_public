@@ -15,7 +15,6 @@ metadata:
     reference: "https://docs.tigera.io/calico/latest/networking/ingress-gateway/tutorial-ingress-gateway-canary"               # Set reference
 spec:
   gatewayClassName: tigera-gateway-class       # Set gatewayClassname
-spec:
   listeners:
   - name: tcp-3306-allow-tcproute
     protocol: TCP
