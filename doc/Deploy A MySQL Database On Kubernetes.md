@@ -417,6 +417,18 @@ mysql: [Warning] Using a password on the command line interface can be insecure.
 +--------------------+
 ```
 
+### Confirm The iptables Are Configured For MySQL
+```
+$ sudo iptables -vL -t nat | grep dpt| grep mysql
+ pkts bytes target     prot opt in     out     source               destination
+    0     0 KUBE-EXT-NEKT77H7T4FRKZYC  tcp  --  any    any     anywhere             anywhere             /* tigera-gateway/envoy-mysql-listen-tcp-3306-allow-tcproute-mysql-0218b70c:tcp-3306 */ tcp dpt:30611
+    0     0 KUBE-EXT-Z4U3JFZQZEVWHOYO  tcp  --  any    any     anywhere             anywhere             /* mysql/nodeport-tcp-3306-app-mysql */ tcp dpt:31097
+    0     0 KUBE-SVC-NEKT77H7T4FRKZYC  tcp  --  any    any     anywhere             10.103.15.213        /* tigera-gateway/envoy-mysql-listen-tcp-3306-allow-tcproute-mysql-0218b70c:tcp-3306 cluster IP */ tcp dpt:mysql
+    0     0 KUBE-SVC-Z4U3JFZQZEVWHOYO  tcp  --  any    any     anywhere             10.110.6.214         /* mysql/nodeport-tcp-3306-app-mysql cluster IP */ tcp dpt:mysql
+    0     0 KUBE-MARK-MASQ  tcp  --  any    any    !10.244.0.0/16        10.103.15.213        /* tigera-gateway/envoy-mysql-listen-tcp-3306-allow-tcproute-mysql-0218b70c:tcp-3306 cluster IP */ tcp dpt:mysql
+    0     0 KUBE-MARK-MASQ  tcp  --  any    any    !10.244.0.0/16        10.110.6.214         /* mysql/nodeport-tcp-3306-app-mysql cluster IP */ tcp dpt:mysql
+```
+
 
 ### Access The MySQL Database From Outside The Kubernetes Cluster
 Access the MySQL database from outside the Kubernetes cluster with these parameters
@@ -431,5 +443,3 @@ Access the MySQL database from outside the Kubernetes cluster with these paramet
 - [Kubernetes Deployment: Deploying MySQL databases on the GKE](https://medium.com/globant/kubernetes-deployment-deploying-mysql-databases-on-the-gke-8fa675d3d8a) | [Niranjan Gawali](https://medium.com/@niranjan.gawali), Medium
 - [Run a Single-Instance Stateful Application](https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/) | kubernetes.io
 - [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd) | Google
-
-
