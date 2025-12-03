@@ -1,8 +1,12 @@
+# Purpose : Form Kubernetes PersistentVolume Object
+# Required Kubernetes API Resource
+#   NAME                SHORTNAMES  APIVERSION   NAMESPACED   KIND
+#   persistentvolumes   pv          v1           false        PersistentVolume
+#
 apiVersion: v1
 kind: PersistentVolume
 metadata:
   name: mysql-pv-volume
-  namespace: mysql
   labels:
     app: mysql
     type: local
@@ -32,7 +36,3 @@ spec:
   resources:
     requests:
       storage: 5Gi
-
-
-
-
