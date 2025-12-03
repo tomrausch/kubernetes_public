@@ -6,7 +6,7 @@
 apiVersion: v1
 kind: Service
 metadata:
-  name: nodeport-tcp-3306-app=mysql            # Set API resource
+  name: nodeport-tcp-3306-app-mysql            # Set API resource
   namespace: mysql                             # Object is in effect in Namespace "mysql"     
   annotations:
     creator/author: "Thomas Rausch, Atos"      # Set creator/author
@@ -66,7 +66,7 @@ spec:
   - name: listen-tcp-3306-allow-tcproute-mysql   # Set parent Gateway object
   rules:
   - backendRefs:
-    - name: nodeport-tcp-3306-app=mysql     # Set backend Service
+    - name: nodeport-tcp-3306-app-mysql          # Set backend Service
       port: 3306                                 # Set backend TCP port
 ---
 # Purpose : Form Kubernetes ReferenceGrant Object
