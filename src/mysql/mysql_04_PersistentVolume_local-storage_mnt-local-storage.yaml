@@ -21,6 +21,6 @@ spec:
     - ReadWriteOnce
   hostPath:
     path: /mnt/local-storage                 # Set the host file path of the PersistentVolume
-  # claimRef:
-  #  name: mysql-pv-claim
-  #  namespace: mysql
+  claimRef:
+    name: local-storage-mysql
+    namespace: mysql
