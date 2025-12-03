@@ -1,0 +1,20 @@
+# Purpose : Form Kubernetes PersistentVolumeClaim Object
+# Required Kubernetes API Resource
+#   NAME                     SHORTNAMES  APIVERSION   NAMESPACED   KIND
+#   persistentvolumeclaims   pvc         v1           true         PersistentVolumeCla
+#
+apiVersion: v1                        # Set API resource
+kind: PersistentVolumeClaim           # Set object kind
+metadata:
+  name: local-storage-mysql           # Set object name
+  namespace: mysql                    # Object is in effect in Namespace "mysql"
+  labels:
+    app: mysql                        # Set object label 'app=mysql'
+    type: local                       # Set object label 'type=local'
+spec:
+  storageClassName: local-storage     # Set storageClassName
+  accessModes:
+    - ReadWriteOnce                   # PersisentVolumeClaim can be mounted as read-write by a single Node
+  resources:
+    requests:
+      storage: 1Gi                    # Request 1Gi of PersistentVolume
