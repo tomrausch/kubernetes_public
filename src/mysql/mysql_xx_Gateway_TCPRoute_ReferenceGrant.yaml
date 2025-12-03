@@ -1,3 +1,26 @@
+# Purpose : Form Kubernetes Service Object
+# Required Kubernetes API Resource
+#   NAME       SHORTNAMES  APIVERSION   NAMESPACED   KIND
+#   services   svc         v1           true         Service
+#
+apiVersion: v1
+kind: Service
+metadata:
+  name: nodeport-tcp-3306-app=mysql            # Set API resource
+  namespace: mysql                             # Object is in effect in Namespace "mysql"     
+  annotations:
+    creator/author: "Thomas Rausch, Atos"      # Set creator/author
+    version: "2025-12-03"                      # Set version
+    description: "Form Service object of type 'NodePort'. Must create Service of type 'NodePort' as Gateway creates a Service of type 'LoadBalancer'. Services of type 'LoadBalancer' are not supported on bare metal Kubernetes. A Service of type 'LoadBalancer' on bare metal Kubernetes will not receive an external IP."  # Set description
+spec:
+  selector:
+    app: mysql                                 # Match application pod labels
+  ports:
+    - protocol: TCP                            # Set protocol and ports
+      port: 3306 # Service port
+      targetPort: 3306 # Pod port
+  type: NodePort
+---
 # Purpose : Form Kubernetes Gateway Object
 # Required Kubernetes API Resource
 #   NAME             SHORTNAMES  APIVERSION                     NAMESPACED   KIND
@@ -43,7 +66,7 @@ spec:
   - name: listen-tcp-3306-allow-tcproute-mysql   # Set parent Gateway object
   rules:
   - backendRefs:
-    - name: mysql-clusterip                      # Set backend Service
+    - name: nodeport-tcp-3306-app=mysql     # Set backend Service
       port: 3306                                 # Set backend TCP port
 ---
 # Purpose : Form Kubernetes ReferenceGrant Object
