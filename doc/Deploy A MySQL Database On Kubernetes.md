@@ -430,16 +430,18 @@ $ sudo iptables -vL -t nat | grep dpt| grep mysql
 ```
 
 
-### Access The MySQL Database From Outside The Kubernetes Cluster
+## Access The MySQL Database From Outside The Kubernetes Cluster
 Access the MySQL database from outside the Kubernetes cluster with these parameters
 - Host: mysql.master-node
 - Port: The "xxxxx" in the "80:xxxxx" port of the Service "ingress-nginx-controller"
   - If the "80:31479" port of the Service "ingress-nginx-controller" is "80:31479/TCP", use the port 31479
 
-### References
+
+## References
 - [Configure a Pod to Use a PersistentVolume for Storage](https://kubernetes.io/docs/tasks/configure-pod-container/configure-persistent-volume-storage/)
 - [Deploying MySQL on Kubernetes](https://medium.com/@midejoseph24/deploying-mysql-on-kubernetes-16758a42a746) | [Joseph Ariyo](https://medium.com/@midejoseph24/), Medium
 - [Exposing an External IP Address to Access an Application in a Cluster](https://kubernetes.io/docs/tutorials/stateless-application/expose-external-ip-address/) | kubernetes.io
 - [Kubernetes Deployment: Deploying MySQL databases on the GKE](https://medium.com/globant/kubernetes-deployment-deploying-mysql-databases-on-the-gke-8fa675d3d8a) | [Niranjan Gawali](https://medium.com/@niranjan.gawali), Medium
 - [Run a Single-Instance Stateful Application](https://kubernetes.io/docs/tasks/run-application/run-single-instance-stateful-application/) | kubernetes.io
 - [Using pre-existing persistent disks as PersistentVolumes](https://cloud.google.com/kubernetes-engine/docs/how-to/persistent-volumes/preexisting-pd) | Google
+- [Viewing all iptables rules](https://unix.stackexchange.com/questions/205867/viewing-all-iptables-rules) | Stack Exchange
