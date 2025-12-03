@@ -42,11 +42,11 @@ spec:
           mountPath: /mnt/mysql                                 # Set local mount path of the volumeMount
         resources:              
           requests:                                             # Set Pod resource requests
-            cpu: "20m"
-            memory: "500Mi"
-          limits:                                               # Set Pod resource limits
-            cpu: "100m"
+            cpu: "200m"
             memory: "1000Mi"
+          limits:                                               # Set Pod resource limits
+            cpu: "500m"
+            memory: "2000Mi"
       volumes:
       - name: volume-mysql                                      # Set name of volume
         persistentVolumeClaim:
@@ -83,5 +83,6 @@ spec:
 #      protocol: TCP
  # selector:
  #   app: mysql
+
 
 
