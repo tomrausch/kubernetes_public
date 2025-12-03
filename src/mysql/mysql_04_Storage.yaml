@@ -3,24 +3,27 @@
 #   NAME                SHORTNAMES  APIVERSION   NAMESPACED   KIND
 #   persistentvolumes   pv          v1           false        PersistentVolume
 #
-apiVersion: v1
-kind: PersistentVolume
+apiVersion: v1                               # Set API resource
+kind: PersistentVolume                       # Set object kind
 metadata:
-  name: mysql-pv-volume
+  name: pv_local-storage_mnt-local-storage   # Set object name
+  annotations:
+    creator/author: "Thomas Rausch, Atos"    # Set creator/author
+    version: "2025-12-02"                    # Set version
+    description: "Deploy a Persistent Volume of storageClassName 'local-storage' at location '/mnt/local-storage' "    # Set description
   labels:
-    app: mysql
-    type: local
+    type: local                              # Set label "type=local"
 spec:
-  storageClassName: local-storage
+  storageClassName: local-storage            # Set StorageClass name
   capacity:
-    storage: 10Gi
+    storage: 10Gi                            # Set capacity of the PersistentVolume
   accessModes:
     - ReadWriteOnce
   hostPath:
-    path: /mnt/mysql
-  claimRef:
-    name: mysql-pv-claim
-    namespace: mysql
+    path: /mnt/local-storage                 # Set the host path of the PersistentVolume
+  # claimRef:
+  #  name: mysql-pv-claim
+  #  namespace: mysql
 ---
 apiVersion: v1
 kind: PersistentVolumeClaim
@@ -36,3 +39,4 @@ spec:
   resources:
     requests:
       storage: 5Gi
+
