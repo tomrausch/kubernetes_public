@@ -1,6 +1,15 @@
-apiVersion: operator.tigera.io/v1
-kind: GatewayAPI
+# Purpose : Form Kubernetes GatewayAPI Object
+# Required Kubernetes API Resource
+#   NAME             SHORTNAMES  APIVERSION            NAMESPACED   KIND
+#   gatewayapis                  operator.tigera.io/v1 false        GatewayAPI
+#
+apiVersion: operator.tigera.io/v1           # Set API resource
+kind: GatewayAPI                            # Set object kind
 metadata:
-  name: default
+  name: default                             # Set object name
+  annotations:
+    creator/author: "Thomas Rausch, Atos"   # Set creator/author
+    version: "2025-12-03"                   # Set version
+    description: "Create GatewayAPI using apiVersion 'operator.tigera.io/v1'"  # Set description
 spec:
   crdManagement: PreferExisting
