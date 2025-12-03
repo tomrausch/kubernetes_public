@@ -1,0 +1,35 @@
+# Purpose : Form Kubernetes NetworkPolicy Object
+# Required Kubernetes API Resource
+#   NAME             SHORTNAMES  APIVERSION            NAMESPACED   KIND
+#   networkpolicies  netpol      networking.k8s.io/v1  true         NetworkPolicy
+#
+apiVersion: networking.k8s.io/v1                                 # Set API resource
+kind: NetworkPolicy                                              # Set object kind
+metadata:
+  name: allow-ingress-ip_192_168_0_*-port_22-label_app=busybox   # Set object name
+  namespace: mysql                                               # Object is in effect in Namespace "mysql"
+  annotations:
+    creator/author: "Thomas Rausch, Atos"                        # Set creator/author
+    version: "2025-12-03"                                        # Set version
+    description: "Allow Ingress network traffic from the IP CIDR Range 192.168.0.0/24 (192.168.0.*) and on TCP Port 22; Match Label 'app=busybox'"  # Set description
+spec:
+  ingress:
+    - from:
+        - ipBlock:
+            cidr: 192.168.0.0/24                                 # Set Ingress IP CIDR Range 192.168.0.0/24 (192.168.0.*)
+        # - namespaceSelector:
+        #    matchExpressions:
+        #      - key: namespace
+        #        operator: In
+        #        values:
+        #          - default
+        #          - kube-system
+        #          - mysql
+      ports:
+        - port: 22                                               # Set Ingress TCP Port 22
+          protocol: TCP
+  podSelector:
+    matchLabels:
+      app: mysql                                                 # Select Pods with label "app=mysql"
+  policyTypes:
+    - Ingress                                                    # Set Policy Type = "Ingress"
