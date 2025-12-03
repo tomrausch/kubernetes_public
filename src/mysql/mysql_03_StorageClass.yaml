@@ -1,8 +1,16 @@
-apiVersion: storage.k8s.io/v1
-kind: StorageClass
+# Purpose : Form Kubernetes StorageClass Object
+# Required Kubernetes API Resource
+#   NAME             SHORTNAMES  APIVERSION            NAMESPACED   KIND
+#   storageclasses   sc          storage.k8s.io/v1     false        StorageClass
+#
+apiVersion: storage.k8s.io/v1              # Set API resource
+kind: StorageClass                         # Set object kind
 metadata:
-  name: local-storage
-  namespace: mysql
-provisioner: kubernetes.io/no-provisioner # indicates that this StorageClass does not support automatic provisioning
-volumeBindingMode: WaitForFirstConsumer
-reclaimPolicy: Delete
+  name: local-storage                      # Set object name
+  annotations:
+    creator/author: "Thomas Rausch, Atos"  # Set creator/author
+    version: "2025-12-02"                  # Set version
+    description: "Create a StorageClass with 'provisioner=no-provisioner', 'volumeBindingMode=WaitForFirstConsumer', and 'reclaimPolicy=Delete'"  # Set description
+provisioner: kubernetes.io/no-provisioner  # Set StorageClass provisioner; this StorageClass does not support automatic provisioning
+volumeBindingMode: WaitForFirstConsumer    # Set StorageClass volumeBindingMode; delays the binding and provisioning of a PersistentVolume until a Pod using the PersistentVolumeClaim is created
+reclaimPolicy: Delete                      # Set StorageClass reclaimPolicy; When a PersistentVolumeClaim bound to this PersistentVolume is deleted, delete both the PersistentVolume object and the underlying physical storage resource
