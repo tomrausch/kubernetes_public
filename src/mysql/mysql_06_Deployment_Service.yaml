@@ -1,14 +1,23 @@
-apiVersion: apps/v1
-kind: Deployment
+# Purpose : Form Kubernetes Deployment Object
+# Required Kubernetes API Resource
+#   NAME             SHORTNAMES  APIVERSION  NAMESPACED  KIND
+#   deployments      deploy      apps/v1     true        Deployment
+#
+apiVersion: apps/v1            # Set API resource
+kind: Deployment               # Set object kind
 metadata:
-  name: mysql
-  namespace: mysql
+  name: mysql                  # Set object name
+  namespace: mysql             # Object is in effect in Namespace "mysql" 
+  annotations:
+    creator/author: "Thomas Rausch, Atos"   # Set creator/author
+    version: "2025-12-02"                   # Set version
+    description: "Create Deployment for Service with label 'app=mysql'"  # Set description
   labels:
-    app: mysql
+    app: mysql                              # Set object label 'app=mysql'
 spec:
   selector:
     matchLabels:
-      app: mysql
+      app: mysql                            # Select objects with label 'app=mysql'
   strategy:
     type: Recreate
   template:
@@ -29,53 +38,48 @@ spec:
         - containerPort: 3306
           name: mysql
         volumeMounts:
-        - name: mysql-persistent-storage
+        - name: volumemount-mysql
           mountPath: /mnt/mysql
-        resources:
-          requests:
+        resources:              
+          requests:                                             # Set Pod resource limits
             cpu: "20m"
             memory: "500Mi"
           limits:
             cpu: "100m"
             memory: "1000Mi"
       volumes:
-      - name: mysql-persistent-storage
+      - name: volume-mysql
         persistentVolumeClaim:
-          claimName: mysql-pv-claim
+          claimName: local-storage-mysql
 ---
 apiVersion: v1
 kind: Service
 metadata:
-  name: mysql-ingress
+  name: mysql-clusterip
   namespace: mysql
   labels:
-    app: mysql-ingress
+    app: mysql
 spec:
   type: ClusterIP
   ports:
-    - name: mysql-ingress
-      port: 3306
-      targetPort: 3306
-      protocol: TCP
-  selector:
-    app: mysql-ingress
----
-apiVersion: v1
-kind: Service
-metadata:
-  name: mysql
-  namespace: mysql
-spec:
-  type: NodePort
-  ports:
-    - name: mysql-node-port
+    - name: mysql
       port: 3306
       targetPort: 3306
       protocol: TCP
   selector:
     app: mysql
-
-
-
-
-
+---
+# apiVersion: v1
+# kind: Service
+# metadata:
+#  name: mysql
+#  namespace: mysql
+# spec:
+#  type: NodePort
+#  ports:
+#    - name: mysql-node-port
+#      port: 3306
+#      targetPort: 3306
+#      protocol: TCP
+ # selector:
+ #   app: mysql
