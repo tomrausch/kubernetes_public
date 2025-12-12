@@ -12,6 +12,11 @@ metadata:
   resourceVersion: "15257"
   labels:
     app.kubernetes.io/author: thomas-rausch
+    app.kubernetes.io/instance: home-network
+    app.kubernetes.io/version: 2025-12-12
+    app.kubernetes.io/component: service_ClusterIP
+    app.kubernetes.io/part-of: Calico
+    app.kubernetes.io/managed-by: kubectl_apply
 spec:
   clusterIP: 10.110.43.50
   clusterIPs:
