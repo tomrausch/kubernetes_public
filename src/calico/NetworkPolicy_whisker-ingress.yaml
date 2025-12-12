@@ -5,6 +5,11 @@ metadata:
   namespace: calico-system
   labels:
     app.kubernetes.io/author: thomas-rausch
+    app.kubernetes.io/instance: home-network
+    app.kubernetes.io/version: 2025-12-12
+    app.kubernetes.io/component: networkpolicy
+    app.kubernetes.io/part-of: Calico
+    app.kubernetes.io/managed-by: kubectl_apply   
 spec:
   ingress:
   - from:
