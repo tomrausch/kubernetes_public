@@ -16,6 +16,7 @@ metadata:
     controller: true
     kind: Whisker
     name: default
+    uid: ""
 spec:
   ports:
   - port: 8081
