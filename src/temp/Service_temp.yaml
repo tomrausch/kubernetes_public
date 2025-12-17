@@ -1,0 +1,33 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: whisker-node-port
+  namespace: calico-system
+  labels:
+    app.kubernetes.io/author: thomas-rausch
+    app.kubernetes.io/instance: home-network
+    app.kubernetes.io/version: 2025-12-12
+    app.kubernetes.io/component: service_NodePort
+    app.kubernetes.io/part-of: Calico
+    app.kubernetes.io/managed-by: kubectl_apply
+  ownerReferences:
+  - apiVersion: operator.tigera.io/v1
+    blockOwnerDeletion: true
+    controller: true
+    kind: Whisker
+    name: default
+spec:
+  ports:
+  - port: 8081
+    protocol: TCP
+    targetPort: 8081
+  selector:
+    k8s-app: whisker
+  type: NodePort
+  # clusterIP: 10.110.43.50
+  # clusterIPs:
+  # - 10.110.43.50
+  # internalTrafficPolicy: Cluster
+  # ipFamilies:
+  # - IPv4
+  # ipFamilyPolicy: SingleStack
