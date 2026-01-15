@@ -1,0 +1,17 @@
+# https://raesene.github.io/blog/2018/03/25/kubernetes-network-policies/
+kind: NetworkPolicy
+apiVersion: networking.k8s.io/v1
+metadata:
+  name: allow-kube-apiserver
+  namespace: netpol-test
+spec:
+  podSelector: {}
+  egress:
+  - to:
+    - ipBlock:
+        cidr: 192.168.111.0/24
+    ports:
+    - protocol: TCP
+      port: 6443
+  policyTypes:
+  - Egress
